@@ -43,6 +43,7 @@
     background-color: #020F2E;
     color: #F2F5F9;
     font-family: 'Plus Jakarta Sans', sans-serif;
+    transition: background-color 0.25s ease, color 0.25s ease;
   }
 }
 
@@ -80,3 +81,626 @@
 ::-webkit-scrollbar-thumb:hover {
   background: #1E3A6B;
 }
+
+/* ==========================================================================
+   LIGHT MODE DESIGN SYSTEM OVERRIDES
+   Provides complete, pixel-perfect light theme mapping across all components
+   ========================================================================== */
+
+html.light,
+html.light body,
+[data-theme="light"],
+[data-theme="light"] body {
+  background-color: #F8FAFC !important;
+  color: #0F172A !important;
+}
+
+/* Canvas backgrounds */
+html.light .bg-\[\#020F2E\],
+[data-theme="light"] .bg-\[\#020F2E\] {
+  background-color: #F8FAFC !important;
+}
+
+html.light .bg-\[\#020F2E\]\/95,
+[data-theme="light"] .bg-\[\#020F2E\]\/95 {
+  background-color: rgba(248, 250, 252, 0.95) !important;
+}
+
+html.light .bg-\[\#020F2E\]\/92,
+[data-theme="light"] .bg-\[\#020F2E\]\/92 {
+  background-color: rgba(255, 255, 255, 0.94) !important;
+  box-shadow: 0 4px 20px -2px rgba(15, 23, 42, 0.05);
+}
+
+html.light .bg-\[\#020F2E\]\/90,
+[data-theme="light"] .bg-\[\#020F2E\]\/90 {
+  background-color: rgba(248, 250, 252, 0.90) !important;
+}
+
+html.light .bg-\[\#020F2E\]\/80,
+[data-theme="light"] .bg-\[\#020F2E\]\/80 {
+  background-color: rgba(248, 250, 252, 0.80) !important;
+}
+
+html.light .bg-\[\#020F2E\]\/75,
+[data-theme="light"] .bg-\[\#020F2E\]\/75 {
+  background-color: rgba(248, 250, 252, 0.75) !important;
+}
+
+html.light .bg-\[\#020F2E\]\/70,
+[data-theme="light"] .bg-\[\#020F2E\]\/70 {
+  background-color: #FFFFFF !important;
+}
+
+html.light .bg-\[\#020F2E\]\/50,
+[data-theme="light"] .bg-\[\#020F2E\]\/50 {
+  background-color: rgba(248, 250, 252, 0.50) !important;
+}
+
+html.light .bg-\[\#020F2E\]\/40,
+[data-theme="light"] .bg-\[\#020F2E\]\/40 {
+  background-color: rgba(248, 250, 252, 0.40) !important;
+}
+
+/* Card surfaces */
+html.light .bg-\[\#0A1B3D\],
+[data-theme="light"] .bg-\[\#0A1B3D\] {
+  background-color: #FFFFFF !important;
+  box-shadow: 0 2px 10px -2px rgba(15, 23, 42, 0.04), 0 1px 3px 0 rgba(15, 23, 42, 0.03);
+}
+
+html.light .bg-\[\#0A1B3D\]\/95,
+[data-theme="light"] .bg-\[\#0A1B3D\]\/95 {
+  background-color: rgba(255, 255, 255, 0.98) !important;
+  box-shadow: 0 12px 36px -4px rgba(15, 23, 42, 0.08);
+}
+
+html.light .bg-\[\#0A1B3D\]\/90,
+[data-theme="light"] .bg-\[\#0A1B3D\]\/90 {
+  background-color: rgba(255, 255, 255, 0.92) !important;
+}
+
+html.light .bg-\[\#0A1B3D\]\/80,
+[data-theme="light"] .bg-\[\#0A1B3D\]\/80 {
+  background-color: rgba(255, 255, 255, 0.85) !important;
+}
+
+html.light .bg-\[\#0A1B3D\]\/70,
+[data-theme="light"] .bg-\[\#0A1B3D\]\/70 {
+  background-color: #FFFFFF !important;
+}
+
+html.light .bg-\[\#0A1B3D\]\/60,
+[data-theme="light"] .bg-\[\#0A1B3D\]\/60 {
+  background-color: rgba(255, 255, 255, 0.60) !important;
+}
+
+html.light .bg-\[\#0A1B3D\]\/50,
+[data-theme="light"] .bg-\[\#0A1B3D\]\/50 {
+  background-color: rgba(241, 245, 249, 0.70) !important;
+}
+
+html.light .bg-\[\#0A1B3D\]\/40,
+[data-theme="light"] .bg-\[\#0A1B3D\]\/40 {
+  background-color: rgba(241, 245, 249, 0.50) !important;
+}
+
+/* Secondary & Deep Surface backgrounds */
+html.light .bg-\[\#01091C\],
+[data-theme="light"] .bg-\[\#01091C\] {
+  background-color: #F1F5F9 !important;
+}
+
+html.light .bg-\[\#01091C\]\/95,
+[data-theme="light"] .bg-\[\#01091C\]\/95 {
+  background-color: rgba(255, 255, 255, 0.96) !important;
+  box-shadow: 0 -4px 20px -2px rgba(15, 23, 42, 0.06);
+}
+
+html.light .bg-\[\#01091C\]\/90,
+[data-theme="light"] .bg-\[\#01091C\]\/90 {
+  background-color: rgba(241, 245, 249, 0.90) !important;
+}
+
+/* Modal dark frosted backdrop stays focused and dark */
+html.light .bg-\[\#01091C\]\/80,
+[data-theme="light"] .bg-\[\#01091C\]\/80 {
+  background-color: rgba(15, 23, 42, 0.55) !important;
+}
+
+html.light .bg-\[\#01091C\]\/60,
+[data-theme="light"] .bg-\[\#01091C\]\/60 {
+  background-color: rgba(15, 23, 42, 0.35) !important;
+}
+
+html.light .bg-\[\#000511\],
+[data-theme="light"] .bg-\[\#000511\] {
+  background-color: #E2E8F0 !important;
+}
+
+/* Container high backgrounds & chips */
+html.light .bg-\[\#14294F\],
+[data-theme="light"] .bg-\[\#14294F\] {
+  background-color: #EDF2F7 !important;
+}
+
+html.light .bg-\[\#14294F\]\/90,
+[data-theme="light"] .bg-\[\#14294F\]\/90 {
+  background-color: rgba(237, 242, 247, 0.90) !important;
+}
+
+html.light .bg-\[\#14294F\]\/80,
+[data-theme="light"] .bg-\[\#14294F\]\/80 {
+  background-color: rgba(237, 242, 247, 0.80) !important;
+}
+
+html.light .bg-\[\#14294F\]\/70,
+[data-theme="light"] .bg-\[\#14294F\]\/70 {
+  background-color: rgba(237, 242, 247, 0.70) !important;
+}
+
+html.light .bg-\[\#14294F\]\/60,
+[data-theme="light"] .bg-\[\#14294F\]\/60 {
+  background-color: rgba(237, 242, 247, 0.60) !important;
+}
+
+html.light .bg-\[\#14294F\]\/50,
+[data-theme="light"] .bg-\[\#14294F\]\/50 {
+  background-color: rgba(237, 242, 247, 0.50) !important;
+}
+
+html.light .bg-\[\#14294F\]\/40,
+[data-theme="light"] .bg-\[\#14294F\]\/40 {
+  background-color: rgba(226, 232, 240, 0.60) !important;
+}
+
+html.light .bg-\[\#14294F\]\/30,
+[data-theme="light"] .bg-\[\#14294F\]\/30 {
+  background-color: rgba(226, 232, 240, 0.40) !important;
+}
+
+html.light .bg-\[\#14294F\]\/20,
+[data-theme="light"] .bg-\[\#14294F\]\/20 {
+  background-color: rgba(226, 232, 240, 0.30) !important;
+}
+
+html.light .bg-\[\#1E3A6B\],
+[data-theme="light"] .bg-\[\#1E3A6B\] {
+  background-color: #E2E8F0 !important;
+}
+
+/* Hover background states */
+html.light .hover\:bg-\[\#14294F\]:hover,
+html.light .hover\:bg-\[\#14294F\]\/40:hover,
+html.light .hover\:bg-\[\#14294F\]\/60:hover,
+html.light .hover\:bg-\[\#14294F\]\/70:hover,
+[data-theme="light"] .hover\:bg-\[\#14294F\]:hover,
+[data-theme="light"] .hover\:bg-\[\#14294F\]\/40:hover,
+[data-theme="light"] .hover\:bg-\[\#14294F\]\/60:hover,
+[data-theme="light"] .hover\:bg-\[\#14294F\]\/70:hover {
+  background-color: #EDF2F7 !important;
+}
+
+html.light .hover\:bg-\[\#1E3A6B\]:hover,
+[data-theme="light"] .hover\:bg-\[\#1E3A6B\]:hover {
+  background-color: #CBD5E1 !important;
+}
+
+html.light .hover\:bg-\[\#0A1B3D\]:hover,
+[data-theme="light"] .hover\:bg-\[\#0A1B3D\]:hover {
+  background-color: #F8FAFC !important;
+}
+
+html.light .group:hover .group-hover\:bg-\[\#14294F\],
+[data-theme="light"] .group:hover .group-hover\:bg-\[\#14294F\] {
+  background-color: #EDF2F7 !important;
+}
+
+/* Borders */
+html.light .border-\[\#14294F\],
+html.light .border-\[\#14294F\]\/90,
+html.light .border-\[\#14294F\]\/80,
+html.light .border-\[\#14294F\]\/70,
+html.light .border-\[\#14294F\]\/60,
+html.light .border-\[\#14294F\]\/50,
+html.light .border-\[\#14294F\]\/40,
+[data-theme="light"] .border-\[\#14294F\],
+[data-theme="light"] .border-\[\#14294F\]\/90,
+[data-theme="light"] .border-\[\#14294F\]\/80,
+[data-theme="light"] .border-\[\#14294F\]\/70,
+[data-theme="light"] .border-\[\#14294F\]\/60,
+[data-theme="light"] .border-\[\#14294F\]\/50,
+[data-theme="light"] .border-\[\#14294F\]\/40 {
+  border-color: #E2E8F0 !important;
+}
+
+html.light .border-\[\#1E3A6B\],
+[data-theme="light"] .border-\[\#1E3A6B\] {
+  border-color: #CBD5E1 !important;
+}
+
+html.light .border-\[\#0A1B3D\],
+[data-theme="light"] .border-\[\#0A1B3D\] {
+  border-color: #E2E8F0 !important;
+}
+
+html.light .hover\:border-\[\#14294F\]:hover,
+[data-theme="light"] .hover\:border-\[\#14294F\]:hover {
+  border-color: #CBD5E1 !important;
+}
+
+/* Typography */
+html.light .text-\[\#F2F5F9\],
+[data-theme="light"] .text-\[\#F2F5F9\] {
+  color: #0F172A !important;
+}
+
+html.light .text-\[\#A8BBD6\],
+[data-theme="light"] .text-\[\#A8BBD6\] {
+  color: #475569 !important;
+}
+
+html.light .text-\[\#A8BBD6\]\/90,
+html.light .text-\[\#A8BBD6\]\/80,
+html.light .text-\[\#A8BBD6\]\/70,
+html.light .text-\[\#A8BBD6\]\/60,
+[data-theme="light"] .text-\[\#A8BBD6\]\/90,
+[data-theme="light"] .text-\[\#A8BBD6\]\/80,
+[data-theme="light"] .text-\[\#A8BBD6\]\/70,
+[data-theme="light"] .text-\[\#A8BBD6\]\/60 {
+  color: #64748B !important;
+}
+
+html.light .hover\:text-\[\#F2F5F9\]:hover,
+[data-theme="light"] .hover\:text-\[\#F2F5F9\]:hover {
+  color: #0F172A !important;
+}
+
+html.light .group:hover .group-hover\:text-white,
+[data-theme="light"] .group:hover .group-hover\:text-white {
+  color: #0F172A !important;
+}
+
+/* High contrast accents in light mode */
+html.light .text-\[\#00DF8F\],
+[data-theme="light"] .text-\[\#00DF8F\] {
+  color: #00875A !important;
+}
+
+html.light .text-\[\#0D95FE\],
+[data-theme="light"] .text-\[\#0D95FE\] {
+  color: #006FDB !important;
+}
+
+html.light .text-\[\#F2A93B\],
+[data-theme="light"] .text-\[\#F2A93B\] {
+  color: #B45309 !important;
+}
+
+html.light .border-\[\#F2A93B\],
+[data-theme="light"] .border-\[\#F2A93B\] {
+  border-color: #D97706 !important;
+}
+
+html.light .bg-\[\#F2A93B\],
+[data-theme="light"] .bg-\[\#F2A93B\] {
+  background-color: #F59E0B !important;
+}
+
+html.light .text-\[\#14294F\],
+[data-theme="light"] .text-\[\#14294F\] {
+  color: #CBD5E1 !important;
+}
+
+/* Ensure interactive button and hover text colors take precedence */
+html.light .hover\:text-white:hover,
+html.light .group:hover .group-hover\:text-white,
+[data-theme="light"] .hover\:text-white:hover,
+[data-theme="light"] .group:hover .group-hover\:text-white {
+  color: #FFFFFF !important;
+}
+
+html.light .hover\:text-\[\#003825\]:hover,
+html.light .group:hover .group-hover\:text-\[\#003825\],
+[data-theme="light"] .hover\:text-\[\#003825\]:hover,
+[data-theme="light"] .group:hover .group-hover\:text-\[\#003825\] {
+  color: #003825 !important;
+}
+
+html.light .hover\:text-\[\#00325b\]:hover,
+html.light .group:hover .group-hover\:text-\[\#00325b\],
+[data-theme="light"] .hover\:text-\[\#00325b\]:hover,
+[data-theme="light"] .group:hover .group-hover\:text-\[\#00325b\] {
+  color: #00325b !important;
+}
+
+html.light .hover\:text-\[\#000\]:hover,
+html.light .group:hover .group-hover\:text-\[\#000\],
+[data-theme="light"] .hover\:text-\[\#000\]:hover,
+[data-theme="light"] .group:hover .group-hover\:text-\[\#000\] {
+  color: #000000 !important;
+}
+
+html.light .group:hover .group-hover\:text-\[\#0D95FE\],
+[data-theme="light"] .group:hover .group-hover\:text-\[\#0D95FE\] {
+  color: #006FDB !important;
+}
+
+/* Keep dark badge text dark */
+html.light .text-\[\#003825\],
+[data-theme="light"] .text-\[\#003825\] {
+  color: #003825 !important;
+}
+
+html.light .text-\[\#00325b\],
+[data-theme="light"] .text-\[\#00325b\] {
+  color: #00325b !important;
+}
+
+html.light .text-\[\#002242\],
+[data-theme="light"] .text-\[\#002242\] {
+  color: #002242 !important;
+}
+
+/* Security notices and callout boxes in light mode */
+html.light .bg-amber-950\/40,
+[data-theme="light"] .bg-amber-950\/40 {
+  background-color: #FFFBEB !important;
+  border-color: #FCD34D !important;
+}
+
+html.light .text-amber-300,
+[data-theme="light"] .text-amber-300 {
+  color: #92400E !important;
+}
+
+html.light .text-amber-100\/90,
+html.light .text-amber-100,
+[data-theme="light"] .text-amber-100\/90,
+[data-theme="light"] .text-amber-100 {
+  color: #78350F !important;
+}
+
+html.light .text-amber-400,
+[data-theme="light"] .text-amber-400 {
+  color: #B45309 !important;
+}
+
+html.light .border-amber-500\/40,
+html.light .border-amber-500\/30,
+[data-theme="light"] .border-amber-500\/40,
+[data-theme="light"] .border-amber-500\/30 {
+  border-color: #FCD34D !important;
+}
+
+html.light .bg-red-900\/30,
+[data-theme="light"] .bg-red-900\/30 {
+  background-color: #FEF2F2 !important;
+  border-color: #FCA5A5 !important;
+}
+
+html.light .border-red-500\/40,
+html.light .border-red-500\/20,
+[data-theme="light"] .border-red-500\/40,
+[data-theme="light"] .border-red-500\/20 {
+  border-color: #FCA5A5 !important;
+}
+
+html.light .text-red-200,
+[data-theme="light"] .text-red-200 {
+  color: #991B1B !important;
+}
+
+html.light .text-red-400,
+[data-theme="light"] .text-red-400 {
+  color: #DC2626 !important;
+}
+
+/* Form controls in light mode */
+html.light input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not(.bg-transparent),
+html.light textarea,
+html.light select,
+[data-theme="light"] input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not(.bg-transparent),
+[data-theme="light"] textarea,
+[data-theme="light"] select {
+  background-color: #FFFFFF !important;
+  color: #0F172A !important;
+  border-color: #CBD5E1 !important;
+}
+
+html.light input[type="range"],
+[data-theme="light"] input[type="range"] {
+  background-color: #E2E8F0 !important;
+  accent-color: #006FDB !important;
+}
+
+html.light input.bg-transparent,
+[data-theme="light"] input.bg-transparent {
+  background-color: transparent !important;
+  border-color: transparent !important;
+}
+
+html.light input:focus:not([type="range"]),
+html.light textarea:focus,
+html.light select:focus,
+[data-theme="light"] input:focus:not([type="range"]),
+[data-theme="light"] textarea:focus,
+[data-theme="light"] select:focus {
+  border-color: #006FDB !important;
+  box-shadow: 0 0 0 3px rgba(0, 111, 219, 0.12) !important;
+}
+
+html.light input::placeholder,
+html.light textarea::placeholder,
+[data-theme="light"] input::placeholder,
+[data-theme="light"] textarea::placeholder {
+  color: #94A3B8 !important;
+}
+
+/* CTA Gradient Banners in Light Mode */
+html.light .cta-gradient-banner,
+html.light .bg-gradient-to-r.from-\[\#0A1B3D\].via-\[\#020F2E\].to-\[\#0A1B3D\],
+[data-theme="light"] .cta-gradient-banner,
+[data-theme="light"] .bg-gradient-to-r.from-\[\#0A1B3D\].via-\[\#020F2E\].to-\[\#0A1B3D\] {
+  background: linear-gradient(135deg, #FFFFFF 0%, #F1F5F9 50%, #FFFFFF 100%) !important;
+  box-shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.05), 0 8px 10px -6px rgba(15, 23, 42, 0.03) !important;
+}
+
+/* Hero text gradient for street in light mode */
+html.light .bg-clip-text.from-\[\#F2F5F9\],
+[data-theme="light"] .bg-clip-text.from-\[\#F2F5F9\] {
+  --tw-gradient-from: #0A1B3D !important;
+  --tw-gradient-via: #006FDB !important;
+  --tw-gradient-to: #00875A !important;
+}
+
+/* Toggle Switch Knob in Light Mode */
+html.light .switch-knob,
+[data-theme="light"] .switch-knob {
+  background-color: #FFFFFF !important;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25) !important;
+}
+
+/* Light mode scrollbar */
+html.light ::-webkit-scrollbar-track,
+[data-theme="light"] ::-webkit-scrollbar-track {
+  background: #F1F5F9;
+}
+
+html.light ::-webkit-scrollbar-thumb,
+[data-theme="light"] ::-webkit-scrollbar-thumb {
+  background: #CBD5E1;
+}
+
+html.light ::-webkit-scrollbar-thumb:hover,
+[data-theme="light"] ::-webkit-scrollbar-thumb:hover {
+  background: #94A3B8;
+}
+
+/* Light mode selection */
+html.light ::selection,
+[data-theme="light"] ::selection {
+  background-color: rgba(13, 149, 254, 0.2);
+  color: #0F172A;
+}
+
+/* Header soft fade in light mode */
+html.light .from-\[\#020F2E\],
+[data-theme="light"] .from-\[\#020F2E\] {
+  --tw-gradient-from: #F8FAFC !important;
+}
+
+html.light .via-\[\#020F2E\]\/80,
+[data-theme="light"] .via-\[\#020F2E\]\/80 {
+  --tw-gradient-via: rgba(248, 250, 252, 0.85) !important;
+}
+
+/* Ensure the 3D Physical Debit Card maintains its luxury credit card finishes in light mode */
+.luxury-debit-card .text-\[\#F2F5F9\],
+.luxury-debit-card [class*="text-[#F2F5F9]"] {
+  color: #FFFFFF !important;
+}
+
+.luxury-debit-card .text-\[\#A8BBD6\],
+.luxury-debit-card [class*="text-[#A8BBD6]"] {
+  color: #CBD5E1 !important;
+}
+
+.luxury-debit-card .text-\[\#00DF8F\],
+.luxury-debit-card [class*="text-[#00DF8F]"] {
+  color: #00DF8F !important;
+}
+
+.luxury-debit-card .text-\[\#0D95FE\],
+.luxury-debit-card [class*="text-[#0D95FE]"] {
+  color: #0D95FE !important;
+}
+
+.luxury-debit-card .bg-\[\#14294F\] {
+  background-color: rgba(255, 255, 255, 0.15) !important;
+  border-color: rgba(255, 255, 255, 0.25) !important;
+}
+
+/* POS Terminal Hardware Display Integrity in Light Mode */
+html.light .pos-terminal-display,
+[data-theme="light"] .pos-terminal-display {
+  background-color: #020F2E !important;
+  color: #F2F5F9 !important;
+  border-color: #1E3A6B !important;
+}
+
+html.light .pos-terminal-display .text-\[\#F2F5F9\],
+[data-theme="light"] .pos-terminal-display .text-\[\#F2F5F9\] {
+  color: #F2F5F9 !important;
+}
+
+html.light .pos-terminal-display .text-\[\#A8BBD6\],
+[data-theme="light"] .pos-terminal-display .text-\[\#A8BBD6\] {
+  color: #A8BBD6 !important;
+}
+
+html.light .pos-keypad-btn,
+[data-theme="light"] .pos-keypad-btn {
+  background-color: #0A1B3D !important;
+  color: #F2F5F9 !important;
+  border-color: #14294F !important;
+}
+
+/* ==========================================================================
+   PRODUCT CARDS TACTILE HOVER & SUBTLE FLOATING KEYFRAMES
+   Injects human liveliness, gentle floating, and tactile card responsiveness
+   ========================================================================== */
+@keyframes subtle-float-1 {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-5px);
+  }
+}
+
+@keyframes subtle-float-2 {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
+}
+
+@keyframes subtle-float-3 {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-4px);
+  }
+}
+
+.animate-subtle-float-1 {
+  animation: subtle-float-1 6s ease-in-out infinite;
+}
+
+.animate-subtle-float-2 {
+  animation: subtle-float-2 7s ease-in-out infinite 0.75s;
+}
+
+.animate-subtle-float-3 {
+  animation: subtle-float-3 6.5s ease-in-out infinite 1.5s;
+}
+
+/* Pause floating on hover for precise tactile user control */
+.animate-subtle-float-1:hover,
+.animate-subtle-float-2:hover,
+.animate-subtle-float-3:hover {
+  animation-play-state: paused;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-subtle-float-1,
+  .animate-subtle-float-2,
+  .animate-subtle-float-3 {
+    animation: none !important;
+  }
+}
+

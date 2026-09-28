@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 540 180" width="540" height="180">
+  <defs>
+    <linearGradient id="diamondGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0D95FE" />
+      <stop offset="60%" stop-color="#0080FF" />
+      <stop offset="100%" stop-color="#0060D0" />
+    </linearGradient>
+  </defs>
+
+  <!-- Diamond Icon -->
+  <g transform="translate(20, 10)">
+    <!-- Rounded Diamond -->
+    <path d="M 80 8 
+             C 86 8, 92 14, 150 72
+             C 156 78, 156 86, 150 92
+             C 92 150, 86 156, 80 156
+             C 74 156, 68 150, 10 92
+             C 4 86, 4 78, 10 72
+             C 68 14, 74 8, 80 8 Z" 
+          fill="url(#diamondGrad)" />
+    <!-- White Wave -->
+    <path d="M 10 88
+             C 26 92, 45 76, 62 67
+             C 73 61, 87 61, 98 67
+             C 115 76, 134 92, 150 88
+             C 148 94, 144 98, 138 98
+             C 122 98, 105 84, 92 78
+             C 84 74, 76 74, 68 78
+             C 55 84, 38 98, 22 98
+             C 16 98, 12 94, 10 88 Z" 
+          fill="#FFFFFF" />
+  </g>
+
+  <!-- axoora Wordmark -->
+  <text x="210" y="112" font-family="system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="88" font-weight="800" letter-spacing="-2px" fill="#FFFFFF">
+    ax<tspan fill="#0D95FE">oo</tspan>ra
+  </text>
+</svg>
