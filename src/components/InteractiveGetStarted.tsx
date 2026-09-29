@@ -40,9 +40,10 @@ export const InteractiveGetStarted: React.FC<InteractiveGetStartedProps> = ({
       const rect = sectionRef.current.getBoundingClientRect();
       const sectionHeight = sectionRef.current.offsetHeight;
       const windowHeight = window.innerHeight;
+      const headerOffset = window.innerWidth >= 1024 ? 80 : 64;
 
-      // Distance scrolled from top of section
-      const scrolled = -rect.top;
+      // Distance scrolled through the sticky pinning window
+      const scrolled = headerOffset - rect.top;
       const totalScrollable = sectionHeight - windowHeight;
 
       if (totalScrollable <= 0) return;
@@ -69,10 +70,12 @@ export const InteractiveGetStarted: React.FC<InteractiveGetStartedProps> = ({
   }, []);
 
   const handleStepClick = (stepNum: number) => {
+    setActiveStep(stepNum);
     if (!sectionRef.current) return;
-    const sectionTop = sectionRef.current.getBoundingClientRect().top + window.scrollY;
+    const headerOffset = window.innerWidth >= 1024 ? 80 : 64;
+    const sectionTop = sectionRef.current.getBoundingClientRect().top + window.scrollY - headerOffset;
     const totalScrollable = sectionRef.current.offsetHeight - window.innerHeight;
-    const targetProgress = (stepNum - 1) / 4 + 0.04;
+    const targetProgress = (stepNum - 1) / 4 + 0.05;
 
     window.scrollTo({
       top: sectionTop + targetProgress * totalScrollable,
@@ -139,11 +142,13 @@ export const InteractiveGetStarted: React.FC<InteractiveGetStartedProps> = ({
     },
   ];
 
+  const currentStepData = steps.find((s) => s.num === activeStep) || steps[0];
+
   return (
     <section
       ref={sectionRef}
       id="how-to-get-started"
-      className="relative w-full h-[340vh] bg-[#020F2E] border-b border-[#14294F] text-[#F2F5F9]"
+      className="relative w-full h-[360vh] lg:h-[400vh] bg-[#020F2E] border-b border-[#14294F] text-[#F2F5F9]"
     >
       {/* Ambient background light */}
       <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[700px] h-[350px] bg-[#0D95FE]/5 rounded-full blur-[140px] pointer-events-none" />
@@ -152,25 +157,25 @@ export const InteractiveGetStarted: React.FC<InteractiveGetStartedProps> = ({
       {/* PINNED STICKY CONTAINER: Stays locked in viewport while user scrolls through */}
       {/* all 4 steps before allowing normal page scroll down */}
       {/* ========================================================================= */}
-      <div className="sticky top-16 lg:top-20 w-full min-h-[calc(100vh-4rem)] lg:min-h-[calc(100vh-5rem)] flex flex-col justify-between py-6 sm:py-8 px-4 sm:px-6 lg:px-8 overflow-hidden z-10">
+      <div className="sticky top-16 lg:top-20 w-full h-[calc(100vh-4rem)] lg:h-[calc(100vh-5rem)] max-h-[calc(100vh-4rem)] lg:max-h-[calc(100vh-5rem)] flex flex-col justify-between py-4 sm:py-6 lg:py-8 px-4 sm:px-6 lg:px-8 overflow-hidden z-10">
         
         {/* Top Header & Continuous Scroll Progress Indicators */}
-        <div className="max-w-7xl mx-auto w-full flex flex-col gap-4">
-          <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
-            <div className="flex flex-col gap-1 text-center md:text-left">
-              <span className="text-xs font-mono font-bold uppercase tracking-wider text-[#0D95FE]">
+        <div className="max-w-7xl mx-auto w-full flex flex-col gap-3 sm:gap-4 shrink-0">
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-3">
+            <div className="flex flex-col gap-0.5 text-center md:text-left">
+              <span className="text-[10px] sm:text-xs font-mono font-bold uppercase tracking-wider text-[#0D95FE]">
                 ONBOARDING IN 4 STEPS // ZERO BRANCH VISITS
               </span>
-              <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-[#F2F5F9] tracking-tight">
+              <h2 className="text-xl sm:text-2xl lg:text-4xl font-extrabold text-[#F2F5F9] tracking-tight">
                 How to Get Started
               </h2>
-              <p className="text-xs sm:text-sm text-[#A8BBD6]">
+              <p className="text-xs sm:text-sm text-[#A8BBD6] hidden sm:block">
                 Scroll down to see each step unfold sequentially before proceeding.
               </p>
             </div>
 
-            {/* Step Checkpoints Navigator */}
-            <div className="flex items-center justify-center gap-1.5 sm:gap-2 bg-[#05112A] border border-[#14294F] p-1.5 rounded-full self-center md:self-auto shadow-inner">
+            {/* Step Checkpoints Navigator (Touch & Click Friendly) */}
+            <div className="flex items-center justify-center gap-1 sm:gap-2 bg-[#05112A] border border-[#14294F] p-1 sm:p-1.5 rounded-full self-center md:self-auto shadow-inner max-w-full overflow-x-auto no-scrollbar">
               {[1, 2, 3, 4].map((s) => {
                 const isCurrent = activeStep === s;
                 const isPassed = activeStep > s;
@@ -178,7 +183,7 @@ export const InteractiveGetStarted: React.FC<InteractiveGetStartedProps> = ({
                   <button
                     key={s}
                     onClick={() => handleStepClick(s)}
-                    className={`px-3 py-1 rounded-full text-xs font-semibold transition-all cursor-pointer flex items-center gap-1.5 ${
+                    className={`px-2.5 sm:px-3 py-1 rounded-full text-xs font-semibold transition-all cursor-pointer flex items-center gap-1 sm:gap-1.5 shrink-0 ${
                       isCurrent
                         ? 'bg-[#0D95FE] text-[#00284D] font-bold shadow-md'
                         : isPassed
@@ -187,7 +192,7 @@ export const InteractiveGetStarted: React.FC<InteractiveGetStartedProps> = ({
                     }`}
                   >
                     <span>{isPassed ? '✓' : `0${s}`}</span>
-                    <span className="hidden sm:inline">
+                    <span className="inline">
                       {s === 1 ? 'Download' : s === 2 ? 'Verify' : s === 3 ? 'Fund' : 'Transact'}
                     </span>
                   </button>
@@ -196,8 +201,8 @@ export const InteractiveGetStarted: React.FC<InteractiveGetStartedProps> = ({
             </div>
           </div>
 
-          {/* Global Continuous Scroll Progress Bar */}
-          <div className="w-full h-1.5 rounded-full bg-[#05112A] border border-[#14294F] overflow-hidden">
+          {/* Continuous Scroll Progress Bar */}
+          <div className="w-full h-1 sm:h-1.5 rounded-full bg-[#05112A] border border-[#14294F] overflow-hidden">
             <motion.div
               className="h-full bg-gradient-to-r from-[#0D95FE] via-[#00DF8F] to-[#F2A93B]"
               style={{ width: `${Math.min(Math.max(progress * 100, 3), 100)}%` }}
@@ -205,13 +210,250 @@ export const InteractiveGetStarted: React.FC<InteractiveGetStartedProps> = ({
           </div>
         </div>
 
-        {/* MIDDLE SECTION: Interactive Two-Column Stage */}
-        <div className="max-w-7xl mx-auto w-full my-auto py-3 sm:py-4 grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-12 items-center">
+        {/* ========================================================================= */}
+        {/* MOBILE STAGE (< lg): Active Step Card + Interactive Phone Preview */}
+        {/* Perfectly sized to fit cleanly inside mobile viewport without cutoffs */}
+        {/* ========================================================================= */}
+        <div className="lg:hidden flex-1 flex flex-col justify-center gap-3 my-auto py-2 w-full max-w-md mx-auto">
+          {/* Active Step Card for Mobile */}
+          <div className="p-3.5 rounded-2xl bg-[#0A1B3D] border border-[#0D95FE] shadow-lg flex flex-col gap-1.5">
+            <div className="flex items-center justify-between">
+              <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-[#0D95FE]">
+                {currentStepData.tag}
+              </span>
+              <span className="px-2 py-0.5 rounded-full bg-[#00DF8F]/20 text-[#00DF8F] text-[9px] font-mono font-bold">
+                Step {activeStep} of 4
+              </span>
+            </div>
+
+            <h3 className="font-bold text-sm sm:text-base text-white leading-snug">
+              {currentStepData.title}
+            </h3>
+
+            <p className="text-xs text-[#A8BBD6] leading-relaxed">
+              {currentStepData.desc}
+            </p>
+
+            {/* User Endorsement Chip */}
+            <div className="mt-1 flex items-center gap-2 p-1.5 rounded-xl bg-[#020B1D]/80 border border-[#14294F]">
+              <img
+                src={currentStepData.user.photo}
+                alt={currentStepData.user.name}
+                className="w-6 h-6 rounded-full object-cover ring-1 ring-[#00DF8F]/50 shrink-0"
+              />
+              <div className="flex items-center gap-1.5 text-[10px] overflow-hidden truncate">
+                <span className="font-semibold text-white truncate">{currentStepData.user.name}</span>
+                <span className="text-[#00DF8F] font-mono shrink-0">({currentStepData.user.location})</span>
+                <span className="text-[#A8BBD6] italic truncate">"{currentStepData.user.comment}"</span>
+              </div>
+            </div>
+          </div>
+
+          {/* Interactive Mobile Smartphone Preview Screen */}
+          <div className="relative w-full max-w-[290px] h-[230px] sm:h-[250px] mx-auto rounded-[32px] p-[4px] bg-gradient-to-b from-[#2A4374] via-[#142A58] to-[#0A1B3D] shadow-xl border border-[#14294F]">
+            <div className="w-full h-full rounded-[28px] bg-[#020B1D] p-3 flex flex-col justify-between overflow-hidden shadow-inner text-white">
+              
+              {/* Mini Status Bar */}
+              <div className="flex items-center justify-between text-[9px] font-mono text-[#7B9CD2] pb-1 border-b border-[#14294F]/80">
+                <span>9:41</span>
+                <div className="w-2.5 h-2.5 rounded-full bg-black border border-neutral-700" />
+                <span>4G ●●●</span>
+              </div>
+
+              {/* Dynamic Animated Screen Content for Active Step */}
+              <AnimatePresence mode="wait">
+                {activeStep === 1 && (
+                  <motion.div
+                    key="step-1-mobile"
+                    initial={{ opacity: 0, scale: 0.96 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0.96 }}
+                    transition={{ duration: 0.2 }}
+                    className="flex-1 flex flex-col justify-center gap-2 py-0.5"
+                  >
+                    <div className="flex items-center gap-2 p-1.5 rounded-xl bg-[#0A1B3D] border border-[#14294F]">
+                      <img
+                        src="/merchants/shopper.jpg"
+                        alt="Amina"
+                        className="w-8 h-8 rounded-full object-cover ring-1 ring-[#0D95FE] shrink-0"
+                      />
+                      <div className="flex flex-col">
+                        <span className="text-xs font-bold text-white leading-tight">Amina Bello</span>
+                        <span className="text-[9px] text-[#00DF8F] font-mono">🇳🇬 +234 803 123 4567</span>
+                      </div>
+                    </div>
+
+                    <div className="flex gap-1 justify-center">
+                      {[4, 9, 2, 0, '•', '•'].map((digit, i) => (
+                        <div
+                          key={i}
+                          className="w-6 h-7 rounded-md bg-[#0E1D3B] border border-[#0D95FE] flex items-center justify-center font-mono font-bold text-xs text-[#0D95FE]"
+                        >
+                          {digit}
+                        </div>
+                      ))}
+                    </div>
+
+                    <div className="p-1 rounded-lg bg-emerald-950/60 border border-[#00DF8F]/50 text-center">
+                      <span className="text-[9px] font-mono text-[#00DF8F] font-bold">
+                        ✓ OTP VERIFIED IN 1.2s
+                      </span>
+                    </div>
+                  </motion.div>
+                )}
+
+                {activeStep === 2 && (
+                  <motion.div
+                    key="step-2-mobile"
+                    initial={{ opacity: 0, scale: 0.96 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0.96 }}
+                    transition={{ duration: 0.2 }}
+                    className="flex-1 flex flex-col justify-center gap-1.5 py-0.5 text-center"
+                  >
+                    <div className="relative w-18 h-18 mx-auto rounded-full overflow-hidden border-2 border-[#00DF8F] shadow-md">
+                      <img
+                        src="/merchants/fatima.jpg"
+                        alt="Fatima"
+                        className="w-full h-full object-cover object-top"
+                      />
+                      <div className="absolute inset-0 border border-dashed border-[#00DF8F] rounded-full animate-spin" />
+                      <div className="absolute bottom-0 inset-x-0 bg-[#00DF8F] text-[#003825] text-[7px] font-mono font-black py-0.5">
+                        ✓ 99.4% MATCH
+                      </div>
+                    </div>
+
+                    <div className="p-1 rounded-lg bg-[#0A1B3D] border border-[#00DF8F] flex items-center justify-between text-[10px] px-2">
+                      <span className="text-white font-medium">BVN Identity Match</span>
+                      <span className="text-[#00DF8F] font-bold font-mono">✓ PASSED</span>
+                    </div>
+
+                    <span className="text-[9px] font-mono text-[#0D95FE] font-bold">
+                      TIER 3 DAILY LIMIT: ₦5,000,000
+                    </span>
+                  </motion.div>
+                )}
+
+                {activeStep === 3 && (
+                  <motion.div
+                    key="step-3-mobile"
+                    initial={{ opacity: 0, scale: 0.96 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0.96 }}
+                    transition={{ duration: 0.2 }}
+                    className="flex-1 flex flex-col justify-center gap-1.5 py-0.5"
+                  >
+                    <div className="flex items-center gap-2 p-1.5 rounded-xl bg-[#0A1B3D] border border-[#14294F]">
+                      <img
+                        src="/merchants/emeka.jpg"
+                        alt="Emeka"
+                        className="w-8 h-8 rounded-full object-cover ring-1 ring-[#0D95FE] shrink-0"
+                      />
+                      <div className="flex flex-col">
+                        <span className="text-xs font-bold text-white leading-tight">Emeka Gadgets World</span>
+                        <span className="text-[9px] text-[#00DF8F] font-mono">Computer Village, Lagos</span>
+                      </div>
+                    </div>
+
+                    <div className="p-1.5 rounded-lg bg-[#0A1B3D] border border-[#14294F] flex items-center justify-between">
+                      <span className="text-[9px] text-[#7B9CD2] font-mono">NUBAN: 9012345678</span>
+                      <span className="text-[9px] text-[#00DF8F] font-bold font-mono">READY</span>
+                    </div>
+
+                    <div className="p-1 rounded-lg bg-emerald-950/80 border border-[#00DF8F] text-center">
+                      <span className="text-[8px] text-white block">Inflow Settled in 0.9s</span>
+                      <span className="text-xs font-black text-[#00DF8F] font-mono">+ ₦50,000.00</span>
+                    </div>
+                  </motion.div>
+                )}
+
+                {activeStep === 4 && (
+                  <motion.div
+                    key="step-4-mobile"
+                    initial={{ opacity: 0, scale: 0.96 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0.96 }}
+                    transition={{ duration: 0.2 }}
+                    className="flex-1 flex flex-col justify-center gap-1.5 py-0.5"
+                  >
+                    <div className="flex items-center gap-2 p-1.5 rounded-xl bg-[#0A1B3D] border border-[#14294F]">
+                      <img
+                        src="/merchants/tunde.jpg"
+                        alt="Tunde"
+                        className="w-8 h-8 rounded-full object-cover ring-1 ring-[#F2A93B] shrink-0"
+                      />
+                      <div className="flex flex-col">
+                        <span className="text-xs font-bold text-white leading-tight">Tunde Bakare</span>
+                        <span className="text-[9px] text-[#00DF8F] font-mono">Fresh Mart · Lekki 1</span>
+                      </div>
+                    </div>
+
+                    <div className="p-1 rounded-lg bg-[#0A1B3D] border border-[#00DF8F] flex items-center justify-between text-[10px] px-2">
+                      <span className="text-white font-medium">Apex Dual-eSIM POS</span>
+                      <span className="text-[#00DF8F] font-bold">DISPATCHED</span>
+                    </div>
+
+                    <div className="p-1 rounded-lg bg-emerald-950/60 border border-[#00DF8F] text-center">
+                      <span className="text-[9px] font-mono text-[#00DF8F] font-bold">
+                        ✓ ALL STEPS COMPLETE (48H DELIVERY)
+                      </span>
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+
+              {/* Bottom bar indicator */}
+              <div className="w-16 h-1 rounded-full bg-slate-600 self-center" />
+            </div>
+          </div>
+
+          {/* Mobile Tap Navigation & Quick Actions */}
+          <div className="flex items-center justify-between gap-2 pt-1">
+            <button
+              onClick={() => handleStepClick(Math.max(activeStep - 1, 1))}
+              disabled={activeStep === 1}
+              className={`px-3 py-1.5 rounded-full text-xs font-semibold flex items-center gap-1 ${
+                activeStep === 1
+                  ? 'opacity-30 text-[#A8BBD6]'
+                  : 'bg-[#0A1B3D] text-white hover:bg-[#14294F] border border-[#14294F]'
+              }`}
+            >
+              <span className="material-symbols-outlined text-[14px]">arrow_back</span>
+              <span>Prev</span>
+            </button>
+
+            <button
+              onClick={() => onOpenWaitlist('business')}
+              className="flex-1 py-1.5 px-3 rounded-full bg-[#0D95FE] hover:bg-[#00DF8F] text-[#00284D] font-bold text-xs transition-all text-center shadow-md truncate"
+            >
+              Open Account
+            </button>
+
+            <button
+              onClick={() => handleStepClick(Math.min(activeStep + 1, 4))}
+              disabled={activeStep === 4}
+              className={`px-3 py-1.5 rounded-full text-xs font-semibold flex items-center gap-1 ${
+                activeStep === 4
+                  ? 'opacity-30 text-[#A8BBD6]'
+                  : 'bg-[#0A1B3D] text-white hover:bg-[#14294F] border border-[#14294F]'
+              }`}
+            >
+              <span>Next</span>
+              <span className="material-symbols-outlined text-[14px]">arrow_forward</span>
+            </button>
+          </div>
+        </div>
+
+        {/* ========================================================================= */}
+        {/* DESKTOP STAGE (hidden lg:grid): Spacious 12-Column Side-by-Side View */}
+        {/* Left Column (4 Steps) + Right Column (Full 470px Smartphone) */}
+        {/* ========================================================================= */}
+        <div className="hidden lg:grid max-w-7xl mx-auto w-full my-auto py-3 sm:py-4 grid-cols-12 gap-12 items-center">
           
           {/* Left Column: Sequential Step Cards with Progress Highlight */}
-          <div className="lg:col-span-7 flex flex-col gap-2.5 sm:gap-3 relative">
+          <div className="col-span-7 flex flex-col gap-3 relative">
             {/* Glowing Vertical Connector Line */}
-            <div className="absolute left-5 top-6 bottom-6 w-0.5 bg-[#14294F] -z-0 hidden sm:block">
+            <div className="absolute left-5 top-6 bottom-6 w-0.5 bg-[#14294F] -z-0">
               <motion.div
                 className="w-full bg-[#0D95FE]"
                 style={{ height: `${Math.min(Math.max(progress * 100, 5), 100)}%` }}
@@ -227,7 +469,7 @@ export const InteractiveGetStarted: React.FC<InteractiveGetStartedProps> = ({
                 <div
                   key={item.num}
                   onClick={() => handleStepClick(item.num)}
-                  className={`p-3.5 sm:p-4 rounded-2xl border transition-all cursor-pointer relative overflow-hidden flex flex-col gap-1.5 ${
+                  className={`p-4 rounded-2xl border transition-all cursor-pointer relative overflow-hidden flex flex-col gap-1.5 ${
                     isCurrent
                       ? 'bg-[#0A1B3D] border-[#0D95FE] shadow-xl shadow-[#0D95FE]/10 scale-[1.01]'
                       : isDone
@@ -246,7 +488,7 @@ export const InteractiveGetStarted: React.FC<InteractiveGetStartedProps> = ({
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-3">
                       <div
-                        className={`w-7 h-7 sm:w-8 sm:h-8 rounded-full flex items-center justify-center font-bold text-xs font-mono shrink-0 transition-colors ${
+                        className={`w-8 h-8 rounded-full flex items-center justify-center font-bold text-xs font-mono shrink-0 transition-colors ${
                           isCurrent
                             ? 'bg-[#0D95FE] text-[#00284D] shadow-md shadow-[#0D95FE]/30'
                             : isDone
@@ -261,34 +503,34 @@ export const InteractiveGetStarted: React.FC<InteractiveGetStartedProps> = ({
                         <span className="text-[10px] font-mono text-[#0D95FE] uppercase font-bold">
                           {item.tag}
                         </span>
-                        <h4 className="font-bold text-sm sm:text-base text-white leading-snug">
+                        <h4 className="font-bold text-base text-white leading-snug">
                           {item.title}
                         </h4>
                       </div>
                     </div>
 
                     {isCurrent && (
-                      <span className="hidden sm:inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-[#00DF8F]/20 text-[#00DF8F] text-[10px] font-mono font-bold uppercase shrink-0">
+                      <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-[#00DF8F]/20 text-[#00DF8F] text-[10px] font-mono font-bold uppercase shrink-0">
                         <span className="w-1.5 h-1.5 rounded-full bg-[#00DF8F] animate-ping" />
                         <span>Active Step</span>
                       </span>
                     )}
                   </div>
 
-                  <p className="text-xs sm:text-sm text-[#A8BBD6] leading-relaxed pl-10 sm:pl-11">
+                  <p className="text-sm text-[#A8BBD6] leading-relaxed pl-11">
                     {item.desc}
                   </p>
 
                   {/* Real Human User Endorsement Pill (Grounding the Brand in Reality) */}
-                  <div className="ml-10 sm:ml-11 mt-1 flex items-center gap-2.5 p-1.5 sm:p-2 rounded-xl bg-[#020B1D]/80 border border-[#14294F]/80">
+                  <div className="ml-11 mt-1 flex items-center gap-2.5 p-2 rounded-xl bg-[#020B1D]/80 border border-[#14294F]/80">
                     <img
                       src={item.user.photo}
                       alt={item.user.name}
-                      className="w-6 h-6 sm:w-7 sm:h-7 rounded-full object-cover ring-1 ring-[#00DF8F]/50 shrink-0"
+                      className="w-7 h-7 rounded-full object-cover ring-1 ring-[#00DF8F]/50 shrink-0"
                     />
-                    <div className="flex flex-col sm:flex-row sm:items-center sm:gap-2 text-[11px] overflow-hidden">
+                    <div className="flex items-center gap-2 text-[11px] overflow-hidden">
                       <span className="font-semibold text-white truncate">{item.user.name}</span>
-                      <span className="text-[#00DF8F] font-mono text-[10px] hidden sm:inline">({item.user.location})</span>
+                      <span className="text-[#00DF8F] font-mono text-[10px]">({item.user.location})</span>
                       <span className="text-[#A8BBD6] italic truncate">"{item.user.comment}"</span>
                     </div>
                   </div>
@@ -300,7 +542,7 @@ export const InteractiveGetStarted: React.FC<InteractiveGetStartedProps> = ({
             <div className="pt-1 pl-2 flex flex-wrap items-center gap-3">
               <button
                 onClick={() => onOpenWaitlist('business')}
-                className="px-5 py-2.5 rounded-full bg-[#0D95FE] hover:bg-[#00DF8F] text-[#00284D] hover:text-[#003825] font-bold text-xs sm:text-sm transition-all shadow-md cursor-pointer flex items-center gap-2"
+                className="px-5 py-2.5 rounded-full bg-[#0D95FE] hover:bg-[#00DF8F] text-[#00284D] hover:text-[#003825] font-bold text-sm transition-all shadow-md cursor-pointer flex items-center gap-2"
               >
                 <span>Open an Account</span>
                 <span className="material-symbols-outlined text-[16px]">arrow_forward</span>
@@ -308,7 +550,7 @@ export const InteractiveGetStarted: React.FC<InteractiveGetStartedProps> = ({
 
               <button
                 onClick={onOpenDownloadApp}
-                className="px-4 py-2.5 rounded-full bg-[#0A1B3D] hover:bg-[#14294F] text-white border border-[#14294F] font-semibold text-xs sm:text-sm transition-all cursor-pointer flex items-center gap-2"
+                className="px-4 py-2.5 rounded-full bg-[#0A1B3D] hover:bg-[#14294F] text-white border border-[#14294F] font-semibold text-sm transition-all cursor-pointer flex items-center gap-2"
               >
                 <span>Download App</span>
                 <span className="material-symbols-outlined text-[16px]">download</span>
@@ -327,9 +569,9 @@ export const InteractiveGetStarted: React.FC<InteractiveGetStartedProps> = ({
           </div>
 
           {/* Right Column: Dynamic Interactive Smartphone synced to Active Step with Real People & Hardware */}
-          <div className="lg:col-span-5 flex justify-center w-full">
-            <div className="relative w-64 sm:w-72 lg:w-80 h-[440px] sm:h-[470px] rounded-[44px] p-[6px] bg-gradient-to-b from-[#2A4374] via-[#142A58] to-[#0A1B3D] shadow-2xl border-2 border-[#14294F]">
-              <div className="w-full h-full rounded-[38px] bg-[#020B1D] p-4 sm:p-5 flex flex-col justify-between overflow-hidden shadow-inner text-white">
+          <div className="col-span-5 flex justify-center w-full">
+            <div className="relative w-72 lg:w-80 h-[470px] rounded-[44px] p-[6px] bg-gradient-to-b from-[#2A4374] via-[#142A58] to-[#0A1B3D] shadow-2xl border-2 border-[#14294F]">
+              <div className="w-full h-full rounded-[38px] bg-[#020B1D] p-5 flex flex-col justify-between overflow-hidden shadow-inner text-white">
                 
                 {/* Phone Status Bar */}
                 <div className="flex items-center justify-between text-[11px] font-mono text-[#7B9CD2] pb-2 border-b border-[#14294F]">
@@ -533,13 +775,13 @@ export const InteractiveGetStarted: React.FC<InteractiveGetStartedProps> = ({
         </div>
 
         {/* Bottom subtle progress hint */}
-        <div className="max-w-7xl mx-auto w-full pt-2 flex items-center justify-between text-[11px] text-[#A8BBD6]/70 border-t border-[#14294F]/60">
-          <div className="flex items-center gap-2">
+        <div className="max-w-7xl mx-auto w-full pt-2 flex items-center justify-between text-[10px] sm:text-[11px] text-[#A8BBD6]/70 border-t border-[#14294F]/60 shrink-0">
+          <div className="flex items-center gap-1.5">
             <span className="w-1.5 h-1.5 rounded-full bg-[#00DF8F]" />
-            <span>Step {activeStep} of 4 · Keep scrolling to advance sequence</span>
+            <span>Step {activeStep} of 4 · Scroll or tap checkpoints to advance</span>
           </div>
-          <span className="font-mono text-[10px] text-[#00DF8F]">
-            {activeStep === 4 ? '✓ All steps completed — ready to scroll' : `${Math.round(progress * 100)}% viewed`}
+          <span className="font-mono text-[9px] sm:text-[10px] text-[#00DF8F]">
+            {activeStep === 4 ? '✓ Complete — ready to scroll' : `${Math.round(progress * 100)}% viewed`}
           </span>
         </div>
 

@@ -200,9 +200,9 @@ export const HeroDeviceShowcase: React.FC<HeroDeviceShowcaseProps> = ({
       </div>
 
       {/* ========================================================================= */}
-      {/* 3D STAGE FOR PHONE & POS DEVICES */}
+      {/* 3D STAGE FOR PHONE & POS DEVICES (RESPONSIVE SCALE FOR MOBILE SCREENS) */}
       {/* ========================================================================= */}
-      <div className="relative w-full max-w-[560px] h-[670px] sm:h-[700px] flex items-center justify-center perspective-[1200px]">
+      <div className="relative w-full max-w-[560px] h-[520px] xs:h-[580px] sm:h-[670px] lg:h-[700px] flex items-center justify-center perspective-[1200px] scale-[0.72] xs:scale-[0.82] sm:scale-95 lg:scale-100 origin-center transition-transform">
         {/* Ambient Glowing Halos */}
         <div className="absolute top-1/4 left-1/4 w-72 h-72 bg-[#0D95FE]/15 rounded-full blur-3xl pointer-events-none" />
         <div className="absolute bottom-1/4 right-1/4 w-72 h-72 bg-[#00DF8F]/15 rounded-full blur-3xl pointer-events-none" />

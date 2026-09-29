@@ -41,7 +41,7 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#020F2E] text-[#F2F5F9] font-sans selection:bg-[#0D95FE]/30 selection:text-[#F2F5F9]">
+    <div className="min-h-screen flex flex-col bg-[#020F2E] text-[#F2F5F9] font-sans selection:bg-[#0D95FE]/30 selection:text-[#F2F5F9] w-full max-w-full">
       {/* Cookie / Privacy Policy Notification Bar */}
       <CookieBanner onNavigate={handleNavigate} />
 
