@@ -51,12 +51,12 @@ export const InteractiveGetStarted: React.FC<InteractiveGetStartedProps> = ({
       const currentProgress = Math.min(Math.max(scrolled / totalScrollable, 0), 1);
       setProgress(currentProgress);
 
-      // Distribute into 4 steps
-      if (currentProgress < 0.25) {
+      // Distribute into 4 steps with generous runway for Step 4
+      if (currentProgress < 0.24) {
         setActiveStep(1);
-      } else if (currentProgress < 0.50) {
+      } else if (currentProgress < 0.48) {
         setActiveStep(2);
-      } else if (currentProgress < 0.75) {
+      } else if (currentProgress < 0.72) {
         setActiveStep(3);
       } else {
         setActiveStep(4);
@@ -157,16 +157,16 @@ export const InteractiveGetStarted: React.FC<InteractiveGetStartedProps> = ({
       {/* PINNED STICKY CONTAINER: Stays locked in viewport while user scrolls through */}
       {/* all 4 steps before allowing normal page scroll down */}
       {/* ========================================================================= */}
-      <div className="sticky top-16 lg:top-20 w-full h-[calc(100vh-4rem)] lg:h-[calc(100vh-5rem)] max-h-[calc(100vh-4rem)] lg:max-h-[calc(100vh-5rem)] flex flex-col justify-between py-4 sm:py-6 lg:py-8 px-4 sm:px-6 lg:px-8 overflow-hidden z-10">
+      <div className="sticky top-16 lg:top-20 w-full h-[calc(100vh-4rem)] lg:h-[calc(100vh-5rem)] max-h-[calc(100vh-4rem)] lg:max-h-[calc(100vh-5rem)] flex flex-col justify-between py-2 sm:py-3 lg:py-4 px-4 sm:px-6 lg:px-8 z-10">
         
         {/* Top Header & Continuous Scroll Progress Indicators */}
-        <div className="max-w-7xl mx-auto w-full flex flex-col gap-3 sm:gap-4 shrink-0">
-          <div className="flex flex-col md:flex-row md:items-end justify-between gap-3">
+        <div className="max-w-7xl mx-auto w-full flex flex-col gap-2 sm:gap-3 shrink-0">
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-2">
             <div className="flex flex-col gap-0.5 text-center md:text-left">
               <span className="text-[10px] sm:text-xs font-mono font-bold uppercase tracking-wider text-[#0D95FE]">
                 ONBOARDING IN 4 STEPS // ZERO BRANCH VISITS
               </span>
-              <h2 className="text-xl sm:text-2xl lg:text-4xl font-extrabold text-[#F2F5F9] tracking-tight">
+              <h2 className="text-xl sm:text-2xl lg:text-3xl font-extrabold text-[#F2F5F9] tracking-tight">
                 How to Get Started
               </h2>
               <p className="text-xs sm:text-sm text-[#A8BBD6] hidden sm:block">
@@ -175,7 +175,7 @@ export const InteractiveGetStarted: React.FC<InteractiveGetStartedProps> = ({
             </div>
 
             {/* Step Checkpoints Navigator (Touch & Click Friendly) */}
-            <div className="flex items-center justify-center gap-1 sm:gap-2 bg-[#05112A] border border-[#14294F] p-1 sm:p-1.5 rounded-full self-center md:self-auto shadow-inner max-w-full overflow-x-auto no-scrollbar">
+            <div className="flex items-center justify-center gap-1 sm:gap-1.5 bg-[#05112A] border border-[#14294F] p-1 rounded-full self-center md:self-auto shadow-inner max-w-full overflow-x-auto no-scrollbar">
               {[1, 2, 3, 4].map((s) => {
                 const isCurrent = activeStep === s;
                 const isPassed = activeStep > s;
@@ -465,76 +465,107 @@ export const InteractiveGetStarted: React.FC<InteractiveGetStartedProps> = ({
               const isDone = activeStep > item.num;
               const stepFraction = Math.min(Math.max((progress - (item.num - 1) * 0.25) / 0.25, 0), 1);
 
-              return (
-                <div
-                  key={item.num}
-                  onClick={() => handleStepClick(item.num)}
-                  className={`p-4 rounded-2xl border transition-all cursor-pointer relative overflow-hidden flex flex-col gap-1.5 ${
-                    isCurrent
-                      ? 'bg-[#0A1B3D] border-[#0D95FE] shadow-xl shadow-[#0D95FE]/10 scale-[1.01]'
-                      : isDone
-                      ? 'bg-[#05112A]/85 border-[#00DF8F]/40 opacity-85 hover:opacity-100'
-                      : 'bg-[#05112A]/40 border-[#14294F] opacity-45 hover:opacity-75'
-                  }`}
-                >
-                  {/* Step inner progress bar synced to scroll within this step */}
-                  {isCurrent && (
+              if (isCurrent) {
+                return (
+                  <motion.div
+                    key={item.num}
+                    layout
+                    initial={{ opacity: 0.9 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ duration: 0.2 }}
+                    onClick={() => handleStepClick(item.num)}
+                    className="p-3.5 rounded-2xl border border-[#0D95FE] bg-[#0A1B3D] shadow-xl shadow-[#0D95FE]/10 relative overflow-hidden flex flex-col gap-1.5 cursor-pointer"
+                  >
+                    {/* Step inner progress bar synced to scroll within this step */}
                     <motion.div
                       className="absolute top-0 left-0 h-1 bg-gradient-to-r from-[#0D95FE] to-[#00DF8F]"
                       style={{ width: `${stepFraction * 100}%` }}
                     />
-                  )}
 
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-3">
-                      <div
-                        className={`w-8 h-8 rounded-full flex items-center justify-center font-bold text-xs font-mono shrink-0 transition-colors ${
-                          isCurrent
-                            ? 'bg-[#0D95FE] text-[#00284D] shadow-md shadow-[#0D95FE]/30'
-                            : isDone
-                            ? 'bg-[#00DF8F] text-[#003825]'
-                            : 'bg-[#14294F] text-[#A8BBD6]'
-                        }`}
-                      >
-                        {isDone ? '✓' : `0${item.num}`}
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-2.5">
+                        <div className="w-7 h-7 rounded-full flex items-center justify-center font-bold text-xs font-mono shrink-0 bg-[#0D95FE] text-[#00284D] shadow-md shadow-[#0D95FE]/30">
+                          {`0${item.num}`}
+                        </div>
+
+                        <div className="flex flex-col">
+                          <span className="text-[10px] font-mono text-[#0D95FE] uppercase font-bold leading-none">
+                            {item.tag}
+                          </span>
+                          <h4 className="font-bold text-sm lg:text-base text-white leading-snug">
+                            {item.title}
+                          </h4>
+                        </div>
                       </div>
 
-                      <div className="flex flex-col">
-                        <span className="text-[10px] font-mono text-[#0D95FE] uppercase font-bold">
-                          {item.tag}
-                        </span>
-                        <h4 className="font-bold text-base text-white leading-snug">
-                          {item.title}
-                        </h4>
-                      </div>
-                    </div>
-
-                    {isCurrent && (
                       <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-[#00DF8F]/20 text-[#00DF8F] text-[10px] font-mono font-bold uppercase shrink-0">
                         <span className="w-1.5 h-1.5 rounded-full bg-[#00DF8F] animate-ping" />
                         <span>Active Step</span>
                       </span>
-                    )}
-                  </div>
+                    </div>
 
-                  <p className="text-sm text-[#A8BBD6] leading-relaxed pl-11">
-                    {item.desc}
-                  </p>
+                    <p className="text-xs lg:text-sm text-[#A8BBD6] leading-relaxed pl-9">
+                      {item.desc}
+                    </p>
 
-                  {/* Real Human User Endorsement Pill (Grounding the Brand in Reality) */}
-                  <div className="ml-11 mt-1 flex items-center gap-2.5 p-2 rounded-xl bg-[#020B1D]/80 border border-[#14294F]/80">
-                    <img
-                      src={item.user.photo}
-                      alt={item.user.name}
-                      className="w-7 h-7 rounded-full object-cover ring-1 ring-[#00DF8F]/50 shrink-0"
-                    />
-                    <div className="flex items-center gap-2 text-[11px] overflow-hidden">
-                      <span className="font-semibold text-white truncate">{item.user.name}</span>
-                      <span className="text-[#00DF8F] font-mono text-[10px]">({item.user.location})</span>
-                      <span className="text-[#A8BBD6] italic truncate">"{item.user.comment}"</span>
+                    {/* Real Human User Endorsement Pill (Grounding the Brand in Reality) */}
+                    <div className="ml-9 mt-0.5 flex items-center gap-2 p-1.5 rounded-xl bg-[#020B1D]/80 border border-[#14294F]/80">
+                      <img
+                        src={item.user.photo}
+                        alt={item.user.name}
+                        className="w-6 h-6 rounded-full object-cover ring-1 ring-[#00DF8F]/50 shrink-0"
+                      />
+                      <div className="flex items-center gap-1.5 text-[11px] overflow-hidden">
+                        <span className="font-semibold text-white truncate">{item.user.name}</span>
+                        <span className="text-[#00DF8F] font-mono text-[10px] shrink-0">({item.user.location})</span>
+                        <span className="text-[#A8BBD6] italic truncate">"{item.user.comment}"</span>
+                      </div>
+                    </div>
+                  </motion.div>
+                );
+              }
+
+              // Inactive card (sleek single-row layout that is ALWAYS visible and clickable)
+              return (
+                <motion.div
+                  key={item.num}
+                  layout
+                  onClick={() => handleStepClick(item.num)}
+                  className={`py-2 px-3 rounded-xl border transition-all cursor-pointer flex items-center justify-between gap-3 ${
+                    isDone
+                      ? 'bg-[#05112A]/80 border-[#00DF8F]/30 hover:border-[#00DF8F]/60 hover:bg-[#071738]'
+                      : 'bg-[#05112A]/40 border-[#14294F] hover:border-[#0D95FE]/40 hover:bg-[#071738]'
+                  }`}
+                >
+                  <div className="flex items-center gap-2.5 min-w-0">
+                    <div
+                      className={`w-6 h-6 rounded-full flex items-center justify-center font-bold text-[11px] font-mono shrink-0 ${
+                        isDone ? 'bg-[#00DF8F] text-[#003825]' : 'bg-[#14294F] text-[#A8BBD6]'
+                      }`}
+                    >
+                      {isDone ? '✓' : `0${item.num}`}
+                    </div>
+
+                    <div className="flex items-center gap-2 min-w-0">
+                      <span className="text-[10px] font-mono text-[#0D95FE] font-bold shrink-0">
+                        {`0${item.num}.`}
+                      </span>
+                      <h4 className="font-semibold text-xs lg:text-sm text-[#A8BBD6] hover:text-white truncate">
+                        {item.title}
+                      </h4>
                     </div>
                   </div>
-                </div>
+
+                  <span
+                    className={`text-[10px] font-mono px-2 py-0.5 rounded-full shrink-0 ${
+                      isDone
+                        ? 'bg-[#00DF8F]/15 text-[#00DF8F] font-medium'
+                        : 'bg-[#14294F]/60 text-[#7B9CD2]'
+                    }`}
+                  >
+                    {isDone ? '✓ Done' : `Step 0${item.num}`}
+                  </span>
+                </motion.div>
               );
             })}
 
@@ -570,8 +601,8 @@ export const InteractiveGetStarted: React.FC<InteractiveGetStartedProps> = ({
 
           {/* Right Column: Dynamic Interactive Smartphone synced to Active Step with Real People & Hardware */}
           <div className="col-span-5 flex justify-center w-full">
-            <div className="relative w-72 lg:w-80 h-[470px] rounded-[44px] p-[6px] bg-gradient-to-b from-[#2A4374] via-[#142A58] to-[#0A1B3D] shadow-2xl border-2 border-[#14294F]">
-              <div className="w-full h-full rounded-[38px] bg-[#020B1D] p-5 flex flex-col justify-between overflow-hidden shadow-inner text-white">
+            <div className="relative w-72 lg:w-80 h-[410px] lg:h-[425px] rounded-[40px] p-[5px] bg-gradient-to-b from-[#2A4374] via-[#142A58] to-[#0A1B3D] shadow-2xl border-2 border-[#14294F]">
+              <div className="w-full h-full rounded-[35px] bg-[#020B1D] p-4 lg:p-5 flex flex-col justify-between overflow-hidden shadow-inner text-white">
                 
                 {/* Phone Status Bar */}
                 <div className="flex items-center justify-between text-[11px] font-mono text-[#7B9CD2] pb-2 border-b border-[#14294F]">

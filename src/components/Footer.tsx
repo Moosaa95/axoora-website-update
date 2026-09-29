@@ -120,25 +120,25 @@ export const Footer: React.FC<FooterProps> = ({
             <nav className="flex flex-col gap-2.5 text-sm text-[#A8BBD6]">
               <button
                 onClick={() => handleNav('personal')}
-                className="text-left hover:text-[#F2F5F9] transition-colors"
+                className="text-left hover:text-[#F2F5F9] transition-colors cursor-pointer"
               >
                 Axoora AI — for the person
               </button>
               <button
                 onClick={() => handleNav('business')}
-                className="text-left hover:text-[#F2F5F9] transition-colors"
+                className="text-left hover:text-[#F2F5F9] transition-colors cursor-pointer"
               >
                 Axoora Business — for the shop
               </button>
               <button
                 onClick={() => handleNav('pos-agents')}
-                className="text-left hover:text-[#F2F5F9] transition-colors"
+                className="text-left hover:text-[#F2F5F9] transition-colors cursor-pointer"
               >
                 POS &amp; Aggregator — for agents
               </button>
               <button
                 onClick={onOpenWhatsApp}
-                className="text-left text-[#00DF8F] hover:underline transition-colors flex items-center gap-1.5 pt-1"
+                className="text-left text-[#00DF8F] hover:underline transition-colors flex items-center gap-1.5 pt-1 cursor-pointer"
               >
                 <span className="material-symbols-outlined text-[15px]">chat</span>
                 <span>Bank on WhatsApp</span>
@@ -154,43 +154,43 @@ export const Footer: React.FC<FooterProps> = ({
             <nav className="flex flex-col gap-2.5 text-sm text-[#A8BBD6]">
               <button
                 onClick={() => handleNav('about')}
-                className="text-left hover:text-[#F2F5F9] transition-colors"
+                className="text-left hover:text-[#F2F5F9] transition-colors cursor-pointer"
               >
                 About Us
               </button>
               <button
                 onClick={() => handleNav('impact')}
-                className="text-left hover:text-[#F2F5F9] transition-colors"
+                className="text-left hover:text-[#F2F5F9] transition-colors cursor-pointer"
               >
                 Impact
               </button>
               <button
                 onClick={() => handleNav('stories')}
-                className="text-left hover:text-[#F2F5F9] transition-colors"
+                className="text-left hover:text-[#F2F5F9] transition-colors cursor-pointer"
               >
                 Stories
               </button>
               <button
                 onClick={() => handleNav('journal')}
-                className="text-left hover:text-[#F2F5F9] transition-colors"
+                className="text-left hover:text-[#F2F5F9] transition-colors cursor-pointer"
               >
                 Journal
               </button>
               <button
                 onClick={() => handleNav('press')}
-                className="text-left hover:text-[#F2F5F9] transition-colors"
+                className="text-left hover:text-[#F2F5F9] transition-colors cursor-pointer"
               >
                 Press
               </button>
               <button
                 onClick={() => handleNav('events')}
-                className="text-left hover:text-[#F2F5F9] transition-colors"
+                className="text-left hover:text-[#F2F5F9] transition-colors cursor-pointer"
               >
                 Events
               </button>
               <button
                 onClick={() => handleNav('careers')}
-                className="text-left hover:text-[#F2F5F9] transition-colors"
+                className="text-left hover:text-[#F2F5F9] transition-colors cursor-pointer"
               >
                 Careers
               </button>
@@ -205,25 +205,25 @@ export const Footer: React.FC<FooterProps> = ({
             <nav className="flex flex-col gap-2.5 text-sm text-[#A8BBD6]">
               <button
                 onClick={() => handleNav('help')}
-                className="text-left hover:text-[#F2F5F9] transition-colors"
+                className="text-left hover:text-[#F2F5F9] transition-colors cursor-pointer"
               >
                 Help Centre &amp; FAQs
               </button>
               <button
                 onClick={() => handleNav('legal')}
-                className="text-left hover:text-[#F2F5F9] transition-colors"
+                className="text-left hover:text-[#F2F5F9] transition-colors cursor-pointer"
               >
                 Privacy &amp; Terms
               </button>
               <button
                 onClick={() => handleNav('legal')}
-                className="text-left hover:text-[#F2F5F9] transition-colors"
+                className="text-left hover:text-[#F2F5F9] transition-colors cursor-pointer"
               >
                 How to Complain
               </button>
               <button
                 onClick={() => handleNav('contact')}
-                className="text-left hover:text-[#F2F5F9] transition-colors"
+                className="text-left hover:text-[#F2F5F9] transition-colors cursor-pointer"
               >
                 Contact Us
               </button>
@@ -375,10 +375,10 @@ export const Footer: React.FC<FooterProps> = ({
         <div className="w-full px-4 sm:px-8 py-4 max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-3 text-xs text-[#A8BBD6]/80">
           <p>© 2026 AXOORA Financial Technologies Limited. All rights reserved. Axoora is a registered trademark in Nigeria.</p>
           <div className="flex items-center gap-4">
-            <button onClick={() => handleNav('legal')} className="hover:text-[#F2F5F9]">Privacy</button>
-            <button onClick={() => handleNav('legal')} className="hover:text-[#F2F5F9]">Terms</button>
-            <button onClick={() => handleNav('legal')} className="hover:text-[#F2F5F9]">Cookies</button>
-            <button onClick={() => handleNav('contact')} className="hover:text-[#F2F5F9]">Abuja Office</button>
+            <button onClick={() => handleNav('legal')} className="hover:text-[#F2F5F9] cursor-pointer">Privacy</button>
+            <button onClick={() => handleNav('legal')} className="hover:text-[#F2F5F9] cursor-pointer">Terms</button>
+            <button onClick={() => handleNav('legal')} className="hover:text-[#F2F5F9] cursor-pointer">Cookies</button>
+            <button onClick={() => handleNav('contact')} className="hover:text-[#F2F5F9] cursor-pointer">Abuja Office</button>
           </div>
         </div>
       </div>

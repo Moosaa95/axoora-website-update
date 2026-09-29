@@ -45,6 +45,16 @@
     font-family: 'Plus Jakarta Sans', sans-serif;
     transition: background-color 0.25s ease, color 0.25s ease;
   }
+
+  button,
+  [role="button"],
+  input[type="button"],
+  input[type="submit"],
+  input[type="reset"],
+  summary,
+  a {
+    cursor: pointer;
+  }
 }
 
 .tabular-nums {
