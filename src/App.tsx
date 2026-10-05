@@ -21,6 +21,7 @@ import { WaitlistModal } from './components/WaitlistModal';
 import { WhatsAppBankingModal } from './components/WhatsAppBankingModal';
 import { AppDownloadModal } from './components/AppDownloadModal';
 import { ReadingProgressBar } from './components/ReadingProgressBar';
+import { AdminDashboard } from './components/AdminDashboard';
 
 export default function App() {
   const [currentScreen, setCurrentScreen] = useState<ScreenType>('home');
@@ -43,21 +44,23 @@ export default function App() {
   return (
     <div className="min-h-screen flex flex-col bg-[#020F2E] text-[#F2F5F9] font-sans selection:bg-[#0D95FE]/30 selection:text-[#F2F5F9] w-full max-w-full">
       {/* Cookie / Privacy Policy Notification Bar */}
-      <CookieBanner onNavigate={handleNavigate} />
+      {currentScreen !== 'admin' && <CookieBanner onNavigate={handleNavigate} />}
 
       {/* Thin Fixed Top Scroll Progress Bar */}
-      <ReadingProgressBar currentScreen={currentScreen} />
+      {currentScreen !== 'admin' && <ReadingProgressBar currentScreen={currentScreen} />}
 
       {/* Top Header with Brand and Doors */}
-      <Header
-        currentScreen={currentScreen}
-        onNavigate={handleNavigate}
-        onOpenWaitlist={handleOpenWaitlist}
-        onOpenWhatsApp={() => setWhatsAppOpen(true)}
-        onOpenDownloadApp={() => setDownloadAppOpen(true)}
-        homeMode={homeMode}
-        onHomeModeChange={setHomeMode}
-      />
+      {currentScreen !== 'admin' && (
+        <Header
+          currentScreen={currentScreen}
+          onNavigate={handleNavigate}
+          onOpenWaitlist={handleOpenWaitlist}
+          onOpenWhatsApp={() => setWhatsAppOpen(true)}
+          onOpenDownloadApp={() => setDownloadAppOpen(true)}
+          homeMode={homeMode}
+          onHomeModeChange={setHomeMode}
+        />
+      )}
 
       {/* Main Page Content */}
       <main className="flex-1 w-full">
@@ -74,8 +77,10 @@ export default function App() {
 
         {currentScreen === 'personal' && (
           <PersonalProductView
+            onNavigate={handleNavigate}
             onOpenWaitlist={handleOpenWaitlist}
             onOpenWhatsApp={() => setWhatsAppOpen(true)}
+            onOpenDownloadApp={() => setDownloadAppOpen(true)}
           />
         )}
 
@@ -134,14 +139,20 @@ export default function App() {
         {(currentScreen === 'legal' || currentScreen === 'contact') && (
           <LegalContactView />
         )}
+
+        {currentScreen === 'admin' && (
+          <AdminDashboard onExitAdmin={() => handleNavigate('home')} />
+        )}
       </main>
 
-      {/* Footer on Every Page */}
-      <Footer
-        onNavigate={handleNavigate}
-        onOpenWaitlist={() => handleOpenWaitlist('personal')}
-        onOpenWhatsApp={() => setWhatsAppOpen(true)}
-      />
+      {/* Footer on Every Page (except when in Admin console) */}
+      {currentScreen !== 'admin' && (
+        <Footer
+          onNavigate={handleNavigate}
+          onOpenWaitlist={() => handleOpenWaitlist('personal')}
+          onOpenWhatsApp={() => setWhatsAppOpen(true)}
+        />
+      )}
 
       {/* Modals for Waitlist, WhatsApp Banking & App Download */}
       <WaitlistModal

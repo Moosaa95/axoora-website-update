@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { WaitlistSubmission } from '../types';
+import { useCms } from '../context/CmsContext';
 
 interface WaitlistModalProps {
   isOpen: boolean;
@@ -21,6 +22,7 @@ export const WaitlistModal: React.FC<WaitlistModalProps> = ({
   const [consent, setConsent] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [errorMsg, setErrorMsg] = useState('');
+  const { addLead } = useCms();
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -41,6 +43,21 @@ export const WaitlistModal: React.FC<WaitlistModalProps> = ({
       interest,
       consent,
     };
+
+    // Store directly in CMS leads state
+    try {
+      addLead({
+        fullName,
+        whatsappNumber,
+        email,
+        city: city || 'Nigeria',
+        interest,
+        status: 'new',
+        notes: `Submitted via website modal for ${interest}`,
+      });
+    } catch {
+      // fallback
+    }
 
     // Store in localStorage as demonstration of persisted submission
     try {

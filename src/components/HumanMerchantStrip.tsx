@@ -2,13 +2,15 @@
 
 import React from 'react';
 import { motion } from 'framer-motion';
+import { useCms } from '../context/CmsContext';
 
 interface HumanMerchantStripProps {
   onOpenWaitlist: (interest?: 'personal' | 'business' | 'pos-agent') => void;
 }
 
 export const HumanMerchantStrip: React.FC<HumanMerchantStripProps> = ({ onOpenWaitlist }) => {
-  const merchants = [
+  const { merchants: cmsMerchants } = useCms();
+  const merchants = (cmsMerchants && cmsMerchants.length > 0) ? cmsMerchants : [
     {
       id: 'bilkisu',
       name: 'Hajiya Bilkisu Danladi',

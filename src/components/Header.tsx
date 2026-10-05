@@ -18,10 +18,12 @@ interface ProductItem {
   id: ScreenType;
   title: string;
   badge?: string;
+  badgeColor?: string;
   tagline: string;
   description: string;
   icon: string;
   accent: string;
+  highlights: string[];
 }
 
 interface QuickSearchItem {
@@ -115,27 +117,36 @@ export const Header: React.FC<HeaderProps> = ({
   const productsList: ProductItem[] = [
     {
       id: 'personal',
-      title: 'Axoora AI (Personal)',
+      title: 'Axoora Personal',
+      badge: 'Zero Transfer Fees',
+      badgeColor: '#00DF8F',
       tagline: 'Consumer Banking & Lifestyle',
-      description: 'Dual-currency debit card, Halal Save & Earn, Paycircle thrift, and conversational WhatsApp banking.',
+      description: 'Dual-currency debit card that never declines, Halal Save & Earn, Paycircle Ajo thrift, and conversational WhatsApp banking.',
       icon: 'account_balance_wallet',
       accent: isLight ? '#00875A' : '#00DF8F',
+      highlights: ['Virtual Dollar & Naira Cards', '0% Riba Savings Vault', 'WhatsApp Assistant'],
     },
     {
       id: 'business',
       title: 'Axoora Business',
+      badge: 'Dedicated NUBAN',
+      badgeColor: '#0D95FE',
       tagline: 'Merchant Accounts & Expense Ops',
-      description: 'Standard accounts for your shop, multi-user corporate cards, instant POS settlement, and non-interest stock financing.',
+      description: 'Dedicated commercial NUBAN for your shop, multi-user expense cards, automated invoice reconciliations, and zero-interest stock float.',
       icon: 'storefront',
       accent: isLight ? '#006FDB' : '#0D95FE',
+      highlights: ['Instant Sub-2s Settlement', 'Multi-Store Expense Cards', 'Inventory Trade Rails'],
     },
     {
       id: 'pos-agents',
-      title: 'POS & Aggregator',
-      tagline: 'Terminals & Cash Float Rails',
-      description: '4G dual-SIM Android terminals with 99.8% uptime, instant agent float, and sub-agent fleet portal.',
+      title: 'Axoora POS Terminals',
+      badge: 'Hardware & Agency',
+      badgeColor: '#F2A93B',
+      tagline: 'Apex Dual-SIM 4G Terminals & Float',
+      description: 'Rugged Android POS terminals with 99.98% uptime, instant agent cash float, multi-operator SIM failover, and sub-agent fleet portal.',
       icon: 'point_of_sale',
       accent: isLight ? '#B45309' : '#F2A93B',
+      highlights: ['Dual-SIM MTN/Airtel 4G', 'Sub-2s NIBSS Settlement', '48hr Doorstep Dispatch'],
     },
   ];
 
@@ -228,6 +239,13 @@ export const Header: React.FC<HeaderProps> = ({
       screen: 'journal',
       description: 'Idempotent NIBSS payment rails, offline settlement, zero-interest ledger',
       icon: 'article',
+    },
+    {
+      title: 'Admin CMS & Operations Console',
+      category: 'Company',
+      screen: 'admin',
+      description: 'Control live hero copy, 4-step onboarding, street merchants, and CRM waitlist leads',
+      icon: 'tune',
     },
     {
       title: 'Help Centre & FAQs',
@@ -388,56 +406,87 @@ export const Header: React.FC<HeaderProps> = ({
                     animate={{ opacity: 1, y: 0, scale: 1 }}
                     exit={{ opacity: 0, y: 8, scale: 0.98 }}
                     transition={{ duration: 0.16, ease: [0.22, 1, 0.36, 1] }}
-                    className="absolute top-full left-1/2 -translate-x-1/2 mt-2 w-[580px] bg-[#0A1B3D]/95 backdrop-blur-2xl border border-[#14294F] rounded-2xl shadow-2xl p-4 z-50 overflow-hidden"
+                    className="absolute top-full left-1/2 -translate-x-1/2 mt-2 w-[620px] bg-[#0A1B3D]/95 backdrop-blur-2xl border border-[#14294F] rounded-2xl shadow-2xl p-4 z-50 overflow-hidden"
                   >
-                    <div className="flex flex-col gap-2">
+                    <div className="flex flex-col gap-2.5">
                       <div className="px-3 pt-1 pb-2 border-b border-[#14294F]/80 flex items-center justify-between">
-                        <span className="text-[11px] font-mono uppercase tracking-wider text-[#A8BBD6]/80 font-semibold">
-                          Financial Solutions &amp; Channels
-                        </span>
-                        <span className="text-[11px] text-[#00DF8F] font-medium flex items-center gap-1">
-                          <span className="w-1.5 h-1.5 rounded-full bg-[#00DF8F]"></span>
+                        <div className="flex items-center gap-2">
+                          <span className="text-[11px] font-mono uppercase tracking-wider text-[#A8BBD6]/90 font-semibold">
+                            Financial Solutions &amp; Hardware
+                          </span>
+                          <span className="px-2 py-0.5 rounded-full bg-[#0D95FE]/15 text-[#0D95FE] text-[10px] font-mono font-bold">
+                            3 Channels
+                          </span>
+                        </div>
+                        <span className="text-[11px] text-[#00DF8F] font-medium flex items-center gap-1 font-mono">
+                          <span className="w-1.5 h-1.5 rounded-full bg-[#00DF8F] animate-pulse"></span>
                           Zero-Interest Architecture
                         </span>
                       </div>
 
-                      <div className="grid grid-cols-1 gap-1.5 pt-1">
+                      <div className="grid grid-cols-1 gap-2 pt-1">
                         {productsList.map((product) => {
                           const isActive = currentScreen === product.id;
                           return (
                             <button
                               key={product.id}
                               onClick={() => handleNavClick(product.id)}
-                              className={`group text-left p-3 rounded-xl transition-all flex items-start gap-3.5 cursor-pointer border ${
+                              className={`group text-left p-3.5 rounded-xl transition-all flex items-start gap-3.5 cursor-pointer border ${
                                 isActive
-                                  ? 'bg-[#14294F]/70 border-[#0D95FE]/40'
-                                  : 'hover:bg-[#14294F]/40 border-transparent hover:border-[#14294F]'
+                                  ? 'bg-[#14294F]/80 border-[#0D95FE]/50 shadow-lg shadow-[#0D95FE]/5'
+                                  : 'hover:bg-[#14294F]/50 border-transparent hover:border-[#14294F]'
                               }`}
                             >
                               <div
-                                className="w-10 h-10 rounded-xl flex items-center justify-center shrink-0 transition-transform group-hover:scale-105"
+                                className="w-11 h-11 rounded-xl flex items-center justify-center shrink-0 transition-transform group-hover:scale-105 shadow-md"
                                 style={{
                                   backgroundColor: `${product.accent}18`,
                                   color: product.accent,
-                                  border: `1px solid ${product.accent}30`,
+                                  border: `1px solid ${product.accent}35`,
                                 }}
                               >
-                                <span className="material-symbols-outlined text-[20px]">
+                                <span className="material-symbols-outlined text-[22px]">
                                   {product.icon}
                                 </span>
                               </div>
                               <div className="flex-1 min-w-0">
                                 <div className="flex items-center justify-between gap-2">
-                                  <span className="font-semibold text-sm text-[#F2F5F9] group-hover:text-white flex items-center gap-1.5">
-                                    {product.title}
-                                  </span>
+                                  <div className="flex items-center gap-2">
+                                    <span className="font-bold text-sm text-[#F2F5F9] group-hover:text-white">
+                                      {product.title}
+                                    </span>
+                                    {product.badge && (
+                                      <span
+                                        className="text-[10px] font-mono font-bold px-2 py-0.5 rounded-md"
+                                        style={{
+                                          backgroundColor: `${product.badgeColor || product.accent}15`,
+                                          color: product.badgeColor || product.accent,
+                                          border: `1px solid ${product.badgeColor || product.accent}30`,
+                                        }}
+                                      >
+                                        {product.badge}
+                                      </span>
+                                    )}
+                                  </div>
                                   <span className="material-symbols-outlined text-[16px] text-[#A8BBD6] opacity-0 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all">
                                     arrow_forward
                                   </span>
                                 </div>
-                                <p className="text-xs text-[#A8BBD6] leading-relaxed mt-0.5">
+                                <p className="text-xs text-[#A8BBD6] leading-relaxed mt-1 line-clamp-2">
                                   {product.description}
                                 </p>
+                                {product.highlights && product.highlights.length > 0 && (
+                                  <div className="flex flex-wrap items-center gap-1.5 mt-2">
+                                    {product.highlights.map((h, i) => (
+                                      <span
+                                        key={i}
+                                        className="text-[10px] font-mono text-[#A8BBD6]/90 px-1.5 py-0.5 rounded bg-[#020F2E]/60 border border-[#14294F]/80"
+                                      >
+                                        ✓ {h}
+                                      </span>
+                                    ))}
+                                  </div>
+                                )}
                               </div>
                             </button>
                           );
@@ -445,17 +494,17 @@ export const Header: React.FC<HeaderProps> = ({
                       </div>
 
                       {/* WhatsApp Banking Quick Door inside Products */}
-                      <div className="mt-1 pt-3 border-t border-[#14294F]/80 flex items-center justify-between px-3 py-2 bg-[#020F2E]/60 rounded-xl">
+                      <div className="mt-1 pt-3 border-t border-[#14294F]/80 flex items-center justify-between px-3.5 py-2.5 bg-[#020F2E]/70 rounded-xl border border-[#14294F]/60">
                         <div className="flex items-center gap-2.5">
-                          <div className="w-7 h-7 rounded-lg bg-[#00DF8F]/15 text-[#00DF8F] flex items-center justify-center border border-[#00DF8F]/30">
-                            <span className="material-symbols-outlined text-[16px]">chat</span>
+                          <div className="w-8 h-8 rounded-lg bg-[#00DF8F]/15 text-[#00DF8F] flex items-center justify-center border border-[#00DF8F]/30 shrink-0">
+                            <span className="material-symbols-outlined text-[18px]">chat</span>
                           </div>
                           <div>
-                            <span className="text-xs font-semibold text-[#F2F5F9]">
-                              Bank with Axoora AI on WhatsApp
+                            <span className="text-xs font-bold text-[#F2F5F9] block">
+                              Need POS Terminals or Instant Card Delivery?
                             </span>
                             <span className="text-[11px] text-[#A8BBD6] block">
-                              Transfers, balance &amp; bills without app installation
+                              Chat with our Abuja team directly or order hardware on WhatsApp
                             </span>
                           </div>
                         </div>
@@ -464,9 +513,9 @@ export const Header: React.FC<HeaderProps> = ({
                             setActiveMenu(null);
                             onOpenWhatsApp();
                           }}
-                          className="px-3 py-1.5 rounded-lg bg-[#00DF8F]/15 hover:bg-[#00DF8F] text-[#00DF8F] hover:text-[#003825] text-xs font-semibold transition-all cursor-pointer border border-[#00DF8F]/30"
+                          className="px-3.5 py-1.5 rounded-lg bg-[#00DF8F] hover:bg-[#00c77f] text-[#003825] text-xs font-bold transition-all cursor-pointer shadow-md shrink-0"
                         >
-                          Launch Chat
+                          Chat Live
                         </button>
                       </div>
                     </div>
@@ -611,6 +660,16 @@ export const Header: React.FC<HeaderProps> = ({
               </motion.span>
             </button>
 
+            {/* Admin CMS Trigger */}
+            <button
+              onClick={() => onNavigate('admin')}
+              className="hidden lg:flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-[#0D95FE]/40 bg-[#0D95FE]/10 text-xs font-mono font-bold text-[#0D95FE] hover:bg-[#0D95FE] hover:text-[#002447] transition-all cursor-pointer"
+              title="Open Axoora Admin CMS"
+            >
+              <span className="material-symbols-outlined text-[15px]">tune</span>
+              <span>CMS</span>
+            </button>
+
             {/* Bank with Axoora AI on WhatsApp */}
             <button
               onClick={onOpenWhatsApp}
@@ -708,20 +767,34 @@ export const Header: React.FC<HeaderProps> = ({
                         }`}
                       >
                         <div
-                          className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0"
+                          className="w-9 h-9 rounded-xl flex items-center justify-center shrink-0 mt-0.5"
                           style={{
                             backgroundColor: `${product.accent}20`,
                             color: product.accent,
+                            border: `1px solid ${product.accent}30`,
                           }}
                         >
-                          <span className="material-symbols-outlined text-[18px]">
+                          <span className="material-symbols-outlined text-[19px]">
                             {product.icon}
                           </span>
                         </div>
-                        <div>
-                          <span className="text-sm font-semibold text-[#F2F5F9] block">
-                            {product.title}
-                          </span>
+                        <div className="flex-1 min-w-0">
+                          <div className="flex items-center justify-between gap-1">
+                            <span className="text-sm font-semibold text-[#F2F5F9]">
+                              {product.title}
+                            </span>
+                            {product.badge && (
+                              <span
+                                className="text-[9px] font-mono font-bold px-1.5 py-0.5 rounded"
+                                style={{
+                                  backgroundColor: `${product.badgeColor || product.accent}15`,
+                                  color: product.badgeColor || product.accent,
+                                }}
+                              >
+                                {product.badge}
+                              </span>
+                            )}
+                          </div>
                           <span className="text-[11px] text-[#A8BBD6] block mt-0.5 line-clamp-1">
                             {product.tagline}
                           </span>

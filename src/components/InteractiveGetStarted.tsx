@@ -2,6 +2,7 @@
 
 import React, { useRef, useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useCms } from '../context/CmsContext';
 
 interface InteractiveGetStartedProps {
   onOpenWaitlist: (interest?: 'personal' | 'business' | 'pos-agent') => void;
@@ -83,7 +84,8 @@ export const InteractiveGetStarted: React.FC<InteractiveGetStartedProps> = ({
     });
   };
 
-  const steps: StepData[] = [
+  const { steps: cmsSteps } = useCms();
+  const steps: StepData[] = (cmsSteps && cmsSteps.length > 0) ? cmsSteps : [
     {
       num: 1,
       tag: '01. Sign-up & Phone',

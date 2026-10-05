@@ -12,7 +12,8 @@ export type ScreenType =
   | 'careers'
   | 'help'
   | 'legal'
-  | 'contact';
+  | 'contact'
+  | 'admin';
 
 export interface WaitlistSubmission {
   fullName: string;

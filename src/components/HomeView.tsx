@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { ScreenType } from '../types';
 import { COMPANY_INFO, FAQ_LIST } from '../data/mockData';
 import { useTheme } from '../context/ThemeContext';
+import { useCms } from '../context/CmsContext';
 import { HeroDeviceShowcase } from './HeroDeviceShowcase';
 import { SecurityTrustRow } from './SecurityTrustRow';
 import { MerchantMarquee } from './MerchantMarquee';
@@ -47,8 +48,20 @@ export const HomeView: React.FC<HomeViewProps> = ({
   // FAQ accordion state
   const [openFaqId, setOpenFaqId] = useState<string | null>(FAQ_LIST[0]?.id || null);
 
+  const { hero } = useCms();
+
   return (
     <div className="w-full bg-[#020F2E] text-[#F2F5F9] font-sans selection:bg-[#0D95FE]/30 selection:text-[#F2F5F9]">
+      {/* Live Announcement Ticker Banner if Active in CMS */}
+      {hero?.announcementActive && hero.announcementTicker && (
+        <div className="w-full bg-gradient-to-r from-[#002447] via-[#0A1B3D] to-[#002447] border-b border-[#0D95FE]/40 py-2.5 px-4 text-center">
+          <div className="max-w-7xl mx-auto flex items-center justify-center gap-2 text-xs text-[#F2F5F9]">
+            <span className="w-2 h-2 rounded-full bg-[#00DF8F] animate-ping shrink-0" />
+            <span className="font-semibold">{hero.announcementTicker}</span>
+          </div>
+        </div>
+      )}
+
       {/* ========================================================================= */}
       {/* 1. HERO SECTION WITH BUSINESS / PERSONAL TRANSITION */}
       {/* ========================================================================= */}
@@ -105,15 +118,20 @@ export const HomeView: React.FC<HomeViewProps> = ({
 
                   {/* Main Headline */}
                   <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-[#F2F5F9] leading-[1.08] [text-wrap:balance]">
-                    Simple solutions to <br />
-                    <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#F2F5F9] via-[#00DF8F] to-[#0D95FE]">
-                      power your business
-                    </span>
+                    {hero?.headlineBusiness || (
+                      <>
+                        Simple solutions to <br />
+                        <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#F2F5F9] via-[#00DF8F] to-[#0D95FE]">
+                          power your business
+                        </span>
+                      </>
+                    )}
                   </h1>
 
                   {/* Subtitle */}
                   <p className="text-base sm:text-lg text-[#A8BBD6] max-w-xl leading-relaxed">
-                    Collect card and transfer payments, access ethical 0% interest halal working capital, and manage operations with sub-second NIBSS settlements.
+                    {hero?.subheadlineBusiness ||
+                      'Collect card and transfer payments, access ethical 0% interest halal working capital, and manage operations with sub-second NIBSS settlements.'}
                   </p>
 
                   {/* Action Buttons */}
@@ -213,15 +231,20 @@ export const HomeView: React.FC<HomeViewProps> = ({
 
                   {/* Headline */}
                   <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-[#F2F5F9] leading-[1.08] [text-wrap:balance]">
-                    Get the card <br />
-                    <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#F2F5F9] via-[#00DF8F] to-[#0D95FE]">
-                      that works.
-                    </span>
+                    {hero?.headlinePersonal || (
+                      <>
+                        Get the card <br />
+                        <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#F2F5F9] via-[#00DF8F] to-[#0D95FE]">
+                          that works.
+                        </span>
+                      </>
+                    )}
                   </h1>
 
                   {/* Subtitle */}
                   <p className="text-base sm:text-lg text-[#A8BBD6] max-w-xl leading-relaxed">
-                    Brought to you by the technology that powers Nigeria's most trusted merchants. Axoora offers you a reliable personal banking experience with instant NIBSS settlement and zero account maintenance fees.
+                    {hero?.subheadlinePersonal ||
+                      "Brought to you by the technology that powers Nigeria's most trusted merchants. Axoora offers you a reliable personal banking experience with instant NIBSS settlement and zero account maintenance fees."}
                   </p>
 
                   {/* App Store Buttons */}

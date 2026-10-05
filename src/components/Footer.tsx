@@ -115,26 +115,29 @@ export const Footer: React.FC<FooterProps> = ({
           {/* Column 2: The Three Products */}
           <div className="lg:col-span-3 flex flex-col gap-3">
             <h4 className="text-xs font-bold text-[#F2F5F9] tracking-wider uppercase font-mono">
-              Products
+              Products &amp; Hardware
             </h4>
             <nav className="flex flex-col gap-2.5 text-sm text-[#A8BBD6]">
               <button
                 onClick={() => handleNav('personal')}
-                className="text-left hover:text-[#F2F5F9] transition-colors cursor-pointer"
+                className="text-left hover:text-[#F2F5F9] transition-colors cursor-pointer flex items-center justify-between group"
               >
-                Axoora AI — for the person
+                <span>Axoora Personal — for the person</span>
+                <span className="text-[10px] text-[#00DF8F] opacity-0 group-hover:opacity-100 transition-opacity">0% fees</span>
               </button>
               <button
                 onClick={() => handleNav('business')}
-                className="text-left hover:text-[#F2F5F9] transition-colors cursor-pointer"
+                className="text-left hover:text-[#F2F5F9] transition-colors cursor-pointer flex items-center justify-between group"
               >
-                Axoora Business — for the shop
+                <span>Axoora Business — for the shop</span>
+                <span className="text-[10px] text-[#0D95FE] opacity-0 group-hover:opacity-100 transition-opacity">NUBAN</span>
               </button>
               <button
                 onClick={() => handleNav('pos-agents')}
-                className="text-left hover:text-[#F2F5F9] transition-colors cursor-pointer"
+                className="text-left hover:text-[#F2F5F9] transition-colors cursor-pointer flex items-center justify-between group"
               >
-                POS &amp; Aggregator — for agents
+                <span>Axoora POS Terminals — for agents</span>
+                <span className="text-[10px] text-[#F2A93B] opacity-0 group-hover:opacity-100 transition-opacity">Dual-SIM</span>
               </button>
               <button
                 onClick={onOpenWhatsApp}
@@ -379,6 +382,13 @@ export const Footer: React.FC<FooterProps> = ({
             <button onClick={() => handleNav('legal')} className="hover:text-[#F2F5F9] cursor-pointer">Terms</button>
             <button onClick={() => handleNav('legal')} className="hover:text-[#F2F5F9] cursor-pointer">Cookies</button>
             <button onClick={() => handleNav('contact')} className="hover:text-[#F2F5F9] cursor-pointer">Abuja Office</button>
+            <button
+              onClick={() => handleNav('admin')}
+              className="text-[#0D95FE] hover:text-[#00DF8F] font-mono text-[11px] flex items-center gap-1 cursor-pointer bg-[#0A1B3D] px-2.5 py-1 rounded-lg border border-[#14294F]"
+            >
+              <span className="material-symbols-outlined text-[13px]">tune</span>
+              <span>Admin CMS</span>
+            </button>
           </div>
         </div>
       </div>
