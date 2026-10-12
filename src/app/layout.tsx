@@ -1,26 +1,90 @@
-import type { Metadata } from 'next';
+import type { Metadata, Viewport } from 'next';
 import './globals.css';
 import { ThemeProvider } from '../context/ThemeContext';
 import { CmsProvider } from '../context/CmsContext';
 import { NavigationProvider } from '../context/NavigationContext';
 import { AppShell } from '../components/AppShell';
+import {
+  SITE_URL,
+  SITE_NAME,
+  SITE_TAGLINE,
+  SITE_DESCRIPTION,
+  SEO_DEFAULTS,
+  getOrganizationSchema,
+  getWebSiteSchema,
+} from '../lib/seo';
+
+export const viewport: Viewport = {
+  themeColor: [
+    { media: '(prefers-color-scheme: dark)', color: '#020F2E' },
+    { media: '(prefers-color-scheme: light)', color: '#FFFFFF' },
+  ],
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 5,
+};
 
 export const metadata: Metadata = {
-  title: 'Axoora — Money, simplified for the street',
-  description:
-    'AXOORA Financial Technologies Limited. Licensed by the Central Bank of Nigeria (CBN). Personal banking with Axoora AI, standard accounts for your shop, and high-uptime terminals for agents — all built on sustainable, interest-free principles.',
+  metadataBase: new URL(SITE_URL),
+  title: {
+    default: `${SITE_NAME} — ${SITE_TAGLINE}`,
+    template: `%s | ${SITE_NAME}`,
+  },
+  description: SITE_DESCRIPTION,
+  applicationName: SITE_NAME,
+  authors: [{ name: 'AXOORA Financial Technologies Limited', url: SITE_URL }],
+  creator: 'AXOORA Financial Technologies Limited',
+  publisher: 'AXOORA Financial Technologies Limited',
+  keywords: SEO_DEFAULTS.keywords,
+  category: 'Finance',
+  classification: 'Financial Technology & Sovereign Banking',
+  formatDetection: {
+    email: false,
+    address: false,
+    telephone: false,
+  },
+  alternates: {
+    canonical: '/',
+    languages: {
+      'en-NG': '/',
+      en: '/',
+    },
+  },
   openGraph: {
-    title: 'Axoora — Money, simplified for the street',
-    description:
-      'AXOORA Financial Technologies Limited. Licensed by the Central Bank of Nigeria (CBN). Eligible deposits insured by NDIC. Cappador Mall, Maitama, Abuja.',
+    title: `${SITE_NAME} — ${SITE_TAGLINE}`,
+    description: SITE_DESCRIPTION,
+    url: SITE_URL,
+    siteName: SITE_NAME,
+    locale: 'en_NG',
     type: 'website',
   },
   twitter: {
     card: 'summary_large_image',
+    title: `${SITE_NAME} — ${SITE_TAGLINE}`,
+    description: SITE_DESCRIPTION,
+    site: SEO_DEFAULTS.twitterHandle,
+    creator: SEO_DEFAULTS.twitterHandle,
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
   },
   icons: {
-    icon: '/axoora-logo.svg',
+    icon: [
+      { url: '/axoora-logo.svg', type: 'image/svg+xml' },
+    ],
+    apple: [
+      { url: '/axoora-logo.svg' },
+    ],
   },
+  manifest: '/manifest.webmanifest',
 };
 
 export default function RootLayout({
@@ -28,6 +92,9 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+  const organizationSchema = getOrganizationSchema();
+  const websiteSchema = getWebSiteSchema();
+
   return (
     <html lang="en" className="dark" suppressHydrationWarning>
       <head>
@@ -40,6 +107,15 @@ export default function RootLayout({
         <link
           href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
           rel="stylesheet"
+        />
+        {/* Institutional Structured Data Schemas */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }}
         />
       </head>
       <body className="bg-[#020F2E] text-[#F2F5F9] font-sans antialiased selection:bg-[#0D95FE]/30 selection:text-[#F2F5F9]">

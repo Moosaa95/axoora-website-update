@@ -1,17 +1,50 @@
-'use client';
+import type { Metadata } from 'next';
+import PersonalClient from './PersonalClient';
+import { SITE_URL, getBreadcrumbSchema } from '../../lib/seo';
 
-import { PersonalProductView } from "../../components/PersonalProductView";
-import { useNavigation } from "../../context/NavigationContext";
+export const metadata: Metadata = {
+  title: 'Axoora Personal — 0% Transfer Fees, Dual-Currency Cards & WhatsApp Banking',
+  description:
+    'Sovereign personal banking for Nigerian consumers. Zero transfer fees across all banks, instant virtual dollar & platinum naira cards that never decline, non-interest Save & Earn vaults, and banking directly inside WhatsApp.',
+  keywords: [
+    'virtual dollar card Nigeria',
+    'zero transfer fees bank Nigeria',
+    'WhatsApp banking bot',
+    'dual currency debit card',
+    'Axoora Personal',
+    'halal savings account Nigeria',
+    'Paycircle thrift ajo',
+    'instant NIP transfers',
+  ],
+  alternates: {
+    canonical: `${SITE_URL}/personal`,
+  },
+  openGraph: {
+    title: 'Axoora Personal — 0% Transfer Fees & WhatsApp Banking',
+    description:
+      'Zero transfer fees, dual-currency virtual cards that never decline, and conversational banking in WhatsApp.',
+    url: `${SITE_URL}/personal`,
+  },
+  twitter: {
+    title: 'Axoora Personal — Banking, in a chat',
+    description:
+      'Zero transfer fees, dual-currency cards, and conversational WhatsApp banking built for Nigeria.',
+  },
+};
 
 export default function PersonalPage() {
-  const { navigate, openWaitlist, openWhatsApp, openDownloadApp } = useNavigation();
+  const breadcrumbSchema = getBreadcrumbSchema([
+    { name: 'Home', url: '/' },
+    { name: 'Personal Banking', url: '/personal' },
+  ]);
 
   return (
-    <PersonalProductView
-      onNavigate={navigate}
-      onOpenWaitlist={openWaitlist}
-      onOpenWhatsApp={openWhatsApp}
-      onOpenDownloadApp={openDownloadApp}
-    />
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
+      <PersonalClient />
+    </>
   );
 }

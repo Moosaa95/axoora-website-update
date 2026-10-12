@@ -1,40 +1,43 @@
-'use client';
+import type { Metadata } from 'next';
+import { ApplyClient } from './ApplyClient';
+import { SITE_NAME, SITE_URL, getBreadcrumbSchema } from '../../lib/seo';
 
-import { useSearchParams } from "next/navigation";
-import { Suspense } from "react";
-import { ApplyOnboardingView } from "../../components/ApplyOnboardingView";
-import { useNavigation } from "../../context/NavigationContext";
-
-function ApplyContent() {
-  const { waitlistInterest, navigate, openWhatsApp } = useNavigation();
-  const searchParams = useSearchParams();
-  const validInterests = ['business', 'pos-agent', 'personal', 'aggregator'] as const;
-  const rawInterest = searchParams.get('interest');
-  const interestParam = (validInterests.includes(rawInterest as any) ? rawInterest : waitlistInterest) as 'business' | 'pos-agent' | 'personal' | 'aggregator';
-
-  const handleBack = () => {
-    if (interestParam === 'pos-agent') {
-      navigate('pos-agents');
-    } else if (interestParam === 'personal') {
-      navigate('personal');
-    } else {
-      navigate('business');
-    }
-  };
-
-  return (
-    <ApplyOnboardingView
-      initialInterest={interestParam}
-      onBack={handleBack}
-      onOpenWhatsApp={openWhatsApp}
-    />
-  );
-}
+export const metadata: Metadata = {
+  title: 'Apply for Axoora | Open an Account, POS Terminal or Partnership',
+  description:
+    'Start your application with Axoora. Apply for a personal account, high-yield business corporate treasury, smart 4G POS terminal, or aggregator partnership.',
+  alternates: {
+    canonical: `${SITE_URL}/apply`,
+  },
+  openGraph: {
+    title: 'Apply for Axoora | Modern Banking & Merchant Terminals',
+    description:
+      'Start your application with Axoora. Apply for a personal account, business banking, 4G POS terminal, or aggregator partnership.',
+    url: `${SITE_URL}/apply`,
+    siteName: SITE_NAME,
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Apply for Axoora',
+    description:
+      'Apply online in minutes for Axoora accounts, POS terminals, and partnership networks.',
+  },
+};
 
 export default function ApplyPage() {
+  const breadcrumbSchema = getBreadcrumbSchema([
+    { name: 'Home', url: '/' },
+    { name: 'Apply', url: '/apply' },
+  ]);
+
   return (
-    <Suspense fallback={<div className="min-h-screen bg-[#020F2E]" />}>
-      <ApplyContent />
-    </Suspense>
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
+      <ApplyClient />
+    </>
   );
 }

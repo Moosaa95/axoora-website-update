@@ -1,10 +1,17 @@
-'use client';
+import type { Metadata } from 'next';
+import { AdminClient } from './AdminClient';
 
-import { AdminDashboard } from "../../components/AdminDashboard";
-import { useNavigation } from "../../context/NavigationContext";
+export const metadata: Metadata = {
+  title: 'Admin Dashboard | Axoora Internal',
+  description: 'Axoora Internal Operations and Waitlist Portal',
+  robots: {
+    index: false,
+    follow: false,
+    noarchive: true,
+    nocache: true,
+  },
+};
 
 export default function AdminPage() {
-  const { navigate } = useNavigation();
-
-  return <AdminDashboard onExitAdmin={() => navigate("business")} />;
+  return <AdminClient />;
 }
