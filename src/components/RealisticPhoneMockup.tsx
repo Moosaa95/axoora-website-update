@@ -94,7 +94,7 @@ export const RealisticPhoneMockup: React.FC<RealisticPhoneMockupProps> = ({
         {/* Thin inner black rim bezel */}
         <div className="w-full h-full rounded-[47px] p-[6px] bg-[#000000]">
           {/* The Actual Display Screen - Zero Scroll: Everything fits perfectly inside */}
-          <div className="w-full h-[620px] sm:h-[645px] rounded-[41px] bg-[#020B1D] text-[#F2F5F9] font-sans overflow-hidden relative flex flex-col justify-between p-3 shadow-inner">
+          <div className="dark-hardware preserve-dark w-full h-[620px] sm:h-[645px] rounded-[41px] bg-[#020B1D] text-[#F2F5F9] font-sans overflow-hidden relative flex flex-col justify-between p-3 shadow-inner">
             {/* TOP STATUS BAR */}
             <div className="w-full pt-0.5 pb-1 flex items-center justify-between text-xs px-2 z-20 shrink-0">
               <span className="font-bold text-[12px] tracking-tight text-white font-sans">

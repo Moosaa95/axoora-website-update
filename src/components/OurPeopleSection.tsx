@@ -1,14 +1,16 @@
+'use client';
+
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ScreenType } from '../types';
 import { COMPANY_INFO } from '../data/mockData';
 
-import ceoImg from '../assets/team/ceo.jpg';
-import ctoImg from '../assets/team/cto.jpg';
-import cooImg from '../assets/team/coo.jpg';
-import croImg from '../assets/team/cro.jpg';
-import shariaImg from '../assets/team/sharia.jpg';
-import peopleImg from '../assets/team/people.jpg';
+const ceoImg = '/team/ceo.jpg';
+const ctoImg = '/team/cto.jpg';
+const cooImg = '/team/coo.jpg';
+const croImg = '/team/cro.jpg';
+const shariaImg = '/team/sharia.jpg';
+const peopleImg = '/team/people.jpg';
 
 export interface LeaderProfile {
   id: string;

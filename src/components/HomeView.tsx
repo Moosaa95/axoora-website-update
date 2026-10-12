@@ -223,7 +223,7 @@ export const HomeView: React.FC<HomeViewProps> = ({
                         }`}
                       >
                         <span className="material-symbols-outlined text-[#00DF8F] text-[18px]">chat</span>
-                        <span>Chat with Axoora AI</span>
+                        <span>Bank on WhatsApp</span>
                       </button>
                     </div>
 
@@ -303,15 +303,18 @@ export const HomeView: React.FC<HomeViewProps> = ({
                       </button>
 
                       <button
-                        onClick={onOpenWhatsApp}
+                        onClick={() => {
+                          const el = document.getElementById('all-business-tools');
+                          el?.scrollIntoView({ behavior: 'smooth' });
+                        }}
                         className={`px-5 py-3.5 rounded-2xl border font-bold text-sm flex items-center gap-2 transition-all cursor-pointer ${
                           isLight
                             ? 'bg-white hover:bg-slate-100 border-slate-300 text-slate-800'
                             : 'bg-[#0A1B3D] hover:bg-[#14294F] text-[#F2F5F9] border-[#14294F]'
                         }`}
                       >
-                        <span className="material-symbols-outlined text-[#00DF8F] text-[18px]">chat</span>
-                        <span>Bank on WhatsApp</span>
+                        <span className="material-symbols-outlined text-[#0D95FE] text-[18px]">dashboard</span>
+                        <span>Explore Business Tools</span>
                       </button>
                     </div>
 

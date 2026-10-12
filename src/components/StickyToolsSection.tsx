@@ -52,9 +52,13 @@ export const StickyToolsSection: React.FC<StickyToolsSectionProps> = ({
       secondaryAction: () => onNavigate('business'),
       accentColor: '#0D95FE',
       renderVisual: () => (
-        <div className="relative w-full max-w-lg aspect-[4/3] rounded-3xl bg-[#08152F] border-2 border-[#142A58] p-6 shadow-2xl flex flex-col justify-between overflow-hidden">
+        <div className={`relative w-full max-w-lg aspect-[4/3] rounded-3xl p-6 shadow-xl flex flex-col justify-between overflow-hidden border transition-colors ${
+          isLight ? 'bg-slate-50/80 border-slate-200' : 'bg-[#08152F] border-2 border-[#142A58]'
+        }`}>
           {/* Top transfer card with authentic merchant avatar */}
-          <div className="p-4 rounded-2xl bg-[#0B1A3A] border border-[#193566] shadow-lg flex items-center justify-between">
+          <div className={`p-4 rounded-2xl border shadow-md flex items-center justify-between transition-colors ${
+            isLight ? 'bg-white border-slate-200' : 'bg-[#0B1A3A] border-[#193566]'
+          }`}>
             <div className="flex items-center gap-3">
               <img
                 src="/merchants/fatima.jpg"
@@ -62,8 +66,8 @@ export const StickyToolsSection: React.FC<StickyToolsSectionProps> = ({
                 className="w-11 h-11 rounded-full object-cover ring-2 ring-[#0D95FE]"
               />
               <div className="flex flex-col">
-                <span className="text-xs font-bold text-white">Fatima Al-Hassan</span>
-                <span className="text-[10px] text-[#00DF8F] font-mono">Zaynab Couture · NUBAN 9012345678</span>
+                <span className={`text-xs font-bold ${isLight ? 'text-slate-900' : 'text-white'}`}>Fatima Al-Hassan</span>
+                <span className={`text-[10px] font-mono ${isLight ? 'text-emerald-700' : 'text-[#00DF8F]'}`}>Zaynab Couture · NUBAN 9012345678</span>
               </div>
             </div>
             <span className="px-2.5 py-1 rounded-full bg-[#00DF8F]/15 border border-[#00DF8F]/40 text-[#00DF8F] text-[10px] font-bold">
@@ -72,14 +76,16 @@ export const StickyToolsSection: React.FC<StickyToolsSectionProps> = ({
           </div>
 
           {/* Spending Trend Chart */}
-          <div className="p-4 rounded-2xl bg-[#0B1A3A] border border-[#193566] shadow-lg flex flex-col gap-2">
+          <div className={`p-4 rounded-2xl border shadow-md flex flex-col gap-2 transition-colors ${
+            isLight ? 'bg-white border-slate-200' : 'bg-[#0B1A3A] border-[#193566]'
+          }`}>
             <div className="flex items-center justify-between">
-              <span className="text-xs font-bold text-white">Monthly Store Revenue</span>
+              <span className={`text-xs font-bold ${isLight ? 'text-slate-900' : 'text-white'}`}>Monthly Store Revenue</span>
               <span className="text-xs font-mono font-bold text-[#0D95FE]">₦1,855,000.00</span>
             </div>
             <div className="h-14 flex items-end gap-2 pt-2">
               {[40, 65, 45, 90, 70, 85, 100, 75, 60, 95].map((h, i) => (
-                <div key={i} className="flex-1 bg-[#14294F] rounded-t-sm relative group overflow-hidden">
+                <div key={i} className={`flex-1 rounded-t-sm relative group overflow-hidden ${isLight ? 'bg-slate-200' : 'bg-[#14294F]'}`}>
                   <div
                     className="w-full bg-gradient-to-t from-[#0D95FE] to-[#00DF8F] rounded-t-sm transition-all"
                     style={{ height: `${h}%` }}
@@ -87,7 +93,7 @@ export const StickyToolsSection: React.FC<StickyToolsSectionProps> = ({
                 </div>
               ))}
             </div>
-            <div className="flex items-center justify-between text-[10px] text-[#7B9CD2] font-mono">
+            <div className={`flex items-center justify-between text-[10px] font-mono ${isLight ? 'text-slate-500' : 'text-[#7B9CD2]'}`}>
               <span>Week 1</span>
               <span>Week 2</span>
               <span>Week 3</span>
@@ -110,22 +116,26 @@ export const StickyToolsSection: React.FC<StickyToolsSectionProps> = ({
       secondaryAction: () => onNavigate('pos-agents'),
       accentColor: '#00DF8F',
       renderVisual: () => (
-        <div className="relative w-full max-w-lg aspect-[4/3] rounded-3xl bg-[#08152F] border-2 border-[#142A58] p-6 shadow-2xl flex items-center justify-center overflow-hidden">
+        <div className={`relative w-full max-w-lg aspect-[4/3] rounded-3xl p-6 shadow-xl flex items-center justify-center overflow-hidden border transition-colors ${
+          isLight ? 'bg-slate-50/80 border-slate-200' : 'bg-[#08152F] border-2 border-[#142A58]'
+        }`}>
           {/* Authentic merchant callout */}
-          <div className="absolute top-4 left-4 flex items-center gap-2.5 p-2 rounded-2xl bg-[#020F2E]/90 border border-[#14294F] backdrop-blur-md z-10">
+          <div className={`absolute top-4 left-4 flex items-center gap-2.5 p-2 rounded-2xl border backdrop-blur-md z-10 transition-colors ${
+            isLight ? 'bg-white/95 border-slate-200 shadow-md' : 'bg-[#020F2E]/90 border-[#14294F]'
+          }`}>
             <img
               src="/merchants/emeka.jpg"
               alt="Emeka Chukwu - Computer Village"
               className="w-9 h-9 rounded-full object-cover ring-2 ring-[#00DF8F]"
             />
             <div className="flex flex-col">
-              <span className="text-[11px] font-bold text-white">Emeka Chukwu</span>
-              <span className="text-[9px] text-[#00DF8F] font-mono">Computer Village, Lagos</span>
+              <span className={`text-[11px] font-bold ${isLight ? 'text-slate-900' : 'text-white'}`}>Emeka Chukwu</span>
+              <span className={`text-[9px] font-mono ${isLight ? 'text-emerald-700' : 'text-[#00DF8F]'}`}>Computer Village, Lagos</span>
             </div>
           </div>
 
-          {/* Apex POS Mockup */}
-          <div className="w-56 rounded-3xl bg-[#020B1D] border-2 border-[#00DF8F] p-4 flex flex-col items-center gap-3 shadow-2xl mt-4">
+          {/* Apex POS Mockup - Hardware device stays pristine dark */}
+          <div className="w-56 rounded-3xl bg-[#020B1D] border-2 border-[#00DF8F] p-4 flex flex-col items-center gap-3 shadow-2xl mt-4 dark-hardware preserve-dark">
             <div className="w-32 h-1.5 rounded-full bg-slate-700 shadow-inner" />
             <div className="w-full p-3 rounded-2xl bg-[#0A1B3D] border border-[#14294F] text-center flex flex-col items-center gap-1">
               <span className="text-[10px] font-mono text-[#00DF8F] uppercase font-bold">
@@ -156,7 +166,7 @@ export const StickyToolsSection: React.FC<StickyToolsSectionProps> = ({
               ✓
             </div>
             <div className="flex flex-col">
-              <span className="text-xs font-bold">Transaction Successful</span>
+              <span className="text-xs font-bold text-slate-900">Transaction Successful</span>
               <span className="text-[10px] text-slate-500 font-mono">0.4% Capped Fee</span>
             </div>
           </motion.div>
@@ -176,9 +186,11 @@ export const StickyToolsSection: React.FC<StickyToolsSectionProps> = ({
       secondaryAction: () => onNavigate('personal'),
       accentColor: '#0D95FE',
       renderVisual: () => (
-        <div className="relative w-full max-w-lg aspect-[4/3] rounded-3xl bg-[#08152F] border-2 border-[#142A58] p-6 shadow-2xl flex items-center justify-center overflow-hidden">
-          {/* Card Mockup */}
-          <div className="w-72 h-44 rounded-2xl p-4 bg-gradient-to-br from-[#0D95FE] via-[#05437B] to-[#011B38] border border-white/20 text-white shadow-2xl flex flex-col justify-between relative transform -rotate-3 hover:rotate-0 transition-transform duration-300">
+        <div className={`relative w-full max-w-lg aspect-[4/3] rounded-3xl p-6 shadow-xl flex items-center justify-center overflow-hidden border transition-colors ${
+          isLight ? 'bg-slate-50/80 border-slate-200' : 'bg-[#08152F] border-2 border-[#142A58]'
+        }`}>
+          {/* Card Mockup - Preserves rich metallic gradient */}
+          <div className="w-72 h-44 rounded-2xl p-4 bg-gradient-to-br from-[#0D95FE] via-[#05437B] to-[#011B38] border border-white/20 text-white shadow-2xl flex flex-col justify-between relative transform -rotate-3 hover:rotate-0 transition-transform duration-300 dark-hardware preserve-dark">
             <div className="flex items-center justify-between">
               <span className="font-extrabold text-sm tracking-wider">Axoora Business</span>
               <span className="material-symbols-outlined text-[20px]">contactless</span>
@@ -194,13 +206,15 @@ export const StickyToolsSection: React.FC<StickyToolsSectionProps> = ({
           </div>
 
           {/* Floating Pill */}
-          <div className="absolute bottom-6 right-6 p-3 rounded-2xl bg-[#0B1A3A] border border-[#14294F] text-white shadow-xl flex items-center gap-2.5">
+          <div className={`absolute bottom-6 right-6 p-3 rounded-2xl border shadow-xl flex items-center gap-2.5 transition-colors ${
+            isLight ? 'bg-white border-slate-200' : 'bg-[#0B1A3A] border-[#14294F]'
+          }`}>
             <div className="w-8 h-8 rounded-full bg-[#00DF8F]/20 text-[#00DF8F] flex items-center justify-center">
               💳
             </div>
             <div className="flex flex-col">
-              <span className="text-xs font-bold">Payment Confirmed</span>
-              <span className="text-[10px] font-mono text-[#00DF8F]">₦2,500 Fuel Expense</span>
+              <span className={`text-xs font-bold ${isLight ? 'text-slate-900' : 'text-white'}`}>Payment Confirmed</span>
+              <span className={`text-[10px] font-mono ${isLight ? 'text-emerald-700' : 'text-[#00DF8F]'}`}>₦2,500 Fuel Expense</span>
             </div>
           </div>
         </div>
@@ -219,28 +233,34 @@ export const StickyToolsSection: React.FC<StickyToolsSectionProps> = ({
       secondaryAction: () => onNavigate('business'),
       accentColor: '#F2A93B',
       renderVisual: () => (
-        <div className="relative w-full max-w-lg aspect-[4/3] rounded-3xl bg-[#08152F] border-2 border-[#142A58] p-6 shadow-2xl flex items-center justify-center overflow-hidden">
+        <div className={`relative w-full max-w-lg aspect-[4/3] rounded-3xl p-6 shadow-xl flex items-center justify-center overflow-hidden border transition-colors ${
+          isLight ? 'bg-slate-50/80 border-slate-200' : 'bg-[#08152F] border-2 border-[#142A58]'
+        }`}>
           {/* Authentic merchant callout */}
-          <div className="absolute top-4 right-4 flex items-center gap-2.5 p-2 rounded-2xl bg-[#020F2E]/90 border border-[#14294F] backdrop-blur-md z-10">
+          <div className={`absolute top-4 right-4 flex items-center gap-2.5 p-2 rounded-2xl border backdrop-blur-md z-10 transition-colors ${
+            isLight ? 'bg-white/95 border-slate-200 shadow-md' : 'bg-[#020F2E]/90 border-[#14294F]'
+          }`}>
             <img
               src="/merchants/bilkisu.jpg"
               alt="Hajiya Bilkisu Danladi"
               className="w-9 h-9 rounded-full object-cover ring-2 ring-[#00DF8F]"
             />
             <div className="flex flex-col text-right">
-              <span className="text-[11px] font-bold text-white">Hajiya Bilkisu</span>
-              <span className="text-[9px] text-[#00DF8F] font-mono">Dawanau Market, Kano</span>
+              <span className={`text-[11px] font-bold ${isLight ? 'text-slate-900' : 'text-white'}`}>Hajiya Bilkisu</span>
+              <span className={`text-[9px] font-mono ${isLight ? 'text-emerald-700' : 'text-[#00DF8F]'}`}>Dawanau Market, Kano</span>
             </div>
           </div>
 
-          <div className="p-6 rounded-3xl bg-[#0A1B3D] border border-[#193566] text-center flex flex-col items-center gap-4 max-w-sm mt-4">
+          <div className={`p-6 rounded-3xl border text-center flex flex-col items-center gap-4 max-w-sm mt-4 shadow-md transition-colors ${
+            isLight ? 'bg-white border-slate-200' : 'bg-[#0A1B3D] border-[#193566]'
+          }`}>
             <span className="text-xs font-mono font-bold text-[#F2A93B] uppercase">
               Halal Working Capital
             </span>
             <div className="relative w-28 h-28 flex items-center justify-center">
               <svg className="w-full h-full transform -rotate-90" viewBox="0 0 36 36">
                 <path
-                  className="text-[#14294F]"
+                  className={isLight ? 'text-slate-200' : 'text-[#14294F]'}
                   strokeWidth="3.5"
                   stroke="currentColor"
                   fill="none"
@@ -257,13 +277,13 @@ export const StickyToolsSection: React.FC<StickyToolsSectionProps> = ({
                 />
               </svg>
               <div className="absolute flex flex-col items-center">
-                <span className="text-2xl font-black text-white font-mono">75%</span>
+                <span className={`text-2xl font-black font-mono ${isLight ? 'text-slate-900' : 'text-white'}`}>75%</span>
                 <span className="text-[9px] font-bold text-[#00DF8F]">HEALTHY</span>
               </div>
             </div>
-            <div className="flex items-center gap-2 text-xs text-[#A8BBD6]">
+            <div className={`flex items-center gap-2 text-xs ${isLight ? 'text-slate-600' : 'text-[#A8BBD6]'}`}>
               <span>Repayment Progress</span>
-              <span className="font-bold text-white">· Zero Usury</span>
+              <span className={`font-bold ${isLight ? 'text-emerald-700' : 'text-white'}`}>· Zero Usury</span>
             </div>
           </div>
         </div>
@@ -282,20 +302,26 @@ export const StickyToolsSection: React.FC<StickyToolsSectionProps> = ({
       secondaryAction: () => onNavigate('business'),
       accentColor: '#00DF8F',
       renderVisual: () => (
-        <div className="relative w-full max-w-lg aspect-[4/3] rounded-3xl bg-[#08152F] border-2 border-[#142A58] p-6 shadow-2xl flex items-center justify-center overflow-hidden">
-          <div className="w-full max-w-xs p-5 rounded-3xl bg-[#0A1B3D] border border-[#193566] flex flex-col gap-3 shadow-xl">
+        <div className={`relative w-full max-w-lg aspect-[4/3] rounded-3xl p-6 shadow-xl flex items-center justify-center overflow-hidden border transition-colors ${
+          isLight ? 'bg-slate-50/80 border-slate-200' : 'bg-[#08152F] border-2 border-[#142A58]'
+        }`}>
+          <div className={`w-full max-w-xs p-5 rounded-3xl border flex flex-col gap-3 shadow-xl transition-colors ${
+            isLight ? 'bg-white border-slate-200' : 'bg-[#0A1B3D] border-[#193566]'
+          }`}>
             <div className="flex items-center justify-between">
-              <span className="text-xs font-mono text-[#00DF8F] font-bold">SAVINGS VAULT</span>
+              <span className={`text-xs font-mono font-bold ${isLight ? 'text-emerald-700' : 'text-[#00DF8F]'}`}>SAVINGS VAULT</span>
               <span className="material-symbols-outlined text-[#00DF8F] text-[18px]">lock</span>
             </div>
-            <span className="text-3xl font-black text-white font-mono tracking-tight">
+            <span className={`text-3xl font-black font-mono tracking-tight ${isLight ? 'text-slate-900' : 'text-white'}`}>
               ₦1,854,097.20
             </span>
-            <div className="p-2.5 rounded-xl bg-[#020B1D] border border-[#14294F] flex items-center justify-between text-xs">
-              <span className="text-[#A8BBD6]">Shop Rent Goal</span>
-              <span className="font-bold text-[#00DF8F]">₦2,000,000.00</span>
+            <div className={`p-2.5 rounded-xl border flex items-center justify-between text-xs transition-colors ${
+              isLight ? 'bg-slate-100 border-slate-200' : 'bg-[#020B1D] border-[#14294F]'
+            }`}>
+              <span className={isLight ? 'text-slate-600' : 'text-[#A8BBD6]'}>Shop Rent Goal</span>
+              <span className={`font-bold ${isLight ? 'text-emerald-700' : 'text-[#00DF8F]'}`}>₦2,000,000.00</span>
             </div>
-            <span className="text-[10px] text-[#7B9CD2] font-mono">
+            <span className={`text-[10px] font-mono ${isLight ? 'text-slate-500' : 'text-[#7B9CD2]'}`}>
               ✓ On track, keep going!
             </span>
           </div>
@@ -315,11 +341,15 @@ export const StickyToolsSection: React.FC<StickyToolsSectionProps> = ({
       secondaryAction: () => onNavigate('business'),
       accentColor: '#0D95FE',
       renderVisual: () => (
-        <div className="relative w-full max-w-lg aspect-[4/3] rounded-3xl bg-[#08152F] border-2 border-[#142A58] p-6 shadow-2xl flex items-center justify-center overflow-hidden">
-          <div className="w-full max-w-sm p-4 rounded-3xl bg-[#0A1B3D] border border-[#193566] flex flex-col gap-2.5 shadow-xl">
-            <div className="flex items-center justify-between pb-2 border-b border-[#14294F]">
-              <span className="text-xs font-bold text-white">Wuse Supermarket Hub</span>
-              <span className="text-[10px] font-mono text-[#00DF8F]">LIVE TILL #04</span>
+        <div className={`relative w-full max-w-lg aspect-[4/3] rounded-3xl p-6 shadow-xl flex items-center justify-center overflow-hidden border transition-colors ${
+          isLight ? 'bg-slate-50/80 border-slate-200' : 'bg-[#08152F] border-2 border-[#142A58]'
+        }`}>
+          <div className={`w-full max-w-sm p-4 rounded-3xl border flex flex-col gap-2.5 shadow-xl transition-colors ${
+            isLight ? 'bg-white border-slate-200' : 'bg-[#0A1B3D] border-[#193566]'
+          }`}>
+            <div className={`flex items-center justify-between pb-2 border-b ${isLight ? 'border-slate-200' : 'border-[#14294F]'}`}>
+              <span className={`text-xs font-bold ${isLight ? 'text-slate-900' : 'text-white'}`}>Wuse Supermarket Hub</span>
+              <span className={`text-[10px] font-mono ${isLight ? 'text-emerald-700' : 'text-[#00DF8F]'}`}>LIVE TILL #04</span>
             </div>
             <div className="space-y-1.5">
               {[
@@ -329,12 +359,14 @@ export const StickyToolsSection: React.FC<StickyToolsSectionProps> = ({
               ].map((item, idx) => (
                 <div
                   key={idx}
-                  className="p-2 rounded-xl bg-[#020B1D] border border-[#14294F] flex items-center justify-between text-xs"
+                  className={`p-2 rounded-xl border flex items-center justify-between text-xs transition-colors ${
+                    isLight ? 'bg-slate-50 border-slate-200' : 'bg-[#020B1D] border-[#14294F]'
+                  }`}
                 >
-                  <span className="text-white font-medium">{item.name}</span>
+                  <span className={`font-medium ${isLight ? 'text-slate-900' : 'text-white'}`}>{item.name}</span>
                   <div className="flex items-center gap-3">
-                    <span className="text-[10px] font-mono text-[#7B9CD2]">{item.qty}</span>
-                    <span className="font-bold text-[#00DF8F] font-mono">{item.price}</span>
+                    <span className={`text-[10px] font-mono ${isLight ? 'text-slate-500' : 'text-[#7B9CD2]'}`}>{item.qty}</span>
+                    <span className={`font-bold font-mono ${isLight ? 'text-emerald-700' : 'text-[#00DF8F]'}`}>{item.price}</span>
                   </div>
                 </div>
               ))}
@@ -461,25 +493,31 @@ export const StickyToolsSection: React.FC<StickyToolsSectionProps> = ({
                 {tool.eyebrow}
               </span>
 
-              <h3 className="text-3xl sm:text-4xl font-extrabold text-[#F2F5F9] tracking-tight leading-tight">
+              <h3 className={`text-3xl sm:text-4xl font-extrabold tracking-tight leading-tight ${
+                isLight ? 'text-slate-900' : 'text-[#F2F5F9]'
+              }`}>
                 {tool.title}
               </h3>
 
-              <p className="text-base sm:text-lg text-[#A8BBD6] leading-relaxed max-w-xl">
+              <p className={`text-base sm:text-lg leading-relaxed max-w-xl ${
+                isLight ? 'text-slate-600' : 'text-[#A8BBD6]'
+              }`}>
                 {tool.description}
               </p>
 
               <div className="flex flex-wrap items-center gap-4 pt-4">
                 <button
                   onClick={tool.primaryAction}
-                  className="px-6 py-3 rounded-full bg-[#0D95FE] text-[#00284D] hover:bg-[#00DF8F] hover:text-[#003825] font-bold text-sm transition-all cursor-pointer shadow-md"
+                  className="px-6 py-3 rounded-full bg-[#0D95FE] text-white hover:bg-[#00DF8F] hover:text-[#003825] font-bold text-sm transition-all cursor-pointer shadow-md"
                 >
                   {tool.primaryCta}
                 </button>
 
                 <button
                   onClick={tool.secondaryAction}
-                  className="text-sm font-semibold text-[#00DF8F] hover:underline cursor-pointer flex items-center gap-1"
+                  className={`text-sm font-semibold hover:underline cursor-pointer flex items-center gap-1 ${
+                    isLight ? 'text-blue-600' : 'text-[#00DF8F]'
+                  }`}
                 >
                   {tool.secondaryCta}
                 </button>

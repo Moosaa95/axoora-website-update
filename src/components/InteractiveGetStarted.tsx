@@ -3,6 +3,7 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useCms } from '../context/CmsContext';
+import { useTheme } from '../context/ThemeContext';
 import { AppleAppStoreBadge, GooglePlayBadge } from './StoreBadges';
 
 interface InteractiveGetStartedProps {
@@ -28,10 +29,13 @@ interface StepData {
 }
 
 export const InteractiveGetStarted: React.FC<InteractiveGetStartedProps> = ({
+  isLight: propIsLight,
   onOpenWaitlist,
   onOpenDownloadApp,
   onOpenWhatsApp,
 }) => {
+  const { theme } = useTheme();
+  const isLight = propIsLight ?? theme === 'light';
   const sectionRef = useRef<HTMLElement>(null);
   const [activeStep, setActiveStep] = useState<number>(1);
   const [progress, setProgress] = useState<number>(0);
@@ -152,7 +156,9 @@ export const InteractiveGetStarted: React.FC<InteractiveGetStartedProps> = ({
     <section
       ref={sectionRef}
       id="how-to-get-started"
-      className="relative w-full h-[360vh] lg:h-[400vh] bg-[#020F2E] border-b border-[#14294F] text-[#F2F5F9]"
+      className={`relative w-full h-[360vh] lg:h-[400vh] border-b transition-colors ${
+        isLight ? 'bg-[#F8FAFC] border-slate-200 text-slate-900' : 'bg-[#020F2E] border-[#14294F] text-[#F2F5F9]'
+      }`}
     >
       {/* Ambient background light */}
       <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[700px] h-[350px] bg-[#0D95FE]/5 rounded-full blur-[140px] pointer-events-none" />
@@ -170,16 +176,18 @@ export const InteractiveGetStarted: React.FC<InteractiveGetStartedProps> = ({
               <span className="text-[10px] sm:text-xs font-mono font-bold uppercase tracking-wider text-[#0D95FE]">
                 ONBOARDING IN 4 STEPS // ZERO BRANCH VISITS
               </span>
-              <h2 className="text-xl sm:text-2xl lg:text-3xl font-extrabold text-[#F2F5F9] tracking-tight">
+              <h2 className={`text-xl sm:text-2xl lg:text-3xl font-extrabold tracking-tight ${isLight ? 'text-slate-900' : 'text-[#F2F5F9]'}`}>
                 How to Get Started
               </h2>
-              <p className="text-xs sm:text-sm text-[#A8BBD6] hidden sm:block">
+              <p className={`text-xs sm:text-sm hidden sm:block ${isLight ? 'text-slate-600' : 'text-[#A8BBD6]'}`}>
                 Scroll down to see each step unfold sequentially before proceeding.
               </p>
             </div>
 
             {/* Step Checkpoints Navigator (Touch & Click Friendly) */}
-            <div className="flex items-center justify-center gap-1 sm:gap-1.5 bg-[#05112A] border border-[#14294F] p-1 rounded-full self-center md:self-auto shadow-inner max-w-full overflow-x-auto no-scrollbar">
+            <div className={`flex items-center justify-center gap-1 sm:gap-1.5 p-1 rounded-full self-center md:self-auto shadow-inner max-w-full overflow-x-auto no-scrollbar border ${
+              isLight ? 'bg-white border-slate-200 shadow-sm' : 'bg-[#05112A] border-[#14294F]'
+            }`}>
               {[1, 2, 3, 4].map((s) => {
                 const isCurrent = activeStep === s;
                 const isPassed = activeStep > s;
@@ -192,6 +200,8 @@ export const InteractiveGetStarted: React.FC<InteractiveGetStartedProps> = ({
                         ? 'bg-[#0D95FE] text-[#00284D] font-bold shadow-md'
                         : isPassed
                         ? 'bg-[#00DF8F]/20 text-[#00DF8F] border border-[#00DF8F]/30'
+                        : isLight
+                        ? 'text-slate-600 hover:text-slate-900'
                         : 'text-[#A8BBD6] hover:text-white'
                     }`}
                   >
@@ -206,7 +216,9 @@ export const InteractiveGetStarted: React.FC<InteractiveGetStartedProps> = ({
           </div>
 
           {/* Continuous Scroll Progress Bar */}
-          <div className="w-full h-1 sm:h-1.5 rounded-full bg-[#05112A] border border-[#14294F] overflow-hidden">
+          <div className={`w-full h-1 sm:h-1.5 rounded-full overflow-hidden border ${
+            isLight ? 'bg-slate-200 border-slate-300' : 'bg-[#05112A] border-[#14294F]'
+          }`}>
             <motion.div
               className="h-full bg-gradient-to-r from-[#0D95FE] via-[#00DF8F] to-[#F2A93B]"
               style={{ width: `${Math.min(Math.max(progress * 100, 3), 100)}%` }}
@@ -220,7 +232,9 @@ export const InteractiveGetStarted: React.FC<InteractiveGetStartedProps> = ({
         {/* ========================================================================= */}
         <div className="lg:hidden flex-1 flex flex-col justify-center gap-3 my-auto py-2 w-full max-w-md mx-auto">
           {/* Active Step Card for Mobile */}
-          <div className="p-3.5 rounded-2xl bg-[#0A1B3D] border border-[#0D95FE] shadow-lg flex flex-col gap-1.5">
+          <div className={`p-3.5 rounded-2xl shadow-lg flex flex-col gap-1.5 border ${
+            isLight ? 'bg-white border-slate-200 text-slate-900 shadow-slate-200/50' : 'bg-[#0A1B3D] border-[#0D95FE] text-white'
+          }`}>
             <div className="flex items-center justify-between">
               <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-[#0D95FE]">
                 {currentStepData.tag}
@@ -230,31 +244,33 @@ export const InteractiveGetStarted: React.FC<InteractiveGetStartedProps> = ({
               </span>
             </div>
 
-            <h3 className="font-bold text-sm sm:text-base text-white leading-snug">
+            <h3 className={`font-bold text-sm sm:text-base leading-snug ${isLight ? 'text-slate-900' : 'text-white'}`}>
               {currentStepData.title}
             </h3>
 
-            <p className="text-xs text-[#A8BBD6] leading-relaxed">
+            <p className={`text-xs leading-relaxed ${isLight ? 'text-slate-600' : 'text-[#A8BBD6]'}`}>
               {currentStepData.desc}
             </p>
 
             {/* User Endorsement Chip */}
-            <div className="mt-1 flex items-center gap-2 p-1.5 rounded-xl bg-[#020B1D]/80 border border-[#14294F]">
+            <div className={`mt-1 flex items-center gap-2 p-1.5 rounded-xl border ${
+              isLight ? 'bg-slate-100 border-slate-200 text-slate-800' : 'bg-[#020B1D]/80 border-[#14294F] text-white'
+            }`}>
               <img
                 src={currentStepData.user.photo}
                 alt={currentStepData.user.name}
                 className="w-6 h-6 rounded-full object-cover ring-1 ring-[#00DF8F]/50 shrink-0"
               />
               <div className="flex items-center gap-1.5 text-[10px] overflow-hidden truncate">
-                <span className="font-semibold text-white truncate">{currentStepData.user.name}</span>
+                <span className={`font-semibold truncate ${isLight ? 'text-slate-900' : 'text-white'}`}>{currentStepData.user.name}</span>
                 <span className="text-[#00DF8F] font-mono shrink-0">({currentStepData.user.location})</span>
-                <span className="text-[#A8BBD6] italic truncate">"{currentStepData.user.comment}"</span>
+                <span className={`italic truncate ${isLight ? 'text-slate-500' : 'text-[#A8BBD6]'}`}>"{currentStepData.user.comment}"</span>
               </div>
             </div>
           </div>
 
-          {/* Interactive Mobile Smartphone Preview Screen */}
-          <div className="relative w-full max-w-[290px] h-[230px] sm:h-[250px] mx-auto rounded-[32px] p-[4px] bg-gradient-to-b from-[#2A4374] via-[#142A58] to-[#0A1B3D] shadow-xl border border-[#14294F]">
+          {/* Interactive Mobile Smartphone Preview Screen (Dark hardware preservation) */}
+          <div className="dark-hardware preserve-dark relative w-full max-w-[290px] h-[230px] sm:h-[250px] mx-auto rounded-[32px] p-[4px] bg-gradient-to-b from-[#2A4374] via-[#142A58] to-[#0A1B3D] shadow-xl border border-[#14294F]">
             <div className="w-full h-full rounded-[28px] bg-[#020B1D] p-3 flex flex-col justify-between overflow-hidden shadow-inner text-white">
               
               {/* Mini Status Bar */}
@@ -456,8 +472,8 @@ export const InteractiveGetStarted: React.FC<InteractiveGetStartedProps> = ({
           
           {/* Left Column: Sequential Step Cards with Progress Highlight */}
           <div className="col-span-7 flex flex-col gap-3 relative">
-            {/* Glowing Vertical Connector Line */}
-            <div className="absolute left-5 top-6 bottom-6 w-0.5 bg-[#14294F] -z-0">
+            {/* Continuous Vertical Connector Spine Line across gaps */}
+            <div className="absolute left-[30px] -translate-x-1/2 top-5 bottom-5 w-0.5 bg-[#14294F] z-0">
               <motion.div
                 className="w-full bg-[#0D95FE]"
                 style={{ height: `${Math.min(Math.max(progress * 100, 5), 100)}%` }}
@@ -478,7 +494,11 @@ export const InteractiveGetStarted: React.FC<InteractiveGetStartedProps> = ({
                     animate={{ opacity: 1 }}
                     transition={{ duration: 0.2 }}
                     onClick={() => handleStepClick(item.num)}
-                    className="p-3.5 rounded-2xl border border-[#0D95FE] bg-[#0A1B3D] shadow-xl shadow-[#0D95FE]/10 relative overflow-hidden flex flex-col gap-1.5 cursor-pointer"
+                    className={`pt-3.5 pb-3.5 pl-4 pr-3.5 rounded-2xl border relative overflow-hidden flex flex-col gap-1.5 cursor-pointer shadow-xl ${
+                      isLight
+                        ? 'bg-white border-[#0D95FE] text-slate-900 shadow-blue-500/10'
+                        : 'bg-[#0A1B3D] border-[#0D95FE] text-white shadow-[#0D95FE]/10'
+                    }`}
                   >
                     {/* Step inner progress bar synced to scroll within this step */}
                     <motion.div
@@ -486,9 +506,19 @@ export const InteractiveGetStarted: React.FC<InteractiveGetStartedProps> = ({
                       style={{ width: `${stepFraction * 100}%` }}
                     />
 
+                    {/* Connecting line entering from the top of the card into the circle */}
+                    {item.num > 1 && (
+                      <div className="absolute left-[30px] -translate-x-1/2 top-0 h-[15px] w-0.5 bg-[#0D95FE] z-10" />
+                    )}
+
+                    {/* Connecting line exiting the bottom of the circle towards the card bottom */}
+                    {item.num < steps.length && (
+                      <div className="absolute left-[30px] -translate-x-1/2 top-[41px] bottom-0 w-0.5 bg-gradient-to-b from-[#0D95FE] to-[#14294F]/40 z-10" />
+                    )}
+
                     <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-2.5">
-                        <div className="w-7 h-7 rounded-full flex items-center justify-center font-bold text-xs font-mono shrink-0 bg-[#0D95FE] text-[#00284D] shadow-md shadow-[#0D95FE]/30">
+                      <div className="flex items-center gap-3">
+                        <div className="relative z-20 w-7 h-7 rounded-full flex items-center justify-center font-bold text-xs font-mono shrink-0 bg-[#0D95FE] text-[#00284D] shadow-md shadow-[#0D95FE]/30 ring-2 ring-[#0A1B3D]">
                           {`0${item.num}`}
                         </div>
 
@@ -496,7 +526,7 @@ export const InteractiveGetStarted: React.FC<InteractiveGetStartedProps> = ({
                           <span className="text-[10px] font-mono text-[#0D95FE] uppercase font-bold leading-none">
                             {item.tag}
                           </span>
-                          <h4 className="font-bold text-sm lg:text-base text-white leading-snug">
+                          <h4 className={`font-bold text-sm lg:text-base leading-snug ${isLight ? 'text-slate-900' : 'text-white'}`}>
                             {item.title}
                           </h4>
                         </div>
@@ -508,21 +538,23 @@ export const InteractiveGetStarted: React.FC<InteractiveGetStartedProps> = ({
                       </span>
                     </div>
 
-                    <p className="text-xs lg:text-sm text-[#A8BBD6] leading-relaxed pl-9">
+                    <p className={`text-xs lg:text-sm leading-relaxed pl-10 ${isLight ? 'text-slate-600' : 'text-[#A8BBD6]'}`}>
                       {item.desc}
                     </p>
 
                     {/* Real Human User Endorsement Pill (Grounding the Brand in Reality) */}
-                    <div className="ml-9 mt-0.5 flex items-center gap-2 p-1.5 rounded-xl bg-[#020B1D]/80 border border-[#14294F]/80">
+                    <div className={`ml-10 mt-0.5 flex items-center gap-2 p-1.5 rounded-xl border ${
+                      isLight ? 'bg-slate-100 border-slate-200 text-slate-800' : 'bg-[#020B1D]/80 border-[#14294F]/80 text-white'
+                    }`}>
                       <img
                         src={item.user.photo}
                         alt={item.user.name}
                         className="w-6 h-6 rounded-full object-cover ring-1 ring-[#00DF8F]/50 shrink-0"
                       />
                       <div className="flex items-center gap-1.5 text-[11px] overflow-hidden">
-                        <span className="font-semibold text-white truncate">{item.user.name}</span>
+                        <span className={`font-semibold truncate ${isLight ? 'text-slate-900' : 'text-white'}`}>{item.user.name}</span>
                         <span className="text-[#00DF8F] font-mono text-[10px] shrink-0">({item.user.location})</span>
-                        <span className="text-[#A8BBD6] italic truncate">"{item.user.comment}"</span>
+                        <span className={`italic truncate ${isLight ? 'text-slate-500' : 'text-[#A8BBD6]'}`}>"{item.user.comment}"</span>
                       </div>
                     </div>
                   </motion.div>
@@ -535,16 +567,42 @@ export const InteractiveGetStarted: React.FC<InteractiveGetStartedProps> = ({
                   key={item.num}
                   layout
                   onClick={() => handleStepClick(item.num)}
-                  className={`py-2 px-3 rounded-xl border transition-all cursor-pointer flex items-center justify-between gap-3 ${
+                  className={`py-2.5 pl-4 pr-3.5 rounded-xl border transition-all cursor-pointer flex items-center justify-between gap-3 relative overflow-hidden ${
                     isDone
-                      ? 'bg-[#05112A]/80 border-[#00DF8F]/30 hover:border-[#00DF8F]/60 hover:bg-[#071738]'
+                      ? isLight
+                        ? 'bg-white border-emerald-300 text-slate-900 hover:border-emerald-400 hover:bg-slate-50 shadow-xs'
+                        : 'bg-[#05112A]/80 border-[#00DF8F]/30 hover:border-[#00DF8F]/60 hover:bg-[#071738]'
+                      : isLight
+                      ? 'bg-slate-50 border-slate-200 text-slate-600 hover:border-blue-300 hover:bg-white'
                       : 'bg-[#05112A]/40 border-[#14294F] hover:border-[#0D95FE]/40 hover:bg-[#071738]'
                   }`}
                 >
-                  <div className="flex items-center gap-2.5 min-w-0">
+                  {/* Connecting line entering from the top of the card into the circle */}
+                  {item.num > 1 && (
                     <div
-                      className={`w-6 h-6 rounded-full flex items-center justify-center font-bold text-[11px] font-mono shrink-0 ${
-                        isDone ? 'bg-[#00DF8F] text-[#003825]' : 'bg-[#14294F] text-[#A8BBD6]'
+                      className={`absolute left-[30px] -translate-x-1/2 top-0 h-[11px] w-0.5 z-10 ${
+                        isDone ? 'bg-[#00DF8F]' : isLight ? 'bg-slate-200' : 'bg-[#14294F]'
+                      }`}
+                    />
+                  )}
+
+                  {/* Connecting line exiting the bottom of the circle towards the card bottom */}
+                  {item.num < steps.length && (
+                    <div
+                      className={`absolute left-[30px] -translate-x-1/2 top-[37px] bottom-0 w-0.5 z-10 ${
+                        isDone ? 'bg-[#00DF8F]' : isLight ? 'bg-slate-200' : 'bg-[#14294F]'
+                      }`}
+                    />
+                  )}
+
+                  <div className="flex items-center gap-3 min-w-0">
+                    <div
+                      className={`relative z-20 w-7 h-7 rounded-full flex items-center justify-center font-bold text-xs font-mono shrink-0 ${
+                        isDone
+                          ? 'bg-[#00DF8F] text-[#003825] shadow-sm ring-2 ring-[#020F2E]'
+                          : isLight
+                          ? 'bg-slate-200 text-slate-600'
+                          : 'bg-[#14294F] text-[#A8BBD6]'
                       }`}
                     >
                       {isDone ? '✓' : `0${item.num}`}
@@ -554,7 +612,9 @@ export const InteractiveGetStarted: React.FC<InteractiveGetStartedProps> = ({
                       <span className="text-[10px] font-mono text-[#0D95FE] font-bold shrink-0">
                         {`0${item.num}.`}
                       </span>
-                      <h4 className="font-semibold text-xs lg:text-sm text-[#A8BBD6] hover:text-white truncate">
+                      <h4 className={`font-semibold text-xs lg:text-sm truncate ${
+                        isLight ? 'text-slate-700 hover:text-slate-900' : 'text-[#A8BBD6] hover:text-white'
+                      }`}>
                         {item.title}
                       </h4>
                     </div>
@@ -563,8 +623,8 @@ export const InteractiveGetStarted: React.FC<InteractiveGetStartedProps> = ({
                   <span
                     className={`text-[10px] font-mono px-2 py-0.5 rounded-full shrink-0 ${
                       isDone
-                        ? 'bg-[#00DF8F]/15 text-[#00DF8F] font-medium'
-                        : 'bg-[#14294F]/60 text-[#7B9CD2]'
+                        ? isLight ? 'bg-emerald-100 text-emerald-800 font-semibold' : 'bg-[#00DF8F]/15 text-[#00DF8F] font-medium'
+                        : isLight ? 'bg-slate-200 text-slate-600' : 'bg-[#14294F]/60 text-[#7B9CD2]'
                     }`}
                   >
                     {isDone ? '✓ Done' : `Step 0${item.num}`}
@@ -578,10 +638,12 @@ export const InteractiveGetStarted: React.FC<InteractiveGetStartedProps> = ({
               <AppleAppStoreBadge
                 onClick={onOpenDownloadApp}
                 className="py-2"
+                isLight={isLight}
               />
               <GooglePlayBadge
                 onClick={onOpenDownloadApp}
                 className="py-2"
+                isLight={isLight}
               />
 
               <button
@@ -595,7 +657,11 @@ export const InteractiveGetStarted: React.FC<InteractiveGetStartedProps> = ({
               {onOpenWhatsApp && (
                 <button
                   onClick={onOpenWhatsApp}
-                  className="px-3.5 py-2 rounded-xl text-xs font-semibold text-[#A8BBD6] hover:text-[#00DF8F] transition-colors flex items-center gap-1.5 cursor-pointer border border-[#14294F] bg-[#0A1B3D]"
+                  className={`px-3.5 py-2 rounded-xl text-xs font-semibold transition-colors flex items-center gap-1.5 cursor-pointer border ${
+                    isLight
+                      ? 'bg-white hover:bg-slate-100 text-slate-700 border-slate-200 shadow-xs'
+                      : 'bg-[#0A1B3D] text-[#A8BBD6] hover:text-[#00DF8F] border-[#14294F]'
+                  }`}
                 >
                   <span className="material-symbols-outlined text-[16px] text-[#00DF8F]">chat</span>
                   <span>WhatsApp Banking</span>
@@ -604,9 +670,9 @@ export const InteractiveGetStarted: React.FC<InteractiveGetStartedProps> = ({
             </div>
           </div>
 
-          {/* Right Column: Dynamic Interactive Smartphone synced to Active Step with Real People & Hardware */}
+          {/* Right Column: Dynamic Interactive Smartphone synced to Active Step with Real People & Hardware (Dark hardware preservation) */}
           <div className="col-span-5 flex justify-center w-full">
-            <div className="relative w-72 lg:w-80 h-[410px] lg:h-[425px] rounded-[40px] p-[5px] bg-gradient-to-b from-[#2A4374] via-[#142A58] to-[#0A1B3D] shadow-2xl border-2 border-[#14294F]">
+            <div className="dark-hardware preserve-dark relative w-72 lg:w-80 h-[410px] lg:h-[425px] rounded-[40px] p-[5px] bg-gradient-to-b from-[#2A4374] via-[#142A58] to-[#0A1B3D] shadow-2xl border-2 border-[#14294F]">
               <div className="w-full h-full rounded-[35px] bg-[#020B1D] p-4 lg:p-5 flex flex-col justify-between overflow-hidden shadow-inner text-white">
                 
                 {/* Phone Status Bar */}

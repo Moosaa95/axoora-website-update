@@ -403,36 +403,50 @@ export const CustomerTestimonialCarousel: React.FC<CustomerTestimonialCarouselPr
                       <span className="text-xs font-mono text-[#00DF8F] uppercase tracking-wider font-semibold">
                         {currentItem.tradeType}
                       </span>
-                      <h3 className="text-xl sm:text-2xl font-bold text-[#F2F5F9] tracking-tight">
+                      <h3 className={`text-xl sm:text-2xl font-bold tracking-tight ${
+                        isLight ? 'text-slate-900' : 'text-[#F2F5F9]'
+                      }`}>
                         {currentItem.name}
                       </h3>
-                      <p className="text-xs text-[#A8BBD6] font-medium mt-0.5">
+                      <p className={`text-xs font-medium mt-0.5 ${
+                        isLight ? 'text-slate-600' : 'text-[#A8BBD6]'
+                      }`}>
                         {currentItem.business}
                       </p>
                     </div>
                   </div>
 
                   {/* Clean Location & Market Line (Unboxed) */}
-                  <div className="text-xs text-[#A8BBD6] flex flex-col gap-1 border-t border-[#14294F] pt-3">
-                    <div className="flex items-center gap-1.5 text-[#F2F5F9]">
+                  <div className={`text-xs flex flex-col gap-1 border-t pt-3 ${
+                    isLight ? 'border-slate-200 text-slate-600' : 'border-[#14294F] text-[#A8BBD6]'
+                  }`}>
+                    <div className={`flex items-center gap-1.5 ${isLight ? 'text-slate-900' : 'text-[#F2F5F9]'}`}>
                       <span className="material-symbols-outlined text-[15px] text-[#0D95FE]">storefront</span>
                       <span className="font-semibold">{currentItem.marketStall}</span>
                     </div>
-                    <div className="flex items-center gap-1.5 text-[#A8BBD6] text-[11px]">
+                    <div className={`flex items-center gap-1.5 text-[11px] ${isLight ? 'text-slate-500' : 'text-[#A8BBD6]'}`}>
                       <span className="material-symbols-outlined text-[14px]">location_on</span>
                       <span>{currentItem.location} · {currentItem.verifiedYear}</span>
                     </div>
                   </div>
 
                   {/* Merchant Human Realities */}
-                  <p className="text-xs text-[#A8BBD6] leading-relaxed italic bg-[#020F2E]/60 p-3 rounded-lg border border-[#14294F]/80">
+                  <p className={`text-xs leading-relaxed italic p-3 rounded-lg border ${
+                    isLight
+                      ? 'bg-slate-50 border-slate-200 text-slate-700'
+                      : 'bg-[#020F2E]/60 border-[#14294F]/80 text-[#A8BBD6]'
+                  }`}>
                     "{currentItem.humanDetail}"
                   </p>
 
                   {/* Physical Settlement Reference Button */}
                   <button
                     onClick={() => setShowReceiptModal(true)}
-                    className="flex items-center justify-between px-3 py-2 rounded-lg bg-[#020F2E] border border-[#14294F] text-xs text-[#A8BBD6] hover:text-[#00DF8F] hover:border-[#00DF8F]/50 transition-colors cursor-pointer text-left"
+                    className={`flex items-center justify-between px-3 py-2 rounded-lg border text-xs transition-colors cursor-pointer text-left ${
+                      isLight
+                        ? 'bg-slate-50 hover:bg-slate-100 border-slate-200 text-slate-700 hover:text-emerald-700'
+                        : 'bg-[#020F2E] border-[#14294F] text-[#A8BBD6] hover:text-[#00DF8F] hover:border-[#00DF8F]/50'
+                    }`}
                   >
                     <div className="flex items-center gap-2">
                       <span className="material-symbols-outlined text-[16px] text-[#00DF8F]">receipt_long</span>
@@ -451,14 +465,18 @@ export const CustomerTestimonialCarousel: React.FC<CustomerTestimonialCarouselPr
                   </div>
 
                   {/* Direct Human Quote */}
-                  <blockquote className="text-base sm:text-xl text-[#F2F5F9] font-normal leading-relaxed">
+                  <blockquote className={`text-base sm:text-xl font-normal leading-relaxed ${
+                    isLight ? 'text-slate-800' : 'text-[#F2F5F9]'
+                  }`}>
                     "{currentItem.quote}"
                   </blockquote>
 
                   {/* Verified Impact Metrics */}
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-4 border-t border-[#14294F]">
+                  <div className={`grid grid-cols-1 sm:grid-cols-2 gap-4 pt-4 border-t ${
+                    isLight ? 'border-slate-200' : 'border-[#14294F]'
+                  }`}>
                     <div>
-                      <span className="text-xs text-[#A8BBD6] block font-mono">
+                      <span className={`text-xs block font-mono ${isLight ? 'text-slate-500' : 'text-[#A8BBD6]'}`}>
                         {currentItem.metricLabel}
                       </span>
                       <span className="text-2xl font-extrabold text-[#00DF8F] font-mono tracking-tight">
@@ -466,10 +484,10 @@ export const CustomerTestimonialCarousel: React.FC<CustomerTestimonialCarouselPr
                       </span>
                     </div>
                     <div>
-                      <span className="text-xs text-[#A8BBD6] block font-mono">
+                      <span className={`text-xs block font-mono ${isLight ? 'text-slate-500' : 'text-[#A8BBD6]'}`}>
                         Dedicated Solution
                       </span>
-                      <span className="text-sm font-semibold text-[#F2F5F9]">
+                      <span className={`text-sm font-semibold ${isLight ? 'text-slate-900' : 'text-[#F2F5F9]'}`}>
                         {currentItem.productUsed}
                       </span>
                     </div>
@@ -480,7 +498,7 @@ export const CustomerTestimonialCarousel: React.FC<CustomerTestimonialCarouselPr
                     {currentItem.category === 'shop' ? (
                       <button
                         onClick={() => onNavigate?.('business')}
-                        className="px-5 py-2.5 rounded-lg bg-[#0D95FE] text-[#00325b] hover:bg-[#00DF8F] hover:text-[#003825] font-bold text-xs sm:text-sm transition-all cursor-pointer flex items-center gap-1.5 shadow-sm"
+                        className="px-5 py-2.5 rounded-lg bg-[#0D95FE] text-white hover:bg-[#00DF8F] hover:text-[#003825] font-bold text-xs sm:text-sm transition-all cursor-pointer flex items-center gap-1.5 shadow-sm"
                       >
                         <span>Open Shop Account</span>
                         <span className="material-symbols-outlined text-[16px]">arrow_forward</span>
@@ -488,7 +506,7 @@ export const CustomerTestimonialCarousel: React.FC<CustomerTestimonialCarouselPr
                     ) : (
                       <button
                         onClick={() => onNavigate?.('pos-agents')}
-                        className="px-5 py-2.5 rounded-lg bg-[#00DF8F] text-[#003825] hover:bg-[#0D95FE] hover:text-[#00325b] font-bold text-xs sm:text-sm transition-all cursor-pointer flex items-center gap-1.5 shadow-sm"
+                        className="px-5 py-2.5 rounded-lg bg-[#00DF8F] text-[#003825] hover:bg-[#0D95FE] hover:text-white font-bold text-xs sm:text-sm transition-all cursor-pointer flex items-center gap-1.5 shadow-sm"
                       >
                         <span>Get Apex POS Machine</span>
                         <span className="material-symbols-outlined text-[16px]">arrow_forward</span>
@@ -497,7 +515,11 @@ export const CustomerTestimonialCarousel: React.FC<CustomerTestimonialCarouselPr
 
                     <button
                       onClick={onOpenWhatsApp}
-                      className="px-4 py-2.5 rounded-lg border border-[#14294F] hover:border-[#00DF8F] text-[#F2F5F9] text-xs sm:text-sm transition-colors cursor-pointer flex items-center gap-1.5"
+                      className={`px-4 py-2.5 rounded-lg border text-xs sm:text-sm transition-colors cursor-pointer flex items-center gap-1.5 ${
+                        isLight
+                          ? 'border-slate-300 hover:border-emerald-600 bg-white text-slate-800'
+                          : 'border-[#14294F] hover:border-[#00DF8F] text-[#F2F5F9]'
+                      }`}
                     >
                       <span className="material-symbols-outlined text-[16px] text-[#00DF8F]">chat</span>
                       <span>Talk on WhatsApp</span>

@@ -1,3 +1,5 @@
+'use client';
+
 import React, { useState } from 'react';
 import { COMPANY_INFO } from '../data/mockData';
 
@@ -61,7 +63,7 @@ export const LegalContactView: React.FC = () => {
                 <div className="flex flex-col gap-1.5">
                   <span className="text-xs font-mono text-[#00DF8F] uppercase">Physical Headquarters</span>
                   <span className="font-semibold text-[#F2F5F9]">{COMPANY_INFO.name}</span>
-                  <span className="text-[#A8BBD6]">Cappador Mall, Maitama, Abuja, Nigeria</span>
+                  <span className="text-[#A8BBD6]">{COMPANY_INFO.office}</span>
                 </div>
 
                 <div className="flex flex-col gap-1.5">

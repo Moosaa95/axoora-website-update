@@ -1,7 +1,10 @@
+'use client';
+
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { WaitlistSubmission } from '../types';
 import { useCms } from '../context/CmsContext';
+import { useTheme } from '../context/ThemeContext';
 
 interface WaitlistModalProps {
   isOpen: boolean;
@@ -14,6 +17,8 @@ export const WaitlistModal: React.FC<WaitlistModalProps> = ({
   onClose,
   defaultInterest = 'personal',
 }) => {
+  const { theme } = useTheme();
+  const isLight = theme === 'light';
   const [fullName, setFullName] = useState('');
   const [whatsappNumber, setWhatsappNumber] = useState('');
   const [email, setEmail] = useState('');
@@ -83,18 +88,28 @@ export const WaitlistModal: React.FC<WaitlistModalProps> = ({
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-[#01091C]/80 backdrop-blur-md">
+    <div className={`fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 backdrop-blur-md transition-colors ${
+      isLight ? 'bg-slate-900/60' : 'bg-[#01091C]/80'
+    }`}>
       <AnimatePresence>
         <motion.div
           initial={{ opacity: 0, scale: 0.95, y: 15 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.95, y: 15 }}
-          className="w-full max-w-lg bg-[#0A1B3D] border-2 border-[#14294F] rounded-3xl p-6 sm:p-8 text-[#F2F5F9] relative shadow-2xl max-h-[92vh] overflow-y-auto"
+          className={`w-full max-w-lg rounded-3xl p-6 sm:p-8 relative shadow-2xl max-h-[92vh] overflow-y-auto border transition-colors ${
+            isLight
+              ? 'bg-white border-slate-200 text-slate-900'
+              : 'bg-[#0A1B3D] border-2 border-[#14294F] text-[#F2F5F9]'
+          }`}
         >
           {/* Close Button */}
           <button
             onClick={onClose}
-            className="absolute top-5 right-5 w-8 h-8 rounded-full bg-[#14294F] text-[#A8BBD6] hover:text-[#F2F5F9] hover:bg-[#1E3A6B] flex items-center justify-center transition-colors cursor-pointer"
+            className={`absolute top-5 right-5 w-8 h-8 rounded-full flex items-center justify-center transition-colors cursor-pointer ${
+              isLight
+                ? 'bg-slate-100 hover:bg-slate-200 text-slate-600 hover:text-slate-900'
+                : 'bg-[#14294F] text-[#A8BBD6] hover:text-[#F2F5F9] hover:bg-[#1E3A6B]'
+            }`}
             aria-label="Close dialog"
           >
             <span className="material-symbols-outlined text-[18px]">close</span>
@@ -103,16 +118,24 @@ export const WaitlistModal: React.FC<WaitlistModalProps> = ({
           {!isSubmitted ? (
             <div className="flex flex-col gap-5">
               <div className="flex flex-col gap-1.5">
-                <div className="inline-flex items-center gap-2 py-1 px-3 rounded-full bg-[#020F2E] border border-[#14294F] w-fit">
+                <div className={`inline-flex items-center gap-2 py-1 px-3 rounded-full border w-fit ${
+                  isLight ? 'bg-emerald-50 border-emerald-200' : 'bg-[#020F2E] border-[#14294F]'
+                }`}>
                   <span className="h-1.5 w-1.5 rounded-full bg-[#00DF8F] animate-pulse" />
-                  <span className="text-xs font-mono font-medium text-[#00DF8F] uppercase tracking-wider">
+                  <span className={`text-xs font-mono font-medium uppercase tracking-wider ${
+                    isLight ? 'text-emerald-700' : 'text-[#00DF8F]'
+                  }`}>
                     PRIORITY ONBOARDING ACCESS
                   </span>
                 </div>
-                <h3 className="text-2xl sm:text-3xl font-black text-[#F2F5F9] tracking-tight">
+                <h3 className={`text-2xl sm:text-3xl font-black tracking-tight ${
+                  isLight ? 'text-slate-900' : 'text-[#F2F5F9]'
+                }`}>
                   Join Axoora
                 </h3>
-                <p className="text-sm text-[#A8BBD6] leading-relaxed">
+                <p className={`text-sm leading-relaxed ${
+                  isLight ? 'text-slate-600' : 'text-[#A8BBD6]'
+                }`}>
                   Be the first to access dual-currency cards, WhatsApp banking, merchant accounts, and zero-drop 4G POS terminals.
                 </p>
               </div>
@@ -125,7 +148,9 @@ export const WaitlistModal: React.FC<WaitlistModalProps> = ({
 
               <form onSubmit={handleSubmit} className="flex flex-col gap-4">
                 <div>
-                  <label className="block text-xs font-mono font-semibold uppercase tracking-wider text-[#A8BBD6] mb-1.5">
+                  <label className={`block text-xs font-mono font-semibold uppercase tracking-wider mb-1.5 ${
+                    isLight ? 'text-slate-700' : 'text-[#A8BBD6]'
+                  }`}>
                     Full Name *
                   </label>
                   <input
@@ -134,13 +159,19 @@ export const WaitlistModal: React.FC<WaitlistModalProps> = ({
                     placeholder="e.g. Adaeze Okonkwo"
                     value={fullName}
                     onChange={(e) => setFullName(e.target.value)}
-                    className="w-full px-4 py-3 rounded-xl bg-[#020F2E] border border-[#14294F] text-[#F2F5F9] placeholder-[#A8BBD6]/40 text-sm focus:outline-none focus:border-[#0D95FE] transition-colors"
+                    className={`w-full px-4 py-3 rounded-xl border text-sm focus:outline-none focus:border-[#0D95FE] transition-colors ${
+                      isLight
+                        ? 'bg-slate-50 border-slate-200 text-slate-900 placeholder:text-slate-400 focus:bg-white'
+                        : 'bg-[#020F2E] border-[#14294F] text-[#F2F5F9] placeholder-[#A8BBD6]/40'
+                    }`}
                   />
                 </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-xs font-mono font-semibold uppercase tracking-wider text-[#A8BBD6] mb-1.5">
+                    <label className={`block text-xs font-mono font-semibold uppercase tracking-wider mb-1.5 ${
+                      isLight ? 'text-slate-700' : 'text-[#A8BBD6]'
+                    }`}>
                       WhatsApp Number *
                     </label>
                     <input
@@ -149,12 +180,18 @@ export const WaitlistModal: React.FC<WaitlistModalProps> = ({
                       placeholder="+234 803 000 0000"
                       value={whatsappNumber}
                       onChange={(e) => setWhatsappNumber(e.target.value)}
-                      className="w-full px-4 py-3 rounded-xl bg-[#020F2E] border border-[#14294F] text-[#F2F5F9] placeholder-[#A8BBD6]/40 text-sm focus:outline-none focus:border-[#0D95FE] transition-colors"
+                      className={`w-full px-4 py-3 rounded-xl border text-sm focus:outline-none focus:border-[#0D95FE] transition-colors ${
+                        isLight
+                          ? 'bg-slate-50 border-slate-200 text-slate-900 placeholder:text-slate-400 focus:bg-white'
+                          : 'bg-[#020F2E] border-[#14294F] text-[#F2F5F9] placeholder-[#A8BBD6]/40'
+                      }`}
                     />
                   </div>
 
                   <div>
-                    <label className="block text-xs font-mono font-semibold uppercase tracking-wider text-[#A8BBD6] mb-1.5">
+                    <label className={`block text-xs font-mono font-semibold uppercase tracking-wider mb-1.5 ${
+                      isLight ? 'text-slate-700' : 'text-[#A8BBD6]'
+                    }`}>
                       Email Address *
                     </label>
                     <input
@@ -163,20 +200,30 @@ export const WaitlistModal: React.FC<WaitlistModalProps> = ({
                       placeholder="adaeze@example.com"
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
-                      className="w-full px-4 py-3 rounded-xl bg-[#020F2E] border border-[#14294F] text-[#F2F5F9] placeholder-[#A8BBD6]/40 text-sm focus:outline-none focus:border-[#0D95FE] transition-colors"
+                      className={`w-full px-4 py-3 rounded-xl border text-sm focus:outline-none focus:border-[#0D95FE] transition-colors ${
+                        isLight
+                          ? 'bg-slate-50 border-slate-200 text-slate-900 placeholder:text-slate-400 focus:bg-white'
+                          : 'bg-[#020F2E] border-[#14294F] text-[#F2F5F9] placeholder-[#A8BBD6]/40'
+                      }`}
                     />
                   </div>
                 </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-xs font-mono font-semibold uppercase tracking-wider text-[#A8BBD6] mb-1.5">
+                    <label className={`block text-xs font-mono font-semibold uppercase tracking-wider mb-1.5 ${
+                      isLight ? 'text-slate-700' : 'text-[#A8BBD6]'
+                    }`}>
                       Primary Product Interest
                     </label>
                     <select
                       value={interest}
                       onChange={(e) => setInterest(e.target.value as any)}
-                      className="w-full px-4 py-3 rounded-xl bg-[#020F2E] border border-[#14294F] text-[#F2F5F9] text-sm focus:outline-none focus:border-[#0D95FE] transition-colors cursor-pointer"
+                      className={`w-full px-4 py-3 rounded-xl border text-sm focus:outline-none focus:border-[#0D95FE] transition-colors cursor-pointer ${
+                        isLight
+                          ? 'bg-slate-50 border-slate-200 text-slate-900 focus:bg-white'
+                          : 'bg-[#020F2E] border-[#14294F] text-[#F2F5F9]'
+                      }`}
                     >
                       <option value="personal">Axoora Personal (Cards, Save &amp; Earn)</option>
                       <option value="business">Axoora Business (Shop Account &amp; Ops)</option>
@@ -186,7 +233,9 @@ export const WaitlistModal: React.FC<WaitlistModalProps> = ({
                   </div>
 
                   <div>
-                    <label className="block text-xs font-mono font-semibold uppercase tracking-wider text-[#A8BBD6] mb-1.5">
+                    <label className={`block text-xs font-mono font-semibold uppercase tracking-wider mb-1.5 ${
+                      isLight ? 'text-slate-700' : 'text-[#A8BBD6]'
+                    }`}>
                       City / State
                     </label>
                     <input
@@ -194,7 +243,11 @@ export const WaitlistModal: React.FC<WaitlistModalProps> = ({
                       placeholder="e.g. Abuja (FCT)"
                       value={city}
                       onChange={(e) => setCity(e.target.value)}
-                      className="w-full px-4 py-3 rounded-xl bg-[#020F2E] border border-[#14294F] text-[#F2F5F9] placeholder-[#A8BBD6]/40 text-sm focus:outline-none focus:border-[#0D95FE] transition-colors"
+                      className={`w-full px-4 py-3 rounded-xl border text-sm focus:outline-none focus:border-[#0D95FE] transition-colors ${
+                        isLight
+                          ? 'bg-slate-50 border-slate-200 text-slate-900 placeholder:text-slate-400 focus:bg-white'
+                          : 'bg-[#020F2E] border-[#14294F] text-[#F2F5F9] placeholder-[#A8BBD6]/40'
+                      }`}
                     />
                   </div>
                 </div>
@@ -207,14 +260,16 @@ export const WaitlistModal: React.FC<WaitlistModalProps> = ({
                     onChange={(e) => setConsent(e.target.checked)}
                     className="mt-1 accent-[#0D95FE] cursor-pointer"
                   />
-                  <label htmlFor="consentCheckbox" className="text-xs text-[#A8BBD6] cursor-pointer leading-normal">
+                  <label htmlFor="consentCheckbox" className={`text-xs cursor-pointer leading-normal ${
+                    isLight ? 'text-slate-600' : 'text-[#A8BBD6]'
+                  }`}>
                     I agree to be contacted by Axoora for account onboarding. NDPR certified. Axoora will never ask for your PIN or OTP.
                   </label>
                 </div>
 
                 <button
                   type="submit"
-                  className="w-full py-3.5 rounded-2xl bg-[#0D95FE] hover:bg-[#00DF8F] text-[#002447] hover:text-[#003825] font-extrabold text-sm transition-all shadow-lg shadow-[#0D95FE]/20 cursor-pointer mt-1"
+                  className="w-full py-3.5 rounded-2xl bg-[#0D95FE] hover:bg-[#00DF8F] text-white hover:text-[#003825] font-extrabold text-sm transition-all shadow-lg shadow-[#0D95FE]/20 cursor-pointer mt-1"
                 >
                   Confirm Priority Access
                 </button>
@@ -226,14 +281,18 @@ export const WaitlistModal: React.FC<WaitlistModalProps> = ({
                 <span className="material-symbols-outlined text-[32px]">check_circle</span>
               </div>
               <div className="flex flex-col gap-1.5">
-                <h3 className="text-2xl font-black text-[#F2F5F9]">You're on the Priority List</h3>
-                <p className="text-sm text-[#A8BBD6] leading-relaxed max-w-sm">
-                  Thank you, <span className="text-[#00DF8F] font-semibold">{fullName}</span>. Our Abuja team will dispatch your invite link and account onboarding instructions via WhatsApp.
+                <h3 className={`text-2xl font-black ${isLight ? 'text-slate-900' : 'text-[#F2F5F9]'}`}>You're on the Priority List</h3>
+                <p className={`text-sm leading-relaxed max-w-sm ${isLight ? 'text-slate-600' : 'text-[#A8BBD6]'}`}>
+                  Thank you, <span className="text-emerald-600 font-bold">{fullName}</span>. Our Abuja team will dispatch your invite link and account onboarding instructions via WhatsApp.
                 </p>
               </div>
               <button
                 onClick={handleReset}
-                className="px-8 py-3 rounded-2xl bg-[#14294F] hover:bg-[#1E3A6B] text-[#F2F5F9] text-sm font-bold transition-all cursor-pointer mt-2"
+                className={`px-8 py-3 rounded-2xl text-sm font-bold transition-all cursor-pointer mt-2 ${
+                  isLight
+                    ? 'bg-slate-100 hover:bg-slate-200 text-slate-800 border border-slate-200'
+                    : 'bg-[#14294F] hover:bg-[#1E3A6B] text-[#F2F5F9]'
+                }`}
               >
                 Done
               </button>

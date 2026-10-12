@@ -146,7 +146,7 @@ export const BusinessHeroShowcase: React.FC<BusinessHeroShowcaseProps> = ({
           className="col-span-7 sm:col-span-6 relative z-10"
         >
           <div
-            className={`rounded-[24px] sm:rounded-[28px] p-3.5 sm:p-4 border shadow-2xl transition-all ${
+            className={`dark-hardware preserve-dark rounded-[24px] sm:rounded-[28px] p-3.5 sm:p-4 border shadow-2xl transition-all ${
               isLight
                 ? 'bg-slate-900 border-slate-700 text-white shadow-slate-900/30'
                 : 'bg-[#071328] border-[#163363] text-white shadow-black/80'
@@ -301,7 +301,9 @@ export const BusinessHeroShowcase: React.FC<BusinessHeroShowcaseProps> = ({
           }`}
         >
           {/* Header Row */}
-          <div className="flex items-center justify-between pb-2.5 border-b border-slate-100 dark:border-white/10">
+          <div className={`flex items-center justify-between pb-2.5 border-b ${
+            isLight ? 'border-slate-200' : 'border-white/10'
+          }`}>
             <div className="flex items-center gap-2.5">
               <div className="w-7 h-7 rounded-lg bg-emerald-500/15 border border-emerald-500/30 flex items-center justify-center shrink-0">
                 <span className="material-symbols-outlined text-[16px] text-[#00DF8F]">
@@ -309,10 +311,14 @@ export const BusinessHeroShowcase: React.FC<BusinessHeroShowcaseProps> = ({
                 </span>
               </div>
               <div>
-                <span className="block text-xs font-black tracking-tight leading-tight">
+                <span className={`block text-xs font-black tracking-tight leading-tight ${
+                  isLight ? 'text-slate-900' : 'text-white'
+                }`}>
                   Instant T+0 Credit
                 </span>
-                <span className="block text-[9.5px] font-mono text-slate-400 leading-tight">
+                <span className={`block text-[9.5px] font-mono leading-tight ${
+                  isLight ? 'text-slate-500' : 'text-slate-400'
+                }`}>
                   0.18s latency pipe
                 </span>
               </div>
@@ -332,10 +338,14 @@ export const BusinessHeroShowcase: React.FC<BusinessHeroShowcaseProps> = ({
                 <div className="w-4 h-4 rounded-full border-2 border-[#00DF8F] border-t-transparent animate-spin" />
               </div>
               <div className="flex flex-col">
-                <span className="text-[11px] font-black font-mono leading-tight">
+                <span className={`text-[11px] font-black font-mono leading-tight ${
+                  isLight ? 'text-slate-900' : 'text-white'
+                }`}>
                   0.18s •
                 </span>
-                <span className="text-[9px] text-slate-400 leading-tight">
+                <span className={`text-[9px] leading-tight ${
+                  isLight ? 'text-slate-500' : 'text-slate-400'
+                }`}>
                   Settlement velocity
                 </span>
               </div>
@@ -354,7 +364,9 @@ export const BusinessHeroShowcase: React.FC<BusinessHeroShowcaseProps> = ({
                 <span className="block text-sm sm:text-base font-black font-mono text-[#00DF8F] tracking-tight tabular-nums">
                   +₦{liveAmount.toLocaleString()}.00
                 </span>
-                <span className="block text-[9px] font-mono text-slate-400">
+                <span className={`block text-[9px] font-mono ${
+                  isLight ? 'text-slate-500' : 'text-slate-400'
+                }`}>
                   • Received 2s ago
                 </span>
               </motion.div>
@@ -402,7 +414,7 @@ export const BusinessHeroShowcase: React.FC<BusinessHeroShowcaseProps> = ({
           className="col-span-7 flex justify-end pr-1 sm:pr-2"
         >
           <div
-            className={`w-[210px] sm:w-[245px] h-[130px] sm:h-[148px] rounded-2xl p-3.5 sm:p-4 border shadow-2xl flex flex-col justify-between relative overflow-hidden transition-all ${
+            className={`dark-hardware preserve-dark w-[210px] sm:w-[245px] h-[130px] sm:h-[148px] rounded-2xl p-3.5 sm:p-4 border shadow-2xl flex flex-col justify-between relative overflow-hidden transition-all ${
               isLight
                 ? 'bg-gradient-to-br from-[#0c1833] via-[#071126] to-[#040a17] border-slate-700 text-white'
                 : 'bg-gradient-to-br from-[#0c1833] via-[#071126] to-[#040a17] border-[#234277] text-white'

@@ -1,3 +1,5 @@
+'use client';
+
 import React from 'react';
 import { ScreenType } from '../types';
 import { AxooraLogo } from './AxooraLogo';
@@ -63,10 +65,14 @@ export const Footer: React.FC<FooterProps> = ({
             </div>
 
             <div className="text-xs text-slate-400 pt-3 space-y-1">
-              <p className="font-semibold text-slate-300">Plot 7A, Block 4, Admiralty Road,</p>
-              <p>Lekki Phase 1, Lagos State, Nigeria.</p>
+              <p className="font-semibold text-slate-300">Business Address</p>
+              <p>Suite 08 Block C, Cappador Mall. 85 Aguiyi Ironsi Street Maitama. Abuja</p>
               <p className="pt-1 font-mono text-blue-400">+234 201 888 9990</p>
-              <p className="font-mono text-slate-400">support@axoora.com</p>
+              <p className="font-mono text-slate-400">
+                <a href="mailto:support@axoora.ai" className="hover:text-white transition-colors">
+                  support@axoora.ai
+                </a>
+              </p>
             </div>
           </div>
 
@@ -100,7 +106,7 @@ export const Footer: React.FC<FooterProps> = ({
                 Instant Debit Card
               </button>
               <button onClick={() => handleNav('personal')} className="text-left hover:text-white transition-colors cursor-pointer">
-                Personal Account
+                WhatsApp Banking
               </button>
               <button onClick={() => handleNav('personal')} className="text-left hover:text-white transition-colors cursor-pointer">
                 Payment

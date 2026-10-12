@@ -7,6 +7,7 @@ import { FAQ_LIST } from '../data/mockData';
 import { useTheme } from '../context/ThemeContext';
 import { FaqAccordionItem } from './FaqAccordionItem';
 import { RealisticPhoneMockup } from './RealisticPhoneMockup';
+import { PersonalHeroShowcase } from './PersonalHeroShowcase';
 import { InteractiveAtmCard } from './InteractiveAtmCard';
 import { InteractiveGetStarted } from './InteractiveGetStarted';
 import { BlogArticlesCarousel } from './BlogArticlesCarousel';
@@ -152,7 +153,7 @@ export const PersonalProductView: React.FC<PersonalProductViewProps> = ({
                 }`}
               >
                 <span className="material-symbols-outlined text-[#00DF8F] text-[18px]">chat</span>
-                <span>Chat on WhatsApp</span>
+                <span>Bank on WhatsApp</span>
               </button>
             </div>
 
@@ -175,9 +176,9 @@ export const PersonalProductView: React.FC<PersonalProductViewProps> = ({
             </div>
           </div>
 
-          {/* Right Column: The Realistic Phone from previous version */}
+          {/* Right Column: Combined Phone + Floating Card Hero Showcase */}
           <div className="lg:col-span-6 flex justify-center">
-            <RealisticPhoneMockup
+            <PersonalHeroShowcase
               isLight={isLight}
               onOpenWaitlist={onOpenWaitlist}
               onOpenWhatsApp={onOpenWhatsApp}
@@ -587,10 +588,11 @@ export const PersonalProductView: React.FC<PersonalProductViewProps> = ({
               </p>
             </div>
             <button
-              onClick={() => onOpenWaitlist('personal')}
-              className="px-6 py-3 rounded-2xl bg-[#00DF8F] hover:bg-[#0D95FE] text-[#003825] hover:text-white font-extrabold text-sm transition-all cursor-pointer whitespace-nowrap shadow-md"
+              onClick={onOpenWhatsApp}
+              className="px-6 py-3 rounded-2xl bg-[#00DF8F] hover:bg-[#0D95FE] text-[#003825] hover:text-white font-extrabold text-sm transition-all cursor-pointer whitespace-nowrap shadow-md flex items-center gap-2"
             >
-              Open an Account
+              <span className="material-symbols-outlined text-[18px]">chat</span>
+              <span>Bank on WhatsApp</span>
             </button>
           </div>
         </div>

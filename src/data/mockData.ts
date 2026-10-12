@@ -6,7 +6,7 @@ export const COMPANY_INFO = {
   name: 'AXOORA Financial Technologies Limited',
   brand: 'Axoora',
   rcNumber: 'RC 1894231',
-  office: 'Cappador Mall, Maitama, Abuja, Nigeria',
+  office: 'Suite 08 Block C, Cappador Mall. 85 Aguiyi Ironsi Street Maitama. Abuja',
   supportEmail: 'support@axoora.ai',
   pressEmail: 'press@axoora.ai',
   careersEmail: 'careers@axoora.ai',

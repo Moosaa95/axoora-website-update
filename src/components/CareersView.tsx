@@ -1,3 +1,5 @@
+'use client';
+
 import React, { useState } from 'react';
 import { COMPANY_INFO } from '../data/mockData';
 

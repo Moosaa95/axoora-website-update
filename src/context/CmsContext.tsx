@@ -1,3 +1,5 @@
+'use client';
+
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { COMPANY_INFO, JOURNAL_ARTICLES, VALUES_LIST } from '../data/mockData';
 import { JournalArticle } from '../types';

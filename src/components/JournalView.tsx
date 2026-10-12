@@ -1,3 +1,5 @@
+'use client';
+
 import React, { useState } from 'react';
 import { JOURNAL_ARTICLES } from '../data/mockData';
 import { JournalArticle } from '../types';
