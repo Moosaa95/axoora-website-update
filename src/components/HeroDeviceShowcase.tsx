@@ -11,7 +11,7 @@ interface HeroDeviceShowcaseProps {
   defaultMode?: ShowcaseMode;
 }
 
-type ShowcaseMode = 'duo' | 'phone' | 'pos' | 'video';
+type ShowcaseMode = 'duo' | 'phone' | 'pos';
 
 export const HeroDeviceShowcase: React.FC<HeroDeviceShowcaseProps> = ({
   isLight,
@@ -40,7 +40,7 @@ export const HeroDeviceShowcase: React.FC<HeroDeviceShowcaseProps> = ({
   useEffect(() => {
     if (!isAutoPlaying || isSimulatingTransaction) return;
 
-    const modes: ShowcaseMode[] = ['duo', 'phone', 'pos', 'video'];
+    const modes: ShowcaseMode[] = ['duo', 'phone', 'pos'];
     const timer = setInterval(() => {
       setMode((current) => {
         const nextIndex = (modes.indexOf(current) + 1) % modes.length;
@@ -102,7 +102,6 @@ export const HeroDeviceShowcase: React.FC<HeroDeviceShowcaseProps> = ({
               { id: 'duo', label: 'Ecosystem', icon: 'devices' },
               { id: 'phone', label: 'Mobile App', icon: 'smartphone' },
               { id: 'pos', label: 'Apex POS', icon: 'point_of_sale' },
-              { id: 'video', label: 'Live Video', icon: 'smart_display' },
             ] as const
           ).map((tab) => {
             const isActive = mode === tab.id;
@@ -142,8 +141,6 @@ export const HeroDeviceShowcase: React.FC<HeroDeviceShowcaseProps> = ({
                         ? 'text-[#00DF8F]'
                         : tab.id === 'pos'
                         ? 'text-[#F2A93B]'
-                        : tab.id === 'video'
-                        ? 'text-[#0D95FE]'
                         : 'text-[#00DF8F]'
                       : ''
                   }`}
@@ -151,9 +148,6 @@ export const HeroDeviceShowcase: React.FC<HeroDeviceShowcaseProps> = ({
                   {tab.icon}
                 </span>
                 <span className="relative z-10 hidden sm:inline">{tab.label}</span>
-                {tab.id === 'video' && (
-                  <span className="relative z-10 w-1.5 h-1.5 rounded-full bg-[#00DF8F] animate-ping" />
-                )}
               </button>
             );
           })}
@@ -228,55 +222,43 @@ export const HeroDeviceShowcase: React.FC<HeroDeviceShowcaseProps> = ({
         <motion.div
           animate={{
             x:
-              mode === 'video'
-                ? -160
-                : mode === 'duo'
+              mode === 'duo'
                 ? -65
                 : mode === 'phone'
                 ? 0
                 : -115,
             y:
-              mode === 'video'
-                ? 40
-                : mode === 'duo'
+              mode === 'duo'
                 ? -5
                 : mode === 'phone'
                 ? 0
                 : 25,
             scale:
-              mode === 'video'
-                ? 0.7
-                : mode === 'phone'
+              mode === 'phone'
                 ? 1.02
                 : mode === 'duo'
                 ? 0.94
                 : 0.82,
             rotateZ:
-              mode === 'video'
-                ? -8
-                : mode === 'duo'
+              mode === 'duo'
                 ? -3
                 : mode === 'phone'
                 ? 0
                 : -7,
             rotateY:
-              mode === 'video'
-                ? 14
-                : mode === 'duo'
+              mode === 'duo'
                 ? 5
                 : mode === 'phone'
                 ? 0
                 : 12,
             zIndex:
-              mode === 'video'
-                ? 5
-                : mode === 'phone'
+              mode === 'phone'
                 ? 30
                 : mode === 'duo'
                 ? 25
                 : 10,
-            opacity: mode === 'video' ? 0 : mode === 'pos' ? 0.65 : 1,
-            pointerEvents: mode === 'video' ? 'none' : 'auto',
+            opacity: mode === 'pos' ? 0.65 : 1,
+            pointerEvents: 'auto',
             filter: mode === 'pos' ? 'blur(0.5px)' : 'none',
           }}
           transition={{ type: 'spring', stiffness: 280, damping: 28 }}
@@ -688,55 +670,43 @@ export const HeroDeviceShowcase: React.FC<HeroDeviceShowcaseProps> = ({
         <motion.div
           animate={{
             x:
-              mode === 'video'
-                ? 160
-                : mode === 'duo'
+              mode === 'duo'
                 ? 90
                 : mode === 'pos'
                 ? 0
                 : 115,
             y:
-              mode === 'video'
-                ? 40
-                : mode === 'duo'
+              mode === 'duo'
                 ? 20
                 : mode === 'pos'
                 ? 0
                 : -25,
             scale:
-              mode === 'video'
-                ? 0.7
-                : mode === 'pos'
+              mode === 'pos'
                 ? 1
                 : mode === 'duo'
                 ? 0.94
                 : 0.82,
             rotateZ:
-              mode === 'video'
-                ? 8
-                : mode === 'duo'
+              mode === 'duo'
                 ? 4
                 : mode === 'pos'
                 ? 0
                 : 7,
             rotateY:
-              mode === 'video'
-                ? -14
-                : mode === 'duo'
+              mode === 'duo'
                 ? -5
                 : mode === 'pos'
                 ? 0
                 : -12,
             zIndex:
-              mode === 'video'
-                ? 5
-                : mode === 'pos'
+              mode === 'pos'
                 ? 30
                 : mode === 'duo'
                 ? 20
                 : 10,
-            opacity: mode === 'video' ? 0 : mode === 'phone' ? 0.65 : 1,
-            pointerEvents: mode === 'video' ? 'none' : 'auto',
+            opacity: mode === 'phone' ? 0.65 : 1,
+            pointerEvents: 'auto',
             filter: mode === 'phone' ? 'blur(0.5px)' : 'none',
           }}
           transition={{ type: 'spring', stiffness: 280, damping: 28 }}
@@ -921,68 +891,6 @@ export const HeroDeviceShowcase: React.FC<HeroDeviceShowcaseProps> = ({
             </div>
           </div>
         </motion.div>
-
-        {/* ===================================================================== */}
-        {/* MODE: PROMINENT VIDEO SHOWCASE (HIGH-DEFINITION THEATER VIEW) */}
-        {/* ===================================================================== */}
-        <AnimatePresence>
-          {mode === 'video' && (
-            <motion.div
-              initial={{ opacity: 0, scale: 0.92, y: 10 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.92, y: 10 }}
-              transition={{ duration: 0.4 }}
-              className="absolute z-40 w-full max-w-[420px] rounded-3xl p-4 bg-[#0A1B3D]/98 border-2 border-[#0D95FE] shadow-2xl backdrop-blur-xl flex flex-col justify-between overflow-hidden"
-            >
-              {/* Header */}
-              <div className="flex items-center justify-between pb-2.5 border-b border-[#14294F]">
-                <div className="flex items-center gap-2">
-                  <span className="h-2 w-2 rounded-full bg-[#00DF8F] animate-ping" />
-                  <span className="font-mono text-xs font-bold text-[#F2F5F9]">
-                    AXOORA LIVE STREET STREAM
-                  </span>
-                </div>
-                <span className="px-2.5 py-0.5 rounded-full bg-[#00DF8F]/20 text-[9px] font-mono text-[#00DF8F] font-bold">
-                  AUTOPLAY • 1080P
-                </span>
-              </div>
-
-              {/* Video Element with App & POS Demonstration */}
-              <div className="relative aspect-video w-full rounded-2xl overflow-hidden bg-black my-3 border border-[#14294F]">
-                <video
-                  autoPlay
-                  muted
-                  loop
-                  playsInline
-                  className="w-full h-full object-cover"
-                >
-                  <source src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4" type="video/mp4" />
-                </video>
-
-                {/* Overlaid Live Badges */}
-                <div className="absolute top-2 left-2 bg-[#020F2E]/90 backdrop-blur-md px-2.5 py-1 rounded-md border border-[#00DF8F]/60 font-mono text-[9px] text-[#00DF8F]">
-                  ● Wuse Market Terminal #7821
-                </div>
-                <div className="absolute bottom-2 right-2 bg-[#020F2E]/90 backdrop-blur-md px-2.5 py-1 rounded-md border border-[#0D95FE]/60 font-mono text-[9px] text-[#0D95FE]">
-                  ⚡ 0.9s NIBSS Settlement
-                </div>
-              </div>
-
-              {/* Video Footer */}
-              <div className="flex items-center justify-between pt-1 text-xs">
-                <span className="text-[#A8BBD6] text-[11px]">
-                  Unedited street footage of real Nigerian commerce
-                </span>
-                <button
-                  onClick={onOpenWhatsApp}
-                  className="px-3 py-1.5 rounded-full bg-[#00DF8F] text-[#003825] font-bold text-[11px] hover:bg-[#0D95FE] hover:text-[#00325b] transition-all cursor-pointer whitespace-nowrap"
-                >
-                  Chat with Us
-                </button>
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
 
         {/* ===================================================================== */}
         {/* FLOATING CONTEXTUAL BADGES */}

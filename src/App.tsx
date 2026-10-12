@@ -1,13 +1,15 @@
 import { useState } from 'react';
 import { ScreenType } from './types';
+import { useTheme } from './context/ThemeContext';
 import { Header } from './components/Header';
 import { Footer } from './components/Footer';
 import { CookieBanner } from './components/CookieBanner';
-import { LiveChatBubble } from './components/LiveChatBubble';
 import { HomeView } from './components/HomeView';
 import { PersonalProductView } from './components/PersonalProductView';
 import { BusinessProductView } from './components/BusinessProductView';
 import { PosProductView } from './components/PosProductView';
+import { SecurityView } from './components/SecurityView';
+import { GovernanceView } from './components/GovernanceView';
 import { AboutView } from './components/AboutView';
 import { ImpactView } from './components/ImpactView';
 import { StoriesView } from './components/StoriesView';
@@ -20,43 +22,71 @@ import { LegalContactView } from './components/LegalContactView';
 import { WaitlistModal } from './components/WaitlistModal';
 import { WhatsAppBankingModal } from './components/WhatsAppBankingModal';
 import { AppDownloadModal } from './components/AppDownloadModal';
+import { LiveChatBubble } from './components/LiveChatBubble';
 import { ReadingProgressBar } from './components/ReadingProgressBar';
 import { AdminDashboard } from './components/AdminDashboard';
+import { ApplyOnboardingView } from './components/ApplyOnboardingView';
 
 export default function App() {
-  const [currentScreen, setCurrentScreen] = useState<ScreenType>('home');
-  const [homeMode, setHomeMode] = useState<'business' | 'personal'>('business');
+  const [currentScreen, setCurrentScreen] = useState<ScreenType>('business');
   const [waitlistOpen, setWaitlistOpen] = useState(false);
-  const [waitlistInterest, setWaitlistInterest] = useState<'personal' | 'business' | 'pos-agent' | 'aggregator'>('personal');
-  const [whatsAppOpen, setWhatsAppOpen] = useState(false);
-  const [downloadAppOpen, setDownloadAppOpen] = useState(false);
+  const [waitlistInterest, setWaitlistInterest] = useState<'personal' | 'business' | 'pos-agent' | 'aggregator'>('business');
+  const [whatsappModalOpen, setWhatsappModalOpen] = useState(false);
+  const [downloadModalOpen, setDownloadModalOpen] = useState(false);
+  const [homeMode, setHomeMode] = useState<'business' | 'personal'>('business');
 
   const handleNavigate = (screen: ScreenType) => {
-    setCurrentScreen(screen);
+    // There is no home page - site defaults straight to business
+    const targetScreen = screen === 'home' ? 'business' : screen;
+    setCurrentScreen(targetScreen);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  const handleOpenWaitlist = (interest: 'personal' | 'business' | 'pos-agent' | 'aggregator' = 'personal') => {
+  const handleOpenWaitlist = (interest: 'personal' | 'business' | 'pos-agent' | 'aggregator' = 'business') => {
     setWaitlistInterest(interest);
-    setWaitlistOpen(true);
+    // Instead of a modal popup, navigate directly to the Monzo-style application flow
+    setCurrentScreen('apply');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
+  const handleBackFromApply = () => {
+    if (waitlistInterest === 'pos-agent') {
+      setCurrentScreen('pos-agents');
+    } else if (waitlistInterest === 'personal') {
+      setCurrentScreen('personal');
+    } else {
+      setCurrentScreen('business');
+    }
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const { theme } = useTheme();
+  const isLight = theme === 'light';
+
   return (
-    <div className="min-h-screen flex flex-col bg-[#020F2E] text-[#F2F5F9] font-sans selection:bg-[#0D95FE]/30 selection:text-[#F2F5F9] w-full max-w-full">
-      {/* Cookie / Privacy Policy Notification Bar */}
-      {currentScreen !== 'admin' && <CookieBanner onNavigate={handleNavigate} />}
+    <div
+      className={`min-h-screen flex flex-col font-sans w-full max-w-full transition-colors duration-200 ${
+        isLight
+          ? 'bg-[#F8FAFC] text-slate-900 selection:bg-[#0D95FE]/20 selection:text-slate-900'
+          : 'bg-[#020F2E] text-[#F2F5F9] selection:bg-[#0D95FE]/30 selection:text-[#F2F5F9]'
+      }`}
+    >
+      {/* Reading Progress Indicator */}
+      {currentScreen !== 'admin' && currentScreen !== 'apply' && (
+        <ReadingProgressBar currentScreen={currentScreen} />
+      )}
 
-      {/* Thin Fixed Top Scroll Progress Bar */}
-      {currentScreen !== 'admin' && <ReadingProgressBar currentScreen={currentScreen} />}
+      {/* Cookie Consent Banner */}
+      {currentScreen !== 'admin' && currentScreen !== 'apply' && <CookieBanner />}
 
-      {/* Top Header with Brand and Doors */}
-      {currentScreen !== 'admin' && (
+      {/* Top Header Navigation */}
+      {currentScreen !== 'admin' && currentScreen !== 'apply' && (
         <Header
           currentScreen={currentScreen}
           onNavigate={handleNavigate}
           onOpenWaitlist={handleOpenWaitlist}
-          onOpenWhatsApp={() => setWhatsAppOpen(true)}
-          onOpenDownloadApp={() => setDownloadAppOpen(true)}
+          onOpenWhatsApp={() => setWhatsappModalOpen(true)}
+          onOpenDownloadApp={() => setDownloadModalOpen(true)}
           homeMode={homeMode}
           onHomeModeChange={setHomeMode}
         />
@@ -68,8 +98,8 @@ export default function App() {
           <HomeView
             onNavigate={handleNavigate}
             onOpenWaitlist={handleOpenWaitlist}
-            onOpenWhatsApp={() => setWhatsAppOpen(true)}
-            onOpenDownloadApp={() => setDownloadAppOpen(true)}
+            onOpenWhatsApp={() => setWhatsappModalOpen(true)}
+            onOpenDownloadApp={() => setDownloadModalOpen(true)}
             homeMode={homeMode}
             onHomeModeChange={setHomeMode}
           />
@@ -79,8 +109,8 @@ export default function App() {
           <PersonalProductView
             onNavigate={handleNavigate}
             onOpenWaitlist={handleOpenWaitlist}
-            onOpenWhatsApp={() => setWhatsAppOpen(true)}
-            onOpenDownloadApp={() => setDownloadAppOpen(true)}
+            onOpenWhatsApp={() => setWhatsappModalOpen(true)}
+            onOpenDownloadApp={() => setDownloadModalOpen(true)}
           />
         )}
 
@@ -88,16 +118,20 @@ export default function App() {
           <BusinessProductView
             onNavigate={handleNavigate}
             onOpenWaitlist={handleOpenWaitlist}
-            onOpenWhatsApp={() => setWhatsAppOpen(true)}
+            onOpenWhatsApp={() => setWhatsappModalOpen(true)}
           />
         )}
 
         {currentScreen === 'pos-agents' && (
           <PosProductView
             onOpenWaitlist={handleOpenWaitlist}
-            onOpenWhatsApp={() => setWhatsAppOpen(true)}
+            onOpenWhatsApp={() => setWhatsappModalOpen(true)}
           />
         )}
+
+        {currentScreen === 'security' && <SecurityView />}
+
+        {currentScreen === 'governance' && <GovernanceView />}
 
         {currentScreen === 'about' && (
           <AboutView
@@ -128,74 +162,68 @@ export default function App() {
 
         {currentScreen === 'careers' && <CareersView />}
 
-        {currentScreen === 'help' && (
-          <HelpView
-            onOpenWhatsApp={() => setWhatsAppOpen(true)}
-            onNavigate={handleNavigate}
-            onOpenWaitlist={handleOpenWaitlist}
-          />
-        )}
+        {currentScreen === 'help' && <HelpView />}
 
-        {(currentScreen === 'legal' || currentScreen === 'contact') && (
-          <LegalContactView />
-        )}
+        {currentScreen === 'legal' && <LegalContactView />}
+
+        {currentScreen === 'contact' && <LegalContactView />}
 
         {currentScreen === 'admin' && (
           <AdminDashboard onExitAdmin={() => handleNavigate('home')} />
         )}
+
+        {currentScreen === 'apply' && (
+          <ApplyOnboardingView
+            initialInterest={waitlistInterest}
+            onBack={handleBackFromApply}
+            onOpenWhatsApp={() => setWhatsappModalOpen(true)}
+          />
+        )}
       </main>
 
-      {/* Footer on Every Page (except when in Admin console) */}
-      {currentScreen !== 'admin' && (
+      {/* Footer on Every Page */}
+      {currentScreen !== 'admin' && currentScreen !== 'apply' && (
         <Footer
           onNavigate={handleNavigate}
           onOpenWaitlist={() => handleOpenWaitlist('personal')}
-          onOpenWhatsApp={() => setWhatsAppOpen(true)}
+          onOpenWhatsApp={() => setWhatsappModalOpen(true)}
         />
       )}
 
-      {/* Modals for Waitlist, WhatsApp Banking & App Download */}
+      {/* Interactive Priority Waitlist Modal */}
       <WaitlistModal
         isOpen={waitlistOpen}
         onClose={() => setWaitlistOpen(false)}
         defaultInterest={waitlistInterest}
       />
 
+      {/* WhatsApp Conversational Banking Demo Modal */}
       <WhatsAppBankingModal
-        isOpen={whatsAppOpen}
-        onClose={() => setWhatsAppOpen(false)}
-        onOpenWaitlist={() => handleOpenWaitlist('personal')}
+        isOpen={whatsappModalOpen}
+        onClose={() => setWhatsappModalOpen(false)}
+        onOpenWaitlist={() => {
+          setWhatsappModalOpen(false);
+          handleOpenWaitlist('personal');
+        }}
       />
 
+      {/* Mobile App Download Modal */}
       <AppDownloadModal
-        isOpen={downloadAppOpen}
-        onClose={() => setDownloadAppOpen(false)}
-        onOpenWaitlist={() => handleOpenWaitlist('personal')}
+        isOpen={downloadModalOpen}
+        onClose={() => setDownloadModalOpen(false)}
+        onOpenWaitlist={() => {
+          setDownloadModalOpen(false);
+          handleOpenWaitlist('personal');
+        }}
       />
 
-      {/* Mobile Sticky Quick Doors Bar */}
-      <div className="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-[#01091C]/95 backdrop-blur-md border-t border-[#14294F] px-4 py-2.5 flex items-center justify-between gap-2 shadow-2xl">
-        <button
-          onClick={() => setWhatsAppOpen(true)}
-          className="flex-1 py-2 px-3 rounded-full bg-[#00DF8F]/20 border border-[#00DF8F] text-[#00DF8F] font-bold text-xs flex items-center justify-center gap-1.5"
-        >
-          <span className="material-symbols-outlined text-[16px]">chat</span>
-          <span>Bank on WhatsApp</span>
-        </button>
-
-        <button
-          onClick={() => handleOpenWaitlist('personal')}
-          className="flex-1 py-2 px-3 rounded-full bg-[#0D95FE] text-[#00325b] font-bold text-xs flex items-center justify-center gap-1"
-        >
-          <span>Join Waitlist</span>
-        </button>
-      </div>
-
-      {/* Floating Interactive Live Chat Bubble ("Hi, Need any help?") */}
-      <LiveChatBubble
-        onOpenWaitlist={handleOpenWaitlist}
-        onOpenWhatsApp={() => setWhatsAppOpen(true)}
-      />
+      {/* Live Priority Chat Floating Widget */}
+      {currentScreen !== 'admin' && currentScreen !== 'apply' && (
+        <LiveChatBubble
+          onOpenWaitlist={handleOpenWaitlist}
+          onOpenWhatsApp={() => setWhatsappModalOpen(true)}
+        />
+      )}
     </div>
   );
 }

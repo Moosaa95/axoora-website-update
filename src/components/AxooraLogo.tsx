@@ -1,4 +1,5 @@
 import React from 'react';
+import { useTheme } from '../context/ThemeContext';
 
 interface AxooraLogoProps {
   className?: string;
@@ -13,12 +14,26 @@ export const AxooraLogo: React.FC<AxooraLogoProps> = ({
   variant = 'full',
   theme = 'auto',
 }) => {
+  // Access global theme to make sure logo text is always crisp & visible
+  let activeTheme = 'dark';
+  try {
+    const themeContext = useTheme();
+    activeTheme = themeContext.theme;
+  } catch {
+    // fallback if used outside provider
+  }
+
+  const effectiveTheme = theme === 'auto' ? activeTheme : theme;
+  const isLight = effectiveTheme === 'light';
+
   // Height sizing
   const heightClasses = {
     sm: 'h-6',
     md: 'h-8 sm:h-9',
     lg: 'h-10 sm:h-12',
   }[size];
+
+  const wordmarkTextColor = isLight ? 'text-[#0A1B3D]' : 'text-[#F2F5F9]';
 
   return (
     <div className={`inline-flex items-center gap-2.5 ${heightClasses} ${className}`}>
@@ -70,7 +85,7 @@ export const AxooraLogo: React.FC<AxooraLogoProps> = ({
 
       {/* Official "axoora" Geometric Lowercase Wordmark with Linked 'oo' */}
       {variant === 'full' && (
-        <span className="font-extrabold tracking-tight text-xl sm:text-2xl lowercase leading-none text-[#F2F5F9] select-none flex items-center">
+        <span className={`font-extrabold tracking-tight text-xl sm:text-2xl lowercase leading-none ${wordmarkTextColor} transition-colors select-none flex items-center`}>
           <span>ax</span>
           <span className="relative flex items-center mx-[0.5px]">
             <span className="text-[#0D95FE] font-black">oo</span>

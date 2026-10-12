@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence, type Variants } from 'framer-motion';
 import { ScreenType } from '../types';
+import { useTheme } from '../context/ThemeContext';
 
 interface Testimonial {
   id: string;
@@ -41,11 +42,13 @@ interface CustomerTestimonialCarouselProps {
 }
 
 export const CustomerTestimonialCarousel: React.FC<CustomerTestimonialCarouselProps> = ({
-  isLight = false,
+  isLight: propIsLight,
   onNavigate,
   onOpenWaitlist,
   onOpenWhatsApp,
 }) => {
+  const { theme } = useTheme();
+  const isLight = propIsLight ?? theme === 'light';
   const testimonials: Testimonial[] = [
     {
       id: 'musa-danbaba',
@@ -259,22 +262,38 @@ export const CustomerTestimonialCarousel: React.FC<CustomerTestimonialCarouselPr
     <section
       onMouseEnter={() => setIsPaused(true)}
       onMouseLeave={() => setIsPaused(false)}
-      className="relative w-full px-4 sm:px-6 lg:px-8 py-16 lg:py-24 border-b border-[#14294F] bg-[#020F2E] overflow-hidden select-none"
+      className={`relative w-full px-4 sm:px-6 lg:px-8 py-16 lg:py-24 border-b transition-colors overflow-hidden select-none ${
+        isLight
+          ? 'bg-slate-50 border-slate-200 text-slate-900'
+          : 'border-[#14294F] bg-[#020F2E] text-[#F2F5F9]'
+      }`}
     >
       <div className="max-w-7xl mx-auto flex flex-col gap-10 relative z-10">
         {/* Header & Category Controls (Zero-pill, clean typography) */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-6 border-b border-[#14294F]">
+        <div
+          className={`flex flex-col md:flex-row md:items-end justify-between gap-6 pb-6 border-b ${
+            isLight ? 'border-slate-200' : 'border-[#14294F]'
+          }`}
+        >
           <div className="flex flex-col gap-2">
-            <div className="flex items-center gap-2 text-xs font-mono text-[#00DF8F]">
+            <div className="flex items-center gap-2 text-xs font-mono font-bold">
               <span className="h-1.5 w-1.5 rounded-full bg-[#00DF8F]" />
-              <span>Real Merchant Stories</span>
-              <span aria-hidden="true" className="text-[#14294F]">·</span>
-              <span className="text-[#A8BBD6]">Verified Market Accounts</span>
+              <span className={isLight ? 'text-emerald-700' : 'text-[#00DF8F]'}>REAL MERCHANT STORIES</span>
+              <span aria-hidden="true" className={isLight ? 'text-slate-300' : 'text-[#14294F]'}>·</span>
+              <span className={isLight ? 'text-slate-500' : 'text-[#A8BBD6]'}>Verified Market Accounts</span>
             </div>
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-[#F2F5F9] tracking-tight">
+            <h2
+              className={`text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight ${
+                isLight ? 'text-slate-900' : 'text-[#F2F5F9]'
+              }`}
+            >
               Don't just take our word for it.
             </h2>
-            <p className="text-sm sm:text-base text-[#A8BBD6] max-w-xl">
+            <p
+              className={`text-sm sm:text-base max-w-xl ${
+                isLight ? 'text-slate-600' : 'text-[#A8BBD6]'
+              }`}
+            >
               Authentic Nigerian shopkeepers, market women, and agency banking operators who depend on Axoora every single trading day.
             </p>
           </div>
@@ -288,9 +307,13 @@ export const CustomerTestimonialCarousel: React.FC<CustomerTestimonialCarouselPr
                   <button
                     key={t.id}
                     onClick={() => setCurrentIndex(idx)}
-                    className={`w-11 h-11 sm:w-12 sm:h-12 rounded-full border-2 transition-all overflow-hidden cursor-pointer shadow-md bg-[#020F2E] ${
+                    className={`w-11 h-11 sm:w-12 sm:h-12 rounded-full border-2 transition-all overflow-hidden cursor-pointer shadow-md ${
+                      isLight ? 'bg-white' : 'bg-[#020F2E]'
+                    } ${
                       isSelected
                         ? 'border-[#00DF8F] scale-110 z-10 ring-2 ring-[#00DF8F]/50'
+                        : isLight
+                        ? 'border-slate-300 opacity-75 hover:opacity-100 hover:scale-105'
                         : 'border-[#14294F] opacity-75 hover:opacity-100 hover:scale-105'
                     }`}
                     title={`${t.name} (${t.business})`}
@@ -306,7 +329,11 @@ export const CustomerTestimonialCarousel: React.FC<CustomerTestimonialCarouselPr
             </div>
 
             {/* Category Filter Controls */}
-            <div className="flex items-center gap-1 p-1 bg-[#0A1B3D] border border-[#14294F] rounded-lg">
+            <div
+              className={`flex items-center gap-1 p-1 rounded-xl border ${
+                isLight ? 'bg-white border-slate-200 shadow-xs' : 'bg-[#0A1B3D] border-[#14294F]'
+              }`}
+            >
               {[
                 { id: 'all', label: 'All' },
                 { id: 'shop', label: 'Shops' },
@@ -315,9 +342,13 @@ export const CustomerTestimonialCarousel: React.FC<CustomerTestimonialCarouselPr
                 <button
                   key={tab.id}
                   onClick={() => setActiveCategory(tab.id as any)}
-                  className={`px-3 py-1 text-xs font-medium rounded-md transition-colors cursor-pointer ${
+                  className={`px-3 py-1 text-xs rounded-lg transition-colors cursor-pointer ${
                     activeCategory === tab.id
-                      ? 'bg-[#14294F] text-[#F2F5F9] shadow-sm font-semibold'
+                      ? isLight
+                        ? 'bg-slate-900 text-white font-bold shadow-xs'
+                        : 'bg-[#14294F] text-[#F2F5F9] shadow-sm font-semibold'
+                      : isLight
+                      ? 'text-slate-600 hover:text-slate-900 font-medium'
                       : 'text-[#A8BBD6] hover:text-[#F2F5F9]'
                   }`}
                 >
@@ -338,7 +369,11 @@ export const CustomerTestimonialCarousel: React.FC<CustomerTestimonialCarouselPr
               initial="enter"
               animate="center"
               exit="exit"
-              className="w-full rounded-2xl bg-[#0A1B3D] border border-[#14294F] p-6 sm:p-10 shadow-xl relative overflow-hidden"
+              className={`w-full rounded-3xl border-2 p-6 sm:p-10 shadow-xl relative overflow-hidden ${
+                isLight
+                  ? 'bg-white border-slate-200 text-slate-900 shadow-slate-200/80'
+                  : 'bg-[#0A1B3D] border-[#14294F] text-[#F2F5F9]'
+              }`}
             >
               <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 sm:gap-10 items-center">
                 {/* Left Column: Authentic Human Merchant Identity Card (NO AI PHOTOS) */}

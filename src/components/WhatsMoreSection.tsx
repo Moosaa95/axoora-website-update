@@ -2,6 +2,7 @@
 
 import React from 'react';
 import { ScreenType } from '../types';
+import { useTheme } from '../context/ThemeContext';
 
 interface WhatsMoreSectionProps {
   onNavigate: (screen: ScreenType) => void;
@@ -12,6 +13,9 @@ export const WhatsMoreSection: React.FC<WhatsMoreSectionProps> = ({
   onNavigate,
   onOpenWhatsApp,
 }) => {
+  const { theme } = useTheme();
+  const isLight = theme === 'light';
+
   const cards = [
     {
       title: 'Manage Multiple Businesses',
@@ -37,18 +41,28 @@ export const WhatsMoreSection: React.FC<WhatsMoreSectionProps> = ({
   ];
 
   return (
-    <section className="relative w-full py-16 bg-[#F8FAFC] text-[#0F172A] border-b border-[#E2E8F0]">
+    <section
+      className={`relative w-full py-16 border-b transition-colors ${
+        isLight
+          ? 'bg-slate-50 border-slate-200 text-slate-900'
+          : 'bg-[#01091C] border-[#14294F] text-[#F2F5F9]'
+      }`}
+    >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col gap-10">
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
           <div>
             <span className="text-xs font-bold font-mono uppercase tracking-widest text-[#0D95FE]">
               BEYOND TRANSACTIONS
             </span>
-            <h3 className="text-2xl sm:text-3xl font-extrabold text-[#0F172A] tracking-tight mt-1">
+            <h3
+              className={`text-2xl sm:text-3xl font-extrabold tracking-tight mt-1 ${
+                isLight ? 'text-slate-900' : 'text-[#F2F5F9]'
+              }`}
+            >
               What's more?
             </h3>
           </div>
-          <p className="text-sm text-[#64748B] max-w-md">
+          <p className={`text-sm max-w-md ${isLight ? 'text-slate-600' : 'text-[#A8BBD6]'}`}>
             Explore more ways to take your business to the next level with dedicated tools crafted for Nigerian commerce.
           </p>
         </div>
@@ -58,7 +72,11 @@ export const WhatsMoreSection: React.FC<WhatsMoreSectionProps> = ({
             <div
               key={i}
               onClick={card.action}
-              className="p-6 sm:p-8 rounded-3xl bg-white border border-[#E2E8F0] hover:border-[#0D95FE]/50 shadow-sm hover:shadow-md transition-all flex flex-col gap-4 cursor-pointer group"
+              className={`p-6 sm:p-8 rounded-3xl border transition-all flex flex-col gap-4 cursor-pointer group ${
+                isLight
+                  ? 'bg-white border-slate-200 hover:border-[#0D95FE]/50 shadow-sm hover:shadow-md text-slate-900'
+                  : 'bg-[#0A1B3D] border-[#14294F] hover:border-[#0D95FE]/60 hover:bg-[#0E2452] text-[#F2F5F9]'
+              }`}
             >
               <div
                 className="w-12 h-12 rounded-2xl flex items-center justify-center text-white shadow-sm group-hover:scale-105 transition-transform"
@@ -66,10 +84,14 @@ export const WhatsMoreSection: React.FC<WhatsMoreSectionProps> = ({
               >
                 <span className="material-symbols-outlined text-[24px]">{card.icon}</span>
               </div>
-              <h4 className="text-xl font-bold text-[#0F172A] tracking-tight group-hover:text-[#0D95FE] transition-colors">
+              <h4
+                className={`text-xl font-bold tracking-tight group-hover:text-[#0D95FE] transition-colors ${
+                  isLight ? 'text-slate-900' : 'text-[#F2F5F9]'
+                }`}
+              >
                 {card.title}
               </h4>
-              <p className="text-sm text-[#64748B] leading-relaxed">
+              <p className={`text-sm leading-relaxed ${isLight ? 'text-slate-600' : 'text-[#A8BBD6]'}`}>
                 {card.desc}
               </p>
               <div className="pt-2 flex items-center gap-1.5 text-xs font-bold text-[#0D95FE] group-hover:translate-x-1 transition-transform">

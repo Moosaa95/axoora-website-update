@@ -3,6 +3,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { COMPANY_INFO } from '../data/mockData';
+import { useTheme } from '../context/ThemeContext';
 
 interface LiveVideoShowcaseSectionProps {
   isLight?: boolean;
@@ -64,12 +65,15 @@ const SCENES: SceneInfo[] = [
 ];
 
 export const LiveVideoShowcaseSection: React.FC<LiveVideoShowcaseSectionProps> = ({
-  isLight = false,
+  isLight: propIsLight,
   onOpenWaitlist,
   onOpenWhatsApp,
 }) => {
+  const { theme } = useTheme();
+  const isLight = propIsLight ?? theme === 'light';
+
   const [activeSceneId, setActiveSceneId] = useState<VideoSceneId>('pos-street');
-  const [isPlaying, setIsPlaying] = useState<boolean>(true);
+  const [isPlaying, setIsPlaying] = useState<boolean>(false);
   const [isMuted, setIsMuted] = useState<boolean>(true);
   const [isFullscreenOpen, setIsFullscreenOpen] = useState<boolean>(false);
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -91,7 +95,11 @@ export const LiveVideoShowcaseSection: React.FC<LiveVideoShowcaseSectionProps> =
   return (
     <section
       id="live-video-showcase"
-      className="relative w-full px-4 sm:px-6 lg:px-8 py-16 lg:py-24 border-b border-[#14294F] bg-[#020F2E] overflow-hidden"
+      className={`relative w-full px-4 sm:px-6 lg:px-8 py-16 lg:py-24 border-b overflow-hidden transition-colors ${
+        isLight
+          ? 'bg-white border-slate-200 text-slate-900'
+          : 'border-[#14294F] bg-[#020F2E] text-[#F2F5F9]'
+      }`}
     >
       {/* Background ambient lighting */}
       <div className="absolute top-1/2 left-1/3 w-[600px] h-[350px] bg-[#0D95FE]/10 rounded-full blur-[140px] pointer-events-none" />
@@ -99,31 +107,43 @@ export const LiveVideoShowcaseSection: React.FC<LiveVideoShowcaseSectionProps> =
 
       <div className="max-w-7xl mx-auto relative z-10 flex flex-col gap-10">
         {/* Section Header */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-6 border-b border-[#14294F]">
+        <div
+          className={`flex flex-col md:flex-row md:items-end justify-between gap-6 pb-6 border-b ${
+            isLight ? 'border-slate-200' : 'border-[#14294F]'
+          }`}
+        >
           <div className="flex flex-col gap-2 max-w-2xl">
-            <div className="inline-flex items-center gap-2 text-xs font-mono text-[#00DF8F]">
+            <div className="inline-flex items-center gap-2 text-xs font-mono font-bold">
               <span className="relative flex h-2.5 w-2.5">
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#00DF8F] opacity-75" />
                 <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-[#00DF8F]" />
               </span>
-              <span className="font-semibold uppercase tracking-wider">
+              <span className={isLight ? 'text-emerald-700 uppercase tracking-wider' : 'text-[#00DF8F] uppercase tracking-wider'}>
                 LIVE VIDEO // REAL-WORLD COMMERCE IN ACTION
               </span>
-              <span aria-hidden="true" className="text-[#14294F]">·</span>
-              <span className="text-[#A8BBD6]">Unedited Street Footage</span>
+              <span aria-hidden="true" className={isLight ? 'text-slate-300' : 'text-[#14294F]'}>·</span>
+              <span className={isLight ? 'text-slate-500' : 'text-[#A8BBD6]'}>Unedited Street Footage</span>
             </div>
 
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-[#F2F5F9] tracking-tight">
+            <h2
+              className={`text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight ${
+                isLight ? 'text-slate-900' : 'text-[#F2F5F9]'
+              }`}
+            >
               See Axoora live on the street.
             </h2>
 
-            <p className="text-base sm:text-lg text-[#A8BBD6] leading-relaxed">
+            <p className={`text-base sm:text-lg leading-relaxed ${isLight ? 'text-slate-600' : 'text-[#A8BBD6]'}`}>
               Watch how market traders, POS operators, and everyday customers move money, settle sales, and bank over WhatsApp with sub-3-second reliability.
             </p>
           </div>
 
           {/* Scene Selector Pills */}
-          <div className="flex flex-wrap items-center gap-1.5 p-1.5 bg-[#0A1B3D] border border-[#14294F] rounded-2xl self-start md:self-auto">
+          <div
+            className={`flex flex-wrap items-center gap-1.5 p-1.5 rounded-2xl border self-start md:self-auto ${
+              isLight ? 'bg-slate-100 border-slate-200' : 'bg-[#0A1B3D] border-[#14294F]'
+            }`}
+          >
             {SCENES.map((scene) => {
               const isActive = scene.id === activeSceneId;
               return (
@@ -135,7 +155,11 @@ export const LiveVideoShowcaseSection: React.FC<LiveVideoShowcaseSectionProps> =
                   }}
                   className={`px-3.5 py-2 rounded-xl text-xs font-mono font-medium transition-all cursor-pointer flex items-center gap-2 ${
                     isActive
-                      ? 'bg-[#14294F] text-[#F2F5F9] font-bold border border-[#0D95FE]/40 shadow-md'
+                      ? isLight
+                        ? 'bg-white text-slate-900 font-bold border border-slate-300 shadow-xs'
+                        : 'bg-[#14294F] text-[#F2F5F9] font-bold border border-[#0D95FE]/40 shadow-md'
+                      : isLight
+                      ? 'text-slate-600 hover:text-slate-900 hover:bg-white/60'
                       : 'text-[#A8BBD6] hover:text-[#F2F5F9] hover:bg-[#14294F]/40'
                   }`}
                 >

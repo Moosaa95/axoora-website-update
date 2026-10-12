@@ -1,7 +1,8 @@
 'use client';
 
 import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
+import { useTheme } from '../context/ThemeContext';
 
 interface LiveTransferReceiptSimulatorProps {
   isLight?: boolean;
@@ -10,10 +11,13 @@ interface LiveTransferReceiptSimulatorProps {
 }
 
 export const LiveTransferReceiptSimulator: React.FC<LiveTransferReceiptSimulatorProps> = ({
-  isLight = false,
+  isLight: propIsLight,
   onOpenWaitlist,
   onOpenWhatsApp,
 }) => {
+  const { theme } = useTheme();
+  const isLight = propIsLight ?? theme === 'light';
+
   const [amount, setAmount] = useState<number>(15000);
   const [bank, setBank] = useState<string>('Kuda Microfinance Bank');
   const [accountNumber, setAccountNumber] = useState<string>('2019482019');
@@ -61,26 +65,48 @@ export const LiveTransferReceiptSimulator: React.FC<LiveTransferReceiptSimulator
   };
 
   return (
-    <section className="relative w-full px-4 sm:px-6 lg:px-8 py-16 lg:py-24 border-b border-[#14294F] bg-[#020F2E]">
+    <section
+      className={`relative w-full px-4 sm:px-6 lg:px-8 py-16 lg:py-24 border-b transition-colors ${
+        isLight
+          ? 'bg-white border-slate-200 text-slate-900'
+          : 'border-[#14294F] bg-[#020F2E] text-[#F2F5F9]'
+      }`}
+    >
       <div className="max-w-7xl mx-auto flex flex-col gap-10">
         {/* Header */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-6 border-b border-[#14294F]">
+        <div
+          className={`flex flex-col md:flex-row md:items-end justify-between gap-6 pb-6 border-b ${
+            isLight ? 'border-slate-200' : 'border-[#14294F]'
+          }`}
+        >
           <div className="flex flex-col gap-2">
-            <div className="flex items-center gap-2 text-xs font-mono text-[#00DF8F]">
+            <div className="flex items-center gap-2 text-xs font-mono text-[#00DF8F] font-bold">
               <span className="h-1.5 w-1.5 rounded-full bg-[#00DF8F]" />
-              <span>Interactive Simulator</span>
-              <span aria-hidden="true" className="text-[#14294F]">·</span>
-              <span className="text-[#A8BBD6]">Test A Real ₦0 Fee Transfer</span>
+              <span className={isLight ? 'text-emerald-700' : 'text-[#00DF8F]'}>INTERACTIVE SIMULATOR</span>
+              <span aria-hidden="true" className={isLight ? 'text-slate-300' : 'text-[#14294F]'}>·</span>
+              <span className={isLight ? 'text-slate-500' : 'text-[#A8BBD6]'}>Test A Real ₦0 Fee Transfer</span>
             </div>
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-[#F2F5F9] tracking-tight">
+            <h2
+              className={`text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight ${
+                isLight ? 'text-slate-900' : 'text-[#F2F5F9]'
+              }`}
+            >
               Feel how fast money moves.
             </h2>
-            <p className="text-sm sm:text-base text-[#A8BBD6] max-w-xl">
+            <p
+              className={`text-sm sm:text-base max-w-xl ${
+                isLight ? 'text-slate-600' : 'text-[#A8BBD6]'
+              }`}
+            >
               Type an amount, pick any Nigerian bank, and watch how Axoora routes through CBN partner settlement in under 2 seconds.
             </p>
           </div>
 
-          <div className="text-xs text-[#A8BBD6] font-mono self-start md:self-auto flex items-center gap-2">
+          <div
+            className={`text-xs font-mono self-start md:self-auto flex items-center gap-2 ${
+              isLight ? 'text-slate-600' : 'text-[#A8BBD6]'
+            }`}
+          >
             <span className="h-2 w-2 rounded-full bg-[#00DF8F] animate-pulse" />
             <span>NIBSS Instant Payment (NIP) Rail Live</span>
           </div>
@@ -89,9 +115,23 @@ export const LiveTransferReceiptSimulator: React.FC<LiveTransferReceiptSimulator
         {/* Transfer Console & Thermal Receipt Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
           {/* Left Console: User Inputs & Transfer Trigger */}
-          <div className="lg:col-span-6 rounded-2xl bg-[#0A1B3D] border border-[#14294F] p-6 sm:p-8 flex flex-col gap-6">
-            <div className="flex items-center justify-between pb-3 border-b border-[#14294F]">
-              <span className="text-xs font-mono font-bold text-[#F2F5F9] uppercase">
+          <div
+            className={`lg:col-span-6 rounded-3xl border-2 p-6 sm:p-8 flex flex-col gap-6 ${
+              isLight
+                ? 'bg-slate-50 border-slate-200 shadow-sm'
+                : 'bg-[#0A1B3D] border-[#14294F]'
+            }`}
+          >
+            <div
+              className={`flex items-center justify-between pb-3 border-b ${
+                isLight ? 'border-slate-200' : 'border-[#14294F]'
+              }`}
+            >
+              <span
+                className={`text-xs font-mono font-bold uppercase ${
+                  isLight ? 'text-slate-800' : 'text-[#F2F5F9]'
+                }`}
+              >
                 Send Money (Instant Transfer)
               </span>
               <span className="text-xs font-mono text-[#00DF8F] font-bold">
@@ -101,7 +141,13 @@ export const LiveTransferReceiptSimulator: React.FC<LiveTransferReceiptSimulator
 
             {/* Quick Amount Chips */}
             <div className="flex flex-col gap-2">
-              <label className="text-xs text-[#A8BBD6] font-mono">Select or Enter Amount:</label>
+              <label
+                className={`text-xs font-mono ${
+                  isLight ? 'text-slate-600' : 'text-[#A8BBD6]'
+                }`}
+              >
+                Select or Enter Amount:
+              </label>
               <div className="grid grid-cols-4 gap-2">
                 {[5000, 15000, 50000, 100000].map((val) => (
                   <button
@@ -110,9 +156,11 @@ export const LiveTransferReceiptSimulator: React.FC<LiveTransferReceiptSimulator
                       setAmount(val);
                       setIsSuccess(false);
                     }}
-                    className={`py-2 rounded-lg text-xs font-mono font-bold transition-all cursor-pointer ${
+                    className={`py-2 rounded-xl text-xs font-mono font-bold transition-all cursor-pointer ${
                       amount === val
-                        ? 'bg-[#00DF8F] text-[#003825]'
+                        ? 'bg-[#00DF8F] text-[#003825] shadow-xs'
+                        : isLight
+                        ? 'bg-white text-slate-700 border border-slate-200 hover:border-slate-400'
                         : 'bg-[#020F2E] text-[#A8BBD6] border border-[#14294F] hover:text-[#F2F5F9]'
                     }`}
                   >
@@ -131,24 +179,42 @@ export const LiveTransferReceiptSimulator: React.FC<LiveTransferReceiptSimulator
                     setAmount(Number(e.target.value));
                     setIsSuccess(false);
                   }}
-                  className="w-full pl-8 pr-4 py-2.5 rounded-lg bg-[#020F2E] border border-[#14294F] text-[#F2F5F9] font-mono font-bold text-sm focus:outline-none focus:border-[#00DF8F]"
+                  className={`w-full pl-8 pr-4 py-2.5 rounded-xl font-mono font-bold text-sm focus:outline-none focus:ring-2 focus:ring-[#00DF8F] ${
+                    isLight
+                      ? 'bg-white border border-slate-300 text-slate-900'
+                      : 'bg-[#020F2E] border border-[#14294F] text-[#F2F5F9]'
+                  }`}
                 />
               </div>
             </div>
 
             {/* Recipient Bank Selector */}
             <div className="flex flex-col gap-2">
-              <label className="text-xs text-[#A8BBD6] font-mono">Destination Bank:</label>
+              <label
+                className={`text-xs font-mono ${
+                  isLight ? 'text-slate-600' : 'text-[#A8BBD6]'
+                }`}
+              >
+                Destination Bank:
+              </label>
               <select
                 value={bank}
                 onChange={(e) => {
                   setBank(e.target.value);
                   setIsSuccess(false);
                 }}
-                className="w-full px-3 py-2.5 rounded-lg bg-[#020F2E] border border-[#14294F] text-[#F2F5F9] text-xs font-medium focus:outline-none focus:border-[#00DF8F] cursor-pointer"
+                className={`w-full px-3 py-2.5 rounded-xl text-xs font-medium focus:outline-none focus:ring-2 focus:ring-[#00DF8F] cursor-pointer ${
+                  isLight
+                    ? 'bg-white border border-slate-300 text-slate-900'
+                    : 'bg-[#020F2E] border border-[#14294F] text-[#F2F5F9]'
+                }`}
               >
                 {bankOptions.map((b) => (
-                  <option key={b.name} value={b.name} className="bg-[#020F2E] text-[#F2F5F9]">
+                  <option
+                    key={b.name}
+                    value={b.name}
+                    className={isLight ? 'bg-white text-slate-900' : 'bg-[#020F2E] text-[#F2F5F9]'}
+                  >
                     {b.name}
                   </option>
                 ))}
@@ -158,39 +224,67 @@ export const LiveTransferReceiptSimulator: React.FC<LiveTransferReceiptSimulator
             {/* Account Number & Name */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div className="flex flex-col gap-1.5">
-                <label className="text-xs text-[#A8BBD6] font-mono">10-Digit NUBAN:</label>
+                <label
+                  className={`text-xs font-mono ${
+                    isLight ? 'text-slate-600' : 'text-[#A8BBD6]'
+                  }`}
+                >
+                  10-Digit NUBAN:
+                </label>
                 <input
                   type="text"
                   value={accountNumber}
                   onChange={(e) => setAccountNumber(e.target.value)}
                   maxLength={10}
-                  className="w-full px-3 py-2 rounded-lg bg-[#020F2E] border border-[#14294F] text-[#F2F5F9] font-mono text-xs focus:outline-none focus:border-[#00DF8F]"
+                  className={`w-full px-3 py-2 rounded-xl font-mono text-xs focus:outline-none focus:ring-2 focus:ring-[#00DF8F] ${
+                    isLight
+                      ? 'bg-white border border-slate-300 text-slate-900'
+                      : 'bg-[#020F2E] border border-[#14294F] text-[#F2F5F9]'
+                  }`}
                 />
               </div>
 
               <div className="flex flex-col gap-1.5">
-                <label className="text-xs text-[#A8BBD6] font-mono">Verified Recipient Name:</label>
-                <div className="px-3 py-2 rounded-lg bg-[#020F2E] border border-[#14294F] text-xs text-[#00DF8F] font-semibold flex items-center justify-between">
+                <label
+                  className={`text-xs font-mono ${
+                    isLight ? 'text-slate-600' : 'text-[#A8BBD6]'
+                  }`}
+                >
+                  Verified Recipient Name:
+                </label>
+                <div
+                  className={`px-3 py-2 rounded-xl text-xs font-semibold flex items-center justify-between border ${
+                    isLight
+                      ? 'bg-emerald-50 border-emerald-200 text-emerald-800'
+                      : 'bg-[#020F2E] border border-[#14294F] text-[#00DF8F]'
+                  }`}
+                >
                   <span>{recipientName}</span>
-                  <span className="material-symbols-outlined text-[15px]">check_circle</span>
+                  <span className="material-symbols-outlined text-[15px] text-[#00DF8F]">check_circle</span>
                 </div>
               </div>
             </div>
 
             {/* Fee Comparison Notice */}
-            <div className="p-3 rounded-lg bg-[#020F2E] border border-[#14294F] flex items-center justify-between text-xs font-mono">
-              <span className="text-[#A8BBD6]">Conventional Bank Charge:</span>
-              <span className="text-red-400 line-through">₦53.75</span>
+            <div
+              className={`p-3 rounded-xl border flex items-center justify-between text-xs font-mono ${
+                isLight
+                  ? 'bg-white border-slate-200 text-slate-600'
+                  : 'bg-[#020F2E] border border-[#14294F] text-[#A8BBD6]'
+              }`}
+            >
+              <span>Conventional Bank Charge:</span>
+              <span className="text-red-500 line-through font-bold">₦53.75</span>
             </div>
 
             {/* Action Button */}
             <button
               onClick={handleSimulateTransfer}
               disabled={isProcessing}
-              className={`w-full py-3 rounded-lg font-bold text-sm transition-all flex items-center justify-center gap-2 cursor-pointer shadow-md ${
+              className={`w-full py-3.5 rounded-xl font-extrabold text-sm transition-all flex items-center justify-center gap-2 cursor-pointer shadow-md active:scale-98 ${
                 isProcessing
                   ? 'bg-[#14294F] text-[#A8BBD6] cursor-wait'
-                  : 'bg-[#00DF8F] hover:bg-[#0D95FE] text-[#003825] hover:text-[#00325b]'
+                  : 'bg-[#00DF8F] hover:bg-[#0D95FE] text-[#003825] hover:text-white'
               }`}
             >
               {isProcessing ? (
@@ -295,17 +389,37 @@ export const LiveTransferReceiptSimulator: React.FC<LiveTransferReceiptSimulator
                 </div>
               </motion.div>
             ) : (
-              <div className="w-full max-w-md p-8 rounded-2xl bg-[#0A1B3D] border-2 border-dashed border-[#14294F] flex flex-col items-center justify-center text-center gap-4 min-h-[380px]">
-                <div className="w-16 h-16 rounded-full bg-[#020F2E] border border-[#14294F] flex items-center justify-center text-[#00DF8F]">
+              <div
+                className={`w-full max-w-md p-8 rounded-3xl border-2 border-dashed flex flex-col items-center justify-center text-center gap-4 min-h-[380px] ${
+                  isLight
+                    ? 'bg-slate-50 border-slate-300'
+                    : 'bg-[#0A1B3D] border-[#14294F]'
+                }`}
+              >
+                <div
+                  className={`w-16 h-16 rounded-2xl flex items-center justify-center text-[#00DF8F] ${
+                    isLight
+                      ? 'bg-white border border-slate-200 shadow-sm'
+                      : 'bg-[#020F2E] border border-[#14294F]'
+                  }`}
+                >
                   <span className="material-symbols-outlined text-[32px]">receipt_long</span>
                 </div>
-                <h4 className="text-lg font-bold text-[#F2F5F9]">
+                <h4
+                  className={`text-lg font-bold ${
+                    isLight ? 'text-slate-900' : 'text-[#F2F5F9]'
+                  }`}
+                >
                   Instant Receipt Slip Preview
                 </h4>
-                <p className="text-xs text-[#A8BBD6] max-w-xs leading-relaxed">
-                  Hit <strong className="text-[#00DF8F]">"Send Now"</strong> on the left to simulate a live NIBSS transfer and print your official thermal paper transaction receipt.
+                <p
+                  className={`text-xs max-w-xs leading-relaxed ${
+                    isLight ? 'text-slate-600' : 'text-[#A8BBD6]'
+                  }`}
+                >
+                  Hit <strong className="text-emerald-600 dark:text-[#00DF8F]">"Send Now"</strong> on the left to simulate a live NIBSS transfer and print your official thermal paper transaction receipt.
                 </p>
-                <span className="text-[11px] font-mono text-[#0D95FE]">
+                <span className="text-[11px] font-mono text-[#0D95FE] font-bold">
                   Zero Transfer Fees · CBN Insured Escrow
                 </span>
               </div>

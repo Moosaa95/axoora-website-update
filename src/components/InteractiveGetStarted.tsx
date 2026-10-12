@@ -3,8 +3,10 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useCms } from '../context/CmsContext';
+import { AppleAppStoreBadge, GooglePlayBadge } from './StoreBadges';
 
 interface InteractiveGetStartedProps {
+  isLight?: boolean;
   onOpenWaitlist: (interest?: 'personal' | 'business' | 'pos-agent') => void;
   onOpenDownloadApp: () => void;
   onOpenWhatsApp?: () => void;
@@ -571,28 +573,29 @@ export const InteractiveGetStarted: React.FC<InteractiveGetStartedProps> = ({
               );
             })}
 
-            {/* Quick Action CTAs */}
+            {/* Quick Action CTAs & Store Badges (Matches Video at 00:30 & 01:13) */}
             <div className="pt-1 pl-2 flex flex-wrap items-center gap-3">
+              <AppleAppStoreBadge
+                onClick={onOpenDownloadApp}
+                className="py-2"
+              />
+              <GooglePlayBadge
+                onClick={onOpenDownloadApp}
+                className="py-2"
+              />
+
               <button
                 onClick={() => onOpenWaitlist('business')}
-                className="px-5 py-2.5 rounded-full bg-[#0D95FE] hover:bg-[#00DF8F] text-[#00284D] hover:text-[#003825] font-bold text-sm transition-all shadow-md cursor-pointer flex items-center gap-2"
+                className="px-5 py-2.5 rounded-xl bg-[#0D95FE] hover:bg-[#00DF8F] text-[#00284D] hover:text-[#003825] font-bold text-sm transition-all shadow-md cursor-pointer flex items-center gap-2"
               >
                 <span>Open an Account</span>
                 <span className="material-symbols-outlined text-[16px]">arrow_forward</span>
               </button>
 
-              <button
-                onClick={onOpenDownloadApp}
-                className="px-4 py-2.5 rounded-full bg-[#0A1B3D] hover:bg-[#14294F] text-white border border-[#14294F] font-semibold text-sm transition-all cursor-pointer flex items-center gap-2"
-              >
-                <span>Download App</span>
-                <span className="material-symbols-outlined text-[16px]">download</span>
-              </button>
-
               {onOpenWhatsApp && (
                 <button
                   onClick={onOpenWhatsApp}
-                  className="px-3.5 py-2 rounded-full text-xs font-semibold text-[#A8BBD6] hover:text-[#00DF8F] transition-colors flex items-center gap-1.5 cursor-pointer"
+                  className="px-3.5 py-2 rounded-xl text-xs font-semibold text-[#A8BBD6] hover:text-[#00DF8F] transition-colors flex items-center gap-1.5 cursor-pointer border border-[#14294F] bg-[#0A1B3D]"
                 >
                   <span className="material-symbols-outlined text-[16px] text-[#00DF8F]">chat</span>
                   <span>WhatsApp Banking</span>

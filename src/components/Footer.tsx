@@ -1,7 +1,8 @@
 import React from 'react';
 import { ScreenType } from '../types';
-import { COMPANY_INFO } from '../data/mockData';
 import { AxooraLogo } from './AxooraLogo';
+import { useTheme } from '../context/ThemeContext';
+import { AppleAppStoreBadge, GooglePlayBadge } from './StoreBadges';
 
 interface FooterProps {
   onNavigate: (screen: ScreenType) => void;
@@ -14,381 +15,162 @@ export const Footer: React.FC<FooterProps> = ({
   onOpenWaitlist,
   onOpenWhatsApp,
 }) => {
+  const { theme } = useTheme();
+  const isLight = theme === 'light';
+
   const handleNav = (screen: ScreenType) => {
     onNavigate(screen);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   return (
-    <footer className="w-full bg-[#01091C] border-t border-[#14294F] mt-auto">
-      {/* Axoora High-Impact Commercial Growth Banner */}
-      <div className="w-full px-4 sm:px-6 lg:px-8 py-10 sm:py-14 bg-gradient-to-r from-[#0052CC] via-[#0D95FE] to-[#00DF8F] text-white">
-        <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6 text-center md:text-left">
-          <div className="flex flex-col gap-2 max-w-xl">
-            <h3 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight text-white leading-tight">
-              Enjoy a business solution designed to help you grow.
-            </h3>
-            <p className="text-sm sm:text-base text-blue-100 font-medium">
-              Join thousands of Nigerian shopkeepers, traders, and agents who experience smooth, easy daily banking.
-            </p>
-          </div>
-
-          <div className="flex flex-wrap items-center justify-center gap-3">
-            <button
-              onClick={() => onOpenWaitlist()}
-              className="px-7 py-3.5 rounded-full bg-white text-[#003B73] hover:bg-slate-100 font-extrabold text-sm sm:text-base transition-all flex items-center gap-2 cursor-pointer shadow-lg hover:shadow-xl active:scale-98"
-            >
-              <span>Open an account</span>
-              <span className="material-symbols-outlined text-[18px]">arrow_forward</span>
-            </button>
-            <button
-              onClick={onOpenWhatsApp}
-              className="px-6 py-3.5 rounded-full bg-blue-950/40 hover:bg-blue-950/60 border border-white/40 text-white font-bold text-sm sm:text-base transition-all flex items-center gap-2 cursor-pointer"
-            >
-              <span className="material-symbols-outlined text-[18px]">chat</span>
-              <span>Chat with us</span>
-            </button>
-          </div>
-        </div>
-      </div>
-
-      {/* Trust Banner on Top of Footer as required in the brief */}
-      <div className="w-full border-b border-[#14294F] bg-[#020F2E]/70 py-4 px-4 sm:px-8">
-        <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-3 text-center md:text-left">
-          <div className="flex items-center gap-2">
-            <span className="h-2 w-2 rounded-full bg-[#00DF8F] shrink-0"></span>
-            <p className="text-xs sm:text-sm font-medium text-[#F2F5F9]">
-              {COMPANY_INFO.trustLine}
-            </p>
-          </div>
-          <div className="flex items-center gap-3">
-            <button
-              onClick={onOpenWhatsApp}
-              className="text-xs font-semibold text-[#00DF8F] hover:underline flex items-center gap-1 cursor-pointer"
-            >
-              <span className="material-symbols-outlined text-[15px]">chat</span>
-              <span>Bank with Axoora AI on WhatsApp</span>
-            </button>
-            <span className="text-[#14294F]">|</span>
-            <button
-              onClick={onOpenWaitlist}
-              className="text-xs font-semibold text-[#0D95FE] hover:underline cursor-pointer"
-            >
-              Join Waitlist
-            </button>
-          </div>
-        </div>
-      </div>
-
-      <div className="w-full px-4 sm:px-8 py-12 max-w-7xl mx-auto">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-8">
-          {/* Brand info */}
-          <div className="lg:col-span-4 flex flex-col gap-4">
-            <div className="flex items-center">
-              <AxooraLogo size="lg" />
+    <footer
+      className={`w-full border-t transition-colors ${
+        isLight
+          ? 'bg-slate-900 text-white border-slate-800'
+          : 'bg-[#010817] text-[#F2F5F9] border-[#14294F]'
+      }`}
+    >
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10">
+          {/* Column 1: Brand & Regulatory Statement */}
+          <div className="lg:col-span-4 flex flex-col gap-5">
+            <div className="flex items-center gap-2">
+              <AxooraLogo size="lg" theme="dark" />
+              <div className="flex flex-col">
+                <span className="text-[10px] font-bold tracking-wider uppercase text-blue-400">
+                  Microfinance Bank
+                </span>
+              </div>
             </div>
 
-            <p className="text-sm text-[#A8BBD6] leading-relaxed max-w-sm">
-              AXOORA Financial Technologies Limited. Building finance that is affordable, sustainable, and free of interest for Nigerian individuals, shops, and agents.
+            <p className="text-xs leading-relaxed text-slate-400 max-w-sm">
+              Axoora Microfinance Bank Limited is authorised and regulated by the Central Bank of Nigeria to offer banking services. Deposits are insured by the Nigerian Deposit Insurance Corporation (NDIC).
             </p>
 
-            <div className="flex items-start gap-2 text-xs text-[#A8BBD6] pt-1">
-              <span className="material-symbols-outlined text-[#0D95FE] text-[18px] shrink-0">
-                location_on
-              </span>
-              <span>Office: {COMPANY_INFO.office}</span>
+            {/* App Store Buttons (Official Authentic Badges) */}
+            <div className="flex flex-wrap items-center gap-2.5 pt-1">
+              <AppleAppStoreBadge
+                onClick={onOpenWaitlist}
+                isLight={false}
+                className="!py-2 !px-3"
+              />
+              <GooglePlayBadge
+                onClick={onOpenWaitlist}
+                isLight={false}
+                className="!py-2 !px-3"
+              />
             </div>
 
-            <div className="flex flex-wrap gap-2 pt-2">
-              <span className="inline-flex items-center px-2.5 py-1 rounded bg-[#0A1B3D] border border-[#14294F] font-mono text-[10px] text-[#00DF8F]">
-                CBN LICENSED
-              </span>
-              <span className="inline-flex items-center px-2.5 py-1 rounded bg-[#0A1B3D] border border-[#14294F] font-mono text-[10px] text-[#A8BBD6]">
-                NDIC INSURED
-              </span>
-              <span className="inline-flex items-center px-2.5 py-1 rounded bg-[#0A1B3D] border border-[#14294F] font-mono text-[10px] text-[#0D95FE]">
-                NDPR CERTIFIED
-              </span>
+            <div className="text-xs text-slate-400 pt-3 space-y-1">
+              <p className="font-semibold text-slate-300">Plot 7A, Block 4, Admiralty Road,</p>
+              <p>Lekki Phase 1, Lagos State, Nigeria.</p>
+              <p className="pt-1 font-mono text-blue-400">+234 201 888 9990</p>
+              <p className="font-mono text-slate-400">support@axoora.com</p>
             </div>
           </div>
 
-          {/* Column 2: The Three Products */}
-          <div className="lg:col-span-3 flex flex-col gap-3">
-            <h4 className="text-xs font-bold text-[#F2F5F9] tracking-wider uppercase font-mono">
-              Products &amp; Hardware
-            </h4>
-            <nav className="flex flex-col gap-2.5 text-sm text-[#A8BBD6]">
-              <button
-                onClick={() => handleNav('personal')}
-                className="text-left hover:text-[#F2F5F9] transition-colors cursor-pointer flex items-center justify-between group"
-              >
-                <span>Axoora Personal — for the person</span>
-                <span className="text-[10px] text-[#00DF8F] opacity-0 group-hover:opacity-100 transition-opacity">0% fees</span>
-              </button>
-              <button
-                onClick={() => handleNav('business')}
-                className="text-left hover:text-[#F2F5F9] transition-colors cursor-pointer flex items-center justify-between group"
-              >
-                <span>Axoora Business — for the shop</span>
-                <span className="text-[10px] text-[#0D95FE] opacity-0 group-hover:opacity-100 transition-opacity">NUBAN</span>
-              </button>
-              <button
-                onClick={() => handleNav('pos-agents')}
-                className="text-left hover:text-[#F2F5F9] transition-colors cursor-pointer flex items-center justify-between group"
-              >
-                <span>Axoora POS Terminals — for agents</span>
-                <span className="text-[10px] text-[#F2A93B] opacity-0 group-hover:opacity-100 transition-opacity">Dual-SIM</span>
-              </button>
-              <button
-                onClick={onOpenWhatsApp}
-                className="text-left text-[#00DF8F] hover:underline transition-colors flex items-center gap-1.5 pt-1 cursor-pointer"
-              >
-                <span className="material-symbols-outlined text-[15px]">chat</span>
-                <span>Bank on WhatsApp</span>
-              </button>
-            </nav>
-          </div>
-
-          {/* Column 3: Company */}
+          {/* Column 2: For Business */}
           <div className="lg:col-span-2 flex flex-col gap-3">
-            <h4 className="text-xs font-bold text-[#F2F5F9] tracking-wider uppercase font-mono">
-              Company
-            </h4>
-            <nav className="flex flex-col gap-2.5 text-sm text-[#A8BBD6]">
-              <button
-                onClick={() => handleNav('about')}
-                className="text-left hover:text-[#F2F5F9] transition-colors cursor-pointer"
-              >
+            <h4 className="text-sm font-black text-white uppercase tracking-wider">For Business</h4>
+            <div className="flex flex-col gap-2 text-xs text-slate-400">
+              <button onClick={() => handleNav('business')} className="text-left hover:text-white transition-colors cursor-pointer">
+                Business Account
+              </button>
+              <button onClick={() => handleNav('business')} className="text-left hover:text-white transition-colors cursor-pointer">
+                Point of Sale Terminal
+              </button>
+              <button onClick={() => handleNav('business')} className="text-left hover:text-white transition-colors cursor-pointer">
+                Stock Float
+              </button>
+              <button onClick={() => handleNav('business')} className="text-left hover:text-white transition-colors cursor-pointer">
+                Expense Card
+              </button>
+              <button onClick={() => handleNav('business')} className="text-left hover:text-white transition-colors cursor-pointer">
+                Axoora Book
+              </button>
+            </div>
+          </div>
+
+          {/* Column 3: For Personal */}
+          <div className="lg:col-span-2 flex flex-col gap-3">
+            <h4 className="text-sm font-black text-white uppercase tracking-wider">For Personal</h4>
+            <div className="flex flex-col gap-2 text-xs text-slate-400">
+              <button onClick={() => handleNav('personal')} className="text-left hover:text-white transition-colors cursor-pointer">
+                Instant Debit Card
+              </button>
+              <button onClick={() => handleNav('personal')} className="text-left hover:text-white transition-colors cursor-pointer">
+                Personal Account
+              </button>
+              <button onClick={() => handleNav('personal')} className="text-left hover:text-white transition-colors cursor-pointer">
+                Payment
+              </button>
+              <button onClick={() => handleNav('personal')} className="text-left hover:text-white transition-colors cursor-pointer">
+                Personal Banking
+              </button>
+            </div>
+          </div>
+
+          {/* Column 4: Company */}
+          <div className="lg:col-span-2 flex flex-col gap-3">
+            <h4 className="text-sm font-black text-white uppercase tracking-wider">Company</h4>
+            <div className="flex flex-col gap-2 text-xs text-slate-400">
+              <button onClick={() => handleNav('about')} className="text-left hover:text-white transition-colors cursor-pointer">
                 About Us
               </button>
-              <button
-                onClick={() => handleNav('impact')}
-                className="text-left hover:text-[#F2F5F9] transition-colors cursor-pointer"
-              >
-                Impact
+              <button onClick={() => handleNav('impact')} className="text-left hover:text-white transition-colors cursor-pointer">
+                Culture
               </button>
-              <button
-                onClick={() => handleNav('stories')}
-                className="text-left hover:text-[#F2F5F9] transition-colors cursor-pointer"
-              >
-                Stories
+              <button onClick={() => handleNav('careers')} className="text-left hover:text-white transition-colors cursor-pointer">
+                Join Our Team
               </button>
-              <button
-                onClick={() => handleNav('journal')}
-                className="text-left hover:text-[#F2F5F9] transition-colors cursor-pointer"
-              >
-                Journal
+              <button onClick={() => handleNav('journal')} className="text-left hover:text-white transition-colors cursor-pointer">
+                Press &amp; Media
               </button>
-              <button
-                onClick={() => handleNav('press')}
-                className="text-left hover:text-[#F2F5F9] transition-colors cursor-pointer"
-              >
-                Press
-              </button>
-              <button
-                onClick={() => handleNav('events')}
-                className="text-left hover:text-[#F2F5F9] transition-colors cursor-pointer"
-              >
-                Events
-              </button>
-              <button
-                onClick={() => handleNav('careers')}
-                className="text-left hover:text-[#F2F5F9] transition-colors cursor-pointer"
-              >
-                Careers
-              </button>
-            </nav>
-          </div>
-
-          {/* Column 4: Help & Governance */}
-          <div className="lg:col-span-3 flex flex-col gap-3">
-            <h4 className="text-xs font-bold text-[#F2F5F9] tracking-wider uppercase font-mono">
-              Help &amp; Legal
-            </h4>
-            <nav className="flex flex-col gap-2.5 text-sm text-[#A8BBD6]">
-              <button
-                onClick={() => handleNav('help')}
-                className="text-left hover:text-[#F2F5F9] transition-colors cursor-pointer"
-              >
-                Help Centre &amp; FAQs
-              </button>
-              <button
-                onClick={() => handleNav('legal')}
-                className="text-left hover:text-[#F2F5F9] transition-colors cursor-pointer"
-              >
-                Privacy &amp; Terms
-              </button>
-              <button
-                onClick={() => handleNav('legal')}
-                className="text-left hover:text-[#F2F5F9] transition-colors cursor-pointer"
-              >
-                How to Complain
-              </button>
-              <button
-                onClick={() => handleNav('contact')}
-                className="text-left hover:text-[#F2F5F9] transition-colors cursor-pointer"
-              >
+              <button onClick={() => handleNav('contact')} className="text-left hover:text-white transition-colors cursor-pointer">
                 Contact Us
               </button>
-              <div className="pt-2 text-xs text-[#A8BBD6]/70 leading-relaxed">
-                Security notice: Axoora will never ask for your PIN or password on this site or over the phone.
-              </div>
-            </nav>
-          </div>
-        </div>
-      </div>
-
-      {/* Refined Low-Opacity Monochrome Institutional Trust Bar */}
-      <div className="w-full border-t border-[#14294F]/50 bg-[#01091C]/70 py-6 px-4 sm:px-8">
-        <div className="max-w-7xl mx-auto flex flex-col gap-5">
-          <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
-            
-            {/* Regulatory context caption in quiet typography */}
-            <div className="flex items-center gap-2 text-[11px] text-[#A8BBD6]/70">
-              <span className="w-1.5 h-1.5 rounded-full bg-[#00DF8F]/70" />
-              <span>Institutional Regulatory Governance &amp; Statutory Deposit Safeguards</span>
-            </div>
-
-            {/* Subtle, Low-Opacity Monochrome Badges that Appear on Hover */}
-            <div className="flex flex-wrap items-center gap-3 sm:gap-4">
-              
-              {/* CBN Licensed Official Badge */}
-              <div
-                className="group opacity-35 hover:opacity-100 transition-all duration-300 px-3.5 py-2 rounded-xl bg-[#05112A]/40 hover:bg-[#0A1B3D] border border-[#14294F]/40 hover:border-[#0D95FE]/50 flex items-center gap-2.5 cursor-pointer shadow-sm"
-                title="Licensed by the Central Bank of Nigeria"
-              >
-                {/* Official-looking CBN Seal Icon */}
-                <svg
-                  className="w-5 h-5 text-[#A8BBD6] group-hover:text-[#F2F5F9] transition-colors shrink-0"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="1.6"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                >
-                  <circle cx="12" cy="12" r="10" strokeDasharray="1 1" />
-                  <circle cx="12" cy="12" r="8" />
-                  <path d="M4 10h16M4 14h16M12 4v16" strokeWidth="0.8" opacity="0.4" />
-                  <path d="M8 8h8M8 16h8" strokeWidth="1.2" />
-                  <circle cx="12" cy="12" r="2.5" fill="currentColor" fillOpacity="0.2" />
-                </svg>
-                <div className="flex flex-col text-left">
-                  <span className="font-mono text-[10px] font-bold uppercase tracking-wider text-[#A8BBD6] group-hover:text-white transition-colors leading-none">
-                    CBN LICENSED
-                  </span>
-                  <span className="text-[9px] text-[#A8BBD6]/70 group-hover:text-[#0D95FE] transition-colors mt-0.5">
-                    Central Bank of Nigeria
-                  </span>
-                </div>
-              </div>
-
-              {/* NDIC Insured Official Badge */}
-              <div
-                className="group opacity-35 hover:opacity-100 transition-all duration-300 px-3.5 py-2 rounded-xl bg-[#05112A]/40 hover:bg-[#0A1B3D] border border-[#14294F]/40 hover:border-[#00DF8F]/50 flex items-center gap-2.5 cursor-pointer shadow-sm"
-                title="Eligible deposits insured by the Nigeria Deposit Insurance Corporation"
-              >
-                {/* Official-looking NDIC Shield Icon */}
-                <svg
-                  className="w-5 h-5 text-[#A8BBD6] group-hover:text-[#F2F5F9] transition-colors shrink-0"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="1.6"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                >
-                  <path d="M12 2L4 5v6.5c0 5 3.5 9.7 8 10.5 4.5-.8 8-5.5 8-10.5V5l-8-3z" />
-                  <path d="M9 12l2 2 4-4" strokeWidth="2" />
-                </svg>
-                <div className="flex flex-col text-left">
-                  <span className="font-mono text-[10px] font-bold uppercase tracking-wider text-[#A8BBD6] group-hover:text-white transition-colors leading-none">
-                    NDIC INSURED
-                  </span>
-                  <span className="text-[9px] text-[#A8BBD6]/70 group-hover:text-[#00DF8F] transition-colors mt-0.5">
-                    Deposit Insurance Corp.
-                  </span>
-                </div>
-              </div>
-
-              {/* PCI-DSS Level 1 Compliant */}
-              <div
-                className="group opacity-35 hover:opacity-100 transition-all duration-300 px-3.5 py-2 rounded-xl bg-[#05112A]/40 hover:bg-[#0A1B3D] border border-[#14294F]/40 hover:border-slate-400 flex items-center gap-2.5 cursor-pointer shadow-sm"
-                title="Payment Card Industry Data Security Standard Level 1"
-              >
-                <svg
-                  className="w-5 h-5 text-[#A8BBD6] group-hover:text-[#F2F5F9] transition-colors shrink-0"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="1.6"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                >
-                  <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
-                  <path d="M7 11V7a5 5 0 0 1 10 0v4" />
-                </svg>
-                <div className="flex flex-col text-left">
-                  <span className="font-mono text-[10px] font-bold uppercase tracking-wider text-[#A8BBD6] group-hover:text-white transition-colors leading-none">
-                    PCI-DSS COMPLIANT
-                  </span>
-                  <span className="text-[9px] text-[#A8BBD6]/70 group-hover:text-slate-300 transition-colors mt-0.5">
-                    Level 1 Security Rail
-                  </span>
-                </div>
-              </div>
-
-              {/* NIBSS Direct Switching */}
-              <div
-                className="group opacity-35 hover:opacity-100 transition-all duration-300 px-3.5 py-2 rounded-xl bg-[#05112A]/40 hover:bg-[#0A1B3D] border border-[#14294F]/40 hover:border-[#0D95FE]/50 flex items-center gap-2.5 cursor-pointer shadow-sm"
-                title="Nigeria Inter-Bank Settlement System Real-Time Rail"
-              >
-                <svg
-                  className="w-5 h-5 text-[#A8BBD6] group-hover:text-[#F2F5F9] transition-colors shrink-0"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="1.6"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                >
-                  <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
-                </svg>
-                <div className="flex flex-col text-left">
-                  <span className="font-mono text-[10px] font-bold uppercase tracking-wider text-[#A8BBD6] group-hover:text-white transition-colors leading-none">
-                    NIBSS SETTLEMENT
-                  </span>
-                  <span className="text-[9px] text-[#A8BBD6]/70 group-hover:text-[#0D95FE] transition-colors mt-0.5">
-                    Sub-3s Central Switch
-                  </span>
-                </div>
-              </div>
-
             </div>
           </div>
 
-          <p className="text-[11px] text-[#A8BBD6]/70 leading-relaxed max-w-4xl">
-            AXOORA Financial Technologies Limited. Banking and payment clearing services are administered in custodial partnership with licensed deposit money banks regulated by the Central Bank of Nigeria. Eligible deposits are insured by the Nigeria Deposit Insurance Corporation (NDIC) up to statutory maximums.
-          </p>
+          {/* Column 5: Resources */}
+          <div className="lg:col-span-2 flex flex-col gap-3">
+            <h4 className="text-sm font-black text-white uppercase tracking-wider">Resources</h4>
+            <div className="flex flex-col gap-2 text-xs text-slate-400">
+              <button onClick={() => handleNav('journal')} className="text-left hover:text-white transition-colors cursor-pointer">
+                Blog
+              </button>
+              <button onClick={() => handleNav('help')} className="text-left hover:text-white transition-colors cursor-pointer">
+                Help Centre
+              </button>
+              <button onClick={() => handleNav('legal')} className="text-left hover:text-white transition-colors cursor-pointer">
+                Whistleblower Policy
+              </button>
+              <button onClick={() => handleNav('legal')} className="text-left hover:text-white transition-colors cursor-pointer">
+                IMS Policy
+              </button>
+              <button onClick={() => handleNav('security')} className="text-left hover:text-white transition-colors cursor-pointer">
+                Security Trust Center
+              </button>
+            </div>
+          </div>
         </div>
-      </div>
 
-      {/* Bottom Legal bar */}
-      <div className="w-full border-t border-[#14294F] bg-[#000511]">
-        <div className="w-full px-4 sm:px-8 py-4 max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-3 text-xs text-[#A8BBD6]/80">
-          <p>© 2026 AXOORA Financial Technologies Limited. All rights reserved. Axoora is a registered trademark in Nigeria.</p>
-          <div className="flex items-center gap-4">
-            <button onClick={() => handleNav('legal')} className="hover:text-[#F2F5F9] cursor-pointer">Privacy</button>
-            <button onClick={() => handleNav('legal')} className="hover:text-[#F2F5F9] cursor-pointer">Terms</button>
-            <button onClick={() => handleNav('legal')} className="hover:text-[#F2F5F9] cursor-pointer">Cookies</button>
-            <button onClick={() => handleNav('contact')} className="hover:text-[#F2F5F9] cursor-pointer">Abuja Office</button>
-            <button
-              onClick={() => handleNav('admin')}
-              className="text-[#0D95FE] hover:text-[#00DF8F] font-mono text-[11px] flex items-center gap-1 cursor-pointer bg-[#0A1B3D] px-2.5 py-1 rounded-lg border border-[#14294F]"
-            >
-              <span className="material-symbols-outlined text-[13px]">tune</span>
-              <span>Admin CMS</span>
+        {/* Bottom Bar */}
+        <div className="mt-14 pt-8 border-t border-slate-800 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500">
+          <p>© 2026 Axoora Microfinance Bank. All rights reserved.</p>
+
+          <div className="flex items-center gap-6">
+            <button onClick={() => handleNav('legal')} className="hover:text-slate-300 transition-colors cursor-pointer">
+              Privacy Policy
             </button>
+            <button onClick={() => handleNav('legal')} className="hover:text-slate-300 transition-colors cursor-pointer">
+              Cookie Policy
+            </button>
+            <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-slate-800 text-slate-300 font-semibold">
+              <span>🇳🇬</span>
+              <span>Nigeria</span>
+            </div>
           </div>
         </div>
       </div>

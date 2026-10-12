@@ -3,6 +3,8 @@ export type ScreenType =
   | 'personal'
   | 'business'
   | 'pos-agents'
+  | 'security'
+  | 'governance'
   | 'about'
   | 'impact'
   | 'stories'
@@ -13,7 +15,8 @@ export type ScreenType =
   | 'help'
   | 'legal'
   | 'contact'
-  | 'admin';
+  | 'admin'
+  | 'apply';
 
 export interface WaitlistSubmission {
   fullName: string;

@@ -3,6 +3,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ScreenType } from '../types';
+import { useTheme } from '../context/ThemeContext';
 
 interface StickyToolsSectionProps {
   isLight?: boolean;
@@ -26,11 +27,13 @@ interface ToolItem {
 }
 
 export const StickyToolsSection: React.FC<StickyToolsSectionProps> = ({
-  isLight = false,
+  isLight: propIsLight,
   onNavigate,
   onOpenWaitlist,
   onOpenWhatsApp,
 }) => {
+  const { theme } = useTheme();
+  const isLight = propIsLight ?? theme === 'light';
   const [activeTabId, setActiveTabId] = useState<string>('business-account');
   const sectionRef = useRef<HTMLElement>(null);
   const itemsRef = useRef<{ [key: string]: HTMLElement | null }>({});
@@ -377,23 +380,37 @@ export const StickyToolsSection: React.FC<StickyToolsSectionProps> = ({
     <section
       ref={sectionRef}
       id="all-business-tools"
-      className="relative w-full bg-[#020F2E] border-b border-[#14294F] text-[#F2F5F9]"
+      className={`relative w-full border-b transition-colors ${
+        isLight
+          ? 'bg-white border-slate-200 text-slate-900'
+          : 'bg-[#020F2E] border-[#14294F] text-[#F2F5F9]'
+      }`}
     >
       {/* Section Header */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-10 text-center flex flex-col items-center gap-3">
         <span className="text-xs font-mono font-bold uppercase tracking-wider text-[#0D95FE]">
           BUILT FOR ENTERPRISE &amp; RETAIL SCALE
         </span>
-        <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-[#F2F5F9] tracking-tight">
+        <h2
+          className={`text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight ${
+            isLight ? 'text-slate-900' : 'text-[#F2F5F9]'
+          }`}
+        >
           All the tools you need to run your business with ease
         </h2>
-        <p className="text-base sm:text-lg text-[#A8BBD6] max-w-2xl">
+        <p className={`text-base sm:text-lg max-w-2xl ${isLight ? 'text-slate-600' : 'text-[#A8BBD6]'}`}>
           Everything from registered shop NUBANs to high-uptime POS hardware, expense cards, and stock inventory.
         </p>
       </div>
 
       {/* THE STICKY SUB-NAV BAR (Pins cleanly below main header while scrolling through the 6 items) */}
-      <div className="sticky top-16 lg:top-20 z-30 bg-[#020F2E]/95 backdrop-blur-xl border-y border-[#14294F] py-3.5 px-4 shadow-xl">
+      <div
+        className={`sticky top-16 lg:top-20 z-30 backdrop-blur-xl border-y py-3.5 px-4 shadow-sm transition-colors ${
+          isLight
+            ? 'bg-white/95 border-slate-200'
+            : 'bg-[#020F2E]/95 border-[#14294F] shadow-xl'
+        }`}
+      >
         <div className="max-w-7xl mx-auto flex items-center justify-start sm:justify-center gap-2 overflow-x-auto no-scrollbar scroll-smooth">
           {tools.map((tool) => {
             const isActive = activeTabId === tool.id;
@@ -402,7 +419,11 @@ export const StickyToolsSection: React.FC<StickyToolsSectionProps> = ({
                 key={tool.id}
                 onClick={() => handleTabClick(tool.id)}
                 className={`relative px-4 py-2 rounded-full text-xs font-semibold whitespace-nowrap transition-colors cursor-pointer flex items-center gap-1.5 ${
-                  isActive ? 'text-[#00284D] font-bold' : 'text-[#A8BBD6] hover:text-white hover:bg-[#14294F]/60'
+                  isActive
+                    ? 'text-white font-bold'
+                    : isLight
+                    ? 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
+                    : 'text-[#A8BBD6] hover:text-white hover:bg-[#14294F]/60'
                 }`}
               >
                 {isActive && (
@@ -420,7 +441,11 @@ export const StickyToolsSection: React.FC<StickyToolsSectionProps> = ({
       </div>
 
       {/* THE 6 SEQUENTIAL PRODUCT SUITE ITEMS */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 divide-y divide-[#14294F]">
+      <div
+        className={`max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 divide-y ${
+          isLight ? 'divide-slate-200' : 'divide-[#14294F]'
+        }`}
+      >
         {tools.map((tool) => (
           <div
             key={tool.id}

@@ -5,14 +5,16 @@ export const BRAND_LOGO_URL = 'https://raw.githubusercontent.com/shadcn-ui/ui/ma
 export const COMPANY_INFO = {
   name: 'AXOORA Financial Technologies Limited',
   brand: 'Axoora',
+  rcNumber: 'RC 1894231',
   office: 'Cappador Mall, Maitama, Abuja, Nigeria',
   supportEmail: 'support@axoora.ai',
   pressEmail: 'press@axoora.ai',
   careersEmail: 'careers@axoora.ai',
   whatsappNumber: '+234 911 000 2966',
   whatsappUrl: 'https://wa.me/2349110002966?text=Hello%20Axoora%20AI%2C%20I%20want%20to%20bank%20with%20you',
-  trustLine: 'We are a Nigerian financial institution. We are licensed by the Central Bank of Nigeria. Eligible deposits are insured by NDIC. We hold a data protection certificate.',
-  aimSentence: 'Our aim as a company is simple. Reduce the number of unbanked people and unbanked businesses. Give them finance that is affordable, sustainable, and free of interest. And on the same app, give them a taste of ordinary lifestyle experiences — a booking, a meal, a line of data — so inclusion does not stop at a balance.',
+  legalNotice: 'AXOORA Financial Technologies Limited is a microfinance bank licensed by the Central Bank of Nigeria. Eligible deposits are insured by the Nigeria Deposit Insurance Corporation up to the statutory limit. Axoora will never ask for your PIN, password, or one-time code on this website, on WhatsApp, or by phone.',
+  safetyWarning: 'Axoora will never ask for your PIN, password, or one-time code in chat, on WhatsApp, or by phone.',
+  trustLine: 'AXOORA Financial Technologies Limited is a microfinance bank licensed by the Central Bank of Nigeria. Eligible deposits are insured by NDIC.',
 };
 
 export const VALUES_LIST = [

@@ -31,7 +31,7 @@ export const WaitlistModal: React.FC<WaitlistModalProps> = ({
       return;
     }
     if (!consent) {
-      setErrorMsg('Please confirm that Axoora may contact you when we are live.');
+      setErrorMsg('Please accept data consent to proceed.');
       return;
     }
 
@@ -39,37 +39,35 @@ export const WaitlistModal: React.FC<WaitlistModalProps> = ({
       fullName,
       whatsappNumber,
       email,
-      city,
+      city: city.trim() || undefined,
       interest,
       consent,
     };
 
-    // Store directly in CMS leads state
     try {
       addLead({
         fullName,
         whatsappNumber,
         email,
-        city: city || 'Nigeria',
+        city: city.trim() || 'Nigeria',
         interest,
         status: 'new',
-        notes: `Submitted via website modal for ${interest}`,
+        notes: `Submitted for ${interest}`,
       });
     } catch {
       // fallback
     }
 
-    // Store in localStorage as demonstration of persisted submission
     try {
       const existing = JSON.parse(localStorage.getItem('axoora_waitlist') || '[]');
       existing.push({ ...submission, submittedAt: new Date().toISOString() });
       localStorage.setItem('axoora_waitlist', JSON.stringify(existing));
     } catch {
-      // ignore storage error
+      // ignore
     }
 
-    setErrorMsg('');
     setIsSubmitted(true);
+    setErrorMsg('');
   };
 
   const handleReset = () => {
@@ -86,183 +84,163 @@ export const WaitlistModal: React.FC<WaitlistModalProps> = ({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-[#01091C]/80 backdrop-blur-md">
-      <motion.div
-        initial={{ opacity: 0, scale: 0.96, y: 15 }}
-        animate={{ opacity: 1, scale: 1, y: 0 }}
-        exit={{ opacity: 0, scale: 0.96, y: 15 }}
-        className="w-full max-w-lg bg-[#0A1B3D] border-2 border-[#14294F] rounded-3xl p-6 sm:p-8 text-[#F2F5F9] relative shadow-2xl max-h-[90vh] overflow-y-auto"
-      >
-        {/* Close Button */}
-        <button
-          onClick={onClose}
-          className="absolute top-5 right-5 w-8 h-8 rounded-full bg-[#14294F] text-[#A8BBD6] hover:text-[#F2F5F9] hover:bg-[#1E3A6B] flex items-center justify-center transition-colors"
+      <AnimatePresence>
+        <motion.div
+          initial={{ opacity: 0, scale: 0.95, y: 15 }}
+          animate={{ opacity: 1, scale: 1, y: 0 }}
+          exit={{ opacity: 0, scale: 0.95, y: 15 }}
+          className="w-full max-w-lg bg-[#0A1B3D] border-2 border-[#14294F] rounded-3xl p-6 sm:p-8 text-[#F2F5F9] relative shadow-2xl max-h-[92vh] overflow-y-auto"
         >
-          <span className="material-symbols-outlined text-[18px]">close</span>
-        </button>
+          {/* Close Button */}
+          <button
+            onClick={onClose}
+            className="absolute top-5 right-5 w-8 h-8 rounded-full bg-[#14294F] text-[#A8BBD6] hover:text-[#F2F5F9] hover:bg-[#1E3A6B] flex items-center justify-center transition-colors cursor-pointer"
+            aria-label="Close dialog"
+          >
+            <span className="material-symbols-outlined text-[18px]">close</span>
+          </button>
 
-        {!isSubmitted ? (
-          <div>
-            <div className="flex items-center gap-2 mb-2">
-              <span className="h-2 w-2 rounded-full bg-[#00DF8F]"></span>
-              <span className="font-mono text-xs text-[#00DF8F] uppercase tracking-wider font-semibold">
-                Official Waitlist
-              </span>
-            </div>
-
-            <h3 className="text-2xl sm:text-3xl font-bold tracking-tight text-[#F2F5F9] mb-2">
-              Get notified when we are live
-            </h3>
-            <p className="text-sm text-[#A8BBD6] leading-relaxed mb-6">
-              Be among the first to experience Axoora AI on WhatsApp, manage your business with clean Islamic-compliant tools, or deploy high-uptime POS terminals.
-            </p>
-
-            {errorMsg && (
-              <div className="mb-4 p-3 rounded-xl bg-red-900/30 border border-red-500/40 text-red-200 text-xs">
-                {errorMsg}
-              </div>
-            )}
-
-            <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-              <div>
-                <label className="block text-xs font-semibold text-[#A8BBD6] mb-1.5">
-                  Full Name <span className="text-[#0D95FE]">*</span>
-                </label>
-                <input
-                  type="text"
-                  required
-                  placeholder="e.g. Amina Bello or Ibrahim Danladi"
-                  value={fullName}
-                  onChange={(e) => setFullName(e.target.value)}
-                  className="w-full px-4 py-2.5 rounded-xl bg-[#020F2E] border border-[#14294F] text-[#F2F5F9] placeholder-[#A8BBD6]/40 text-sm focus:outline-none focus:border-[#0D95FE]"
-                />
+          {!isSubmitted ? (
+            <div className="flex flex-col gap-5">
+              <div className="flex flex-col gap-1.5">
+                <div className="inline-flex items-center gap-2 py-1 px-3 rounded-full bg-[#020F2E] border border-[#14294F] w-fit">
+                  <span className="h-1.5 w-1.5 rounded-full bg-[#00DF8F] animate-pulse" />
+                  <span className="text-xs font-mono font-medium text-[#00DF8F] uppercase tracking-wider">
+                    PRIORITY ONBOARDING ACCESS
+                  </span>
+                </div>
+                <h3 className="text-2xl sm:text-3xl font-black text-[#F2F5F9] tracking-tight">
+                  Join Axoora
+                </h3>
+                <p className="text-sm text-[#A8BBD6] leading-relaxed">
+                  Be the first to access dual-currency cards, WhatsApp banking, merchant accounts, and zero-drop 4G POS terminals.
+                </p>
               </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              {errorMsg && (
+                <div className="p-3 rounded-xl bg-[#FF6A6A]/10 border border-[#FF6A6A]/30 text-[#FF6A6A] text-xs font-medium">
+                  {errorMsg}
+                </div>
+              )}
+
+              <form onSubmit={handleSubmit} className="flex flex-col gap-4">
                 <div>
-                  <label className="block text-xs font-semibold text-[#A8BBD6] mb-1.5">
-                    WhatsApp Number <span className="text-[#0D95FE]">*</span>
+                  <label className="block text-xs font-mono font-semibold uppercase tracking-wider text-[#A8BBD6] mb-1.5">
+                    Full Name *
                   </label>
                   <input
-                    type="tel"
+                    type="text"
                     required
-                    placeholder="+234 803 000 0000"
-                    value={whatsappNumber}
-                    onChange={(e) => setWhatsappNumber(e.target.value)}
-                    className="w-full px-4 py-2.5 rounded-xl bg-[#020F2E] border border-[#14294F] text-[#F2F5F9] placeholder-[#A8BBD6]/40 text-sm focus:outline-none focus:border-[#0D95FE]"
+                    placeholder="e.g. Adaeze Okonkwo"
+                    value={fullName}
+                    onChange={(e) => setFullName(e.target.value)}
+                    className="w-full px-4 py-3 rounded-xl bg-[#020F2E] border border-[#14294F] text-[#F2F5F9] placeholder-[#A8BBD6]/40 text-sm focus:outline-none focus:border-[#0D95FE] transition-colors"
                   />
                 </div>
-                <div>
-                  <label className="block text-xs font-semibold text-[#A8BBD6] mb-1.5">
-                    Email Address <span className="text-[#0D95FE]">*</span>
-                  </label>
-                  <input
-                    type="email"
-                    required
-                    placeholder="name@example.com"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    className="w-full px-4 py-2.5 rounded-xl bg-[#020F2E] border border-[#14294F] text-[#F2F5F9] placeholder-[#A8BBD6]/40 text-sm focus:outline-none focus:border-[#0D95FE]"
-                  />
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-xs font-mono font-semibold uppercase tracking-wider text-[#A8BBD6] mb-1.5">
+                      WhatsApp Number *
+                    </label>
+                    <input
+                      type="tel"
+                      required
+                      placeholder="+234 803 000 0000"
+                      value={whatsappNumber}
+                      onChange={(e) => setWhatsappNumber(e.target.value)}
+                      className="w-full px-4 py-3 rounded-xl bg-[#020F2E] border border-[#14294F] text-[#F2F5F9] placeholder-[#A8BBD6]/40 text-sm focus:outline-none focus:border-[#0D95FE] transition-colors"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-xs font-mono font-semibold uppercase tracking-wider text-[#A8BBD6] mb-1.5">
+                      Email Address *
+                    </label>
+                    <input
+                      type="email"
+                      required
+                      placeholder="adaeze@example.com"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      className="w-full px-4 py-3 rounded-xl bg-[#020F2E] border border-[#14294F] text-[#F2F5F9] placeholder-[#A8BBD6]/40 text-sm focus:outline-none focus:border-[#0D95FE] transition-colors"
+                    />
+                  </div>
                 </div>
-              </div>
 
-              <div>
-                <label className="block text-xs font-semibold text-[#A8BBD6] mb-1.5">
-                  City / State <span className="text-[#A8BBD6]/60 font-normal">(Optional)</span>
-                </label>
-                <input
-                  type="text"
-                  placeholder="e.g. Abuja, Kano, Lagos, Port Harcourt"
-                  value={city}
-                  onChange={(e) => setCity(e.target.value)}
-                  className="w-full px-4 py-2.5 rounded-xl bg-[#020F2E] border border-[#14294F] text-[#F2F5F9] placeholder-[#A8BBD6]/40 text-sm focus:outline-none focus:border-[#0D95FE]"
-                />
-              </div>
-
-              <div>
-                <label className="block text-xs font-semibold text-[#A8BBD6] mb-2">
-                  Which part do you care about most?
-                </label>
-                <div className="grid grid-cols-2 gap-2">
-                  {[
-                    { id: 'personal', label: 'Axoora AI (Personal)' },
-                    { id: 'business', label: 'Axoora Business (Shop)' },
-                    { id: 'pos-agent', label: 'POS Terminal / Agent' },
-                    { id: 'aggregator', label: 'Aggregator Network' },
-                  ].map((opt) => (
-                    <button
-                      type="button"
-                      key={opt.id}
-                      onClick={() => setInterest(opt.id as any)}
-                      className={`p-2.5 rounded-xl text-xs font-medium text-left border transition-all ${
-                        interest === opt.id
-                          ? 'bg-[#14294F] border-[#0D95FE] text-[#F2F5F9]'
-                          : 'bg-[#020F2E]/60 border-[#14294F] text-[#A8BBD6] hover:text-[#F2F5F9]'
-                      }`}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-xs font-mono font-semibold uppercase tracking-wider text-[#A8BBD6] mb-1.5">
+                      Primary Product Interest
+                    </label>
+                    <select
+                      value={interest}
+                      onChange={(e) => setInterest(e.target.value as any)}
+                      className="w-full px-4 py-3 rounded-xl bg-[#020F2E] border border-[#14294F] text-[#F2F5F9] text-sm focus:outline-none focus:border-[#0D95FE] transition-colors cursor-pointer"
                     >
-                      {opt.label}
-                    </button>
-                  ))}
-                </div>
-              </div>
+                      <option value="personal">Axoora Personal (Cards, Save &amp; Earn)</option>
+                      <option value="business">Axoora Business (Shop Account &amp; Ops)</option>
+                      <option value="pos-agent">POS Terminals (Apex 4G Agent hardware)</option>
+                      <option value="aggregator">POS Aggregator (Fleet management)</option>
+                    </select>
+                  </div>
 
-              <div className="pt-2">
-                <label className="flex items-start gap-3 cursor-pointer">
+                  <div>
+                    <label className="block text-xs font-mono font-semibold uppercase tracking-wider text-[#A8BBD6] mb-1.5">
+                      City / State
+                    </label>
+                    <input
+                      type="text"
+                      placeholder="e.g. Abuja (FCT)"
+                      value={city}
+                      onChange={(e) => setCity(e.target.value)}
+                      className="w-full px-4 py-3 rounded-xl bg-[#020F2E] border border-[#14294F] text-[#F2F5F9] placeholder-[#A8BBD6]/40 text-sm focus:outline-none focus:border-[#0D95FE] transition-colors"
+                    />
+                  </div>
+                </div>
+
+                <div className="flex items-start gap-2.5 pt-1">
                   <input
                     type="checkbox"
+                    id="consentCheckbox"
                     checked={consent}
                     onChange={(e) => setConsent(e.target.checked)}
-                    className="mt-1 h-4 w-4 rounded border-[#14294F] bg-[#020F2E] text-[#0D95FE] focus:ring-0"
+                    className="mt-1 accent-[#0D95FE] cursor-pointer"
                   />
-                  <span className="text-xs text-[#A8BBD6] leading-relaxed">
-                    I agree that Axoora may contact me by WhatsApp or email when service is live.
-                  </span>
-                </label>
-              </div>
+                  <label htmlFor="consentCheckbox" className="text-xs text-[#A8BBD6] cursor-pointer leading-normal">
+                    I agree to be contacted by Axoora for account onboarding. NDPR certified. Axoora will never ask for your PIN or OTP.
+                  </label>
+                </div>
 
-              {/* Safety notice as per brief */}
-              <div className="p-3 rounded-xl bg-[#020F2E] border border-[#14294F] flex items-center gap-2.5 text-xs text-[#A8BBD6]">
-                <span className="material-symbols-outlined text-[#00DF8F] text-[18px]">verified_user</span>
-                <span>
-                  This is not account opening. We will never ask for your BVN, NIN, or password on this website.
-                </span>
+                <button
+                  type="submit"
+                  className="w-full py-3.5 rounded-2xl bg-[#0D95FE] hover:bg-[#00DF8F] text-[#002447] hover:text-[#003825] font-extrabold text-sm transition-all shadow-lg shadow-[#0D95FE]/20 cursor-pointer mt-1"
+                >
+                  Confirm Priority Access
+                </button>
+              </form>
+            </div>
+          ) : (
+            <div className="flex flex-col items-center text-center gap-4 py-6">
+              <div className="w-16 h-16 rounded-2xl bg-[#00DF8F]/20 border border-[#00DF8F]/40 text-[#00DF8F] flex items-center justify-center font-bold text-2xl">
+                <span className="material-symbols-outlined text-[32px]">check_circle</span>
               </div>
-
+              <div className="flex flex-col gap-1.5">
+                <h3 className="text-2xl font-black text-[#F2F5F9]">You're on the Priority List</h3>
+                <p className="text-sm text-[#A8BBD6] leading-relaxed max-w-sm">
+                  Thank you, <span className="text-[#00DF8F] font-semibold">{fullName}</span>. Our Abuja team will dispatch your invite link and account onboarding instructions via WhatsApp.
+                </p>
+              </div>
               <button
-                type="submit"
-                className="w-full py-3.5 rounded-full bg-[#0D95FE] hover:bg-[#00DF8F] text-[#00325b] hover:text-[#003825] font-bold text-sm transition-all cursor-pointer mt-2"
+                onClick={handleReset}
+                className="px-8 py-3 rounded-2xl bg-[#14294F] hover:bg-[#1E3A6B] text-[#F2F5F9] text-sm font-bold transition-all cursor-pointer mt-2"
               >
-                Notify Me When We Are Live
+                Done
               </button>
-            </form>
-          </div>
-        ) : (
-          <div className="py-6 flex flex-col items-center text-center gap-4">
-            <div className="w-16 h-16 rounded-full bg-[#00DF8F]/20 border-2 border-[#00DF8F] flex items-center justify-center text-[#00DF8F]">
-              <span className="material-symbols-outlined text-[32px]">check</span>
             </div>
-
-            <h3 className="text-2xl font-bold text-[#F2F5F9]">
-              Thank you, {fullName.split(' ')[0]}.
-            </h3>
-
-            <p className="text-sm text-[#A8BBD6] max-w-md leading-relaxed">
-              We have noted your interest in <span className="text-[#F2F5F9] font-medium">{interest === 'personal' ? 'Axoora AI Personal Banking' : interest === 'business' ? 'Axoora Business' : interest === 'pos-agent' ? 'POS & Agent Banking' : 'Aggregator Networks'}</span>.
-            </p>
-
-            <div className="p-4 rounded-2xl bg-[#020F2E] border border-[#14294F] text-xs text-[#A8BBD6] leading-relaxed max-w-md">
-              We will send a welcome note to <span className="text-[#0D95FE] font-mono">{whatsappNumber}</span> and your email as our initial rollout commences. In the meantime, you can explore our stories and values.
-            </div>
-
-            <button
-              onClick={handleReset}
-              className="mt-2 px-6 py-2.5 rounded-full bg-[#14294F] hover:bg-[#1E3A6B] text-[#F2F5F9] font-semibold text-xs transition-colors"
-            >
-              Done
-            </button>
-          </div>
-        )}
-      </motion.div>
+          )}
+        </motion.div>
+      </AnimatePresence>
     </div>
   );
 };

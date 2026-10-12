@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ScreenType } from '../types';
+import { useTheme } from '../context/ThemeContext';
 
 interface AxooraProductSuiteProps {
   isLight?: boolean;
@@ -41,11 +42,13 @@ interface TabItem {
 }
 
 export const AxooraProductSuite: React.FC<AxooraProductSuiteProps> = ({
-  isLight = false,
+  isLight: propIsLight,
   onNavigate,
   onOpenWaitlist,
   onOpenWhatsApp,
 }) => {
+  const { theme } = useTheme();
+  const isLight = propIsLight ?? theme === 'light';
   const [activeTab, setActiveTab] = useState<TabKey>('business-account');
 
   const tabs: TabItem[] = [
@@ -297,7 +300,11 @@ export const AxooraProductSuite: React.FC<AxooraProductSuiteProps> = ({
   };
 
   return (
-    <section className="relative w-full py-16 sm:py-24 bg-white text-[#0F172A] border-t border-[#E2E8F0] overflow-hidden">
+    <section
+      className={`relative w-full py-16 sm:py-24 border-t transition-colors overflow-hidden ${
+        isLight ? 'bg-white text-[#0F172A] border-[#E2E8F0]' : 'bg-[#020F2E] text-[#F2F5F9] border-[#14294F]'
+      }`}
+    >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col gap-10 sm:gap-14">
         {/* Section Headline */}
         <div className="text-center max-w-3xl mx-auto flex flex-col items-center gap-3">
@@ -305,17 +312,29 @@ export const AxooraProductSuite: React.FC<AxooraProductSuiteProps> = ({
             <span className="w-1.5 h-1.5 rounded-full bg-[#0D95FE]" />
             Axoora Commercial Ecosystem
           </span>
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-[#0F172A] tracking-tight leading-tight">
+          <h2
+            className={`text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight leading-tight ${
+              isLight ? 'text-[#0F172A]' : 'text-[#F2F5F9]'
+            }`}
+          >
             All the tools you need to run your business with ease
           </h2>
-          <p className="text-base sm:text-lg text-[#64748B] max-w-2xl leading-relaxed">
+          <p
+            className={`text-base sm:text-lg max-w-2xl leading-relaxed ${
+              isLight ? 'text-[#64748B]' : 'text-[#A8BBD6]'
+            }`}
+          >
             From high-uptime card terminals and zero-maintenance shop accounts to ethical stock financing and automated bookkeeping.
           </p>
         </div>
 
         {/* Horizontal Tab List with rounded pills */}
         <div className="w-full flex items-center justify-center overflow-x-auto pb-2 scrollbar-none">
-          <div className="inline-flex items-center gap-1.5 p-1.5 bg-[#F1F5F9] rounded-full border border-[#E2E8F0] shadow-inner max-w-full">
+          <div
+            className={`inline-flex items-center gap-1.5 p-1.5 rounded-full border shadow-inner max-w-full ${
+              isLight ? 'bg-[#F1F5F9] border-[#E2E8F0]' : 'bg-[#0A1B3D] border-[#14294F]'
+            }`}
+          >
             {tabs.map((tab) => {
               const isActive = activeTab === tab.id;
               return (
@@ -324,14 +343,20 @@ export const AxooraProductSuite: React.FC<AxooraProductSuiteProps> = ({
                   onClick={() => setActiveTab(tab.id)}
                   className={`relative px-4 sm:px-5 py-2.5 rounded-full text-xs sm:text-sm font-semibold transition-all whitespace-nowrap cursor-pointer ${
                     isActive
-                      ? 'text-[#0F172A] font-bold shadow-sm'
-                      : 'text-[#64748B] hover:text-[#0F172A] hover:bg-white/60'
+                      ? isLight
+                        ? 'text-[#0F172A] font-bold shadow-sm'
+                        : 'text-white font-bold shadow-sm'
+                      : isLight
+                      ? 'text-[#64748B] hover:text-[#0F172A] hover:bg-white/60'
+                      : 'text-[#A8BBD6] hover:text-white hover:bg-white/10'
                   }`}
                 >
                   {isActive && (
                     <motion.div
                       layoutId="axooraActivePill"
-                      className="absolute inset-0 rounded-full bg-white shadow-sm border border-[#E2E8F0]/80"
+                      className={`absolute inset-0 rounded-full shadow-sm border ${
+                        isLight ? 'bg-white border-[#E2E8F0]/80' : 'bg-[#14294F] border-[#1E3A6B]'
+                      }`}
                       transition={{ type: 'spring', stiffness: 450, damping: 35 }}
                     />
                   )}
@@ -343,7 +368,11 @@ export const AxooraProductSuite: React.FC<AxooraProductSuiteProps> = ({
         </div>
 
         {/* Tab Content Box: Left Copy + Right Human Composition */}
-        <div className="w-full min-h-[460px] rounded-3xl bg-[#F8FAFC] border border-[#E2E8F0] p-6 sm:p-10 lg:p-12 relative overflow-hidden shadow-sm">
+        <div
+          className={`w-full min-h-[460px] rounded-3xl border p-6 sm:p-10 lg:p-12 relative overflow-hidden shadow-sm transition-colors ${
+            isLight ? 'bg-[#F8FAFC] border-[#E2E8F0]' : 'bg-[#081738] border-[#14294F]'
+          }`}
+        >
           <AnimatePresence mode="wait">
             <motion.div
               key={currentTab.id}
@@ -361,11 +390,19 @@ export const AxooraProductSuite: React.FC<AxooraProductSuiteProps> = ({
                   {currentTab.tag}
                 </span>
 
-                <h3 className="text-3xl sm:text-4xl font-extrabold text-[#0F172A] tracking-tight leading-tight">
+                <h3
+                  className={`text-3xl sm:text-4xl font-extrabold tracking-tight leading-tight ${
+                    isLight ? 'text-[#0F172A]' : 'text-white'
+                  }`}
+                >
                   {currentTab.headline}
                 </h3>
 
-                <p className="text-base sm:text-lg text-[#475569] leading-relaxed">
+                <p
+                  className={`text-base sm:text-lg leading-relaxed ${
+                    isLight ? 'text-[#475569]' : 'text-[#A8BBD6]'
+                  }`}
+                >
                   {currentTab.description}
                 </p>
 
@@ -388,15 +425,27 @@ export const AxooraProductSuite: React.FC<AxooraProductSuiteProps> = ({
                 </div>
 
                 {/* Verified Nigerian Merchant Micro-quote */}
-                <div className="pt-4 mt-2 border-t border-[#E2E8F0] w-full flex items-center gap-3 text-xs text-[#64748B]">
-                  <div className="w-8 h-8 rounded-full bg-[#E2E8F0] flex items-center justify-center font-bold text-[#0F172A] text-xs shrink-0">
+                <div
+                  className={`pt-4 mt-2 border-t w-full flex items-center gap-3 text-xs ${
+                    isLight ? 'border-[#E2E8F0] text-[#64748B]' : 'border-[#14294F] text-[#A8BBD6]'
+                  }`}
+                >
+                  <div
+                    className={`w-8 h-8 rounded-full flex items-center justify-center font-bold text-xs shrink-0 ${
+                      isLight ? 'bg-[#E2E8F0] text-[#0F172A]' : 'bg-[#14294F] text-white'
+                    }`}
+                  >
                     {currentTab.personName
                       .split(' ')
                       .map((n) => n[0])
                       .join('')}
                   </div>
                   <div>
-                    <span className="font-bold text-[#0F172A] block">{currentTab.personName}</span>
+                    <span
+                      className={`font-bold block ${isLight ? 'text-[#0F172A]' : 'text-white'}`}
+                    >
+                      {currentTab.personName}
+                    </span>
                     <span>
                       {currentTab.personRole} · {currentTab.personLocation}
                     </span>
@@ -407,8 +456,18 @@ export const AxooraProductSuite: React.FC<AxooraProductSuiteProps> = ({
               {/* Right Column: Organic Squircle Human & Product Composition with Floating Widgets */}
               <div className="lg:col-span-6 relative flex items-center justify-center min-h-[380px] sm:min-h-[420px]">
                 {/* Organic Squircle Pod Backdrop */}
-                <div className="absolute w-[320px] sm:w-[420px] h-[320px] sm:h-[400px] rounded-[60px] bg-gradient-to-br from-[#E0F2FE] via-[#BAE6FD]/40 to-[#E2E8F0]/30 transform -rotate-3 transition-transform" />
-                <div className="absolute w-[290px] sm:w-[380px] h-[290px] sm:h-[370px] rounded-[50px] bg-white/70 backdrop-blur-sm border border-white shadow-xl transform rotate-2" />
+                <div
+                  className={`absolute w-[320px] sm:w-[420px] h-[320px] sm:h-[400px] rounded-[60px] transform -rotate-3 transition-transform ${
+                    isLight
+                      ? 'bg-gradient-to-br from-[#E0F2FE] via-[#BAE6FD]/40 to-[#E2E8F0]/30'
+                      : 'bg-gradient-to-br from-[#0D95FE]/15 via-[#0A1B3D] to-[#00DF8F]/10'
+                  }`}
+                />
+                <div
+                  className={`absolute w-[290px] sm:w-[380px] h-[290px] sm:h-[370px] rounded-[50px] backdrop-blur-sm border shadow-xl transform rotate-2 ${
+                    isLight ? 'bg-white/70 border-white' : 'bg-[#0A1B3D]/80 border-[#14294F]'
+                  }`}
+                />
 
                 {/* Human & Product SVG Illustration Centerpiece */}
                 <div className="relative z-10 w-full max-w-[360px] sm:max-w-[420px] flex items-center justify-center">
@@ -439,7 +498,11 @@ export const AxooraProductSuite: React.FC<AxooraProductSuiteProps> = ({
                     initial={{ scale: 0.85, opacity: 0, y: 10 }}
                     animate={{ scale: 1, opacity: 1, y: 0 }}
                     transition={{ delay: 0.15 + idx * 0.1, duration: 0.4 }}
-                    className={`absolute z-20 ${pill.position} p-3 sm:p-3.5 rounded-2xl bg-white/95 backdrop-blur-md border border-[#E2E8F0] shadow-xl flex items-center gap-3 select-none`}
+                    className={`absolute z-20 ${pill.position} p-3 sm:p-3.5 rounded-2xl backdrop-blur-md border shadow-xl flex items-center gap-3 select-none ${
+                      isLight
+                        ? 'bg-white/95 border-[#E2E8F0] text-slate-800'
+                        : 'bg-[#0A1B3D]/95 border-[#14294F] text-white'
+                    }`}
                   >
                     <div
                       className="w-9 h-9 rounded-xl flex items-center justify-center text-white shrink-0 shadow-sm"
@@ -448,16 +511,30 @@ export const AxooraProductSuite: React.FC<AxooraProductSuiteProps> = ({
                       <span className="material-symbols-outlined text-[20px]">{pill.icon}</span>
                     </div>
                     <div>
-                      <span className="text-[11px] text-[#64748B] block font-medium">
+                      <span
+                        className={`text-[11px] block font-medium ${
+                          isLight ? 'text-[#64748B]' : 'text-[#A8BBD6]'
+                        }`}
+                      >
                         {pill.label}
                       </span>
                       {pill.amount && (
-                        <span className="text-sm sm:text-base font-extrabold text-[#0F172A] tracking-tight block">
+                        <span
+                          className={`text-xs sm:text-sm font-extrabold block font-mono ${
+                            isLight ? 'text-[#0F172A]' : 'text-white'
+                          }`}
+                        >
                           {pill.amount}
                         </span>
                       )}
                       {pill.sublabel && (
-                        <span className="text-[10px] text-[#94A3B8] block">{pill.sublabel}</span>
+                        <span
+                          className={`text-[10px] block font-mono ${
+                            isLight ? 'text-[#64748B]' : 'text-[#A8BBD6]'
+                          }`}
+                        >
+                          {pill.sublabel}
+                        </span>
                       )}
                     </div>
                   </motion.div>
