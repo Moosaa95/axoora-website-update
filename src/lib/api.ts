@@ -10,7 +10,7 @@ export interface ChatMessageResponse {
   ticket_code: string;
   status: 'ai_active' | 'escalated' | 'human_active' | 'resolved' | 'closed';
   reply: {
-    id: number;
+    id: string;
     sender: 'user' | 'ai' | 'agent' | 'system';
     text: string;
     time: string;
@@ -35,7 +35,7 @@ export interface ChatEscalateResponse {
   status: string;
   message: string;
   transcript_message?: {
-    id: number;
+    id: string;
     sender: string;
     text: string;
     time: string;

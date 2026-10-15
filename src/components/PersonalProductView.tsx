@@ -9,9 +9,11 @@ import { FaqAccordionItem } from './FaqAccordionItem';
 import { RealisticPhoneMockup } from './RealisticPhoneMockup';
 import { PersonalHeroShowcase } from './PersonalHeroShowcase';
 import { InteractiveAtmCard } from './InteractiveAtmCard';
+import { HumanBankingPillars } from './HumanBankingPillars';
 import { InteractiveGetStarted } from './InteractiveGetStarted';
 import { BlogArticlesCarousel } from './BlogArticlesCarousel';
 import { AppleAppStoreBadge, GooglePlayBadge } from './StoreBadges';
+import { RegulatoryTrustBar } from './RegulatoryLogos';
 
 interface PersonalProductViewProps {
   onNavigate?: (screen: ScreenType) => void;
@@ -134,45 +136,32 @@ export const PersonalProductView: React.FC<PersonalProductViewProps> = ({
               Brought to you by the sovereign technology that powers Nigeria's most trusted POS infrastructure. Axoora offers you a reliable personal banking experience with zero transfer fees, instant virtual cards, and non-interest Save &amp; Earn.
             </p>
 
-            {/* CTAs */}
+            {/* Primary Mobile App Store & Google Play Store Download Action (Elevated, Prominent, Clickable) */}
             <div className="flex flex-wrap items-center justify-center lg:justify-start gap-3.5 pt-1 w-full">
-              <button
-                onClick={() => onOpenWaitlist('personal')}
-                className="px-7 py-3.5 rounded-2xl bg-[#00DF8F] hover:bg-[#0D95FE] text-[#003825] hover:text-white font-extrabold text-sm flex items-center gap-2 shadow-lg shadow-[#00DF8F]/25 transition-all cursor-pointer active:scale-98"
-              >
-                <span>Get Personal Card</span>
-                <span className="material-symbols-outlined text-[18px]">arrow_forward</span>
-              </button>
-
-              <button
-                onClick={onOpenWhatsApp}
-                className={`px-5 py-3.5 rounded-2xl border font-bold text-sm flex items-center gap-2 transition-all cursor-pointer ${
-                  isLight
-                    ? 'bg-white hover:bg-slate-100 border-slate-300 text-slate-800'
-                    : 'bg-[#0A1B3D] hover:bg-[#14294F] text-[#F2F5F9] border-[#14294F]'
-                }`}
-              >
-                <span className="material-symbols-outlined text-[#00DF8F] text-[18px]">chat</span>
-                <span>Bank on WhatsApp</span>
-              </button>
-            </div>
-
-            {/* App Store / Google Play Quick Links (Official Authentic Logos) */}
-            <div className="flex flex-wrap items-center justify-center lg:justify-start gap-3 pt-2">
               <AppleAppStoreBadge
-                onClick={onOpenDownloadApp}
+                onClick={onOpenDownloadApp || (() => onOpenWaitlist('personal'))}
                 isLight={isLight}
+                className="px-5 py-3 rounded-2xl text-sm shadow-md hover:shadow-xl hover:scale-102 transition-all"
               />
               <GooglePlayBadge
-                onClick={onOpenDownloadApp}
+                onClick={onOpenDownloadApp || (() => onOpenWaitlist('personal'))}
                 isLight={isLight}
+                className="px-5 py-3 rounded-2xl text-sm shadow-md hover:shadow-xl hover:scale-102 transition-all"
               />
             </div>
 
-            {/* Trust Badges */}
-            <div className="flex items-center gap-2 text-xs text-[#A8BBD6] pt-1">
-              <span className="material-symbols-outlined text-[#00DF8F] text-[18px]">verified</span>
-              <span>Central Bank of Nigeria Supervised // NDIC Insured</span>
+            {/* Official CBN & NDIC Regulatory Logos & Trust Badge Bar */}
+            <div className="w-full pt-3 flex justify-center lg:justify-start">
+              <RegulatoryTrustBar
+                isLight={isLight}
+                onInspect={() => {
+                  if (onOpenDownloadApp) {
+                    onOpenDownloadApp();
+                  } else if (onOpenWaitlist) {
+                    onOpenWaitlist('personal');
+                  }
+                }}
+              />
             </div>
           </div>
 
@@ -290,97 +279,13 @@ export const PersonalProductView: React.FC<PersonalProductViewProps> = ({
       </section>
 
       {/* ========================================================================= */}
-      {/* 3. FOUR CORE PERSONAL PILLARS ("BANK WITH AXOORA") */}
+      {/* 3. FOUR CORE PERSONAL PILLARS: MONIEPOINT-STYLE INTERACTIVE SHOWCASE */}
       {/* ========================================================================= */}
-      <section
-        className={`w-full px-4 sm:px-6 lg:px-8 py-20 border-b transition-colors ${
-          isLight ? 'bg-white border-slate-200' : 'bg-[#020F2E] border-[#14294F]'
-        }`}
-      >
-        <div className="max-w-7xl mx-auto flex flex-col gap-12">
-          <div className="flex flex-col gap-3 text-center max-w-2xl mx-auto">
-            <span className="text-xs font-mono uppercase tracking-widest text-[#00DF8F] font-bold">
-              BANK WITH AXOORA
-            </span>
-            <h2
-              className={`text-3xl sm:text-4xl font-extrabold tracking-tight ${
-                isLight ? 'text-slate-900' : 'text-[#F2F5F9]'
-              }`}
-            >
-              Enjoy a transfer success rate of 99.9%
-            </h2>
-            <p className={`text-sm sm:text-base ${isLight ? 'text-slate-600' : 'text-[#A8BBD6]'}`}>
-              Enjoy seamless payment transfers. Need to pay some bills, pay a business or send money to a friend? Axoora transfers go through every time. We mean it.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            <div
-              className={`p-6 rounded-3xl border-2 flex flex-col gap-4 ${
-                isLight ? 'bg-slate-50 border-slate-200' : 'bg-[#0A1B3D] border-[#14294F]'
-              }`}
-            >
-              <div className="w-12 h-12 rounded-2xl bg-[#00DF8F]/15 text-[#00DF8F] flex items-center justify-center">
-                <span className="material-symbols-outlined text-[28px]">payments</span>
-              </div>
-              <h3 className={`text-xl font-bold ${isLight ? 'text-slate-900' : 'text-[#F2F5F9]'}`}>
-                Zero Transfer Fees
-              </h3>
-              <p className={`text-sm leading-relaxed ${isLight ? 'text-slate-600' : 'text-[#A8BBD6]'}`}>
-                Send money to any bank in Nigeria with ₦0.00 transfer fees. No hidden alert deductions or monthly card maintenance penalties.
-              </p>
-            </div>
-
-            <div
-              className={`p-6 rounded-3xl border-2 flex flex-col gap-4 ${
-                isLight ? 'bg-slate-50 border-slate-200' : 'bg-[#0A1B3D] border-[#14294F]'
-              }`}
-            >
-              <div className="w-12 h-12 rounded-2xl bg-[#0D95FE]/15 text-[#0D95FE] flex items-center justify-center">
-                <span className="material-symbols-outlined text-[28px]">savings</span>
-              </div>
-              <h3 className={`text-xl font-bold ${isLight ? 'text-slate-900' : 'text-[#F2F5F9]'}`}>
-                Save &amp; Earn (Halal)
-              </h3>
-              <p className={`text-sm leading-relaxed ${isLight ? 'text-slate-600' : 'text-[#A8BBD6]'}`}>
-                100% Islamic-compliant savings vaults. Your capital is preserved without riba (interest), penalty deductions, or speculative risk.
-              </p>
-            </div>
-
-            <div
-              className={`p-6 rounded-3xl border-2 flex flex-col gap-4 ${
-                isLight ? 'bg-slate-50 border-slate-200' : 'bg-[#0A1B3D] border-[#14294F]'
-              }`}
-            >
-              <div className="w-12 h-12 rounded-2xl bg-[#F2A93B]/15 text-[#F2A93B] flex items-center justify-center">
-                <span className="material-symbols-outlined text-[28px]">diversity_3</span>
-              </div>
-              <h3 className={`text-xl font-bold ${isLight ? 'text-slate-900' : 'text-[#F2F5F9]'}`}>
-                Paycircle (Digital Ajo)
-              </h3>
-              <p className={`text-sm leading-relaxed ${isLight ? 'text-slate-600' : 'text-[#A8BBD6]'}`}>
-                Automated rotational thrift circles. Collect pot payouts on schedule with your trusted circle without manual collection friction.
-              </p>
-            </div>
-
-            <div
-              className={`p-6 rounded-3xl border-2 flex flex-col gap-4 ${
-                isLight ? 'bg-slate-50 border-slate-200' : 'bg-[#0A1B3D] border-[#14294F]'
-              }`}
-            >
-              <div className="w-12 h-12 rounded-2xl bg-[#34C08D]/15 text-[#34C08D] flex items-center justify-center">
-                <span className="material-symbols-outlined text-[28px]">chat</span>
-              </div>
-              <h3 className={`text-xl font-bold ${isLight ? 'text-slate-900' : 'text-[#F2F5F9]'}`}>
-                WhatsApp Banking
-              </h3>
-              <p className={`text-sm leading-relaxed ${isLight ? 'text-slate-600' : 'text-[#A8BBD6]'}`}>
-                Bank inside WhatsApp using natural conversation in English or Nigerian Pidgin. Move money in seconds with your secure PIN.
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
+      <HumanBankingPillars
+        isLight={isLight}
+        onOpenWaitlist={onOpenWaitlist}
+        onOpenWhatsApp={onOpenWhatsApp}
+      />
 
       {/* ========================================================================= */}
       {/* 4. ZERO-FEE SAVINGS CALCULATOR */}

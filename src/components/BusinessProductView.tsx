@@ -12,6 +12,7 @@ import { StickyToolsSection } from './StickyToolsSection';
 import { CustomerTestimonialCarousel } from './CustomerTestimonialCarousel';
 import { InteractiveGetStarted } from './InteractiveGetStarted';
 import { BlogArticlesCarousel } from './BlogArticlesCarousel';
+import { CompactRegulatoryTrust } from './RegulatoryLogos';
 
 interface BusinessProductViewProps {
   onNavigate?: (screen: ScreenType) => void;
@@ -150,10 +151,12 @@ export const BusinessProductView: React.FC<BusinessProductViewProps> = ({
               </button>
             </div>
 
-            {/* Clean Trust Assurance line matching Moniepoint */}
-            <div className="flex items-center gap-2 text-xs text-slate-400 pt-1">
-              <span className="material-symbols-outlined text-[#00DF8F] text-[16px]">verified</span>
-              <span>We are licensed by CBN and insured by NDIC</span>
+            {/* Kuda-Style Compact Regulatory Trust Lockup */}
+            <div className="w-full pt-3 flex justify-center lg:justify-start">
+              <CompactRegulatoryTrust
+                isLight={isLight}
+                onInspect={() => onOpenWaitlist('business')}
+              />
             </div>
           </div>
 

@@ -7,6 +7,7 @@ import { FAQ_LIST } from '../data/mockData';
 import { useTheme } from '../context/ThemeContext';
 import { useCms } from '../context/CmsContext';
 import { HeroDeviceShowcase } from './HeroDeviceShowcase';
+import { PersonalHeroShowcase } from './PersonalHeroShowcase';
 import { FaqAccordionItem } from './FaqAccordionItem';
 import { SecurityTrustRow } from './SecurityTrustRow';
 import { MerchantMarquee } from './MerchantMarquee';
@@ -443,19 +444,21 @@ export const HomeView: React.FC<HomeViewProps> = ({
 
             {/* Right Column: Interactive Device Showcase Synchronized to Active Product */}
             <div className="lg:col-span-6 flex justify-center">
-              <HeroDeviceShowcase
-                isLight={isLight}
-                onOpenWaitlist={onOpenWaitlist}
-                onOpenWhatsApp={onOpenWhatsApp}
-                onOpenDownloadApp={onOpenDownloadApp}
-                defaultMode={
-                  activeProduct === 'personal'
-                    ? 'phone'
-                    : activeProduct === 'pos'
-                    ? 'pos'
-                    : 'duo'
-                }
-              />
+              {activeProduct === 'personal' ? (
+                <PersonalHeroShowcase
+                  isLight={isLight}
+                  onOpenWaitlist={onOpenWaitlist}
+                  onOpenWhatsApp={onOpenWhatsApp}
+                />
+              ) : (
+                <HeroDeviceShowcase
+                  isLight={isLight}
+                  onOpenWaitlist={onOpenWaitlist}
+                  onOpenWhatsApp={onOpenWhatsApp}
+                  onOpenDownloadApp={onOpenDownloadApp}
+                  defaultMode={activeProduct === 'pos' ? 'pos' : 'duo'}
+                />
+              )}
             </div>
           </div>
         </div>

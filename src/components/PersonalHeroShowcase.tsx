@@ -30,7 +30,7 @@ export const PersonalHeroShowcase: React.FC<PersonalHeroShowcaseProps> = ({
         {/* ============================================================== */}
         {/* 1. THE MOBILE PHONE (App Interface Centerpiece) */}
         {/* ============================================================== */}
-        <div className="relative z-10 sm:translate-x-8 lg:translate-x-10 transition-transform duration-500">
+        <div className="relative z-10 sm:translate-x-12 lg:translate-x-16 transition-transform duration-500">
           <RealisticPhoneMockup
             isLight={isLight}
             onOpenWaitlist={onOpenWaitlist}
@@ -55,7 +55,7 @@ export const PersonalHeroShowcase: React.FC<PersonalHeroShowcaseProps> = ({
           }}
           onMouseEnter={() => setIsCardHovered(true)}
           onMouseLeave={() => setIsCardHovered(false)}
-          className="absolute -bottom-4 sm:bottom-12 -left-2 sm:-left-6 lg:-left-4 z-30 w-[270px] sm:w-[325px] aspect-[1.586/1] cursor-pointer"
+          className="absolute -bottom-6 sm:bottom-2 -left-4 sm:-left-12 lg:-left-16 z-30 w-[250px] sm:w-[290px] aspect-[1.586/1] cursor-pointer"
           style={{ perspective: 1200 }}
           onClick={() => setIsFlipped(!isFlipped)}
         >
