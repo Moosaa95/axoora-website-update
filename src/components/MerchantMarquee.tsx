@@ -28,7 +28,14 @@ export const MerchantMarquee: React.FC<MerchantMarqueeProps> = ({ isLight: propI
     { name: 'Kano Kurmi Guild', category: 'Artisans & Wholesale', badge: 'KRM', color: '#D97706' },
     { name: 'Onitsha Main Market', category: 'Import & FMCG Trading', badge: 'OMM', color: '#2563EB' },
     { name: 'Maitama Business Mall', category: 'Corporate & Hospitality', badge: 'MTM', color: '#0F766E' },
+    { name: 'Ariaria International', category: 'Manufacturing & Leather', badge: 'ARI', color: '#9333EA' },
+    { name: 'Bodija Wholesale Mart', category: 'Agro & Food Supply', badge: 'BDJ', color: '#16A34A' },
+    { name: 'Oil Mill Market', category: 'Energy & Port Commerce', badge: 'OMM', color: '#EA580C' },
+    { name: 'Terminus Trading Central', category: 'Cold Chain & Minerals', badge: 'TMS', color: '#0284C7' },
   ];
+
+  // Repeat for 100% seamless infinite looping across any viewport width (up to 4K displays)
+  const marqueeCards = [...hubs, ...hubs, ...hubs, ...hubs];
 
   return (
     <section
@@ -38,7 +45,7 @@ export const MerchantMarquee: React.FC<MerchantMarqueeProps> = ({ isLight: propI
           : 'bg-[#01091C] border-[#14294F] text-[#F2F5F9]'
       }`}
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col gap-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col gap-8 mb-8">
         {/* Top Header: "Commercial Hubs that Count on Us" */}
         <div
           className={`flex flex-col md:flex-row md:items-end justify-between gap-6 pb-6 border-b ${
@@ -78,41 +85,58 @@ export const MerchantMarquee: React.FC<MerchantMarqueeProps> = ({ isLight: propI
             </span>
           </div>
         </div>
+      </div>
 
-        {/* Commercial Hubs Row */}
-        <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-4 sm:gap-6 items-center">
-          {hubs.map((hub, i) => (
-            <motion.div
-              key={i}
-              whileHover={{ y: -3, scale: 1.03 }}
-              transition={{ type: 'spring', stiffness: 400, damping: 25 }}
-              className={`p-3.5 rounded-2xl border transition-all flex flex-col items-center justify-center text-center gap-1.5 cursor-pointer group ${
+      {/* Moving Infinite Marquee Track (Full-Width with Gradient Edge Fades & Hover Pause) */}
+      <div className="relative w-full overflow-hidden">
+        {/* Left & Right gradient edge fades */}
+        <div
+          className={`absolute left-0 top-0 bottom-0 w-16 sm:w-28 md:w-40 z-10 pointer-events-none bg-gradient-to-r ${
+            isLight
+              ? 'from-white via-white/80 to-transparent'
+              : 'from-[#01091C] via-[#01091C]/80 to-transparent'
+          }`}
+        />
+        <div
+          className={`absolute right-0 top-0 bottom-0 w-16 sm:w-28 md:w-40 z-10 pointer-events-none bg-gradient-to-l ${
+            isLight
+              ? 'from-white via-white/80 to-transparent'
+              : 'from-[#01091C] via-[#01091C]/80 to-transparent'
+          }`}
+        />
+
+        {/* The Continuous Infinite Marquee Track */}
+        <div className="animate-marquee-track py-3 flex items-center gap-4 sm:gap-6 cursor-pointer">
+          {marqueeCards.map((hub, i) => (
+            <div
+              key={`${hub.badge}-${i}`}
+              className={`p-4 rounded-2xl border transition-all duration-200 flex flex-col items-center justify-center text-center gap-2 shrink-0 w-[170px] sm:w-[195px] select-none group ${
                 isLight
-                  ? 'bg-slate-50 border-slate-200 hover:border-[#0D95FE]/50 hover:bg-white hover:shadow-md'
-                  : 'bg-[#0A1B3D] border-[#14294F] hover:border-[#0D95FE]/60 hover:bg-[#0E2452]'
+                  ? 'bg-slate-50 border-slate-200 hover:border-[#0D95FE]/60 hover:bg-white hover:shadow-lg hover:-translate-y-1'
+                  : 'bg-[#0A1B3D] border-[#14294F] hover:border-[#0D95FE]/70 hover:bg-[#0E2452] hover:shadow-lg hover:shadow-[#0D95FE]/15 hover:-translate-y-1'
               }`}
             >
               <div
-                className="w-10 h-10 rounded-xl flex items-center justify-center text-white font-extrabold text-xs tracking-wider shadow-sm group-hover:scale-105 transition-transform"
+                className="w-10 h-10 sm:w-11 sm:h-11 rounded-xl flex items-center justify-center text-white font-extrabold text-xs tracking-wider shadow-sm group-hover:scale-108 transition-transform"
                 style={{ backgroundColor: hub.color }}
               >
                 {hub.badge}
               </div>
               <span
-                className={`font-bold text-xs sm:text-sm tracking-tight group-hover:text-[#0D95FE] transition-colors leading-snug ${
+                className={`font-bold text-xs sm:text-sm tracking-tight group-hover:text-[#0D95FE] transition-colors leading-snug line-clamp-1 ${
                   isLight ? 'text-slate-900' : 'text-[#F2F5F9]'
                 }`}
               >
                 {hub.name}
               </span>
               <span
-                className={`text-[10px] line-clamp-1 ${
+                className={`text-[10px] sm:text-[11px] line-clamp-1 ${
                   isLight ? 'text-slate-500' : 'text-[#A8BBD6]'
                 }`}
               >
                 {hub.category}
               </span>
-            </motion.div>
+            </div>
           ))}
         </div>
       </div>

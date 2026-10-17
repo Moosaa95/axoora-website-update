@@ -310,12 +310,12 @@ export const HumanBankingPillars: React.FC<HumanBankingPillarsProps> = ({
 
                 {/* Floating Tactile Glassmorphism Card (Monzo Style) */}
                 <div className="absolute bottom-4 left-4 right-4 z-10">
-                  <div className="p-3.5 rounded-2xl bg-[#091630]/90 backdrop-blur-xl border border-white/15 shadow-xl flex items-center justify-between gap-3 group-hover:border-[#00DF8F]/60 transition-all">
+                  <div className="dark-hardware preserve-dark editorial-card-overlay p-3.5 rounded-2xl bg-[#091630]/92 backdrop-blur-xl border border-white/20 shadow-2xl flex items-center justify-between gap-3 group-hover:border-[#00DF8F]/60 transition-all">
                     <div className="flex items-center gap-3 min-w-0">
                       <div
                         className="w-10 h-10 rounded-xl flex items-center justify-center shrink-0 shadow-inner"
                         style={{
-                          backgroundColor: `${pillar.categoryColor}20`,
+                          backgroundColor: `${pillar.categoryColor}25`,
                           color: pillar.categoryColor,
                         }}
                       >
@@ -324,17 +324,17 @@ export const HumanBankingPillars: React.FC<HumanBankingPillarsProps> = ({
                         </span>
                       </div>
                       <div className="flex flex-col min-w-0">
-                        <span className="text-xs font-bold text-white truncate">
+                        <span className="text-xs font-bold !text-white truncate">
                           {pillar.floatingTag.title}
                         </span>
-                        <span className="text-[11px] text-[#A8BBD6] truncate">
+                        <span className="text-[11px] !text-slate-200 truncate">
                           {pillar.floatingTag.subtitle}
                         </span>
                       </div>
                     </div>
 
                     {pillar.floatingTag.badge && (
-                      <span className="px-2 py-0.5 rounded-md text-[9px] font-mono font-bold shrink-0 bg-[#00DF8F]/20 text-[#00DF8F] border border-[#00DF8F]/30">
+                      <span className="px-2 py-0.5 rounded-md text-[9px] font-mono font-bold shrink-0 !bg-[#00DF8F]/20 !text-[#00DF8F] !border-[#00DF8F]/40 border">
                         {pillar.floatingTag.badge}
                       </span>
                     )}
@@ -365,7 +365,7 @@ export const HumanBankingPillars: React.FC<HumanBankingPillarsProps> = ({
                   onClick={() => setActiveModal(pillar.id)}
                   className={`mt-2 py-2 px-5 rounded-full text-xs sm:text-sm font-bold border w-fit flex items-center gap-2 transition-all cursor-pointer ${
                     isLight
-                      ? 'border-slate-800 text-slate-800 hover:bg-slate-900 hover:text-white active:scale-95'
+                      ? 'border-slate-800 text-slate-800 hover:bg-slate-900 hover:text-white active:scale-95 shadow-sm'
                       : 'border-[#1B3564] text-[#F2F5F9] bg-[#0A1B3D]/60 hover:bg-[#00DF8F] hover:text-[#003825] hover:border-[#00DF8F] active:scale-95 shadow-sm'
                   }`}
                 >
@@ -400,14 +400,18 @@ export const HumanBankingPillars: React.FC<HumanBankingPillarsProps> = ({
               exit={{ opacity: 0, scale: 0.95, y: 20 }}
               className={`relative w-full max-w-xl rounded-3xl p-6 sm:p-8 border shadow-2xl z-10 overflow-hidden ${
                 isLight
-                  ? 'bg-white border-slate-200 text-slate-900'
-                  : 'bg-[#06122B] border-[#1B3564] text-white'
+                  ? 'bg-white border-slate-200 text-slate-900 shadow-2xl shadow-slate-900/10'
+                  : 'bg-[#06122B] border-[#1B3564] text-white shadow-2xl'
               }`}
             >
               {/* Close Button */}
               <button
                 onClick={() => setActiveModal(null)}
-                className="absolute top-5 right-5 w-9 h-9 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-slate-300 hover:text-white transition-all cursor-pointer"
+                className={`absolute top-5 right-5 w-9 h-9 rounded-full flex items-center justify-center transition-all cursor-pointer ${
+                  isLight
+                    ? 'bg-slate-100 hover:bg-slate-200 text-slate-600 hover:text-slate-900'
+                    : 'bg-white/10 hover:bg-white/20 text-slate-300 hover:text-white'
+                }`}
               >
                 <span className="material-symbols-outlined text-[18px]">close</span>
               </button>
@@ -420,38 +424,62 @@ export const HumanBankingPillars: React.FC<HumanBankingPillarsProps> = ({
                       <span className="material-symbols-outlined text-[24px]">bolt</span>
                     </div>
                     <div>
-                      <span className="text-xs font-mono font-bold text-[#00DF8F] uppercase tracking-wider">
+                      <span className={`text-xs font-mono font-bold uppercase tracking-wider ${isLight ? 'text-emerald-700' : 'text-[#00DF8F]'}`}>
                         NIBSS INSTANT RAILS // SUB-SECOND
                       </span>
-                      <h4 className="text-xl font-black text-white">Instant Transfer Simulator</h4>
+                      <h4 className={`text-xl font-black ${isLight ? 'text-slate-900' : 'text-white'}`}>
+                        Instant Transfer Simulator
+                      </h4>
                     </div>
                   </div>
 
-                  <p className="text-sm text-[#A8BBD6] leading-relaxed">
+                  <p className={`text-sm leading-relaxed ${isLight ? 'text-slate-600' : 'text-[#A8BBD6]'}`}>
                     Test our sovereign NIBSS payment pipeline. See how fast transfers settle without hanging or deduction surprises.
                   </p>
 
-                  <div className="p-5 rounded-2xl bg-[#091630] border border-[#162C56] flex flex-col gap-4">
-                    <div className="flex justify-between items-center p-3 rounded-xl bg-[#020B1D] border border-white/5">
+                  <div className={`p-5 rounded-2xl border flex flex-col gap-4 ${
+                    isLight ? 'bg-slate-50 border-slate-200' : 'bg-[#091630] border-[#162C56]'
+                  }`}>
+                    <div className={`flex justify-between items-center p-3 rounded-xl border ${
+                      isLight ? 'bg-white border-slate-200 shadow-sm' : 'bg-[#020B1D] border-white/5'
+                    }`}>
                       <div>
-                        <span className="text-[10px] text-[#7B9CD2] uppercase block">Recipient</span>
-                        <span className="font-bold text-sm text-white">Amina Bello</span>
-                        <span className="text-xs text-[#7B9CD2] block">GTBank · 0128491023</span>
+                        <span className={`text-[10px] uppercase block font-semibold ${isLight ? 'text-slate-500' : 'text-[#7B9CD2]'}`}>
+                          Recipient
+                        </span>
+                        <span className={`font-bold text-sm ${isLight ? 'text-slate-900' : 'text-white'}`}>
+                          Amina Bello
+                        </span>
+                        <span className={`text-xs block ${isLight ? 'text-slate-500' : 'text-[#7B9CD2]'}`}>
+                          GTBank · 0128491023
+                        </span>
                       </div>
-                      <span className="text-xs font-bold text-[#00DF8F] bg-[#00DF8F]/15 px-2.5 py-1 rounded-full border border-[#00DF8F]/30">
+                      <span className={`text-xs font-bold px-2.5 py-1 rounded-full border ${
+                        isLight
+                          ? 'bg-emerald-100 text-emerald-800 border-emerald-300'
+                          : 'text-[#00DF8F] bg-[#00DF8F]/15 border-[#00DF8F]/30'
+                      }`}>
                         Verified Account ✓
                       </span>
                     </div>
 
                     <div className="flex justify-between items-center px-1">
                       <div>
-                        <span className="text-[10px] text-[#7B9CD2] uppercase block">Amount</span>
-                        <span className="text-2xl font-black font-mono text-white">₦25,000.00</span>
+                        <span className={`text-[10px] uppercase block font-semibold ${isLight ? 'text-slate-500' : 'text-[#7B9CD2]'}`}>
+                          Amount
+                        </span>
+                        <span className={`text-2xl font-black font-mono ${isLight ? 'text-slate-900' : 'text-white'}`}>
+                          ₦25,000.00
+                        </span>
                       </div>
                       <div className="text-right">
-                        <span className="text-[10px] text-[#7B9CD2] uppercase block">Transfer Fee</span>
-                        <span className="text-sm font-bold font-mono text-[#00DF8F]">₦0.00</span>
-                        <span className="text-[10px] text-rose-400 line-through block">Legacy: ₦53.75</span>
+                        <span className={`text-[10px] uppercase block font-semibold ${isLight ? 'text-slate-500' : 'text-[#7B9CD2]'}`}>
+                          Transfer Fee
+                        </span>
+                        <span className={`text-sm font-bold font-mono ${isLight ? 'text-emerald-700 font-extrabold' : 'text-[#00DF8F]'}`}>
+                          ₦0.00
+                        </span>
+                        <span className="text-[10px] text-rose-500 line-through block">Legacy: ₦53.75</span>
                       </div>
                     </div>
 
@@ -459,22 +487,30 @@ export const HumanBankingPillars: React.FC<HumanBankingPillarsProps> = ({
                       <motion.div
                         initial={{ opacity: 0, scale: 0.95 }}
                         animate={{ opacity: 1, scale: 1 }}
-                        className="p-4 rounded-xl bg-[#00DF8F]/15 border border-[#00DF8F] text-center flex flex-col items-center gap-1.5"
+                        className={`p-4 rounded-xl border text-center flex flex-col items-center gap-1.5 ${
+                          isLight
+                            ? 'bg-emerald-50 border-emerald-300'
+                            : 'bg-[#00DF8F]/15 border-[#00DF8F]'
+                        }`}
                       >
-                        <div className="w-9 h-9 rounded-full bg-[#00DF8F] text-[#003825] flex items-center justify-center font-black">
+                        <div className="w-9 h-9 rounded-full bg-emerald-600 text-white flex items-center justify-center font-black">
                           ✓
                         </div>
-                        <span className="text-sm font-black text-white">₦25,000.00 Sent to Amina Bello</span>
-                        <span className="text-xs text-[#00DF8F] font-mono font-bold">
+                        <span className={`text-sm font-black ${isLight ? 'text-slate-900' : 'text-white'}`}>
+                          ₦25,000.00 Sent to Amina Bello
+                        </span>
+                        <span className={`text-xs font-mono font-bold ${isLight ? 'text-emerald-700' : 'text-[#00DF8F]'}`}>
                           Settled in 0.8s · NIP Ref: AX-948210
                         </span>
-                        <span className="text-[10px] text-[#A8BBD6]">Zero transfer fees deducted</span>
+                        <span className={`text-[10px] ${isLight ? 'text-slate-500' : 'text-[#A8BBD6]'}`}>
+                          Zero transfer fees deducted
+                        </span>
                       </motion.div>
                     ) : (
                       <button
                         onClick={handleSimulateTransfer}
                         disabled={transferState === 'sending'}
-                        className="w-full py-3.5 px-4 rounded-xl bg-[#00DF8F] hover:bg-[#00C57E] text-[#003825] font-extrabold text-sm flex items-center justify-center gap-2 transition-all cursor-pointer shadow-lg shadow-[#00DF8F]/25 active:scale-98 disabled:opacity-50"
+                        className="w-full py-3.5 px-4 rounded-xl bg-gradient-to-r from-emerald-600 to-emerald-500 hover:from-emerald-700 hover:to-emerald-600 text-white font-extrabold text-sm flex items-center justify-center gap-2 transition-all cursor-pointer shadow-lg shadow-emerald-500/25 active:scale-98 disabled:opacity-50"
                       >
                         <span className="material-symbols-outlined text-[18px]">
                           {transferState === 'sending' ? 'sync' : 'bolt'}
@@ -493,7 +529,11 @@ export const HumanBankingPillars: React.FC<HumanBankingPillarsProps> = ({
                       setActiveModal(null);
                       if (onOpenWaitlist) onOpenWaitlist('personal');
                     }}
-                    className="w-full py-3 rounded-xl border border-white/20 hover:border-white/40 text-xs font-bold text-center text-white transition-all cursor-pointer"
+                    className={`w-full py-3 rounded-xl border text-xs font-bold text-center transition-all cursor-pointer ${
+                      isLight
+                        ? 'border-slate-300 hover:border-slate-400 text-slate-800 hover:bg-slate-50'
+                        : 'border-white/20 hover:border-white/40 text-white'
+                    }`}
                   >
                     Open Free Personal Account ➔
                   </button>
@@ -508,15 +548,17 @@ export const HumanBankingPillars: React.FC<HumanBankingPillarsProps> = ({
                       <span className="material-symbols-outlined text-[24px]">chat</span>
                     </div>
                     <div>
-                      <span className="text-xs font-mono font-bold text-[#25D366] uppercase tracking-wider">
+                      <span className={`text-xs font-mono font-bold uppercase tracking-wider ${isLight ? 'text-emerald-700' : 'text-[#25D366]'}`}>
                         CONVERSATIONAL AI // NATIVE WHATSAPP
                       </span>
-                      <h4 className="text-xl font-black text-white">WhatsApp Audio & Chat Desk</h4>
+                      <h4 className={`text-xl font-black ${isLight ? 'text-slate-900' : 'text-white'}`}>
+                        WhatsApp Audio &amp; Chat Desk
+                      </h4>
                     </div>
                   </div>
 
                   {/* WhatsApp Message Preview */}
-                  <div className="p-4 rounded-2xl bg-[#0B141A] border border-[#202C33] flex flex-col gap-3.5">
+                  <div className="dark-hardware preserve-dark p-4 rounded-2xl bg-[#0B141A] border border-[#202C33] flex flex-col gap-3.5">
                     {/* Voice Note Bubble */}
                     <div className="self-end max-w-[85%] p-3 rounded-2xl rounded-tr-none bg-[#005C4B] text-white flex flex-col gap-2">
                       <div className="flex items-center gap-3">
@@ -545,7 +587,7 @@ export const HumanBankingPillars: React.FC<HumanBankingPillarsProps> = ({
                         <span className="text-[11px] text-white/80 font-mono">0:04</span>
                       </div>
                       <span className="text-[11px] italic text-emerald-100">
-                        "Axoora send 10k to Mummy for weekend groceries"
+                        &ldquo;Axoora send 10k to Mummy for weekend groceries&rdquo;
                       </span>
                     </div>
 
@@ -586,14 +628,16 @@ export const HumanBankingPillars: React.FC<HumanBankingPillarsProps> = ({
                       <span className="material-symbols-outlined text-[24px]">savings</span>
                     </div>
                     <div>
-                      <span className="text-xs font-mono font-bold text-[#F59E0B] uppercase tracking-wider">
+                      <span className={`text-xs font-mono font-bold uppercase tracking-wider ${isLight ? 'text-amber-700' : 'text-[#F59E0B]'}`}>
                         0% RIBA // AUTHENTIC MUDARABAH
                       </span>
-                      <h4 className="text-xl font-black text-white">Halal Vault Calculator</h4>
+                      <h4 className={`text-xl font-black ${isLight ? 'text-slate-900' : 'text-white'}`}>
+                        Halal Vault Calculator
+                      </h4>
                     </div>
                   </div>
 
-                  <p className="text-sm text-[#A8BBD6] leading-relaxed">
+                  <p className={`text-sm leading-relaxed ${isLight ? 'text-slate-600' : 'text-[#A8BBD6]'}`}>
                     Select your target savings capital. Your funds partner directly with physical goods and agriculture in Nigeria with zero debt interest.
                   </p>
 
@@ -604,7 +648,9 @@ export const HumanBankingPillars: React.FC<HumanBankingPillarsProps> = ({
                         onClick={() => setVaultAmount(amt)}
                         className={`flex-1 min-w-[70px] py-2 px-3 rounded-xl text-xs font-bold transition-all cursor-pointer ${
                           vaultAmount === amt
-                            ? 'bg-[#F59E0B] text-[#3D2300] shadow-md scale-102'
+                            ? 'bg-[#F59E0B] text-[#3D2300] shadow-md scale-102 font-black'
+                            : isLight
+                            ? 'bg-slate-100 border border-slate-200 text-slate-700 hover:bg-slate-200'
                             : 'bg-[#091630] border border-[#162C56] text-white hover:bg-white/5'
                         }`}
                       >
@@ -613,18 +659,22 @@ export const HumanBankingPillars: React.FC<HumanBankingPillarsProps> = ({
                     ))}
                   </div>
 
-                  <div className="p-4 rounded-2xl bg-[#091630] border border-[#162C56] flex justify-between items-center">
+                  <div className={`p-4 rounded-2xl border flex justify-between items-center ${
+                    isLight ? 'bg-slate-50 border-slate-200' : 'bg-[#091630] border-[#162C56]'
+                  }`}>
                     <div>
-                      <span className="text-[10px] text-[#7B9CD2] uppercase block">Your Capital</span>
-                      <span className="text-2xl font-black font-mono text-white">
+                      <span className={`text-[10px] uppercase block font-semibold ${isLight ? 'text-slate-500' : 'text-[#7B9CD2]'}`}>
+                        Your Capital
+                      </span>
+                      <span className={`text-2xl font-black font-mono ${isLight ? 'text-slate-900' : 'text-white'}`}>
                         ₦{vaultAmount.toLocaleString()}
                       </span>
                     </div>
                     <div className="text-right">
-                      <span className="text-[10px] text-[#F59E0B] uppercase block font-bold">
+                      <span className={`text-[10px] uppercase block font-bold ${isLight ? 'text-amber-700' : 'text-[#F59E0B]'}`}>
                         Est. Trade Profit Share
                       </span>
-                      <span className="text-2xl font-black font-mono text-[#00DF8F]">
+                      <span className={`text-2xl font-black font-mono ${isLight ? 'text-emerald-700' : 'text-[#00DF8F]'}`}>
                         +₦{estimatedProfit.toLocaleString()}
                       </span>
                     </div>
@@ -650,16 +700,24 @@ export const HumanBankingPillars: React.FC<HumanBankingPillarsProps> = ({
                       <span className="material-symbols-outlined text-[24px]">group</span>
                     </div>
                     <div>
-                      <span className="text-xs font-mono font-bold text-[#8B5CF6] uppercase tracking-wider">
+                      <span className={`text-xs font-mono font-bold uppercase tracking-wider ${isLight ? 'text-purple-700' : 'text-[#8B5CF6]'}`}>
                         DIGITAL THRIFT // AUTOMATED AJO
                       </span>
-                      <h4 className="text-xl font-black text-white">Lekki Friends & Foodies</h4>
+                      <h4 className={`text-xl font-black ${isLight ? 'text-slate-900' : 'text-white'}`}>
+                        Lekki Friends &amp; Foodies
+                      </h4>
                     </div>
                   </div>
 
-                  <div className="flex justify-between items-center p-3 rounded-xl bg-[#8B5CF6]/15 border border-[#8B5CF6]/30">
-                    <span className="text-xs font-bold text-white">Weekly Circle Pot</span>
-                    <span className="text-sm font-black font-mono text-[#00DF8F]">₦200,000.00</span>
+                  <div className={`flex justify-between items-center p-3 rounded-xl border ${
+                    isLight ? 'bg-purple-50 border-purple-200 text-purple-950' : 'bg-[#8B5CF6]/15 border-[#8B5CF6]/30'
+                  }`}>
+                    <span className={`text-xs font-bold ${isLight ? 'text-purple-900' : 'text-white'}`}>
+                      Weekly Circle Pot
+                    </span>
+                    <span className={`text-sm font-black font-mono ${isLight ? 'text-purple-700' : 'text-[#00DF8F]'}`}>
+                      ₦200,000.00
+                    </span>
                   </div>
 
                   <div className="flex flex-col gap-2">
@@ -671,16 +729,26 @@ export const HumanBankingPillars: React.FC<HumanBankingPillarsProps> = ({
                     ].map((m, idx) => (
                       <div
                         key={idx}
-                        className="flex justify-between items-center p-2.5 rounded-xl bg-[#091630] border border-white/5 text-xs"
+                        className={`flex justify-between items-center p-2.5 rounded-xl border text-xs ${
+                          isLight ? 'bg-slate-50 border-slate-200' : 'bg-[#091630] border-white/5'
+                        }`}
                       >
                         <div className="flex items-center gap-2">
-                          <span className="w-6 h-6 rounded-full bg-white/10 flex items-center justify-center font-bold text-[10px] text-white">
+                          <span className={`w-6 h-6 rounded-full flex items-center justify-center font-bold text-[10px] ${
+                            isLight ? 'bg-slate-200 text-slate-800' : 'bg-white/10 text-white'
+                          }`}>
                             {m.name.charAt(0)}
                           </span>
-                          <span className="font-bold text-white">{m.name}</span>
-                          <span className="text-[10px] text-slate-400">({m.bank})</span>
+                          <span className={`font-bold ${isLight ? 'text-slate-900' : 'text-white'}`}>
+                            {m.name}
+                          </span>
+                          <span className={`text-[10px] ${isLight ? 'text-slate-500' : 'text-slate-400'}`}>
+                            ({m.bank})
+                          </span>
                         </div>
-                        <span className="text-[11px] font-mono text-[#00DF8F]">{m.status}</span>
+                        <span className={`text-[11px] font-mono font-bold ${isLight ? 'text-emerald-700' : 'text-[#00DF8F]'}`}>
+                          {m.status}
+                        </span>
                       </div>
                     ))}
                   </div>
@@ -705,29 +773,31 @@ export const HumanBankingPillars: React.FC<HumanBankingPillarsProps> = ({
                       <span className="material-symbols-outlined text-[24px]">credit_card</span>
                     </div>
                     <div>
-                      <span className="text-xs font-mono font-bold text-[#0D95FE] uppercase tracking-wider">
+                      <span className={`text-xs font-mono font-bold uppercase tracking-wider ${isLight ? 'text-blue-700' : 'text-[#0D95FE]'}`}>
                         GLOBAL SPEND // DUAL-CURRENCY
                       </span>
-                      <h4 className="text-xl font-black text-white">Virtual Visa Dollar Card</h4>
+                      <h4 className={`text-xl font-black ${isLight ? 'text-slate-900' : 'text-white'}`}>
+                        Virtual Visa Dollar Card
+                      </h4>
                     </div>
                   </div>
 
                   {/* Card Visual */}
-                  <div className="p-5 rounded-2xl bg-gradient-to-br from-[#0D95FE] via-[#095499] to-[#041D3B] text-white flex flex-col justify-between h-44 shadow-xl border border-white/20">
+                  <div className="dark-hardware preserve-dark p-5 rounded-2xl bg-gradient-to-br from-[#0D95FE] via-[#095499] to-[#041D3B] text-white flex flex-col justify-between h-44 shadow-xl border border-white/20">
                     <div className="flex justify-between items-start">
-                      <span className="font-mono text-xs font-bold tracking-widest">AXOORA GLOBAL</span>
-                      <span className="font-black text-lg italic tracking-wider">VISA</span>
+                      <span className="font-mono text-xs font-bold tracking-widest text-white">AXOORA GLOBAL</span>
+                      <span className="font-black text-lg italic tracking-wider text-white">VISA</span>
                     </div>
                     <div className="flex flex-col gap-1">
-                      <span className="font-mono text-sm tracking-widest">4129 •••• •••• 8821</span>
-                      <div className="flex justify-between items-center text-[10px] font-mono opacity-80">
+                      <span className="font-mono text-sm tracking-widest text-white">4129 •••• •••• 8821</span>
+                      <div className="flex justify-between items-center text-[10px] font-mono opacity-90 text-white">
                         <span>EXP 08/29</span>
                         <span>CVV •••</span>
                       </div>
                     </div>
                   </div>
 
-                  <p className="text-sm text-[#A8BBD6] leading-relaxed">
+                  <p className={`text-sm leading-relaxed ${isLight ? 'text-slate-600' : 'text-[#A8BBD6]'}`}>
                     No more declined transactions on foreign sites. Instant funding directly from your Naira balance at real-time market rates.
                   </p>
 
@@ -749,3 +819,4 @@ export const HumanBankingPillars: React.FC<HumanBankingPillarsProps> = ({
     </section>
   );
 };
+

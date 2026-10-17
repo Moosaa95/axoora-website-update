@@ -32,6 +32,9 @@ interface NavigationContextType {
   openWhatsApp: () => void;
   closeWhatsApp: () => void;
   isWhatsAppOpen: boolean;
+  openCommandDrawer: () => void;
+  closeCommandDrawer: () => void;
+  isCommandDrawerOpen: boolean;
   openDownloadApp: () => void;
   closeDownloadApp: () => void;
   isDownloadAppOpen: boolean;
@@ -49,6 +52,7 @@ export const NavigationProvider: React.FC<{ children: React.ReactNode }> = ({ ch
 
   const [waitlistInterest, setWaitlistInterest] = useState<'personal' | 'business' | 'pos-agent' | 'aggregator'>('business');
   const [whatsappModalOpen, setWhatsappModalOpen] = useState(false);
+  const [commandDrawerOpen, setCommandDrawerOpen] = useState(false);
   const [downloadModalOpen, setDownloadModalOpen] = useState(false);
   const [homeMode, setHomeMode] = useState<'business' | 'personal'>('business');
 
@@ -86,6 +90,9 @@ export const NavigationProvider: React.FC<{ children: React.ReactNode }> = ({ ch
   const openWhatsApp = () => setWhatsappModalOpen(true);
   const closeWhatsApp = () => setWhatsappModalOpen(false);
 
+  const openCommandDrawer = () => setCommandDrawerOpen(true);
+  const closeCommandDrawer = () => setCommandDrawerOpen(false);
+
   const openDownloadApp = () => setDownloadModalOpen(true);
   const closeDownloadApp = () => setDownloadModalOpen(false);
 
@@ -98,6 +105,9 @@ export const NavigationProvider: React.FC<{ children: React.ReactNode }> = ({ ch
         openWhatsApp,
         closeWhatsApp,
         isWhatsAppOpen: whatsappModalOpen,
+        openCommandDrawer,
+        closeCommandDrawer,
+        isCommandDrawerOpen: commandDrawerOpen,
         openDownloadApp,
         closeDownloadApp,
         isDownloadAppOpen: downloadModalOpen,

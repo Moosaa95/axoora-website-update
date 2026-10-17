@@ -8,6 +8,7 @@ import { Footer } from './Footer';
 import { CookieBanner } from './CookieBanner';
 import { WaitlistModal } from './WaitlistModal';
 import { WhatsAppBankingModal } from './WhatsAppBankingModal';
+import { WhatsAppCommandFaqDrawer } from './WhatsAppCommandFaqDrawer';
 import { AppDownloadModal } from './AppDownloadModal';
 import { LiveChatBubble } from './LiveChatBubble';
 import { ReadingProgressBar } from './ReadingProgressBar';
@@ -20,6 +21,9 @@ export const AppShell: React.FC<{ children: React.ReactNode }> = ({ children }) 
     openWhatsApp,
     closeWhatsApp,
     isWhatsAppOpen,
+    openCommandDrawer,
+    closeCommandDrawer,
+    isCommandDrawerOpen,
     openDownloadApp,
     closeDownloadApp,
     isDownloadAppOpen,
@@ -88,6 +92,7 @@ export const AppShell: React.FC<{ children: React.ReactNode }> = ({ children }) 
           closeWhatsApp();
           openWaitlist('personal');
         }}
+        onOpenCommandDrawer={openCommandDrawer}
       />
 
       {/* Mobile App Download Modal */}
@@ -98,6 +103,12 @@ export const AppShell: React.FC<{ children: React.ReactNode }> = ({ children }) 
           closeDownloadApp();
           openWaitlist('personal');
         }}
+      />
+
+      {/* WhatsApp Command & FAQ Slide-over Drawer */}
+      <WhatsAppCommandFaqDrawer
+        isOpen={isCommandDrawerOpen}
+        onClose={closeCommandDrawer}
       />
 
       {/* Live Priority Chat Floating Widget */}

@@ -7,159 +7,89 @@ interface RealisticPhoneMockupProps {
   isLight?: boolean;
   onOpenWaitlist?: (interest?: 'personal') => void;
   onOpenWhatsApp?: () => void;
+  onOpenCommandDrawer?: () => void;
   defaultView?: 'whatsapp' | 'app';
   autoPlay?: boolean;
 }
 
 type PhoneViewMode = 'whatsapp' | 'app';
-type ScenarioKey = 'transfer' | 'card' | 'savings' | 'paycircle';
 
-interface ChatScenario {
-  id: ScenarioKey;
-  label: string;
-  icon: string;
-  commandSnippet: string;
+interface HumanChatScenario {
+  id: string;
+  pillLabel: string;
+  pillEmoji: string;
   userMessage: string;
-  time: string;
-  aiIntro: string;
-  badge: string;
-  badgeColor: string;
-  cardTitle: string;
-  cardDetails: Array<{ label: string; value: string; highlight?: boolean }>;
-  statusText: string;
-  notificationText: string;
-  syncPillText: string;
-  appRecentItem: {
-    name: string;
-    type: string;
-    amount: string;
-    isCredit?: boolean;
-    time: string;
-  };
-  balanceBefore: number;
-  balanceAfter: number;
+  userTime: string;
+  aiReply: string;
+  aiPill: string;
+  notificationTitle: string;
+  notificationSub: string;
+  walletBalanceBefore: number;
+  walletBalanceAfter: number;
+  walletTransactionTitle: string;
+  walletTransactionType: string;
+  walletTransactionAmount: string;
+  walletTransactionCredit: boolean;
+  walletCardFrozen?: boolean;
+  walletVaultActive?: boolean;
 }
 
-const SCENARIOS: ChatScenario[] = [
+const HUMAN_SCENARIOS: HumanChatScenario[] = [
   {
-    id: 'transfer',
-    label: 'Send ₦15k to Musa',
-    icon: 'north_east',
-    commandSnippet: 'send ₦15k to Musa',
-    userMessage: 'Axoora send ₦15,000 to Musa for lunch from main account',
-    time: '09:41',
-    aiIntro: 'Transfer confirmed on NIBSS Instant rails. Zero fees:',
-    badge: 'NIP Instant (0s)',
-    badgeColor: '#00DF8F',
-    cardTitle: 'Transfer to Musa Ibrahim',
-    cardDetails: [
-      { label: 'Recipient', value: 'Musa Ibrahim' },
-      { label: 'Bank', value: 'Kuda Bank · 2098411234' },
-      { label: 'Amount', value: '₦15,000.00', highlight: true },
-      { label: 'Transfer Fee', value: '₦0.00 (Zero Fee)' },
-    ],
-    statusText: 'Authorized & Settled in 0.8s',
-    notificationText: '₦15,000 sent to Musa Ibrahim · ₦0 fee · Bal: ₦97,430.00',
-    syncPillText: '₦15,000 Transfer Sent to Musa · 0s NIP Settlement',
-    appRecentItem: {
-      name: 'Musa Ibrahim',
-      type: 'Transfer sent · 09:41',
-      amount: '– ₦15,000.00',
-      isCredit: false,
-      time: '09:41',
-    },
-    balanceBefore: 112430.0,
-    balanceAfter: 97430.0,
+    id: 'mum_transfer',
+    pillLabel: 'Send to Mum',
+    pillEmoji: '🥑',
+    userMessage: 'Hey Axoora, send ₦15,000 to Mum for groceries 🥑',
+    userTime: '09:41',
+    aiReply:
+      'Done! ₦15,000 sent to Mummy (Mrs. F. Bello). Delivered via direct NIP rails in 0.8s with ₦0.00 fee. Saved ₦53.75 💚',
+    aiPill: '⚡ 0s NIP Settlement · ₦0.00 Fee',
+    notificationTitle: '₦15,000 Sent to Mummy',
+    notificationSub: '₦0.00 fee · Balance updated in wallet',
+    walletBalanceBefore: 112430.0,
+    walletBalanceAfter: 97430.0,
+    walletTransactionTitle: 'Mummy (Groceries)',
+    walletTransactionType: 'Instant NIP Transfer · 09:41',
+    walletTransactionAmount: '– ₦15,000.00',
+    walletTransactionCredit: false,
   },
   {
-    id: 'card',
-    label: 'Create $50 Card',
-    icon: 'credit_card',
-    commandSnippet: 'create $50 card',
-    userMessage: 'Create a virtual dollar card with $50 for my OpenAI sub',
-    time: '09:42',
-    aiIntro: 'Axoora Virtual Dollar Mastercard generated instantly:',
-    badge: 'Mastercard Active',
-    badgeColor: '#0D95FE',
-    cardTitle: 'Axoora Virtual Dollar (USD)',
-    cardDetails: [
-      { label: 'Card Number', value: '4111 •••• •••• 9204' },
-      { label: 'Funded Amount', value: '$50.00 (₦74,250)', highlight: true },
-      { label: 'Expiry / CVV', value: '10/29 · 382' },
-      { label: 'Security', value: '3D Secure OTP Enabled' },
-    ],
-    statusText: 'Instant Issuance Verified',
-    notificationText: 'Virtual USD Card created with $50.00 · Ready for international checkouts',
-    syncPillText: '$50.00 Virtual Card Issued & Funded',
-    appRecentItem: {
-      name: 'Virtual Dollar Card',
-      type: 'Card funded · 09:42',
-      amount: '– ₦74,250.00 ($50)',
-      isCredit: false,
-      time: '09:42',
-    },
-    balanceBefore: 97430.0,
-    balanceAfter: 23180.0,
+    id: 'savings_yield',
+    pillLabel: 'Monthly Savings',
+    pillEmoji: '💰',
+    userMessage: 'Axoora, how much have I saved on transfer fees this month?',
+    userTime: '09:42',
+    aiReply:
+      'You avoided ₦4,850 in transfer fees, and your Halal Vault earned +₦3,200 in ethical profit sharing. Total ₦8,050 kept in your pocket! 💰',
+    aiPill: '🌱 0% Riba · Real Asset Growth',
+    notificationTitle: '+₦8,050 Kept in Your Pocket',
+    notificationSub: 'Zero fees + Halal profit share',
+    walletBalanceBefore: 97430.0,
+    walletBalanceAfter: 100630.0,
+    walletTransactionTitle: 'Halal Vault Profit Share',
+    walletTransactionType: 'Ethical Mudarabah Yield · Today',
+    walletTransactionAmount: '+ ₦3,200.00',
+    walletTransactionCredit: true,
+    walletVaultActive: true,
   },
   {
-    id: 'savings',
-    label: 'Halal Save & Earn',
-    icon: 'savings',
-    commandSnippet: 'lock ₦30k in Halal Vault',
-    userMessage: 'Check my Save & Earn balance and lock ₦30,000 in Halal Vault',
-    time: '09:43',
-    aiIntro: 'Non-interest custody locked under Mudarabah trade pool:',
-    badge: '0% Riba (Islamic)',
-    badgeColor: '#F2A93B',
-    cardTitle: 'Mudarabah Halal Vault',
-    cardDetails: [
-      { label: 'Locked Amount', value: '₦30,000.00', highlight: true },
-      { label: 'Expected Return', value: '+₦2,850.00 profit share' },
-      { label: 'Ethical Principle', value: '100% Tangible Asset Trade' },
-      { label: 'Vault Total', value: '₦115,000.00' },
-    ],
-    statusText: '100% Non-Interest Custody',
-    notificationText: '₦30,000 locked in Halal Vault · 0% Riba · Total Vault: ₦115,000.00',
-    syncPillText: '₦30,000 Locked in 0% Riba Halal Vault',
-    appRecentItem: {
-      name: 'Halal Mudarabah Vault',
-      type: 'Locked in savings · 09:43',
-      amount: '– ₦30,000.00',
-      isCredit: false,
-      time: '09:43',
-    },
-    balanceBefore: 112430.0,
-    balanceAfter: 82430.0,
-  },
-  {
-    id: 'paycircle',
-    label: 'Paycircle Split',
-    icon: 'groups',
-    commandSnippet: 'split ajo contribution',
-    userMessage: "Split Friday's market contribution with Chidinma and group",
-    time: '09:44',
-    aiIntro: 'Paycircle split active for 4 members (₦10,000 each):',
-    badge: 'Digital Ajo / Esusu',
-    badgeColor: '#A855F7',
-    cardTitle: 'Maitama Traders Paycircle',
-    cardDetails: [
-      { label: 'Target Pool', value: '₦40,000.00 (₦10k each)' },
-      { label: 'Current Status', value: '2 of 4 Paid (₦20,000)', highlight: true },
-      { label: 'Next Payout', value: 'Friday, Oct 18 · Chidinma' },
-      { label: 'WhatsApp Bot', value: 'Automated payment alerts' },
-    ],
-    statusText: 'Automated Circle Reminders Dispatched',
-    notificationText: 'Paycircle: 2 members paid ₦20,000. Next payout scheduled Friday.',
-    syncPillText: 'Paycircle Inflow: +₦20,000 Received from Group',
-    appRecentItem: {
-      name: 'Paycircle Inflow',
-      type: 'Ajo contribution · 09:44',
-      amount: '+ ₦20,000.00',
-      isCredit: true,
-      time: '09:44',
-    },
-    balanceBefore: 82430.0,
-    balanceAfter: 102430.0,
+    id: 'card_security',
+    pillLabel: '1-Tap Freeze',
+    pillEmoji: '🔒',
+    userMessage: 'Freeze my card quick, left my wallet in an Uber!',
+    userTime: '09:43',
+    aiReply:
+      'Locked immediately 🔒 Both virtual & physical cards are frozen. Zero transactions can pass. Reply "unfreeze" whenever you find it.',
+    aiPill: '🛡️ Instant 1-Tap Freeze Protection',
+    notificationTitle: 'Debit Card Frozen & Protected',
+    notificationSub: 'All transactions blocked · 1-tap unfreeze ready',
+    walletBalanceBefore: 97430.0,
+    walletBalanceAfter: 97430.0,
+    walletTransactionTitle: 'Security Lock Activated',
+    walletTransactionType: 'Card Frozen via WhatsApp · 09:43',
+    walletTransactionAmount: 'Active 🔒',
+    walletTransactionCredit: false,
+    walletCardFrozen: true,
   },
 ];
 
@@ -171,30 +101,44 @@ const WhatsAppVerifiedBadge = () => (
       fill="#00A884"
     />
     <path
-      d="M9 12.3L11.2 14.5L15.5 9.8"
-      stroke="white"
-      strokeWidth="2.2"
+      d="M9.5 12.5L11 14L15 10"
+      stroke="#FFFFFF"
+      strokeWidth="2"
       strokeLinecap="round"
       strokeLinejoin="round"
     />
   </svg>
 );
 
-// Pixel-perfect official WhatsApp double blue ticks
-const DoubleBlueTicks = () => (
-  <span className="inline-flex items-center text-[#53BDEB] font-bold text-[10px] leading-none ml-1 select-none">
-    <svg width="14" height="9" viewBox="0 0 16 10" fill="none" className="shrink-0">
+// WhatsApp Double Blue Checkmarks (Read Receipts)
+const DynamicDoubleTicks = ({ isRead = true }: { isRead?: boolean }) => (
+  <span className="inline-flex items-center -space-x-1 shrink-0 ml-0.5">
+    <svg
+      width="13"
+      height="13"
+      viewBox="0 0 16 16"
+      fill="none"
+      className={isRead ? 'text-[#53BDEB]' : 'text-[#8696A0]'}
+    >
       <path
-        d="M1 5.8L4.2 9L11.5 1.5"
-        stroke="#53BDEB"
-        strokeWidth="1.7"
+        d="M2.5 8.5L6 12L13.5 4.5"
+        stroke="currentColor"
+        strokeWidth="1.8"
         strokeLinecap="round"
         strokeLinejoin="round"
       />
+    </svg>
+    <svg
+      width="13"
+      height="13"
+      viewBox="0 0 16 16"
+      fill="none"
+      className={isRead ? 'text-[#53BDEB]' : 'text-[#8696A0]'}
+    >
       <path
-        d="M5.5 5.8L8.7 9L16 1.5"
-        stroke="#53BDEB"
-        strokeWidth="1.7"
+        d="M4.5 8.5L8 12L15.5 4.5"
+        stroke="currentColor"
+        strokeWidth="1.8"
         strokeLinecap="round"
         strokeLinejoin="round"
       />
@@ -206,296 +150,308 @@ export const RealisticPhoneMockup: React.FC<RealisticPhoneMockupProps> = ({
   isLight = false,
   onOpenWaitlist,
   onOpenWhatsApp,
+  onOpenCommandDrawer,
   defaultView = 'whatsapp',
   autoPlay = true,
 }) => {
   const [activeView, setActiveView] = useState<PhoneViewMode>(defaultView);
   const [scenarioIndex, setScenarioIndex] = useState<number>(0);
-  const [aiState, setAiState] = useState<'typing' | 'replied'>('replied');
-  const [showNotification, setShowNotification] = useState<boolean>(false);
-  const [isAutoPlaying, setIsAutoPlaying] = useState<boolean>(autoPlay);
+  const [chatStep, setChatStep] = useState<'user_sent' | 'ai_typing' | 'ai_replied'>('ai_replied');
+  const [showDynamicIsland, setShowDynamicIsland] = useState<boolean>(false);
   const [showBalance, setShowBalance] = useState<boolean>(true);
+  const [isHovered, setIsHovered] = useState<boolean>(false);
+  const [isAutoPlaying, setIsAutoPlaying] = useState<boolean>(autoPlay);
   const [copiedType, setCopiedType] = useState<'account' | 'id' | null>(null);
 
-  const currentScenario = SCENARIOS[scenarioIndex];
+  const currentScenario = HUMAN_SCENARIOS[scenarioIndex];
 
   // ---------------------------------------------------------------------------
-  // SMART CHOREOGRAPHY ENGINE:
-  // Cycles from WhatsApp interaction -> Instant reasoning -> Dynamic notification ->
-  // Flips smoothly to App Wallet to show the real-time balance & ledger change!
+  // AUTOMATED CINEMATIC STORY LOOP
+  // Rotates between:
+  // 1. WhatsApp user message ->
+  // 2. AI typing indicator (1.2s) ->
+  // 3. AI verified financial reply ->
+  // 4. Dynamic Island pops with notification ->
+  // 5. Auto-switches to App Wallet to show live ledger impact ->
+  // 6. Returns to WhatsApp with the next life scenario
   // ---------------------------------------------------------------------------
   useEffect(() => {
-    if (!isAutoPlaying) return;
+    if (!isAutoPlaying || isHovered) return;
 
-    let timeout1: NodeJS.Timeout;
-    let timeout2: NodeJS.Timeout;
-    let timeout3: NodeJS.Timeout;
-    let timeout4: NodeJS.Timeout;
-    let timeout5: NodeJS.Timeout;
+    let subTimers: NodeJS.Timeout[] = [];
 
-    // Start with WhatsApp View
+    // Phase 1: User types/sends on WhatsApp (0s - 1.2s)
     setActiveView('whatsapp');
-    setAiState('typing');
-    setShowNotification(false);
+    setChatStep('user_sent');
+    setShowDynamicIsland(false);
 
-    // Step 1: AI responds in WhatsApp after 900ms
-    timeout1 = setTimeout(() => {
-      setAiState('replied');
-    }, 900);
+    // Phase 2: AI Typing indicator (1.2s - 2.8s)
+    const t1 = setTimeout(() => {
+      setChatStep('ai_typing');
+    }, 1200);
+    subTimers.push(t1);
 
-    // Step 2: Dynamic notification arrives at 2800ms
-    timeout2 = setTimeout(() => {
-      setShowNotification(true);
+    // Phase 3: AI responds with verified receipt & Dynamic Island triggers (2.8s)
+    const t2 = setTimeout(() => {
+      setChatStep('ai_replied');
+      setShowDynamicIsland(true);
     }, 2800);
+    subTimers.push(t2);
 
-    // Step 3: Notification closes and screen switches smoothly to App Wallet at 4400ms
-    timeout3 = setTimeout(() => {
-      setShowNotification(false);
+    // Phase 4: Dynamic Island hands off to Native App Wallet (5.2s)
+    const t3 = setTimeout(() => {
+      setShowDynamicIsland(false);
       setActiveView('app');
-    }, 4400);
+    }, 5200);
+    subTimers.push(t3);
 
-    // Step 4: After observing App Wallet for 4.2 seconds, advance scenario & return to WhatsApp
-    timeout4 = setTimeout(() => {
-      setScenarioIndex((prev) => (prev + 1) % SCENARIOS.length);
-    }, 8800);
+    // Phase 5: Advance to next scenario and return to WhatsApp (9.2s)
+    const t4 = setTimeout(() => {
+      setScenarioIndex((prev) => (prev + 1) % HUMAN_SCENARIOS.length);
+    }, 9200);
+    subTimers.push(t4);
 
     return () => {
-      clearTimeout(timeout1);
-      clearTimeout(timeout2);
-      clearTimeout(timeout3);
-      clearTimeout(timeout4);
-      clearTimeout(timeout5);
+      subTimers.forEach(clearTimeout);
     };
-  }, [scenarioIndex, isAutoPlaying]);
-
-  const handleSelectScenario = (index: number) => {
-    setScenarioIndex(index);
-    setActiveView('whatsapp');
-    setAiState('typing');
-    setShowNotification(false);
-
-    setTimeout(() => {
-      setAiState('replied');
-    }, 700);
-
-    setTimeout(() => {
-      setShowNotification(true);
-      setTimeout(() => setShowNotification(false), 3000);
-    }, 2500);
-  };
+  }, [scenarioIndex, isAutoPlaying, isHovered]);
 
   const handleManualSwitchView = (view: PhoneViewMode) => {
     setActiveView(view);
-    // User interacted manually, temporarily halt auto-cycling so they can explore
-    setIsAutoPlaying(false);
+    setShowDynamicIsland(false);
+  };
+
+  const handleSelectScenario = (index: number) => {
+    setScenarioIndex(index);
+    setChatStep('ai_replied');
+    setShowDynamicIsland(false);
   };
 
   const handleCopy = (type: 'account' | 'id', text: string) => {
-    navigator.clipboard?.writeText(text);
+    navigator.clipboard.writeText(text);
     setCopiedType(type);
-    setTimeout(() => setCopiedType(null), 2000);
+    setTimeout(() => setCopiedType(null), 1800);
   };
 
   return (
-    <div className="relative w-full max-w-[370px] mx-auto flex flex-col items-center select-none py-2">
-      {/* Ambient Multi-Hue Specular Glow Behind Phone */}
-      <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-80 h-80 bg-gradient-to-tr from-[#00DF8F]/25 via-[#0D95FE]/20 to-[#F2A93B]/15 rounded-full blur-[75px] pointer-events-none" />
+    <div
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+      className="relative flex flex-col items-center select-none w-full max-w-[340px] sm:max-w-[370px] mx-auto"
+    >
+      {/* ========================================================================= */}
+      {/* TOP FLOATING SEGMENTED CONTROLLER (Live WhatsApp AI <-> Native App Wallet) */}
+      {/* ========================================================================= */}
+      <div className="w-full flex flex-col gap-2 mb-3 z-30">
+        <div
+          className={`flex items-center justify-between p-1 rounded-full border shadow-xl backdrop-blur-xl transition-colors ${
+            isLight
+              ? 'bg-white/95 border-slate-200/90 text-slate-700 shadow-slate-200/50'
+              : 'bg-slate-900/90 dark:bg-[#020F2E]/95 border-slate-700/60 dark:border-white/10 text-slate-300'
+          }`}
+        >
+          <button
+            onClick={() => handleManualSwitchView('whatsapp')}
+            className={`flex-1 py-1.5 px-3 rounded-full text-xs font-bold transition-all flex items-center justify-center gap-1.5 cursor-pointer ${
+              activeView === 'whatsapp'
+                ? 'bg-[#00A884] text-white shadow-md shadow-[#00A884]/30'
+                : isLight
+                ? 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
+                : 'text-slate-300 hover:text-white hover:bg-white/5'
+            }`}
+          >
+            <span className="material-symbols-outlined text-[15px]">chat</span>
+            <span>WhatsApp AI</span>
+            {activeView === 'whatsapp' && (
+              <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />
+            )}
+          </button>
 
-      {/* Floating Interactive Badge (Top Left) */}
-      <motion.div
-        initial={{ opacity: 0, x: -20 }}
-        animate={{ opacity: 1, x: 0 }}
-        transition={{ delay: 0.3 }}
-        className={`absolute -left-6 sm:-left-12 top-14 z-40 px-3.5 py-2 rounded-2xl border backdrop-blur-md shadow-2xl flex items-center gap-2 hidden xs:flex ${
-          isLight
-            ? 'bg-white/95 border-slate-200 text-slate-800'
-            : 'bg-[#020F2E]/95 border-[#00DF8F]/40 text-[#F2F5F9]'
-        }`}
-      >
-        <span className="w-2.5 h-2.5 rounded-full bg-[#00DF8F] animate-ping" />
-        <div className="flex flex-col text-left">
-          <span className="text-[11px] font-black text-[#00DF8F] flex items-center gap-1">
-            <span>WhatsApp AI Banking</span>
-            <WhatsAppVerifiedBadge />
-          </span>
-          <span className="text-[9px] opacity-75">Live Conversational Engine</span>
-        </div>
-      </motion.div>
+          <button
+            onClick={() => handleManualSwitchView('app')}
+            className={`flex-1 py-1.5 px-3 rounded-full text-xs font-bold transition-all flex items-center justify-center gap-1.5 cursor-pointer ${
+              activeView === 'app'
+                ? 'bg-[#0D95FE] text-white shadow-md shadow-[#0D95FE]/30'
+                : isLight
+                ? 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
+                : 'text-slate-300 hover:text-white hover:bg-white/5'
+            }`}
+          >
+            <span className="material-symbols-outlined text-[15px]">account_balance_wallet</span>
+            <span>App Wallet</span>
+            {activeView === 'app' && (
+              <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />
+            )}
+          </button>
 
-      {/* Floating Regulatory Badge (Bottom Right) */}
-      <motion.div
-        initial={{ opacity: 0, x: 20 }}
-        animate={{ opacity: 1, x: 0 }}
-        transition={{ delay: 0.5 }}
-        className={`absolute -right-6 sm:-right-10 bottom-24 z-40 px-3.5 py-2 rounded-2xl border backdrop-blur-md shadow-2xl flex items-center gap-2 hidden xs:flex ${
-          isLight
-            ? 'bg-white/95 border-slate-200 text-slate-800'
-            : 'bg-[#020F2E]/95 border-[#0D95FE]/40 text-[#F2F5F9]'
-        }`}
-      >
-        <span className="material-symbols-outlined text-[#0D95FE] text-[18px]">verified</span>
-        <div className="flex flex-col text-left">
-          <span className="text-[11px] font-black text-[#0D95FE]">Zero Transfer Fees</span>
-          <span className="text-[9px] opacity-75">Sub-2s NIP Settlement</span>
+          {/* Pause / Play Indicator */}
+          <button
+            onClick={() => setIsAutoPlaying(!isAutoPlaying)}
+            className={`px-2 py-1 rounded-full text-[10px] font-mono font-bold transition-colors cursor-pointer ${
+              isLight
+                ? 'text-slate-500 hover:text-slate-900 hover:bg-slate-100'
+                : 'text-slate-400 hover:text-white hover:bg-white/5'
+            }`}
+            title={isAutoPlaying ? 'Pause automatic demo' : 'Resume automatic demo'}
+          >
+            <span className="material-symbols-outlined text-[14px]">
+              {isAutoPlaying && !isHovered ? 'pause' : 'play_arrow'}
+            </span>
+          </button>
         </div>
-      </motion.div>
+
+        {/* Story Progress Bars (3 Segments: Mum Transfer -> Savings -> Card Freeze) */}
+        <div className="flex items-center gap-1.5 px-2">
+          {HUMAN_SCENARIOS.map((sc, idx) => {
+            const isCurrent = scenarioIndex === idx;
+            return (
+              <div
+                key={sc.id}
+                onClick={() => handleSelectScenario(idx)}
+                className={`flex-1 h-1 rounded-full overflow-hidden cursor-pointer group ${
+                  isLight ? 'bg-slate-200' : 'bg-slate-700/60'
+                }`}
+                title={sc.pillLabel}
+              >
+                <motion.div
+                  className={`h-full ${
+                    isCurrent
+                      ? activeView === 'whatsapp'
+                        ? 'bg-[#00A884]'
+                        : 'bg-[#0D95FE]'
+                      : 'bg-transparent'
+                  }`}
+                  initial={{ width: '0%' }}
+                  animate={{ width: isCurrent ? '100%' : '0%' }}
+                  transition={{ duration: isCurrent ? 9.2 : 0.2, ease: 'linear' }}
+                />
+              </div>
+            );
+          })}
+        </div>
+      </div>
 
       {/* ========================================================================= */}
-      {/* THE SMARTPHONE HARDWARE CHASSIS (TITANIUM GOLD / BRONZE BEZEL) */}
+      {/* THE IPHONE 16 PRO HARDWARE CHASSIS */}
       {/* ========================================================================= */}
       <motion.div
-        initial={{ opacity: 0, y: 20, scale: 0.98 }}
-        animate={{ opacity: 1, y: 0, scale: 1 }}
-        transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-        className="relative w-[310px] sm:w-[335px] rounded-[52px] p-[5px] shadow-[0_35px_80px_-15px_rgba(0,0,0,0.7)] select-none transition-transform hover:-translate-y-1 duration-300"
-        style={{
-          background:
-            'linear-gradient(135deg, #DEAA79 0%, #C38A56 25%, #8B592A 50%, #C38A56 75%, #ECC093 100%)',
-        }}
+        className={`${isLight ? '' : 'dark-hardware preserve-dark'} relative w-full aspect-[9/18.5] max-w-[335px] sm:max-w-[360px] rounded-[50px] p-[10px] sm:p-[12px] bg-gradient-to-b from-[#22272E] via-[#161B22] to-[#0D1117] shadow-[0_30px_90px_rgba(0,0,0,0.85)] border-[3px] border-[#3B434D]/80`}
       >
-        {/* Hardware Chamfer Buttons */}
-        <div className="absolute -right-[3px] top-[140px] w-[3px] h-[36px] bg-[#9D6837] rounded-r-sm" />
-        <div className="absolute -right-[3px] top-[188px] w-[3px] h-[48px] bg-[#9D6837] rounded-r-sm" />
-        <div className="absolute -left-[3px] top-[150px] w-[3px] h-[30px] bg-[#9D6837] rounded-l-sm" />
+        {/* Hardware Antenna Bands */}
+        <div className="absolute -left-[3px] top-28 w-[3px] h-3 bg-[#485361]/50 rounded-r-xs" />
+        <div className="absolute -left-[3px] top-40 w-[3px] h-3 bg-[#485361]/50 rounded-r-xs" />
+        <div className="absolute -right-[3px] top-32 w-[3px] h-3 bg-[#485361]/50 rounded-l-xs" />
 
-        {/* Thin inner black bezel */}
-        <div className="w-full h-full rounded-[47px] p-[5px] bg-[#000000]">
-          {/* THE SCREEN DISPLAY (Fixed viewport, zero accidental scroll) */}
-          <div className="dark-hardware preserve-dark w-full h-[630px] sm:h-[655px] rounded-[42px] bg-[#0B141A] text-[#E9EDEF] font-sans overflow-hidden relative flex flex-col justify-between shadow-inner">
+        {/* Hardware Action Button & Volume Buttons (Left Edge) */}
+        <div className="absolute -left-[6px] top-20 w-[3px] h-7 bg-[#2E353F] rounded-l-sm" />
+        <div className="absolute -left-[6px] top-34 w-[3px] h-11 bg-[#2E353F] rounded-l-sm" />
+        <div className="absolute -left-[6px] top-48 w-[3px] h-11 bg-[#2E353F] rounded-l-sm" />
 
-            {/* ----------------------------------------------------------------- */}
-            {/* 1. TOP HARDWARE STATUS BAR & EXPANDING DYNAMIC ISLAND */}
-            {/* ----------------------------------------------------------------- */}
-            <div className="w-full pt-1 pb-1 px-4 flex items-center justify-between text-xs z-30 shrink-0 bg-[#202C33] border-b border-white/5 relative">
-              <span className="font-bold text-[12px] tracking-tight text-white font-sans">
-                09:41
-              </span>
+        {/* Hardware Power Button (Right Edge) */}
+        <div className="absolute -right-[6px] top-36 w-[3px] h-16 bg-[#2E353F] rounded-r-sm" />
 
-              {/* Centered Dynamic Island Pill */}
+        {/* Inner Screen Bezel with Glass Specular Rim */}
+        <div className="relative w-full h-full rounded-[40px] bg-[#0a0a0a] p-[2px] overflow-hidden shadow-inner flex flex-col justify-between">
+          <div
+            className={`relative w-full h-full rounded-[38px] overflow-hidden flex flex-col justify-between transition-colors ${
+              isLight && activeView === 'app'
+                ? 'phone-screen-light bg-[#F8FAFC] text-slate-900'
+                : isLight && activeView === 'whatsapp'
+                ? 'bg-[#EFEAE2]'
+                : 'bg-[#0B141A]'
+            }`}
+          >
+
+            {/* ============================================================== */}
+            {/* 1. STATUS BAR & DYNAMIC ISLAND */}
+            {/* ============================================================== */}
+            <div
+              className={`w-full pt-3 px-6 pb-1 flex items-center justify-between text-[12px] font-sans z-40 shrink-0 transition-colors ${
+                isLight && activeView === 'app'
+                  ? 'bg-slate-50/95 text-slate-800'
+                  : isLight && activeView === 'whatsapp'
+                  ? 'bg-[#008069] text-white'
+                  : 'bg-black/60 text-white'
+              }`}
+            >
+              <span className="font-bold tracking-tight">09:41</span>
+
+              {/* Dynamic Island Capsule */}
               <AnimatePresence mode="wait">
-                {showNotification ? (
+                {showDynamicIsland ? (
                   <motion.div
-                    key="dynamic-island-expanded"
-                    initial={{ width: 70, height: 18, opacity: 0 }}
-                    animate={{ width: 200, height: 26, opacity: 1 }}
-                    exit={{ width: 70, height: 18, opacity: 0 }}
-                    transition={{ type: 'spring', stiffness: 500, damping: 32 }}
-                    onClick={() => handleManualSwitchView('app')}
-                    className="absolute left-1/2 -translate-x-1/2 top-1 z-50 bg-black/95 border border-[#00DF8F]/70 shadow-[0_6px_20px_rgba(0,223,143,0.35)] rounded-full px-2.5 flex items-center justify-between cursor-pointer"
+                    key="island-expanded"
+                    initial={{ width: 68, height: 20, opacity: 0 }}
+                    animate={{ width: 205, height: 28, opacity: 1 }}
+                    exit={{ width: 68, height: 20, opacity: 0 }}
+                    transition={{ type: 'spring', stiffness: 500, damping: 30 }}
+                    onClick={() =>
+                      handleManualSwitchView(activeView === 'whatsapp' ? 'app' : 'whatsapp')
+                    }
+                    className="absolute left-1/2 -translate-x-1/2 top-1.5 bg-black border border-[#00DF8F]/60 shadow-[0_4px_18px_rgba(0,223,143,0.35)] rounded-full px-2.5 flex items-center justify-between cursor-pointer"
                   >
                     <div className="flex items-center gap-1.5 min-w-0">
                       <span className="w-3.5 h-3.5 rounded-full bg-[#00DF8F] text-[#003825] flex items-center justify-center text-[8px] font-black shrink-0">
                         ▲
                       </span>
-                      <span className="text-[8.5px] font-bold text-white truncate">
-                        {currentScenario.syncPillText}
+                      <span className="text-[9px] font-bold text-white truncate">
+                        {currentScenario.notificationTitle}
                       </span>
                     </div>
-                    <span className="text-[7.5px] font-mono text-[#00DF8F] font-bold shrink-0 ml-1">
+                    <span className="text-[8px] font-mono text-[#00DF8F] font-bold shrink-0 ml-1">
                       0.8s
                     </span>
                   </motion.div>
                 ) : (
                   <div
-                    key="dynamic-island-idle"
-                    className="w-16 h-3.5 rounded-full bg-black border border-neutral-700/80 flex items-center justify-center relative shadow-inner"
+                    key="island-idle"
+                    className="w-18 h-4 rounded-full bg-black border border-white/10 flex items-center justify-center relative shadow-inner"
                   >
-                    <div className="w-2 h-2 rounded-full bg-[#0a1a36]" />
+                    <div className="w-2.5 h-2.5 rounded-full bg-[#0A1628]" />
                   </div>
                 )}
               </AnimatePresence>
 
-              {/* 5G & Battery Indicators */}
-              <div className="flex items-center gap-1.5 text-white/90">
-                <div className="flex items-center gap-[2px]">
-                  <span className="w-1.5 h-1.5 rounded-full bg-white" />
-                  <span className="w-1.5 h-1.5 rounded-full bg-white" />
-                  <span className="w-1.5 h-1.5 rounded-full bg-white" />
-                  <span className="w-1.5 h-1.5 rounded-full bg-[#00DF8F]" />
-                </div>
-                <span className="text-[10px] font-mono font-bold">5G</span>
-              </div>
-            </div>
-
-            {/* ----------------------------------------------------------------- */}
-            {/* 3. DYNAMIC APP SWITCHER CAPSULE + AUTO-DEMO INDICATOR */}
-            {/* ----------------------------------------------------------------- */}
-            <div className="w-full flex items-center justify-between py-1.5 px-3 z-20 shrink-0 bg-[#111B21] border-b border-[#202C33]">
-              {/* Segmented Control */}
-              <div className="p-0.5 rounded-full bg-[#202C33] border border-[#2A3942] flex items-center gap-1 shadow-sm">
-                <button
-                  onClick={() => handleManualSwitchView('whatsapp')}
-                  className={`px-2.5 py-1 rounded-full text-[10px] font-bold flex items-center gap-1.5 transition-all cursor-pointer ${
-                    activeView === 'whatsapp'
-                      ? 'bg-[#00A884] text-white shadow-sm'
-                      : 'text-[#8696A0] hover:text-white'
-                  }`}
-                  title="Switch to WhatsApp AI View"
-                >
-                  <span className="material-symbols-outlined text-[13px]">chat</span>
-                  <span>WhatsApp AI</span>
-                  {activeView === 'whatsapp' && (
-                    <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />
-                  )}
-                </button>
-
-                <button
-                  onClick={() => handleManualSwitchView('app')}
-                  className={`px-2.5 py-1 rounded-full text-[10px] font-bold flex items-center gap-1.5 transition-all cursor-pointer ${
-                    activeView === 'app'
-                      ? 'bg-[#0D95FE] text-white shadow-sm'
-                      : 'text-[#8696A0] hover:text-white'
-                  }`}
-                  title="Switch to App Wallet View"
-                >
-                  <span className="material-symbols-outlined text-[13px]">account_balance_wallet</span>
-                  <span>App Wallet</span>
-                  {activeView === 'app' && (
-                    <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />
-                  )}
-                </button>
-              </div>
-
-              {/* Auto-Play Toggle Pill */}
-              <button
-                onClick={() => setIsAutoPlaying(!isAutoPlaying)}
-                className={`px-2 py-0.5 rounded-md text-[8.5px] font-mono font-bold flex items-center gap-1 transition-colors cursor-pointer ${
-                  isAutoPlaying
-                    ? 'bg-[#00DF8F]/20 text-[#00DF8F] border border-[#00DF8F]/40'
-                    : 'bg-[#202C33] text-[#8696A0] hover:text-white border border-[#2A3942]'
+              {/* 5G & Battery Icons */}
+              <div
+                className={`flex items-center gap-1 text-[11px] font-mono font-bold ${
+                  isLight && activeView === 'app' ? 'text-slate-700' : 'text-white/90'
                 }`}
-                title={isAutoPlaying ? 'Click to pause auto-cycle' : 'Click to resume auto-cycle'}
               >
-                <span className="material-symbols-outlined text-[11px]">
-                  {isAutoPlaying ? 'pause' : 'play_arrow'}
-                </span>
-                <span>{isAutoPlaying ? 'Auto-Demo' : 'Paused'}</span>
-              </button>
+                <span>5G</span>
+                <span className="material-symbols-outlined text-[15px]">battery_full</span>
+              </div>
             </div>
 
-            {/* ----------------------------------------------------------------- */}
-            {/* 4. MAIN SCREEN DISPLAY: WHATSAPP INTERFACE <-> APP WALLET */}
-            {/* ----------------------------------------------------------------- */}
+            {/* ============================================================== */}
+            {/* 2. MAIN ACTIVE VIEW: WHATSAPP INTERFACE <-> NATIVE APP WALLET */}
+            {/* ============================================================== */}
             <div className="flex-1 w-full flex flex-col justify-between overflow-hidden relative">
               <AnimatePresence mode="wait">
-                {/* ============================================================== */}
-                {/* 4A. ACTUAL WHATSAPP INTERFACE (100% REALISTIC DARK MODE) */}
-                {/* ============================================================== */}
                 {activeView === 'whatsapp' ? (
+                  /* ------------------------------------------------------------ */
+                  /* SCREEN A: ACTUAL REALISTIC WHATSAPP CHAT */
+                  /* ------------------------------------------------------------ */
                   <motion.div
                     key="whatsapp-view"
-                    initial={{ opacity: 0, x: -20, scale: 0.98 }}
-                    animate={{ opacity: 1, x: 0, scale: 1 }}
-                    exit={{ opacity: 0, x: 20, scale: 0.98 }}
-                    transition={{ duration: 0.3, ease: 'easeOut' }}
-                    className="flex-1 flex flex-col justify-between overflow-hidden relative bg-[#0B141A]"
+                    initial={{ opacity: 0, x: -24 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    exit={{ opacity: 0, x: 24 }}
+                    transition={{ duration: 0.35, ease: 'easeOut' }}
+                    className={`flex-1 flex flex-col justify-between overflow-hidden relative ${
+                      isLight ? 'bg-[#EFEAE2]' : 'bg-[#0B141A]'
+                    }`}
                   >
                     {/* Authentic WhatsApp Doodle Wallpaper Pattern */}
-                    <div className="absolute inset-0 pointer-events-none opacity-[0.04] mix-blend-screen overflow-hidden">
+                    <div
+                      className={`absolute inset-0 pointer-events-none overflow-hidden ${
+                        isLight ? 'opacity-[0.06] mix-blend-multiply' : 'opacity-[0.045] mix-blend-screen'
+                      }`}
+                    >
                       <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
                         <defs>
                           <pattern
-                            id="wa-doodles"
+                            id="wa-doodles-hd"
                             width="90"
                             height="90"
                             patternUnits="userSpaceOnUse"
@@ -503,351 +459,359 @@ export const RealisticPhoneMockup: React.FC<RealisticPhoneMockupProps> = ({
                             <path
                               d="M15,20 Q15,12 25,12 L35,12 Q45,12 45,20 L45,26 Q45,34 35,34 L28,34 L20,40 L22,34 L25,34 Q15,34 15,26 Z"
                               fill="none"
-                              stroke="#FFFFFF"
+                              stroke={isLight ? '#000000' : '#FFFFFF'}
                               strokeWidth="1.3"
                             />
-                            <circle cx="68" cy="22" r="6" fill="none" stroke="#FFFFFF" strokeWidth="1.3" />
-                            <path d="M68,18 L68,22 L71,24" fill="none" stroke="#FFFFFF" strokeWidth="1.3" strokeLinecap="round" />
-                            <rect x="20" y="58" width="10" height="8" rx="1.5" fill="none" stroke="#FFFFFF" strokeWidth="1.3" />
-                            <path d="M22.5,58 L22.5,54 Q22.5,51 25,51 Q27.5,51 27.5,54 L27.5,58" fill="none" stroke="#FFFFFF" strokeWidth="1.3" />
-                            <path d="M65,65 L72,65 Q74,65 74,67 L74,72 Q74,74 72,74 L65,74 Z" fill="none" stroke="#FFFFFF" strokeWidth="1.1" />
+                            <circle cx="68" cy="22" r="6" fill="none" stroke={isLight ? '#000000' : '#FFFFFF'} strokeWidth="1.3" />
+                            <path d="M68,18 L68,22 L71,24" fill="none" stroke={isLight ? '#000000' : '#FFFFFF'} strokeWidth="1.3" strokeLinecap="round" />
+                            <rect x="20" y="58" width="10" height="8" rx="1.5" fill="none" stroke={isLight ? '#000000' : '#FFFFFF'} strokeWidth="1.3" />
+                            <path d="M22.5,58 L22.5,54 Q22.5,51 25,51 Q27.5,51 27.5,54 L27.5,58" fill="none" stroke={isLight ? '#000000' : '#FFFFFF'} strokeWidth="1.3" />
+                            <path d="M65,65 L72,65 Q74,65 74,67 L74,72 Q74,74 72,74 L65,74 Z" fill="none" stroke={isLight ? '#000000' : '#FFFFFF'} strokeWidth="1.1" />
                           </pattern>
                         </defs>
-                        <rect width="100%" height="100%" fill="url(#wa-doodles)" />
+                        <rect width="100%" height="100%" fill="url(#wa-doodles-hd)" />
                       </svg>
                     </div>
 
-                    {/* WhatsApp Top Navigation Bar */}
-                    <div className="px-3 py-2 bg-[#202C33] text-white flex items-center justify-between shrink-0 shadow-md border-b border-[#2A3942] z-10">
+                    {/* WhatsApp Top Chat Header */}
+                    <div
+                      className={`px-3 py-2 flex items-center justify-between shrink-0 shadow-md z-20 ${
+                        isLight
+                          ? 'bg-[#008069] text-white border-b border-[#006e5a]'
+                          : 'bg-[#202C33] text-white border-b border-[#2A3942]'
+                      }`}
+                    >
                       <div className="flex items-center gap-2 min-w-0">
-                        {/* Back Arrow */}
-                        <span className="material-symbols-outlined text-[17px] text-[#A8BBD6] cursor-pointer">
+                        <span className="material-symbols-outlined text-[18px] text-white/90">
                           arrow_back
                         </span>
 
                         {/* Verified Business Profile Avatar */}
                         <div className="relative shrink-0">
-                          <div className="w-8 h-8 rounded-full bg-gradient-to-tr from-[#00A884] via-[#008069] to-[#0D95FE] flex items-center justify-center text-white font-black text-xs shadow-sm">
+                          <div className="w-8 h-8 rounded-full bg-gradient-to-tr from-[#00A884] to-[#0D95FE] flex items-center justify-center text-white font-black text-xs shadow-sm">
                             ▲
                           </div>
-                          <span className="absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 rounded-full bg-[#00A884] border-2 border-[#202C33]" />
+                          <span className="absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 rounded-full bg-[#00DF8F] border-2 border-[#008069]" />
                         </div>
 
-                        {/* Profile Info */}
+                        {/* Contact Info */}
                         <div className="flex flex-col min-w-0 text-left">
                           <div className="flex items-center gap-1">
-                            <span className="font-bold text-[12px] text-[#E9EDEF] leading-tight truncate">
+                            <span className="font-bold text-[12px] text-white leading-tight truncate">
                               Axoora AI Banking
                             </span>
                             <WhatsAppVerifiedBadge />
                           </div>
-                          <span className="text-[9px] text-[#00A884] font-medium leading-none truncate">
-                            {aiState === 'typing' ? 'typing a response...' : 'online · Official Account'}
+                          <span
+                            className={`text-[9.5px] font-medium leading-none truncate ${
+                              isLight ? 'text-emerald-100' : 'text-[#00A884]'
+                            }`}
+                          >
+                            {chatStep === 'ai_typing' ? (
+                              <span className="animate-pulse">typing a response...</span>
+                            ) : (
+                              'online · Official Account'
+                            )}
                           </span>
                         </div>
                       </div>
 
-                      {/* Video / Call Action Icons */}
-                      <div className="flex items-center gap-2.5 text-[#A8BBD6]">
-                        <button
-                          onClick={onOpenWhatsApp}
-                          className="hover:text-white transition-colors cursor-pointer"
-                          title="WhatsApp Video Call"
-                        >
-                          <span className="material-symbols-outlined text-[17px]">videocam</span>
-                        </button>
-                        <button
-                          onClick={onOpenWhatsApp}
-                          className="hover:text-white transition-colors cursor-pointer"
-                          title="WhatsApp Audio Call"
-                        >
-                          <span className="material-symbols-outlined text-[16px]">call</span>
-                        </button>
-                        <span className="material-symbols-outlined text-[17px] text-[#8696A0]">
-                          more_vert
-                        </span>
+                      {/* Header Actions */}
+                      <div className="flex items-center gap-2.5 text-white/90">
+                        <span className="material-symbols-outlined text-[18px]">videocam</span>
+                        <span className="material-symbols-outlined text-[17px]">call</span>
+                        <span className="material-symbols-outlined text-[18px]">more_vert</span>
                       </div>
                     </div>
 
-                    {/* Messages Scroll Area */}
-                    <div className="flex-1 flex flex-col justify-start gap-2.5 px-3 py-2 overflow-y-auto text-left relative z-10">
-                      {/* WhatsApp Date Bubble */}
+                    {/* Chat Messages Feed */}
+                    <div className="flex-1 flex flex-col justify-start gap-3 p-3 overflow-y-auto text-left relative z-10">
+                      {/* Date Separator */}
                       <div className="flex justify-center my-0.5">
-                        <span className="px-2.5 py-0.5 rounded-md text-[8.5px] font-medium bg-[#182229] text-[#8696A0] uppercase tracking-wider shadow-sm">
+                        <span
+                          className={`px-2.5 py-0.5 rounded-md text-[8.5px] font-medium uppercase tracking-wider shadow-xs ${
+                            isLight
+                              ? 'bg-white/95 text-[#54656F] border border-slate-200/60'
+                              : 'bg-[#182229] text-[#8696A0]'
+                          }`}
+                        >
                           TODAY
                         </span>
                       </div>
 
-                      {/* WhatsApp End-to-End Encryption Banner */}
-                      <div className="p-2 rounded-lg bg-[#182229] border border-[#222E35] text-[#FFD279] text-[8.5px] leading-tight flex items-start gap-1.5 shadow-sm text-center justify-center">
-                        <span className="material-symbols-outlined text-[12px] text-[#FFD279] shrink-0">
-                          lock
-                        </span>
-                        <span>
-                          Messages are end-to-end encrypted. No one outside of this chat can read them.
-                        </span>
+                      {/* End-to-End Encryption Notice */}
+                      <div
+                        className={`p-1.5 rounded-lg text-[8px] leading-tight flex items-center justify-center gap-1.5 shadow-xs text-center border ${
+                          isLight
+                            ? 'bg-[#FFEECD] border-[#F0E5D0] text-[#54656F]'
+                            : 'bg-[#182229] border-[#222E35] text-[#FFD279]'
+                        }`}
+                      >
+                        <span className="material-symbols-outlined text-[11px] shrink-0">lock</span>
+                        <span>Messages are end-to-end encrypted · Sovereign CBN rails</span>
                       </div>
 
-                      {/* OUTGOING USER BUBBLE (#005C4B with authentic tail) */}
+                      {/* USER OUTGOING BUBBLE */}
                       <motion.div
-                        key={`msg-user-${currentScenario.id}`}
-                        initial={{ opacity: 0, y: 10, scale: 0.96 }}
+                        key={`user-msg-${currentScenario.id}`}
+                        initial={{ opacity: 0, y: 12, scale: 0.96 }}
                         animate={{ opacity: 1, y: 0, scale: 1 }}
-                        transition={{ duration: 0.2 }}
-                        className="self-end max-w-[88%] p-2 rounded-xl rounded-tr-none bg-[#005C4B] text-[#E9EDEF] shadow-md border border-[#00705B]/30 flex flex-col gap-1 relative mr-1"
+                        transition={{ duration: 0.25 }}
+                        className={`self-end max-w-[88%] p-2.5 rounded-2xl rounded-tr-none shadow-md flex flex-col gap-1 relative mr-1.5 ${
+                          isLight
+                            ? 'bg-[#D9FDD3] text-[#111B21] border border-[#C5E8BF]/60'
+                            : 'bg-[#005C4B] text-[#E9EDEF] border border-[#00705B]/30'
+                        }`}
                       >
-                        {/* SVG Outgoing Bubble Tail */}
+                        {/* Outgoing Bubble Triangle Tail */}
                         <svg
-                          className="absolute -top-[1px] -right-[7px] w-[8px] h-[13px] text-[#005C4B] pointer-events-none"
+                          className={`absolute -top-[1px] -right-[7px] w-[8px] h-[13px] pointer-events-none ${
+                            isLight ? 'text-[#D9FDD3]' : 'text-[#005C4B]'
+                          }`}
                           viewBox="0 0 8 13"
                           fill="currentColor"
                         >
                           <path d="M0,0 C3,1 7,4 8,8 C6,9 2,11 0,13 Z" />
                         </svg>
 
-                        <p className="text-[11.5px] leading-relaxed font-normal">
+                        <p
+                          className={`text-[12px] leading-snug font-normal ${
+                            isLight ? 'text-[#111B21]' : 'text-white'
+                          }`}
+                        >
                           {currentScenario.userMessage}
                         </p>
-                        <div className="flex items-center justify-end gap-1 text-[8.5px] font-mono text-emerald-200/80 leading-none">
-                          <span>{currentScenario.time}</span>
-                          <DoubleBlueTicks />
+
+                        <div
+                          className={`self-end flex items-center gap-0.5 text-[8.5px] font-mono leading-none ${
+                            isLight ? 'text-[#667781]' : 'text-[#99BEB7]'
+                          }`}
+                        >
+                          <span>{currentScenario.userTime}</span>
+                          <DynamicDoubleTicks isRead={chatStep !== 'user_sent'} />
                         </div>
                       </motion.div>
 
-                      {/* INCOMING AXOORA AI BUBBLE (#202C33 with authentic tail) */}
+                      {/* INCOMING AI BUBBLE */}
                       <motion.div
-                        key={`msg-ai-${currentScenario.id}`}
+                        key={`ai-msg-${currentScenario.id}`}
                         initial={{ opacity: 0, y: 12, scale: 0.96 }}
                         animate={{ opacity: 1, y: 0, scale: 1 }}
-                        transition={{ duration: 0.25 }}
-                        className="self-start max-w-[94%] flex flex-col gap-1.5 relative ml-1"
+                        transition={{ duration: 0.25, delay: 0.1 }}
+                        className={`self-start max-w-[90%] p-2.5 rounded-2xl rounded-tl-none shadow-lg flex flex-col gap-1.5 relative ml-1.5 ${
+                          isLight
+                            ? 'bg-white text-[#111B21] border border-slate-200/80 shadow-slate-200/50'
+                            : 'bg-[#202C33] text-[#E9EDEF] border border-[#2A3942]'
+                        }`}
                       >
-                        {/* SVG Incoming Bubble Tail */}
+                        {/* Incoming Bubble Triangle Tail */}
                         <svg
-                          className="absolute -top-[1px] -left-[7px] w-[8px] h-[13px] text-[#202C33] pointer-events-none"
+                          className={`absolute -top-[1px] -left-[7px] w-[8px] h-[13px] pointer-events-none ${
+                            isLight ? 'text-white' : 'text-[#202C33]'
+                          }`}
                           viewBox="0 0 8 13"
                           fill="currentColor"
                         >
                           <path d="M8,0 C5,1 1,4 0,8 C2,9 6,11 8,13 Z" />
                         </svg>
 
-                        {aiState === 'typing' ? (
-                          <div className="p-2.5 rounded-xl rounded-tl-none bg-[#202C33] text-[#8696A0] text-[10px] flex items-center gap-2 shadow-md border border-[#2A3942]">
-                            <span className="font-sans font-medium text-[#D1D7DB]">Axoora AI is typing</span>
+                        {chatStep === 'ai_typing' ? (
+                          /* Real WhatsApp 3-Dot Typing Indicator */
+                          <div className="py-1 px-2 flex items-center gap-1.5">
+                            <span
+                              className={`text-[10px] font-sans ${
+                                isLight ? 'text-slate-500' : 'text-[#8696A0]'
+                              }`}
+                            >
+                              Axoora AI is thinking
+                            </span>
                             <div className="flex items-center gap-1">
                               <span className="w-1.5 h-1.5 rounded-full bg-[#00A884] animate-bounce" />
-                              <span className="w-1.5 h-1.5 rounded-full bg-[#00A884] animate-bounce [animation-delay:0.2s]" />
-                              <span className="w-1.5 h-1.5 rounded-full bg-[#00A884] animate-bounce [animation-delay:0.4s]" />
+                              <span className="w-1.5 h-1.5 rounded-full bg-[#00A884] animate-bounce [animation-delay:0.18s]" />
+                              <span className="w-1.5 h-1.5 rounded-full bg-[#00A884] animate-bounce [animation-delay:0.36s]" />
                             </div>
                           </div>
                         ) : (
-                          <div className="p-2.5 rounded-xl rounded-tl-none bg-[#202C33] text-[#E9EDEF] shadow-lg border border-[#2A3942] flex flex-col gap-2">
-                            {/* AI Intro Header */}
-                            <div className="flex items-center justify-between">
-                              <div className="flex items-center gap-1">
-                                <span className="text-[10px] font-bold text-[#00A884]">
-                                  Axoora AI Assistant
-                                </span>
-                              </div>
-                              <span
-                                className="px-1.5 py-0.5 rounded text-[7.5px] font-mono font-bold"
-                                style={{
-                                  backgroundColor: `${currentScenario.badgeColor}25`,
-                                  color: currentScenario.badgeColor,
-                                }}
-                              >
-                                {currentScenario.badge}
-                              </span>
-                            </div>
-
-                            <p className="text-[11px] leading-snug text-[#D1D7DB]">
-                              {currentScenario.aiIntro}
+                          /* AI Response Body */
+                          <div className="flex flex-col gap-2">
+                            <p
+                              className={`text-[11.5px] leading-relaxed ${
+                                isLight ? 'text-[#111B21]' : 'text-[#E9EDEF]'
+                              }`}
+                            >
+                              {currentScenario.aiReply}
                             </p>
 
-                            {/* Embedded WhatsApp Interactive Action Card */}
-                            <div className="p-2 rounded-lg bg-[#111B21] border border-[#2A3942] flex flex-col gap-1.5">
-                              <div className="flex items-center justify-between border-b border-[#202C33] pb-1">
-                                <span className="text-[11px] font-black text-white">
-                                  {currentScenario.cardTitle}
-                                </span>
-                                <span className="text-[7.5px] font-mono text-[#00A884] font-bold flex items-center gap-1">
-                                  <span className="w-1.5 h-1.5 rounded-full bg-[#00A884] animate-pulse" />
-                                  SETTLED
-                                </span>
-                              </div>
-
-                              <div className="grid grid-cols-2 gap-1.5 text-[9px]">
-                                {currentScenario.cardDetails.map((item, idx) => (
-                                  <div key={idx} className="flex flex-col">
-                                    <span className="text-[7.5px] font-mono text-[#8696A0] uppercase">
-                                      {item.label}
-                                    </span>
-                                    <span
-                                      className={`font-semibold ${
-                                        item.highlight
-                                          ? 'text-[#00DF8F] font-mono font-bold text-[10px]'
-                                          : 'text-white'
-                                      }`}
-                                    >
-                                      {item.value}
-                                    </span>
-                                  </div>
-                                ))}
-                              </div>
-
-                              {/* WhatsApp Interactive Button to View in App */}
-                              <button
-                                onClick={() => handleManualSwitchView('app')}
-                                className="w-full py-1.5 px-2 mt-1 rounded bg-[#202C33] hover:bg-[#2A3942] text-[#00A884] border border-[#00A884]/40 text-[9.5px] font-bold flex items-center justify-center gap-1.5 transition-all cursor-pointer"
-                              >
-                                <span>📱 View Updated Balance in App</span>
-                                <span className="material-symbols-outlined text-[13px]">
-                                  arrow_forward
-                                </span>
-                              </button>
-                            </div>
-
-                            {/* Message Timestamp */}
-                            <div className="flex items-center justify-between text-[8px] text-[#8696A0]">
-                              <span>{currentScenario.statusText}</span>
-                              <span className="font-mono text-[7.5px]">
-                                {currentScenario.time}
+                            {/* Verified Financial Action Badge */}
+                            <div
+                              className={`p-2 rounded-xl flex items-center justify-between gap-2 border ${
+                                isLight
+                                  ? 'bg-emerald-50/80 border-emerald-200 text-emerald-800'
+                                  : 'bg-[#111B21] border-[#2A3942] text-[#00DF8F] shadow-inner'
+                              }`}
+                            >
+                              <span className="text-[9.5px] font-mono font-bold">
+                                {currentScenario.aiPill}
+                              </span>
+                              <span className="material-symbols-outlined text-[15px] text-[#00A884]">
+                                verified
                               </span>
                             </div>
+
+                            {/* Prompt to View in Wallet */}
+                            <button
+                              onClick={() => handleManualSwitchView('app')}
+                              className={`w-full py-1.5 px-2.5 rounded-xl border text-[9.5px] font-bold flex items-center justify-center gap-1.5 transition-all cursor-pointer ${
+                                isLight
+                                  ? 'bg-[#00A884] hover:bg-[#008F6F] text-white border-transparent shadow-sm'
+                                  : 'bg-[#00A884]/20 hover:bg-[#00A884]/30 border-[#00A884]/40 text-[#00DF8F]'
+                              }`}
+                            >
+                              <span>📱 Switch to App Wallet</span>
+                              <span className="material-symbols-outlined text-[13px]">
+                                arrow_forward
+                              </span>
+                            </button>
                           </div>
                         )}
                       </motion.div>
                     </div>
 
-                    {/* 4 INTERACTIVE QUICK-PROMPT CHIPS */}
-                    <div className="px-2 pt-1 pb-1 bg-[#111B21] border-t border-[#202C33] flex flex-col gap-1 z-10 shrink-0">
-                      <div className="flex items-center justify-between text-[8.5px] px-1 text-[#8696A0]">
-                        <span className="font-mono uppercase font-bold flex items-center gap-1 text-[#00A884]">
-                          <span className="w-1.5 h-1.5 rounded-full bg-[#00A884]" />
-                          Try WhatsApp AI Commands:
-                        </span>
-                        <span>Tap to run</span>
-                      </div>
-
-                      <div className="grid grid-cols-2 gap-1">
-                        {SCENARIOS.map((sc, idx) => {
-                          const isActive = scenarioIndex === idx;
-                          return (
-                            <button
-                              key={sc.id}
-                              onClick={() => handleSelectScenario(idx)}
-                              className={`p-1.5 rounded-lg border text-left text-[9px] font-semibold flex items-center gap-1.5 transition-all cursor-pointer ${
-                                isActive
-                                  ? 'bg-[#202C33] border-[#00A884] text-white shadow-sm'
-                                  : 'bg-[#182229] border-[#222E35] text-[#8696A0] hover:text-white hover:border-[#2A3942]'
-                              }`}
-                            >
-                              <span
-                                className="material-symbols-outlined text-[13px] shrink-0"
-                                style={{ color: sc.badgeColor }}
-                              >
-                                {sc.icon}
-                              </span>
-                              <span className="truncate">{sc.label}</span>
-                            </button>
-                          );
-                        })}
-                      </div>
-                    </div>
-
-                    {/* WHATSAPP BOTTOM INPUT BAR */}
-                    <div className="p-2 bg-[#202C33] flex items-center gap-1.5 shrink-0 z-10 border-t border-[#2A3942]">
-                      <div className="flex-1 py-1.5 px-3 rounded-full bg-[#2A3942] flex items-center justify-between gap-1 text-[#8696A0]">
+                    {/* Authentic WhatsApp Bottom Input Bar */}
+                    <div
+                      className={`p-2 flex items-center gap-1.5 shrink-0 z-20 border-t ${
+                        isLight
+                          ? 'bg-[#F0F2F5] border-slate-200'
+                          : 'bg-[#202C33] border-[#2A3942]'
+                      }`}
+                    >
+                      <div
+                        className={`flex-1 py-1.5 px-3 rounded-full flex items-center justify-between border ${
+                          isLight
+                            ? 'bg-white border-slate-200 text-slate-500'
+                            : 'bg-[#2A3942] border-transparent text-[#8696A0]'
+                        }`}
+                      >
                         <div className="flex items-center gap-2 flex-1 min-w-0">
-                          <span className="material-symbols-outlined text-[17px] cursor-pointer hover:text-white">
+                          <span className="material-symbols-outlined text-[18px]">
                             sentiment_satisfied
                           </span>
-                          <span className="text-[10.5px] text-[#D1D7DB] truncate font-sans">
-                            Type a banking command...
+                          <span
+                            className={`text-[10px] truncate font-sans ${
+                              isLight ? 'text-slate-600' : 'text-[#D1D7DB]'
+                            }`}
+                          >
+                            Type a message or voice note...
                           </span>
                         </div>
-                        <span className="material-symbols-outlined text-[16px] cursor-pointer hover:text-white">
-                          attach_file
-                        </span>
+                        <span className="material-symbols-outlined text-[17px]">attach_file</span>
                       </div>
 
-                      {/* WhatsApp Emerald Send/Mic Button */}
+                      {/* Microphone / Send Button */}
                       <button
                         onClick={onOpenWhatsApp}
-                        className="w-8 h-8 rounded-full bg-[#00A884] hover:bg-[#008F6F] text-white flex items-center justify-center font-bold shadow-md cursor-pointer transition-transform hover:scale-105 shrink-0"
-                        title="Chat with Real Axoora Desk on WhatsApp"
+                        className="w-8 h-8 rounded-full bg-[#00A884] hover:bg-[#008F6F] text-white flex items-center justify-center shadow-md transition-transform hover:scale-105 shrink-0 cursor-pointer"
+                        title="Chat on WhatsApp"
                       >
-                        <span className="material-symbols-outlined text-[16px]">
-                          send
-                        </span>
+                        <span className="material-symbols-outlined text-[17px]">mic</span>
                       </button>
                     </div>
                   </motion.div>
                 ) : (
-                  /* ============================================================== */
-                  /* 4B. AXOORA APP WALLET VIEW (SYNCED IN REAL-TIME WITH AI CHAT) */
-                  /* ============================================================== */
+                  /* ------------------------------------------------------------ */
+                  /* SCREEN B: AXOORA NATIVE APP WALLET (PERFECT LIGHT & DARK) */
+                  /* ------------------------------------------------------------ */
                   <motion.div
                     key="app-view"
-                    initial={{ opacity: 0, x: 20, scale: 0.98 }}
-                    animate={{ opacity: 1, x: 0, scale: 1 }}
-                    exit={{ opacity: 0, x: -20, scale: 0.98 }}
-                    transition={{ duration: 0.3, ease: 'easeOut' }}
-                    className="flex-1 flex flex-col justify-between overflow-hidden p-3 bg-[#020B1D] text-[#F2F5F9] text-left"
+                    initial={{ opacity: 0, x: 24 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    exit={{ opacity: 0, x: -24 }}
+                    transition={{ duration: 0.35, ease: 'easeOut' }}
+                    className={`phone-screen-light flex-1 flex flex-col justify-between overflow-hidden p-3 text-left transition-colors ${
+                      isLight ? 'bg-[#F8FAFC] text-slate-900' : 'bg-[#020B1D] text-[#F2F5F9]'
+                    }`}
+                    style={isLight ? { backgroundColor: '#F8FAFC', color: '#0F172A' } : undefined}
                   >
-                    {/* USER PROFILE HEADER ROW */}
+                    {/* User Profile Header */}
                     <div className="flex items-center justify-between pt-0.5 shrink-0">
                       <div className="flex items-center gap-2">
                         <div className="w-8 h-8 rounded-full bg-[#0D47A1] text-white font-extrabold flex items-center justify-center text-xs shadow-md border border-[#1976D2]/40">
                           AB
                         </div>
                         <div className="flex flex-col">
-                          <span className="font-bold text-xs text-white leading-tight">
-                            Adaeze
+                          <span
+                            className={`font-bold text-xs leading-tight ${
+                              isLight ? 'text-slate-900' : 'text-white'
+                            }`}
+                            style={isLight ? { color: '#0F172A' } : undefined}
+                          >
+                            Adaeze Bello
                           </span>
-                          <span className="text-[9px] text-[#8EA2C6] leading-tight">
-                            Tier 3 · no daily cap
+                          <span
+                            className={`text-[9px] leading-tight ${
+                              isLight ? 'text-slate-500' : 'text-[#8EA2C6]'
+                            }`}
+                            style={isLight ? { color: '#64748B' } : undefined}
+                          >
+                            Tier 3 · Unlimited NIP
                           </span>
                         </div>
                       </div>
 
-                      {/* Live Sync Badge & Bell */}
+                      {/* Live Sync Beacon */}
                       <div className="flex items-center gap-1.5">
-                        <div className="px-2 py-0.5 rounded-full bg-[#0E1D3B] border border-[#1B3564] text-[#00DF8F] text-[9.5px] font-mono font-bold flex items-center gap-1">
+                        <div
+                          className={`px-2 py-0.5 rounded-full text-[9px] font-mono font-bold flex items-center gap-1 border ${
+                            isLight
+                              ? 'bg-emerald-50 border-emerald-200 text-emerald-700'
+                              : 'bg-[#0E1D3B] border-[#1B3564] text-[#00DF8F]'
+                          }`}
+                        >
                           <span className="w-1.5 h-1.5 rounded-full bg-[#00DF8F] animate-pulse" />
                           <span>AI Synced</span>
-                        </div>
-                        <div className="w-7 h-7 rounded-full bg-[#0E1D3B] border border-[#1B3564] flex items-center justify-center text-[#7B9CD2]">
-                          <span className="material-symbols-outlined text-[14px]">notifications</span>
                         </div>
                       </div>
                     </div>
 
-                    {/* LIVE SYNC STATUS PILL */}
-                    <div className="py-1 px-2.5 rounded-xl bg-[#081736] border border-[#00DF8F]/40 flex items-center justify-between gap-1.5 shrink-0">
+                    {/* Live WhatsApp Sync Toast Pill */}
+                    <div
+                      className={`py-1 px-2.5 rounded-xl border flex items-center justify-between gap-1.5 shrink-0 transition-colors ${
+                        isLight
+                          ? 'bg-emerald-50/90 border-emerald-200 text-emerald-900 shadow-xs'
+                          : 'bg-[#081736] border-[#00DF8F]/40 text-[#C2D6F5]'
+                      }`}
+                    >
                       <div className="flex items-center gap-1.5 min-w-0">
-                        <span className="material-symbols-outlined text-[13px] text-[#00DF8F] shrink-0">
+                        <span className="material-symbols-outlined text-[13px] text-[#00A884] shrink-0">
                           sync
                         </span>
-                        <span className="text-[9px] text-[#C2D6F5] truncate font-medium">
-                          {currentScenario.syncPillText}
+                        <span className="text-[9px] truncate font-medium">
+                          {currentScenario.notificationTitle}
                         </span>
                       </div>
-                      <span className="text-[8px] font-mono text-[#00DF8F] font-bold shrink-0">
+                      <span className="text-[8px] font-mono font-bold text-[#00A884] shrink-0">
                         0.8s
                       </span>
                     </div>
 
-                    {/* AVAILABLE BALANCE ROW (DYNAMICALLY UPDATED) */}
+                    {/* Available Balance Display */}
                     <div className="flex flex-col gap-0.5 pt-0.5 shrink-0">
                       <div className="flex items-center justify-between">
-                        <div className="flex items-center gap-2 text-[9px] tracking-widest text-[#7B9CD2] font-semibold uppercase">
+                        <div
+                          className={`flex items-center gap-2 text-[9px] tracking-widest font-semibold uppercase ${
+                            isLight ? 'text-slate-500' : 'text-[#7B9CD2]'
+                          }`}
+                        >
                           <span>AVAILABLE BALANCE</span>
-                          <span className="h-[1px] w-12 bg-[#1A325E]" />
+                          <span
+                            className={`h-[1px] w-12 ${isLight ? 'bg-slate-200' : 'bg-[#1A325E]'}`}
+                          />
                         </div>
                         <button
                           onClick={() => setShowBalance(!showBalance)}
-                          className="text-[#7B9CD2] hover:text-white transition-colors cursor-pointer"
+                          className={`transition-colors cursor-pointer ${
+                            isLight ? 'text-slate-400 hover:text-slate-900' : 'text-[#7B9CD2] hover:text-white'
+                          }`}
                         >
                           <span className="material-symbols-outlined text-[15px]">
                             {showBalance ? 'visibility' : 'visibility_off'}
@@ -857,15 +821,18 @@ export const RealisticPhoneMockup: React.FC<RealisticPhoneMockupProps> = ({
 
                       <div className="flex items-baseline gap-1 mt-0.5">
                         <motion.span
-                          key={currentScenario.balanceAfter}
-                          initial={{ scale: 0.94, color: '#00DF8F' }}
-                          animate={{ scale: 1, color: '#FFFFFF' }}
+                          key={currentScenario.walletBalanceAfter}
+                          initial={{ scale: 0.94 }}
+                          animate={{ scale: 1 }}
                           transition={{ duration: 0.4 }}
-                          className="text-2xl font-extrabold tracking-tight leading-tight font-sans"
+                          className={`text-2xl font-extrabold tracking-tight leading-tight font-sans tabular-nums ${
+                            isLight ? 'text-slate-900' : 'text-white'
+                          }`}
+                          style={isLight ? { color: '#0F172A' } : undefined}
                         >
                           ₦
                           {showBalance
-                            ? currentScenario.balanceAfter.toLocaleString('en-NG', {
+                            ? currentScenario.walletBalanceAfter.toLocaleString('en-NG', {
                                 minimumFractionDigits: 2,
                                 maximumFractionDigits: 2,
                               })
@@ -873,23 +840,47 @@ export const RealisticPhoneMockup: React.FC<RealisticPhoneMockupProps> = ({
                         </motion.span>
                       </div>
 
-                      <p className="text-[9px] text-[#7B9CD2] leading-tight">
-                        No daily cap · Reflected from WhatsApp command
+                      <p
+                        className={`text-[9px] leading-tight ${
+                          isLight ? 'text-slate-500' : 'text-[#7B9CD2]'
+                        }`}
+                      >
+                        ₦0.00 transfer fees · Synced live from WhatsApp
                       </p>
                     </div>
 
-                    {/* ACCOUNT NUMBER & AXOORA ID QUICK CARDS */}
+                    {/* Account & Axoora ID Quick Cards (FIXED: High-contrast light & dark modes) */}
                     <div className="grid grid-cols-12 gap-1.5 pt-0.5 shrink-0">
                       <div
                         onClick={() => handleCopy('account', '9012345678')}
-                        className="col-span-6 px-2 py-1.5 rounded-xl bg-[#0B1A3A] border border-[#152D5E] flex flex-col justify-between hover:border-[#0D95FE] transition-colors cursor-pointer"
+                        className={`col-span-6 px-2.5 py-1.5 rounded-xl border flex flex-col justify-between transition-colors cursor-pointer group shadow-xs ${
+                          isLight
+                            ? 'bg-white border-slate-200 hover:border-[#0D95FE] text-slate-900'
+                            : 'bg-[#0B1A3A] border-[#152D5E] hover:border-[#0D95FE] text-white'
+                        }`}
+                        style={isLight ? { backgroundColor: '#FFFFFF', color: '#0F172A', borderColor: '#E2E8F0' } : undefined}
                       >
-                        <span className="text-[8px] font-mono uppercase text-[#7B9CD2] tracking-wider">
+                        <span
+                          className={`text-[8px] font-mono uppercase tracking-wider font-bold ${
+                            isLight ? 'text-slate-500' : 'text-[#7B9CD2]'
+                          }`}
+                          style={isLight ? { color: '#64748B' } : undefined}
+                        >
                           ACCOUNT
                         </span>
-                        <div className="flex items-center justify-between text-[11px] font-bold text-white mt-0.5">
-                          <span>9012345678</span>
-                          <span className="material-symbols-outlined text-[12px] text-[#7B9CD2]">
+                        <div className="flex items-center justify-between text-[11px] font-bold mt-0.5">
+                          <span
+                            className={isLight ? 'text-slate-900 font-extrabold' : 'text-white'}
+                            style={isLight ? { color: '#0F172A', fontWeight: 800 } : undefined}
+                          >
+                            9012345678
+                          </span>
+                          <span
+                            className={`material-symbols-outlined text-[12px] ${
+                              isLight ? 'text-slate-400 group-hover:text-[#0D95FE]' : 'text-[#7B9CD2]'
+                            }`}
+                            style={isLight ? { color: '#94A3B8' } : undefined}
+                          >
                             {copiedType === 'account' ? 'check' : 'content_copy'}
                           </span>
                         </div>
@@ -897,134 +888,194 @@ export const RealisticPhoneMockup: React.FC<RealisticPhoneMockupProps> = ({
 
                       <div
                         onClick={() => handleCopy('id', '@adaeze')}
-                        className="col-span-6 px-2 py-1.5 rounded-xl bg-[#0B1A3A] border border-[#152D5E] flex flex-col justify-between hover:border-[#0D95FE] transition-colors cursor-pointer"
+                        className={`col-span-6 px-2.5 py-1.5 rounded-xl border flex flex-col justify-between transition-colors cursor-pointer group shadow-xs ${
+                          isLight
+                            ? 'bg-white border-slate-200 hover:border-[#0D95FE] text-slate-900'
+                            : 'bg-[#0B1A3A] border-[#152D5E] hover:border-[#0D95FE] text-white'
+                        }`}
+                        style={isLight ? { backgroundColor: '#FFFFFF', color: '#0F172A', borderColor: '#E2E8F0' } : undefined}
                       >
-                        <span className="text-[8px] font-mono uppercase text-[#7B9CD2] tracking-wider">
+                        <span
+                          className={`text-[8px] font-mono uppercase tracking-wider font-bold ${
+                            isLight ? 'text-slate-500' : 'text-[#7B9CD2]'
+                          }`}
+                          style={isLight ? { color: '#64748B' } : undefined}
+                        >
                           AXOORA ID
                         </span>
-                        <div className="flex items-center justify-between text-[11px] font-bold text-white mt-0.5">
-                          <span>@adaeze</span>
-                          <span className="material-symbols-outlined text-[12px] text-[#7B9CD2]">
+                        <div className="flex items-center justify-between text-[11px] font-bold mt-0.5">
+                          <span
+                            className={isLight ? 'text-slate-900 font-extrabold' : 'text-white'}
+                            style={isLight ? { color: '#0F172A', fontWeight: 800 } : undefined}
+                          >
+                            @adaeze
+                          </span>
+                          <span
+                            className={`material-symbols-outlined text-[12px] ${
+                              isLight ? 'text-slate-400 group-hover:text-[#0D95FE]' : 'text-[#7B9CD2]'
+                            }`}
+                            style={isLight ? { color: '#94A3B8' } : undefined}
+                          >
                             {copiedType === 'id' ? 'check' : 'content_copy'}
                           </span>
                         </div>
                       </div>
                     </div>
 
-                    {/* ASK AXOORA AI PROMPT BAR -> CLICKING OPENS WHATSAPP AI */}
+                    {/* Ask Axoora AI Bar -> Opens WhatsApp */}
                     <div
                       onClick={() => handleManualSwitchView('whatsapp')}
-                      className="w-full py-1.5 px-3 rounded-full bg-gradient-to-r from-[#0C244E] to-[#0A1D3F] border border-[#1B3A6C] hover:border-[#00DF8F] flex items-center justify-between shadow-sm cursor-pointer transition-colors shrink-0"
+                      className={`w-full py-1.5 px-3 rounded-full border flex items-center justify-between shadow-xs cursor-pointer transition-colors shrink-0 ${
+                        isLight
+                          ? 'bg-emerald-50 hover:bg-emerald-100/80 border-emerald-200 text-emerald-900'
+                          : 'bg-gradient-to-r from-[#0C244E] to-[#0A1D3F] border-[#1B3A6C] hover:border-[#00DF8F]'
+                      }`}
                     >
                       <div className="flex items-center gap-2 text-[10px]">
-                        <div className="w-4 h-4 rounded-md bg-[#00DF8F] flex items-center justify-center text-[#003825] text-[9px] font-black">
+                        <div className="w-4 h-4 rounded-md bg-[#00DF8F] flex items-center justify-center text-white text-[9px] font-black shadow-xs">
                           ▲
                         </div>
-                        <span className="text-[#A8BBD6]">
-                          Ask Axoora AI — <span className="text-white font-medium">"{currentScenario.commandSnippet}"</span>
+                        <span className={isLight ? 'text-emerald-900 font-medium' : 'text-[#A8BBD6]'}>
+                          Ask Axoora AI on WhatsApp
                         </span>
                       </div>
-                      <span className="material-symbols-outlined text-[14px] text-[#00DF8F]">
+                      <span className="material-symbols-outlined text-[14px] text-[#00A884]">
                         chat
                       </span>
                     </div>
 
-                    {/* 4 QUICK ACTION BUTTONS */}
+                    {/* 4 Quick Action Buttons */}
                     <div className="grid grid-cols-4 gap-2 text-center pt-0.5 shrink-0">
-                      <button
-                        onClick={() => onOpenWaitlist?.('personal')}
-                        className="flex flex-col items-center gap-1 cursor-pointer group"
-                      >
-                        <div className="w-9 h-9 rounded-2xl bg-[#0D95FE] text-[#00284D] flex items-center justify-center font-bold shadow-md group-hover:scale-105 transition-transform">
-                          <span className="material-symbols-outlined text-[17px]">
-                            north_east
+                      {[
+                        { icon: 'north_east', label: 'Send', primary: true },
+                        { icon: 'bolt', label: 'Bills' },
+                        { icon: 'south_west', label: 'Add' },
+                        { icon: 'credit_card', label: 'Cards' },
+                      ].map((btn, idx) => (
+                        <button
+                          key={idx}
+                          onClick={() => onOpenWaitlist?.('personal')}
+                          className="flex flex-col items-center gap-1 cursor-pointer group"
+                        >
+                          <div
+                            className={`w-9 h-9 rounded-2xl flex items-center justify-center font-bold shadow-xs group-hover:scale-105 transition-transform ${
+                              btn.primary
+                                ? 'bg-[#0D95FE] text-white shadow-md shadow-[#0D95FE]/20'
+                                : isLight
+                                ? 'bg-white border border-slate-200 text-slate-700 hover:bg-slate-50'
+                                : 'bg-[#0E1D3B] border border-[#1A335E] text-white'
+                            }`}
+                          >
+                            <span className="material-symbols-outlined text-[16px]">
+                              {btn.icon}
+                            </span>
+                          </div>
+                          <span
+                            className={`text-[9.5px] font-medium ${
+                              isLight ? 'text-slate-600' : 'text-[#A8BBD6]'
+                            }`}
+                          >
+                            {btn.label}
                           </span>
-                        </div>
-                        <span className="text-[9.5px] font-bold text-white">Send</span>
-                      </button>
-
-                      <button
-                        onClick={() => onOpenWaitlist?.('personal')}
-                        className="flex flex-col items-center gap-1 cursor-pointer group"
-                      >
-                        <div className="w-9 h-9 rounded-2xl bg-[#0E1D3B] border border-[#1A335E] text-white flex items-center justify-center group-hover:scale-105 transition-transform">
-                          <span className="material-symbols-outlined text-[16px] text-[#A8BBD6]">
-                            bolt
-                          </span>
-                        </div>
-                        <span className="text-[9.5px] font-medium text-[#A8BBD6]">Bills</span>
-                      </button>
-
-                      <button
-                        onClick={() => onOpenWaitlist?.('personal')}
-                        className="flex flex-col items-center gap-1 cursor-pointer group"
-                      >
-                        <div className="w-9 h-9 rounded-2xl bg-[#0E1D3B] border border-[#1A335E] text-white flex items-center justify-center group-hover:scale-105 transition-transform">
-                          <span className="material-symbols-outlined text-[16px] text-[#A8BBD6]">
-                            south_west
-                          </span>
-                        </div>
-                        <span className="text-[9.5px] font-medium text-[#A8BBD6]">Add</span>
-                      </button>
-
-                      <button
-                        onClick={() => onOpenWaitlist?.('personal')}
-                        className="flex flex-col items-center gap-1 cursor-pointer group"
-                      >
-                        <div className="w-9 h-9 rounded-2xl bg-[#0E1D3B] border border-[#1A335E] text-white flex items-center justify-center group-hover:scale-105 transition-transform">
-                          <span className="material-symbols-outlined text-[16px] text-[#A8BBD6]">
-                            credit_card
-                          </span>
-                        </div>
-                        <span className="text-[9.5px] font-medium text-[#A8BBD6]">Cards</span>
-                      </button>
+                        </button>
+                      ))}
                     </div>
 
-                    {/* BOTTOM BENTO: RECENT TRANSACTION POWERED BY WHATSAPP AI */}
-                    <div className="rounded-2xl bg-[#08152F] border border-[#142A58] p-2 flex flex-col gap-1 shrink-0">
+                    {/* Recent Activity Bento */}
+                    <div
+                      className={`rounded-2xl border p-2.5 flex flex-col gap-1 shrink-0 shadow-xs transition-colors ${
+                        isLight
+                          ? 'bg-white border-slate-200 text-slate-900'
+                          : 'bg-[#08152F] border-[#142A58] text-white'
+                      }`}
+                      style={isLight ? { backgroundColor: '#FFFFFF', borderColor: '#E2E8F0' } : undefined}
+                    >
                       <div className="flex items-center justify-between">
-                        <span className="text-[9.5px] font-bold text-white">Latest Activity</span>
-                        <span className="text-[8px] font-mono text-[#00DF8F] font-bold flex items-center gap-1">
+                        <span
+                          className={`text-[9.5px] font-bold ${
+                            isLight ? 'text-slate-900' : 'text-white'
+                          }`}
+                          style={isLight ? { color: '#0F172A' } : undefined}
+                        >
+                          Latest Activity
+                        </span>
+                        <span
+                          className={`text-[8px] font-mono font-bold flex items-center gap-1 ${
+                            isLight ? 'text-emerald-700' : 'text-[#00DF8F]'
+                          }`}
+                          style={isLight ? { color: '#047857' } : undefined}
+                        >
                           <span className="w-1.5 h-1.5 rounded-full bg-[#00DF8F] animate-pulse" />
-                          VIA WHATSAPP
+                          SYNCED VIA WHATSAPP
                         </span>
                       </div>
 
-                      {/* Dynamic Recent Item Synchronized with Current Scenario */}
                       <div className="flex items-center justify-between py-0.5">
                         <div className="flex items-center gap-1.5 min-w-0">
-                          <div className="w-6 h-6 rounded-full bg-[#0A1A38] border border-[#142A58] flex items-center justify-center text-[#00DF8F] shrink-0">
+                          <div
+                            className={`w-6 h-6 rounded-full flex items-center justify-center shrink-0 border ${
+                              isLight
+                                ? 'bg-emerald-50 border-emerald-200 text-emerald-700'
+                                : 'border-[#142A58] bg-[#0A1A38] text-[#00DF8F]'
+                            }`}
+                            style={isLight ? { backgroundColor: '#ECFDF5', borderColor: '#A7F3D0', color: '#047857' } : undefined}
+                          >
                             <span className="material-symbols-outlined text-[13px]">
-                              {currentScenario.appRecentItem.isCredit ? 'south_west' : 'north_east'}
+                              {currentScenario.walletTransactionCredit
+                                ? 'south_west'
+                                : 'north_east'}
                             </span>
                           </div>
                           <div className="flex flex-col truncate">
-                            <span className="text-[10px] font-bold text-white leading-tight truncate">
-                              {currentScenario.appRecentItem.name}
+                            <span
+                              className={`text-[10px] font-bold leading-tight truncate ${
+                                isLight ? 'text-slate-900' : 'text-white'
+                              }`}
+                              style={isLight ? { color: '#0F172A' } : undefined}
+                            >
+                              {currentScenario.walletTransactionTitle}
                             </span>
-                            <span className="text-[8px] text-[#7B9CD2] leading-tight truncate">
-                              {currentScenario.appRecentItem.type}
+                            <span
+                              className={`text-[8px] leading-tight truncate ${
+                                isLight ? 'text-slate-500' : 'text-[#7B9CD2]'
+                              }`}
+                              style={isLight ? { color: '#64748B' } : undefined}
+                            >
+                              {currentScenario.walletTransactionType}
                             </span>
                           </div>
                         </div>
 
                         <span
                           className={`text-[10px] font-bold font-mono shrink-0 ml-1 ${
-                            currentScenario.appRecentItem.isCredit
-                              ? 'text-[#00DF8F]'
+                            currentScenario.walletTransactionCredit
+                              ? isLight
+                                ? 'text-emerald-700'
+                                : 'text-[#00DF8F]'
+                              : isLight
+                              ? 'text-slate-900'
                               : 'text-white'
                           }`}
+                          style={
+                            currentScenario.walletTransactionCredit
+                              ? isLight ? { color: '#047857' } : undefined
+                              : isLight ? { color: '#0F172A' } : undefined
+                          }
                         >
-                          {currentScenario.appRecentItem.amount}
+                          {currentScenario.walletTransactionAmount}
                         </span>
                       </div>
                     </div>
 
-                    {/* Return to WhatsApp AI Banner */}
+                    {/* Return to WhatsApp AI Button */}
                     <div className="pt-0.5 shrink-0">
                       <button
                         onClick={() => handleManualSwitchView('whatsapp')}
-                        className="w-full py-1.5 px-3 rounded-xl bg-gradient-to-r from-[#00A884]/25 via-[#00DF8F]/20 to-[#0D95FE]/20 border border-[#00A884]/50 text-[#00DF8F] text-[9.5px] font-bold flex items-center justify-center gap-1.5 hover:bg-[#00A884]/35 transition-all cursor-pointer shadow-sm"
+                        className={`w-full py-1.5 px-3 rounded-xl border text-[9.5px] font-bold flex items-center justify-center gap-1.5 transition-all cursor-pointer shadow-xs ${
+                          isLight
+                            ? 'bg-emerald-50 hover:bg-emerald-100 border-emerald-300 text-emerald-800'
+                            : 'bg-gradient-to-r from-[#00A884]/25 via-[#00DF8F]/20 to-[#0D95FE]/20 border-[#00A884]/50 text-[#00DF8F] hover:bg-[#00A884]/35'
+                        }`}
                       >
                         <span className="material-symbols-outlined text-[13px]">chat</span>
                         <span>← Return to Live WhatsApp AI Assistant</span>
@@ -1035,16 +1086,51 @@ export const RealisticPhoneMockup: React.FC<RealisticPhoneMockupProps> = ({
               </AnimatePresence>
             </div>
 
-            {/* ----------------------------------------------------------------- */}
-            {/* 5. BOTTOM HOME GESTURE INDICATOR BAR */}
-            {/* ----------------------------------------------------------------- */}
-            <div className="w-full flex items-center justify-center pt-1 pb-1 shrink-0 bg-[#111B21] z-20">
-              <div className="w-24 h-1 rounded-full bg-white/35" />
+            {/* Bottom iOS Home Indicator */}
+            <div
+              className={`w-full flex items-center justify-center pt-1 pb-1.5 shrink-0 z-30 transition-colors ${
+                isLight && activeView === 'app'
+                  ? 'bg-[#F8FAFC]'
+                  : isLight && activeView === 'whatsapp'
+                  ? 'bg-[#F0F2F5]'
+                  : 'bg-[#111B21]'
+              }`}
+            >
+              <div
+                className={`w-24 h-1 rounded-full ${
+                  isLight ? 'bg-slate-400' : 'bg-white/35'
+                }`}
+              />
             </div>
 
           </div>
         </div>
       </motion.div>
+
+      {/* ========================================================================= */}
+      {/* BOTTOM SCENARIO PILLS (Interactive Human Life Moments) */}
+      {/* ========================================================================= */}
+      <div className="w-full flex items-center justify-center gap-2 mt-3 z-30 flex-wrap">
+        {HUMAN_SCENARIOS.map((sc, idx) => {
+          const isActive = scenarioIndex === idx;
+          return (
+            <button
+              key={sc.id}
+              onClick={() => handleSelectScenario(idx)}
+              className={`py-1.5 px-3 rounded-full text-xs font-semibold flex items-center gap-1.5 transition-all cursor-pointer border ${
+                isActive
+                  ? 'bg-[#00DF8F] text-[#003825] border-[#00DF8F] shadow-md shadow-[#00DF8F]/25 font-bold scale-102'
+                  : isLight
+                  ? 'bg-white hover:bg-slate-100 text-slate-700 border-slate-200 shadow-xs'
+                  : 'bg-slate-900/80 hover:bg-slate-800 text-slate-300 border-slate-700/60 hover:text-white'
+              }`}
+            >
+              <span>{sc.pillEmoji}</span>
+              <span>{sc.pillLabel}</span>
+            </button>
+          );
+        })}
+      </div>
     </div>
   );
 };

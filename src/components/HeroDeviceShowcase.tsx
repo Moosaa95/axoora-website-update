@@ -265,7 +265,7 @@ export const HeroDeviceShowcase: React.FC<HeroDeviceShowcaseProps> = ({
           onClick={() => {
             if (mode !== 'phone') setMode('phone');
           }}
-          className="absolute w-[305px] sm:w-[330px] rounded-[52px] p-[5px] shadow-[0_35px_80px_-15px_rgba(0,0,0,0.6)] cursor-pointer select-none"
+          className="dark-hardware preserve-dark absolute w-[305px] sm:w-[330px] rounded-[52px] p-[5px] shadow-[0_35px_80px_-15px_rgba(0,0,0,0.6)] cursor-pointer select-none"
           style={{
             background:
               'linear-gradient(135deg, #DEAA79 0%, #C38A56 25%, #8B592A 50%, #C38A56 75%, #ECC093 100%)',
@@ -392,13 +392,14 @@ export const HeroDeviceShowcase: React.FC<HeroDeviceShowcaseProps> = ({
                     handleCopy('account', '9012345678');
                   }}
                   className="col-span-5 px-2 py-1.5 rounded-xl bg-[#0B1A3A] border border-[#152D5E] flex flex-col justify-between hover:border-[#0D95FE] transition-colors cursor-pointer"
+                  style={{ backgroundColor: '#0B1A3A', borderColor: '#152D5E' }}
                 >
-                  <span className="text-[8px] font-mono uppercase text-[#7B9CD2] tracking-wider">
+                  <span className="text-[8px] font-mono uppercase text-[#7B9CD2] tracking-wider" style={{ color: '#7B9CD2' }}>
                     ACCOUNT
                   </span>
                   <div className="flex items-center justify-between text-[11px] font-bold text-white mt-0.5">
-                    <span>9012345678</span>
-                    <span className="material-symbols-outlined text-[12px] text-[#7B9CD2]">
+                    <span style={{ color: '#FFFFFF' }}>9012345678</span>
+                    <span className="material-symbols-outlined text-[12px] text-[#7B9CD2]" style={{ color: '#7B9CD2' }}>
                       {copiedType === 'account' ? 'check' : 'content_copy'}
                     </span>
                   </div>
@@ -411,20 +412,24 @@ export const HeroDeviceShowcase: React.FC<HeroDeviceShowcaseProps> = ({
                     handleCopy('id', '@adaeze');
                   }}
                   className="col-span-5 px-2 py-1.5 rounded-xl bg-[#0B1A3A] border border-[#152D5E] flex flex-col justify-between hover:border-[#0D95FE] transition-colors cursor-pointer"
+                  style={{ backgroundColor: '#0B1A3A', borderColor: '#152D5E' }}
                 >
-                  <span className="text-[8px] font-mono uppercase text-[#7B9CD2] tracking-wider">
+                  <span className="text-[8px] font-mono uppercase text-[#7B9CD2] tracking-wider" style={{ color: '#7B9CD2' }}>
                     AXOORA ID
                   </span>
                   <div className="flex items-center justify-between text-[11px] font-bold text-white mt-0.5">
-                    <span>@adaeze</span>
-                    <span className="material-symbols-outlined text-[12px] text-[#7B9CD2]">
+                    <span style={{ color: '#FFFFFF' }}>@adaeze</span>
+                    <span className="material-symbols-outlined text-[12px] text-[#7B9CD2]" style={{ color: '#7B9CD2' }}>
                       {copiedType === 'id' ? 'check' : 'content_copy'}
                     </span>
                   </div>
                 </div>
 
                 {/* Share Button */}
-                <div className="col-span-2 rounded-xl bg-[#0B1A3A] border border-[#152D5E] flex items-center justify-center text-[#7B9CD2] hover:text-white cursor-pointer">
+                <div
+                  className="col-span-2 rounded-xl bg-[#0B1A3A] border border-[#152D5E] flex items-center justify-center text-[#7B9CD2] hover:text-white cursor-pointer"
+                  style={{ backgroundColor: '#0B1A3A', borderColor: '#152D5E', color: '#7B9CD2' }}
+                >
                   <span className="material-symbols-outlined text-[16px]">
                     share
                   </span>
@@ -713,7 +718,7 @@ export const HeroDeviceShowcase: React.FC<HeroDeviceShowcaseProps> = ({
           onClick={() => {
             if (mode !== 'pos') setMode('pos');
           }}
-          className={`absolute w-[280px] sm:w-[310px] rounded-[36px] p-3 shadow-2xl cursor-pointer transition-shadow ${
+          className={`dark-hardware preserve-dark absolute w-[280px] sm:w-[310px] rounded-[36px] p-3 shadow-2xl cursor-pointer transition-shadow ${
             isLight
               ? 'bg-gradient-to-b from-[#334155] via-[#1E293B] to-[#0F172A] shadow-[0_25px_60px_-15px_rgba(0,0,0,0.35)] border-2 border-slate-300'
               : 'bg-gradient-to-b from-[#14294F] via-[#0A1B3D] to-[#01091C] shadow-[0_30px_70px_-15px_rgba(242,169,59,0.25)] border-2 border-[#F2A93B]/40'

@@ -3,7 +3,7 @@ import { JournalArticle, FaqItem } from '../types';
 export const BRAND_LOGO_URL = 'https://raw.githubusercontent.com/shadcn-ui/ui/main/apps/www/public/apple-touch-icon.png';
 
 export const COMPANY_INFO = {
-  name: 'AXOORA Financial Technologies Limited',
+  name: 'AXOORA FINANCIAL TECHNOLOGIES LTD',
   brand: 'Axoora',
   rcNumber: 'RC 1894231',
   office: 'Suite 08 Block C, Cappador Mall. 85 Aguiyi Ironsi Street Maitama. Abuja',
@@ -12,9 +12,9 @@ export const COMPANY_INFO = {
   careersEmail: 'careers@axoora.ai',
   whatsappNumber: '+234 911 000 2966',
   whatsappUrl: 'https://wa.me/2349110002966?text=Hello%20Axoora%20AI%2C%20I%20want%20to%20bank%20with%20you',
-  legalNotice: 'AXOORA Financial Technologies Limited is a microfinance bank licensed by the Central Bank of Nigeria. Eligible deposits are insured by the Nigeria Deposit Insurance Corporation up to the statutory limit. Axoora will never ask for your PIN, password, or one-time code on this website, on WhatsApp, or by phone.',
+  legalNotice: 'AXOORA FINANCIAL TECHNOLOGIES LTD is a financial institution operating in compliance with Central Bank of Nigeria regulations. Eligible deposits are insured by the Nigeria Deposit Insurance Corporation up to the statutory limit. Axoora will never ask for your PIN, password, or one-time code on this website, on WhatsApp, or by phone.',
   safetyWarning: 'Axoora will never ask for your PIN, password, or one-time code in chat, on WhatsApp, or by phone.',
-  trustLine: 'AXOORA Financial Technologies Limited is a microfinance bank licensed by the Central Bank of Nigeria. Eligible deposits are insured by NDIC.',
+  trustLine: 'AXOORA FINANCIAL TECHNOLOGIES LTD is supervised by the Central Bank of Nigeria. Eligible deposits are insured by NDIC.',
 };
 
 export const VALUES_LIST = [

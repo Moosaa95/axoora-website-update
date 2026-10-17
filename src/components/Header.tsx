@@ -599,7 +599,7 @@ export const Header: React.FC<HeaderProps> = ({
             </span>
           </button>
 
-          {/* Segment-Specific CTA: Show "Bank on WhatsApp" exclusively on Personal, and "Open an account" on Business/POS */}
+          {/* Segment-Specific CTA: Show "Bank on WhatsApp" exclusively on Personal, and "Apply for Business" on Business/POS */}
           {currentScreen === 'personal' ? (
             <button
               onClick={onOpenWhatsApp}
@@ -614,7 +614,7 @@ export const Header: React.FC<HeaderProps> = ({
               onClick={() => onOpenWaitlist(currentScreen === 'pos-agents' ? 'pos-agent' : 'business')}
               className="hidden sm:inline-flex items-center px-3.5 sm:px-4 xl:px-5 py-2 sm:py-2.5 rounded-xl sm:rounded-full bg-[#0D95FE] hover:bg-[#00DF8F] text-white hover:text-[#003825] font-extrabold text-xs sm:text-xs xl:text-sm transition-all shadow-md shadow-[#0D95FE]/25 cursor-pointer active:scale-98 whitespace-nowrap shrink-0"
             >
-              Open an account
+              Apply for Business
             </button>
           )}
 
@@ -833,7 +833,7 @@ export const Header: React.FC<HeaderProps> = ({
                 }}
                 className="w-full py-3 rounded-xl bg-[#0D95FE] text-white font-extrabold text-sm flex items-center justify-center gap-2 cursor-pointer shadow-sm"
               >
-                <span>Open an account</span>
+                <span>Apply for Business</span>
                 <span className="material-symbols-outlined text-[18px]">arrow_forward</span>
               </button>
             )}

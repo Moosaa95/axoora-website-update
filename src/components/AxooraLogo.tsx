@@ -48,12 +48,12 @@ export const AxooraLogo: React.FC<AxooraLogoProps> = ({
       >
         <defs>
           <linearGradient id="axooraDiamondGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stopColor="#0D95FE" />
-            <stop offset="50%" stopColor="#007DFE" />
-            <stop offset="100%" stopColor="#0063D6" />
+            <stop offset="0%" stopColor="#0C91FA" />
+            <stop offset="45%" stopColor="#0D95FE" />
+            <stop offset="100%" stopColor="#075FBE" />
           </linearGradient>
           <filter id="axooraGlow" x="-20%" y="-20%" width="140%" height="140%">
-            <feDropShadow dx="0" dy="2" stdDeviation="4" floodColor="#0D95FE" floodOpacity="0.35" />
+            <feDropShadow dx="0" dy="2" stdDeviation="4" floodColor="#0C91FA" floodOpacity="0.3" />
           </filter>
         </defs>
 
@@ -87,13 +87,13 @@ export const AxooraLogo: React.FC<AxooraLogoProps> = ({
 
       {/* Official "axoora" Geometric Lowercase Wordmark with Linked 'oo' */}
       {variant === 'full' && (
-        <span className={`font-extrabold tracking-tight text-xl sm:text-2xl lowercase leading-none ${wordmarkTextColor} transition-colors select-none flex items-center`}>
+        <span className={`font-extrabold tracking-tight text-xl sm:text-2xl lowercase leading-none ${wordmarkTextColor} transition-colors select-none flex items-center font-sans`}>
           <span>ax</span>
           <span className="relative flex items-center mx-[0.5px]">
-            <span className="text-[#0D95FE] font-black">oo</span>
+            <span className="text-[#0C91FA] font-black">oo</span>
             {/* Subtle infinity link bridge */}
             <span className="absolute inset-0 flex items-center justify-center pointer-events-none">
-              <span className="w-2.5 h-[3px] bg-[#0D95FE] rounded-full -ml-[1px]" />
+              <span className="w-2.5 h-[3px] bg-[#0C91FA] rounded-full -ml-[1px]" />
             </span>
           </span>
           <span>ra</span>

@@ -650,7 +650,7 @@ export const InteractiveGetStarted: React.FC<InteractiveGetStartedProps> = ({
                 onClick={() => onOpenWaitlist('business')}
                 className="px-5 py-2.5 rounded-xl bg-[#0D95FE] hover:bg-[#00DF8F] text-[#00284D] hover:text-[#003825] font-bold text-sm transition-all shadow-md cursor-pointer flex items-center gap-2"
               >
-                <span>Open an Account</span>
+                <span>Apply for Business</span>
                 <span className="material-symbols-outlined text-[16px]">arrow_forward</span>
               </button>
 

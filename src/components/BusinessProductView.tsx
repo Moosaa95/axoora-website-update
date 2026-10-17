@@ -134,7 +134,7 @@ export const BusinessProductView: React.FC<BusinessProductViewProps> = ({
                 onClick={() => onOpenWaitlist('business')}
                 className="w-full sm:w-auto px-8 py-4 rounded-2xl bg-[#0D95FE] hover:bg-[#00DF8F] text-white hover:text-[#003825] font-extrabold text-sm flex items-center justify-center gap-2 shadow-lg shadow-[#0D95FE]/25 transition-all cursor-pointer active:scale-98"
               >
-                <span>Open an Account</span>
+                <span>Apply for Business Account</span>
                 <span className="material-symbols-outlined text-[18px]">arrow_forward</span>
               </button>
 
@@ -147,7 +147,7 @@ export const BusinessProductView: React.FC<BusinessProductViewProps> = ({
                 }`}
               >
                 <span className="material-symbols-outlined text-[#00DF8F] text-[18px]">point_of_sale</span>
-                <span>Request Smart POS</span>
+                <span>Apply for Smart POS</span>
               </button>
             </div>
 
@@ -306,6 +306,263 @@ export const BusinessProductView: React.FC<BusinessProductViewProps> = ({
         </div>
       </section>
 
+      {/* ========================================================================= */}
+      {/* 7. MONZO-INSPIRED HUMAN BANKING: MORE TIME FOR BUSINESS, LESS ON BANKING */}
+      {/* ========================================================================= */}
+      <section
+        className={`w-full px-4 sm:px-6 lg:px-8 py-20 border-b transition-colors ${
+          isLight ? 'bg-slate-50/70 border-slate-200' : 'bg-[#01091C] border-[#14294F]'
+        }`}
+      >
+        <div className="max-w-7xl mx-auto flex flex-col gap-16">
+          {/* Header */}
+          <div className="flex flex-col gap-3 text-center max-w-2xl mx-auto">
+            <span className="text-xs font-mono uppercase tracking-widest text-[#00DF8F] font-bold">
+              THE AXOORA DIFFERENCE
+            </span>
+            <h2
+              className={`text-3xl sm:text-4xl font-extrabold tracking-tight ${
+                isLight ? 'text-slate-900' : 'text-[#F2F5F9]'
+              }`}
+            >
+              More time for your business. Less time on banking.
+            </h2>
+            <p className={`text-sm sm:text-base ${isLight ? 'text-slate-600' : 'text-[#A8BBD6]'}`}>
+              Traditional banks treat Nigerian shops like a risk to manage. We built an operating system designed around the daily realities of your counter, warehouse, and cashflow.
+            </p>
+          </div>
+
+          {/* Comparison Grid: Old Bank Headaches vs Axoora Human Banking */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-stretch">
+            {/* Old Nigerian Banking Way */}
+            <div
+              className={`p-6 sm:p-8 rounded-3xl border flex flex-col justify-between gap-6 ${
+                isLight
+                  ? 'bg-white border-red-200/80 shadow-xs'
+                  : 'bg-[#0A162B] border-red-500/20'
+              }`}
+            >
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-2xl bg-red-500/10 text-red-500 flex items-center justify-center font-bold">
+                  <span className="material-symbols-outlined text-[22px]">history_toggle_off</span>
+                </div>
+                <div>
+                  <h3 className={`text-lg font-bold ${isLight ? 'text-slate-900' : 'text-white'}`}>
+                    Old Nigerian Commercial Banks
+                  </h3>
+                  <span className="text-xs text-red-500 font-mono">Friction, delay &amp; hidden charges</span>
+                </div>
+              </div>
+
+              <div className="flex flex-col gap-4 text-xs sm:text-sm">
+                {[
+                  {
+                    title: 'Delayed End-of-Day Settlements',
+                    desc: 'Your POS collections sit in an unverified clearing pool until 11:59 PM or the next day, freezing your cashflow when you need to restock fast.',
+                  },
+                  {
+                    title: '₦53.75 Fee on Every Single Supplier Payment',
+                    desc: 'Transfer charges and stamp duties quietly eat up hundreds of thousands of Naira from your net operating margins every quarter.',
+                  },
+                  {
+                    title: 'Cashier Card Sharing & Embezzlement Risk',
+                    desc: 'Giving store cashiers or dispatch drivers your personal debit card or ATM PIN because standard banks don’t offer restricted sub-cards.',
+                  },
+                  {
+                    title: 'Annual Shop Rent Scramble',
+                    desc: 'No automated budgeting: all revenue gets commingled in one general balance until annual shop lease or FIRS tax notices hit unexpectedly.',
+                  },
+                ].map((item, idx) => (
+                  <div key={idx} className="flex items-start gap-3">
+                    <span className="material-symbols-outlined text-red-400 text-[18px] shrink-0 mt-0.5">
+                      close
+                    </span>
+                    <div>
+                      <strong className={`block font-bold ${isLight ? 'text-slate-900' : 'text-slate-200'}`}>
+                        {item.title}
+                      </strong>
+                      <span className={isLight ? 'text-slate-600' : 'text-[#8EA2C6]'}>
+                        {item.desc}
+                      </span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* The Axoora Way */}
+            <div
+              className={`p-6 sm:p-8 rounded-3xl border-2 flex flex-col justify-between gap-6 shadow-xl relative overflow-hidden ${
+                isLight
+                  ? 'bg-gradient-to-br from-emerald-50/50 via-white to-blue-50/40 border-emerald-300'
+                  : 'bg-gradient-to-br from-[#0A2338] via-[#081B34] to-[#041326] border-[#00DF8F]/50 shadow-emerald-950/20'
+              }`}
+            >
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-2xl bg-[#00DF8F]/20 text-[#00DF8F] flex items-center justify-center font-bold">
+                    <span className="material-symbols-outlined text-[22px]">verified</span>
+                  </div>
+                  <div>
+                    <h3 className={`text-lg font-bold ${isLight ? 'text-slate-900' : 'text-white'}`}>
+                      The Axoora Business Way
+                    </h3>
+                    <span className="text-xs text-emerald-600 dark:text-[#00DF8F] font-mono font-bold">
+                      Zero fees, instant settlement &amp; total peace of mind
+                    </span>
+                  </div>
+                </div>
+
+                <span className="px-2.5 py-1 rounded-full bg-[#00DF8F]/15 border border-[#00DF8F]/30 text-[#00A884] dark:text-[#00DF8F] text-[10px] font-mono font-bold uppercase">
+                  RECOMMENDED
+                </span>
+              </div>
+
+              <div className="flex flex-col gap-4 text-xs sm:text-sm">
+                {[
+                  {
+                    title: 'Sub-2s Direct NIBSS Rails Settlement',
+                    desc: 'Every card swipe on your Apex POS lands in your available balance in 0.8 seconds. Your money is ready to spend before the customer leaves your counter.',
+                  },
+                  {
+                    title: '₦0.00 Unlimited Transfer Fees Forever',
+                    desc: 'Pay wholesalers, suppliers, and staff with zero transfer deduction. Keep 100% of your earned margins where they belong.',
+                  },
+                  {
+                    title: 'Staff Expense Cards with Category Locks',
+                    desc: 'Issue cards to drivers and cashiers locked strictly to "Fuel" or "Stock Restock" with instant daily spend limits and 1-tap freezing.',
+                  },
+                  {
+                    title: 'Smart Tax & Shop Rent Reserve Pots',
+                    desc: 'Automatically route 10% of every incoming credit to your Rent Pot and 7.5% to your Tax Pot. Never get caught off guard again.',
+                  },
+                ].map((item, idx) => (
+                  <div key={idx} className="flex items-start gap-3">
+                    <span className="material-symbols-outlined text-[#00DF8F] text-[18px] shrink-0 mt-0.5">
+                      check_circle
+                    </span>
+                    <div>
+                      <strong className={`block font-bold ${isLight ? 'text-slate-900' : 'text-white'}`}>
+                        {item.title}
+                      </strong>
+                      <span className={isLight ? 'text-slate-600' : 'text-[#A8BBD6]'}>
+                        {item.desc}
+                      </span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          {/* MONZO-STYLE FEATURE: SMART TAX & RENT POTS */}
+          <div
+            className={`p-6 sm:p-10 rounded-3xl border flex flex-col lg:flex-row items-center justify-between gap-8 ${
+              isLight
+                ? 'bg-white border-slate-200 shadow-sm'
+                : 'bg-[#0A1B3D] border-[#14294F]'
+            }`}
+          >
+            <div className="flex flex-col gap-3 max-w-xl text-left">
+              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-500/10 border border-amber-500/20 text-[#F2A93B] text-xs font-mono font-bold w-fit">
+                <span className="material-symbols-outlined text-[15px]">savings</span>
+                <span>MONZO-INSPIRED SMART POTS</span>
+              </div>
+              <h3
+                className={`text-2xl sm:text-3xl font-black tracking-tight ${
+                  isLight ? 'text-slate-900' : 'text-white'
+                }`}
+              >
+                Stay one step ahead of shop rent, tax and stock.
+              </h3>
+              <p className={`text-sm leading-relaxed ${isLight ? 'text-slate-600' : 'text-[#A8BBD6]'}`}>
+                Running out of operating cash when annual rent or supplier bills arrive is the #1 reason Nigerian retail shops fail. With Axoora Smart Pots, a set percentage of every incoming payment is automatically moved into dedicated locked reserves that earn ethical profit sharing.
+              </p>
+              <div className="flex flex-wrap items-center gap-3 pt-2">
+                <span className={`text-xs font-semibold flex items-center gap-1 ${isLight ? 'text-slate-700' : 'text-slate-300'}`}>
+                  <span className="material-symbols-outlined text-[16px] text-[#00DF8F]">check</span>
+                  Automated Rent Allocation
+                </span>
+                <span className={`text-xs font-semibold flex items-center gap-1 ${isLight ? 'text-slate-700' : 'text-slate-300'}`}>
+                  <span className="material-symbols-outlined text-[16px] text-[#00DF8F]">check</span>
+                  VAT &amp; Withholding Tax Pots
+                </span>
+                <span className={`text-xs font-semibold flex items-center gap-1 ${isLight ? 'text-slate-700' : 'text-slate-300'}`}>
+                  <span className="material-symbols-outlined text-[16px] text-[#00DF8F]">check</span>
+                  0% Riba Ethical Yield
+                </span>
+              </div>
+            </div>
+
+            {/* Visual Interactive Pot Representation */}
+            <div className="w-full lg:w-96 flex flex-col gap-2.5">
+              {[
+                { name: 'Shop Annual Rent Pot', amount: '₦ 2,450,000.00', pct: '70% Funded', color: '#0D95FE' },
+                { name: 'FIRS & State Tax Pot', amount: '₦ 380,400.00', pct: 'Auto 7.5% per sale', color: '#00DF8F' },
+                { name: 'Supplier Restock Float', amount: '₦ 1,820,000.00', pct: 'Ready for FMCG pickup', color: '#F2A93B' },
+              ].map((pot, idx) => (
+                <div
+                  key={idx}
+                  className={`p-3.5 rounded-2xl border flex items-center justify-between transition-colors ${
+                    isLight
+                      ? 'bg-slate-50 border-slate-200'
+                      : 'bg-[#061224] border-[#132A52]'
+                  }`}
+                >
+                  <div className="flex items-center gap-2.5">
+                    <div
+                      className="w-2.5 h-2.5 rounded-full"
+                      style={{ backgroundColor: pot.color }}
+                    />
+                    <div className="flex flex-col">
+                      <span className={`text-xs font-bold ${isLight ? 'text-slate-900' : 'text-white'}`}>
+                        {pot.name}
+                      </span>
+                      <span className={`text-[10px] ${isLight ? 'text-slate-500' : 'text-slate-400'}`}>
+                        {pot.pct}
+                      </span>
+                    </div>
+                  </div>
+                  <span className="text-xs font-mono font-bold text-emerald-600 dark:text-[#00DF8F]">
+                    {pot.amount}
+                  </span>
+                </div>
+              ))}
+            </div>
+          </div>
+
+
+          {/* MONZO-STYLE 2-MINUTE ELIGIBILITY CHECK BANNER */}
+          <div
+            className={`p-6 sm:p-8 rounded-3xl border flex flex-col sm:flex-row items-center justify-between gap-6 text-center sm:text-left ${
+              isLight
+                ? 'bg-blue-50/70 border-blue-200'
+                : 'bg-gradient-to-r from-[#0C244E] to-[#0A1A38] border-[#1B3A6C]'
+            }`}
+          >
+            <div className="flex flex-col gap-1.5 max-w-xl">
+              <span className="text-xs font-mono font-bold text-[#0D95FE] uppercase">
+                ZERO OBLIGATION · INSTANT CONFIRMATION
+              </span>
+              <h3 className={`text-xl sm:text-2xl font-black ${isLight ? 'text-slate-900' : 'text-white'}`}>
+                Check your eligibility in 2 minutes
+              </h3>
+              <p className={`text-xs sm:text-sm ${isLight ? 'text-slate-600' : 'text-[#A8BBD6]'}`}>
+                Whether you are CAC-registered or a sole merchant operating on a market floor, see what you qualify for with zero impact on your credit history.
+              </p>
+            </div>
+
+            <button
+              onClick={() => onOpenWaitlist('business')}
+              className="px-7 py-3.5 rounded-2xl bg-[#0D95FE] hover:bg-[#00DF8F] text-white hover:text-[#003825] font-extrabold text-xs transition-all whitespace-nowrap shadow-lg shadow-[#0D95FE]/25 cursor-pointer flex items-center gap-2"
+            >
+              <span>Check Eligibility Now</span>
+              <span className="material-symbols-outlined text-[16px]">arrow_forward</span>
+            </button>
+          </div>
+        </div>
+      </section>
+
 
       {/* ========================================================================= */}
       {/* 8. HOW TO GET STARTED (SHARED WITH PERSONAL - AS REQUESTED) */}
@@ -338,7 +595,7 @@ export const BusinessProductView: React.FC<BusinessProductViewProps> = ({
               Frequently Asked Questions
             </h2>
             <p className={`text-sm ${isLight ? 'text-slate-600' : 'text-[#A8BBD6]'}`}>
-              Everything you need to know about opening a shop NUBAN, staff cards, and settlements.
+              Everything you need to know about applying for a shop account, staff cards, and settlements.
             </p>
           </div>
 
@@ -376,7 +633,7 @@ export const BusinessProductView: React.FC<BusinessProductViewProps> = ({
               onClick={() => onOpenWaitlist('business')}
               className="px-6 py-3 rounded-2xl bg-[#0D95FE] hover:bg-[#00DF8F] text-white hover:text-[#003825] font-extrabold text-sm transition-all cursor-pointer whitespace-nowrap shadow-md"
             >
-              Open an Account
+              Apply for Business Account
             </button>
           </div>
         </div>

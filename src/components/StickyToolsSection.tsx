@@ -45,8 +45,8 @@ export const StickyToolsSection: React.FC<StickyToolsSectionProps> = ({
       eyebrow: 'Business Account',
       title: 'A free bank account to power your business',
       description:
-        'Open a free account in your business name in minutes. Access round the clock support, with no hidden fees and complete control over your account. Transfer money across all Nigerian banks with sub-3s settlement.',
-      primaryCta: 'Open an account',
+        'Apply for a dedicated account in your business name. Access round the clock support, with no hidden fees and complete control over your account. Transfer money across all Nigerian banks with sub-3s settlement.',
+      primaryCta: 'Apply for an account',
       primaryAction: () => onOpenWaitlist('business'),
       secondaryCta: 'Learn more →',
       secondaryAction: () => onNavigate('business'),

@@ -14,12 +14,15 @@ import { InteractiveGetStarted } from './InteractiveGetStarted';
 import { BlogArticlesCarousel } from './BlogArticlesCarousel';
 import { AppleAppStoreBadge, GooglePlayBadge } from './StoreBadges';
 import { RegulatoryTrustBar } from './RegulatoryLogos';
+import { InterbankInstitutionsMarquee } from './InterbankInstitutionsMarquee';
+import { useNavigation } from '../context/NavigationContext';
 
 interface PersonalProductViewProps {
   onNavigate?: (screen: ScreenType) => void;
   onOpenWaitlist: (interest?: 'personal' | 'business' | 'pos-agent' | 'aggregator') => void;
   onOpenWhatsApp: () => void;
   onOpenDownloadApp?: () => void;
+  onOpenCommandDrawer?: () => void;
 }
 
 export const PersonalProductView: React.FC<PersonalProductViewProps> = ({
@@ -27,9 +30,19 @@ export const PersonalProductView: React.FC<PersonalProductViewProps> = ({
   onOpenWaitlist,
   onOpenWhatsApp,
   onOpenDownloadApp,
+  onOpenCommandDrawer,
 }) => {
   const { theme } = useTheme();
   const isLight = theme === 'light';
+
+  let navOpenCommandDrawer: (() => void) | undefined;
+  try {
+    const nav = useNavigation();
+    navOpenCommandDrawer = nav.openCommandDrawer;
+  } catch {
+    // Graceful fallback if rendered outside provider
+  }
+  const effectiveOpenCommandDrawer = onOpenCommandDrawer || navOpenCommandDrawer;
 
   // Interactive Personal Fee Savings Calculator State
   const [monthlyTransfers, setMonthlyTransfers] = useState<number>(35);
@@ -106,8 +119,14 @@ export const PersonalProductView: React.FC<PersonalProductViewProps> = ({
         <div className="max-w-7xl mx-auto relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
           {/* Left Column: Personal Value Proposition */}
           <div className="lg:col-span-6 flex flex-col items-center lg:items-start text-center lg:text-left gap-6">
-            <div className="inline-flex items-center gap-2 py-1 px-3.5 rounded-full bg-[#0A1B3D] border border-[#14294F] text-xs font-mono font-medium text-[#00DF8F]">
-              <span className="h-1.5 w-1.5 rounded-full bg-[#00DF8F] animate-pulse" />
+            <div
+              className={`inline-flex items-center gap-2 py-1 px-3.5 rounded-full text-xs font-mono font-medium ${
+                isLight
+                  ? 'bg-emerald-50 border border-emerald-200 text-emerald-800'
+                  : 'bg-[#0A1B3D] border border-[#14294F] text-[#00DF8F]'
+              }`}
+            >
+              <span className={`h-1.5 w-1.5 rounded-full animate-pulse ${isLight ? 'bg-emerald-600' : 'bg-[#00DF8F]'}`} />
               <span>0% FEES ON ALL TRANSFERS // ZERO RIBA // DUAL-CURRENCY</span>
             </div>
 
@@ -133,7 +152,7 @@ export const PersonalProductView: React.FC<PersonalProductViewProps> = ({
                 isLight ? 'text-slate-600' : 'text-[#A8BBD6]'
               }`}
             >
-              Brought to you by the sovereign technology that powers Nigeria's most trusted POS infrastructure. Axoora offers you a reliable personal banking experience with zero transfer fees, instant virtual cards, and non-interest Save &amp; Earn.
+              Brought to you by the sovereign technology that powers Nigeria's most trusted POS infrastructure. Experience zero transfer fees, instant virtual cards, non-interest Save &amp; Earn, and multi-modal WhatsApp banking — send money via text, receipt photo, or voice note.
             </p>
 
             {/* Primary Mobile App Store & Google Play Store Download Action (Elevated, Prominent, Clickable) */}
@@ -171,6 +190,7 @@ export const PersonalProductView: React.FC<PersonalProductViewProps> = ({
               isLight={isLight}
               onOpenWaitlist={onOpenWaitlist}
               onOpenWhatsApp={onOpenWhatsApp}
+              onOpenCommandDrawer={effectiveOpenCommandDrawer}
             />
           </div>
         </div>
@@ -231,15 +251,21 @@ export const PersonalProductView: React.FC<PersonalProductViewProps> = ({
                   key={idx}
                   className={`p-3.5 rounded-2xl border flex items-start gap-3.5 transition-all ${
                     isLight
-                      ? 'bg-slate-50 border-slate-200'
+                      ? 'bg-white border-slate-200/90 shadow-xs hover:shadow-md'
                       : 'bg-[#0A1B3D]/70 border-[#14294F]'
                   }`}
                 >
-                  <div className="w-9 h-9 rounded-xl bg-[#00DF8F]/15 text-[#00DF8F] flex items-center justify-center shrink-0 mt-0.5">
+                  <div
+                    className={`w-9 h-9 rounded-xl flex items-center justify-center shrink-0 mt-0.5 ${
+                      isLight ? 'bg-emerald-50 text-emerald-700' : 'bg-[#00DF8F]/15 text-[#00DF8F]'
+                    }`}
+                  >
                     <span className="material-symbols-outlined text-[20px]">{item.icon}</span>
                   </div>
                   <div className="flex flex-col">
-                    <span className="font-bold text-sm leading-tight">{item.title}</span>
+                    <span className={`font-bold text-sm leading-tight ${isLight ? 'text-slate-900' : 'text-[#F2F5F9]'}`}>
+                      {item.title}
+                    </span>
                     <span className={`text-xs mt-0.5 ${isLight ? 'text-slate-600' : 'text-[#A8BBD6]'}`}>
                       {item.desc}
                     </span>
@@ -278,6 +304,16 @@ export const PersonalProductView: React.FC<PersonalProductViewProps> = ({
         </div>
       </section>
 
+
+
+      {/* ========================================================================= */}
+      {/* 2B. INTERBANK SUPPORTED INSTITUTIONS MARQUEE (ALL 40+ NIGERIAN BANKS) */}
+      {/* ========================================================================= */}
+      <InterbankInstitutionsMarquee
+        isLight={isLight}
+        onOpenWhatsApp={onOpenWhatsApp}
+      />
+
       {/* ========================================================================= */}
       {/* 3. FOUR CORE PERSONAL PILLARS: MONIEPOINT-STYLE INTERACTIVE SHOWCASE */}
       {/* ========================================================================= */}
@@ -297,7 +333,11 @@ export const PersonalProductView: React.FC<PersonalProductViewProps> = ({
       >
         <div className="max-w-4xl mx-auto flex flex-col gap-10">
           <div className="flex flex-col gap-2 text-center max-w-2xl mx-auto">
-            <span className="text-xs font-mono uppercase tracking-widest text-[#00DF8F] font-bold">
+            <span
+              className={`text-xs font-mono uppercase tracking-widest font-bold ${
+                isLight ? 'text-emerald-700' : 'text-[#00DF8F]'
+              }`}
+            >
               ZERO-FEE SAVINGS CALCULATOR
             </span>
             <h2
@@ -321,7 +361,11 @@ export const PersonalProductView: React.FC<PersonalProductViewProps> = ({
               <div>
                 <label className="text-sm font-bold block">
                   Monthly Bank Transfers:{' '}
-                  <span className="text-[#00DF8F] font-mono text-base">
+                  <span
+                    className={`font-mono text-base font-bold ${
+                      isLight ? 'text-emerald-700' : 'text-[#00DF8F]'
+                    }`}
+                  >
                     {monthlyTransfers} transfers/mo
                   </span>
                 </label>
@@ -342,7 +386,7 @@ export const PersonalProductView: React.FC<PersonalProductViewProps> = ({
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-3 border-t border-slate-200 dark:border-[#14294F]">
               <div className="p-4 rounded-2xl bg-rose-50 dark:bg-[#14294F]/40 border border-rose-200 dark:border-rose-900/30">
-                <span className="text-xs font-mono text-rose-700 dark:text-rose-400 block font-semibold">
+                <span className="text-xs font-mono text-rose-800 dark:text-rose-400 block font-semibold">
                   Legacy Bank Deductions
                 </span>
                 <div className="text-2xl font-black font-mono text-rose-600 dark:text-rose-400 mt-1">
@@ -357,10 +401,18 @@ export const PersonalProductView: React.FC<PersonalProductViewProps> = ({
                 <span className="text-xs font-mono text-emerald-800 dark:text-[#00DF8F] block font-semibold">
                   You Keep with Axoora
                 </span>
-                <div className="text-2xl font-black font-mono text-emerald-600 dark:text-[#00DF8F] mt-1">
+                <div
+                  className={`text-2xl font-black font-mono mt-1 ${
+                    isLight ? 'text-emerald-700' : 'text-[#00DF8F]'
+                  }`}
+                >
                   ₦{totalAnnualLegacyLoss.toLocaleString()} Saved
                 </div>
-                <span className="text-[11px] text-emerald-700 dark:text-[#00DF8F] font-mono">
+                <span
+                  className={`text-[11px] font-mono ${
+                    isLight ? 'text-emerald-800 font-semibold' : 'text-[#00DF8F]'
+                  }`}
+                >
                   ₦0.00 transfer fees. 100% in your pocket.
                 </span>
               </div>
@@ -383,7 +435,7 @@ export const PersonalProductView: React.FC<PersonalProductViewProps> = ({
       {/* ========================================================================= */}
       <section
         className={`w-full px-4 sm:px-6 lg:px-8 py-20 border-b transition-colors ${
-          isLight ? 'bg-white border-slate-200' : 'bg-[#020F2E] border-[#14294F]'
+          isLight ? 'bg-[#F8FAFC] border-slate-200' : 'bg-[#020F2E] border-[#14294F]'
         }`}
       >
         <div className="max-w-7xl mx-auto flex flex-col gap-12">
@@ -404,16 +456,22 @@ export const PersonalProductView: React.FC<PersonalProductViewProps> = ({
             {personalBenefits.map((item, i) => (
               <div
                 key={i}
-                className={`p-6 rounded-3xl border-2 flex flex-col gap-3 transition-all ${
+                className={`p-6 rounded-3xl border transition-all ${
                   isLight
-                    ? 'bg-slate-50 border-slate-200 hover:border-emerald-300'
-                    : 'bg-[#0A1B3D] border-[#14294F] hover:border-[#00DF8F]'
+                    ? 'bg-white border-slate-200 shadow-sm hover:shadow-xl hover:border-emerald-500/40 hover:-translate-y-1'
+                    : 'bg-[#0A1B3D] border-[#14294F] hover:border-[#00DF8F] hover:-translate-y-1'
                 }`}
               >
-                <div className="w-11 h-11 rounded-2xl bg-[#00DF8F]/15 text-[#00DF8F] flex items-center justify-center">
+                <div
+                  className={`w-11 h-11 rounded-2xl flex items-center justify-center ${
+                    isLight ? 'bg-emerald-50 text-emerald-700' : 'bg-[#00DF8F]/15 text-[#00DF8F]'
+                  }`}
+                >
                   <span className="material-symbols-outlined text-[24px]">{item.icon}</span>
                 </div>
-                <h4 className="font-bold text-base">{item.title}</h4>
+                <h4 className={`font-bold text-base mt-1 ${isLight ? 'text-slate-900' : 'text-white'}`}>
+                  {item.title}
+                </h4>
                 <p className={`text-xs leading-relaxed ${isLight ? 'text-slate-600' : 'text-[#A8BBD6]'}`}>
                   {item.desc}
                 </p>
@@ -447,7 +505,11 @@ export const PersonalProductView: React.FC<PersonalProductViewProps> = ({
       >
         <div className="max-w-4xl mx-auto flex flex-col gap-10">
           <div className="flex flex-col gap-2 text-center">
-            <span className="text-xs font-mono uppercase tracking-widest text-[#00DF8F] font-bold">
+            <span
+              className={`text-xs font-mono uppercase tracking-widest font-bold ${
+                isLight ? 'text-emerald-700' : 'text-[#00DF8F]'
+              }`}
+            >
               CONSUMER HELP &amp; FAQS
             </span>
             <h2
@@ -478,16 +540,62 @@ export const PersonalProductView: React.FC<PersonalProductViewProps> = ({
             ))}
           </div>
 
+          {/* Interactive WhatsApp Command & FAQ Drawer Banner */}
+          {effectiveOpenCommandDrawer && (
+            <div
+              onClick={effectiveOpenCommandDrawer}
+              className={`p-5 rounded-2xl border flex flex-col sm:flex-row items-center justify-between gap-4 cursor-pointer transition-all hover:scale-101 ${
+                isLight
+                  ? 'bg-gradient-to-r from-emerald-50 via-teal-50 to-blue-50 border-emerald-200 text-slate-900 shadow-sm'
+                  : 'bg-gradient-to-r from-[#00A884]/15 via-[#00DF8F]/10 to-[#0D95FE]/15 border-[#00DF8F]/30 text-[#F2F5F9]'
+              }`}
+            >
+              <div className="flex items-center gap-3.5 text-center sm:text-left">
+                <div className="w-11 h-11 rounded-2xl bg-[#00A884]/20 text-[#00A884] flex items-center justify-center shrink-0">
+                  <span className="material-symbols-outlined text-[24px]">menu_book</span>
+                </div>
+                <div>
+                  <div className="flex items-center gap-2 justify-center sm:justify-start">
+                    <span className="font-bold text-sm">Need all WhatsApp banking commands &amp; FAQs?</span>
+                    <span
+                      className={`text-[10px] font-mono px-2 py-0.5 rounded-full font-bold uppercase ${
+                        isLight ? 'bg-emerald-100 text-emerald-800' : 'bg-[#00DF8F]/20 text-[#00DF8F]'
+                      }`}
+                    >
+                      35+ Commands Catalog
+                    </span>
+                  </div>
+                  <p className={`text-xs mt-0.5 ${isLight ? 'text-slate-600' : 'text-[#8EA2C6]'}`}>
+                    Explore transfers, Vision OCR, voice notes, bills, card freezing, and limits in our interactive slide-over drawer.
+                  </p>
+                </div>
+              </div>
+
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  effectiveOpenCommandDrawer();
+                }}
+                className="px-4 py-2.5 rounded-xl bg-[#00A884] hover:bg-[#008F6F] text-white font-bold text-xs flex items-center gap-1.5 whitespace-nowrap shadow-sm cursor-pointer"
+              >
+                <span>Open Command Drawer ⌘</span>
+                <span className="material-symbols-outlined text-[15px]">arrow_forward</span>
+              </button>
+            </div>
+          )}
+
           {/* Bottom Personal CTA Box (Matches Video at 01:21) */}
           <div
             className={`mt-6 p-8 rounded-3xl border-2 flex flex-col sm:flex-row items-center justify-between gap-6 ${
               isLight
-                ? 'bg-white border-emerald-200 shadow-md'
-                : 'bg-[#0A1B3D] border-[#00DF8F]/40'
+                ? 'bg-white border-emerald-200 shadow-md text-slate-900'
+                : 'bg-[#0A1B3D] border-[#00DF8F]/40 text-[#F2F5F9]'
             }`}
           >
             <div className="flex flex-col gap-1 text-center sm:text-left">
-              <h3 className="text-xl font-black">Experience banking that works</h3>
+              <h3 className={`text-xl font-black ${isLight ? 'text-slate-900' : 'text-white'}`}>
+                Experience banking that works
+              </h3>
               <p className={`text-sm ${isLight ? 'text-slate-600' : 'text-[#A8BBD6]'}`}>
                 Get your physical or virtual debit card and start enjoying 0% transfer fees today.
               </p>

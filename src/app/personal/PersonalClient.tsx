@@ -4,7 +4,7 @@ import { PersonalProductView } from '../../components/PersonalProductView';
 import { useNavigation } from '../../context/NavigationContext';
 
 export default function PersonalClient() {
-  const { navigate, openWaitlist, openWhatsApp, openDownloadApp } = useNavigation();
+  const { navigate, openWaitlist, openWhatsApp, openDownloadApp, openCommandDrawer } = useNavigation();
 
   return (
     <PersonalProductView
@@ -12,6 +12,7 @@ export default function PersonalClient() {
       onOpenWaitlist={openWaitlist}
       onOpenWhatsApp={openWhatsApp}
       onOpenDownloadApp={openDownloadApp}
+      onOpenCommandDrawer={openCommandDrawer}
     />
   );
 }

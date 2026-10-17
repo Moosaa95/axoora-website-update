@@ -3,7 +3,7 @@ import { ApplyClient } from './ApplyClient';
 import { SITE_NAME, SITE_URL, getBreadcrumbSchema } from '../../lib/seo';
 
 export const metadata: Metadata = {
-  title: 'Apply for Axoora | Open an Account, POS Terminal or Partnership',
+  title: 'Apply for Axoora | Business Account, POS Terminal or Partnership Application',
   description:
     'Start your application with Axoora. Apply for a personal account, high-yield business corporate treasury, smart 4G POS terminal, or aggregator partnership.',
   alternates: {

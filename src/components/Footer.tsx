@@ -27,7 +27,7 @@ export const Footer: React.FC<FooterProps> = ({
 
   return (
     <footer
-      className={`w-full border-t transition-colors ${
+      className={`preserve-dark w-full border-t transition-colors ${
         isLight
           ? 'bg-slate-900 text-white border-slate-800'
           : 'bg-[#010817] text-[#F2F5F9] border-[#14294F]'
@@ -66,7 +66,7 @@ export const Footer: React.FC<FooterProps> = ({
 
             <div className="text-xs text-slate-400 pt-3 space-y-1">
               <p className="font-semibold text-slate-300">Business Address</p>
-              <p>Suite 08 Block C, Cappador Mall. 85 Aguiyi Ironsi Street Maitama. Abuja</p>
+              <p className="text-slate-300">Suite 08 Block C, Cappador Mall. 85 Aguiyi Ironsi Street Maitama. Abuja</p>
               <p className="pt-1 font-mono text-blue-400">+234 201 888 9990</p>
               <p className="font-mono text-slate-400">
                 <a href="mailto:support@axoora.ai" className="hover:text-white transition-colors">

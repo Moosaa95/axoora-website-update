@@ -120,10 +120,19 @@ export const InteractiveAtmCard: React.FC<InteractiveAtmCardProps> = ({ isLight 
   const glarePosition = `${((normalizedAngle / 360) * 100).toFixed(0)}%`;
 
   return (
-    <div className="w-full flex flex-col items-center select-none py-2">
+    <div className="w-full flex flex-col items-center select-none py-2 relative">
+      {/* Soft studio ambient glow in light mode to make the emerald card pop */}
+      <div
+        className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[340px] sm:w-[420px] h-[280px] sm:h-[340px] rounded-full blur-[80px] pointer-events-none transition-opacity duration-300 ${
+          isLight
+            ? 'bg-gradient-to-tr from-emerald-400/20 via-sky-400/20 to-teal-400/15 opacity-80'
+            : 'bg-gradient-to-tr from-[#00DF8F]/15 via-[#0D95FE]/15 to-transparent opacity-60'
+        }`}
+      />
+
       {/* 3D Perspectived Stage - JUST THE FLOATING AUTO-SPINNING CARD */}
       <div
-        className="w-full max-w-[420px] aspect-[1.586/1] relative flex items-center justify-center cursor-grab active:cursor-grabbing touch-none my-2"
+        className="w-full max-w-[420px] aspect-[1.586/1] relative flex items-center justify-center cursor-grab active:cursor-grabbing touch-none my-2 z-10"
         style={{ perspective: 1200 }}
         onPointerDown={handlePointerDown}
         onPointerMove={handlePointerMove}
@@ -133,7 +142,7 @@ export const InteractiveAtmCard: React.FC<InteractiveAtmCardProps> = ({ isLight 
         {/* Animated 3D Card Shell */}
         <div
           ref={cardRef}
-          className="relative w-full h-full rounded-[24px] sm:rounded-[28px] transition-transform duration-75 ease-out"
+          className="dark-hardware preserve-dark relative w-full h-full rounded-[24px] sm:rounded-[28px] transition-transform duration-75 ease-out"
           style={{
             transformStyle: 'preserve-3d',
             transform: `rotateX(${rotateX}deg) rotateY(${rotateY}deg)`,
@@ -146,7 +155,7 @@ export const InteractiveAtmCard: React.FC<InteractiveAtmCardProps> = ({ isLight 
           {/* FRONT FACE OF CARD (rotateY = 0) */}
           {/* ============================================================== */}
           <div
-            className="absolute inset-0 w-full h-full rounded-[24px] sm:rounded-[28px] p-5 sm:p-7 flex flex-col justify-between overflow-hidden border-2 bg-gradient-to-br from-[#02182B] via-[#042838] to-[#0A3D2E] border-[#00DF8F]/40 text-white transition-all"
+            className="dark-hardware preserve-dark absolute inset-0 w-full h-full rounded-[24px] sm:rounded-[28px] p-5 sm:p-7 flex flex-col justify-between overflow-hidden border-2 bg-gradient-to-br from-[#02182B] via-[#042838] to-[#0A3D2E] border-[#00DF8F]/40 text-white transition-all"
             style={{
               backfaceVisibility: 'hidden',
               WebkitBackfaceVisibility: 'hidden',
@@ -262,7 +271,7 @@ export const InteractiveAtmCard: React.FC<InteractiveAtmCardProps> = ({ isLight 
           {/* BACK FACE OF CARD (rotateY = 180) */}
           {/* ============================================================== */}
           <div
-            className="absolute inset-0 w-full h-full rounded-[24px] sm:rounded-[28px] py-5 flex flex-col justify-between overflow-hidden border-2 bg-gradient-to-br from-[#031526] via-[#052433] to-[#0A3D2E] border-[#00DF8F]/40 text-white transition-all"
+            className="dark-hardware preserve-dark absolute inset-0 w-full h-full rounded-[24px] sm:rounded-[28px] py-5 flex flex-col justify-between overflow-hidden border-2 bg-gradient-to-br from-[#031526] via-[#052433] to-[#0A3D2E] border-[#00DF8F]/40 text-white transition-all"
             style={{
               backfaceVisibility: 'hidden',
               WebkitBackfaceVisibility: 'hidden',

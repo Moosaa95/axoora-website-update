@@ -8,12 +8,14 @@ interface WhatsAppBankingModalProps {
   isOpen: boolean;
   onClose: () => void;
   onOpenWaitlist: () => void;
+  onOpenCommandDrawer?: () => void;
 }
 
 export const WhatsAppBankingModal: React.FC<WhatsAppBankingModalProps> = ({
   isOpen,
   onClose,
   onOpenWaitlist,
+  onOpenCommandDrawer,
 }) => {
   const [activeSample, setActiveSample] = useState<number>(0);
 
@@ -149,6 +151,25 @@ export const WhatsAppBankingModal: React.FC<WhatsAppBankingModalProps> = ({
             Join App Waitlist
           </button>
         </div>
+
+        {/* Command Catalog Shortcut */}
+        {onOpenCommandDrawer && (
+          <button
+            onClick={() => {
+              onClose();
+              onOpenCommandDrawer();
+            }}
+            className="w-full mt-3 py-2.5 px-4 rounded-2xl bg-[#00A884]/15 hover:bg-[#00A884]/25 border border-[#00A884]/35 text-[#00DF8F] text-xs font-semibold flex items-center justify-between transition-all group"
+          >
+            <span className="flex items-center gap-2">
+              <span className="material-symbols-outlined text-sm text-[#00DF8F]">terminal</span>
+              <span>Need syntax ideas? Browse 35+ WhatsApp Commands & Sandbox</span>
+            </span>
+            <span className="material-symbols-outlined text-sm group-hover:translate-x-1 transition-transform">
+              arrow_forward
+            </span>
+          </button>
+        )}
       </motion.div>
     </div>
   );

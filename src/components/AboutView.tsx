@@ -53,6 +53,32 @@ export const AboutView: React.FC<AboutViewProps> = ({
           </p>
         </div>
 
+        {/* The Brand Philosophy: Intelligence, Clarity & Trust */}
+        <div className="p-8 sm:p-10 rounded-3xl bg-gradient-to-br from-[#0B1E45] to-[#020F2E] border-2 border-[#0C91FA]/40 shadow-xl flex flex-col gap-5">
+          <div className="flex items-center gap-2">
+            <span className="material-symbols-outlined text-[#0C91FA] text-[22px]">lightbulb</span>
+            <span className="font-mono text-xs uppercase tracking-wider text-[#0C91FA] font-bold">
+              THE AXOORA BRAND IDENTITY
+            </span>
+          </div>
+
+          <h3 className="text-2xl sm:text-3xl font-extrabold text-[#F2F5F9] tracking-tight">
+            The intersection of intelligence and trust
+          </h3>
+
+          <p className="text-base sm:text-lg text-[#F2F5F9] leading-relaxed font-medium">
+            Axoora is an AI-powered fintech platform designed to simplify how people understand and manage their finances. It brings clarity to complex financial decisions by combining intelligent insights with a calm, structured user experience.
+          </p>
+
+          <p className="text-sm sm:text-base text-[#A8BBD6] leading-relaxed">
+            In a space often filled with noise and overwhelming data, Axoora focuses on what truly matters, helping users make confident decisions without confusion. Every interaction is built to feel simple, direct, and purposeful.
+          </p>
+
+          <div className="p-4 rounded-2xl bg-[#020F2E]/80 border border-[#14294F] text-xs sm:text-sm text-[#C8E8F7] font-medium leading-relaxed">
+            &ldquo;Axoora does not try to impress with complexity. Instead, it guides with clarity, giving users a sense of control and confidence at every step. Axoora is not just about managing money. It is about understanding it, making better choices, and moving forward with certainty.&rdquo;
+          </div>
+        </div>
+
         {/* The Six Values (Strictly the six from Section 5 of the brief) */}
         <div className="flex flex-col gap-6 pt-4">
           <div className="flex flex-col gap-1">

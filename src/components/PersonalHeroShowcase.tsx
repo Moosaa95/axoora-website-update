@@ -8,12 +8,14 @@ interface PersonalHeroShowcaseProps {
   isLight?: boolean;
   onOpenWaitlist?: (interest?: 'personal') => void;
   onOpenWhatsApp?: () => void;
+  onOpenCommandDrawer?: () => void;
 }
 
 export const PersonalHeroShowcase: React.FC<PersonalHeroShowcaseProps> = ({
   isLight = false,
   onOpenWaitlist,
   onOpenWhatsApp,
+  onOpenCommandDrawer,
 }) => {
   // Card customization state: 'naira' (physical emerald titanium) vs 'usd' (virtual obsidian)
   const [cardType, setCardType] = useState<'naira' | 'usd'>('naira');
@@ -35,6 +37,7 @@ export const PersonalHeroShowcase: React.FC<PersonalHeroShowcaseProps> = ({
             isLight={isLight}
             onOpenWaitlist={onOpenWaitlist}
             onOpenWhatsApp={onOpenWhatsApp}
+            onOpenCommandDrawer={onOpenCommandDrawer}
           />
         </div>
 
@@ -245,7 +248,13 @@ export const PersonalHeroShowcase: React.FC<PersonalHeroShowcaseProps> = ({
       </div>
 
       {/* Interactive Card Switcher Bar: Lets User Toggle Between Naira & USD */}
-      <div className="relative z-20 flex items-center gap-2 mt-4 px-3 py-1.5 rounded-2xl bg-slate-100 dark:bg-[#0A1B3D]/80 border border-slate-200 dark:border-[#14294F] shadow-sm">
+      <div
+        className={`relative z-20 flex items-center gap-2 mt-4 px-3 py-1.5 rounded-2xl border shadow-sm ${
+          isLight
+            ? 'bg-white border-slate-200 shadow-md text-slate-800'
+            : 'bg-[#0A1B3D]/80 border-[#14294F] text-[#F2F5F9]'
+        }`}
+      >
         <span className="text-[11px] font-mono text-slate-500 dark:text-[#A8BBD6] uppercase px-1">
           Card Preview:
         </span>
@@ -257,7 +266,9 @@ export const PersonalHeroShowcase: React.FC<PersonalHeroShowcaseProps> = ({
           className={`px-3 py-1 rounded-xl text-xs font-bold transition-all cursor-pointer flex items-center gap-1.5 ${
             cardType === 'naira'
               ? 'bg-[#00DF8F] text-[#003825] shadow-sm'
-              : 'text-slate-600 dark:text-[#A8BBD6] hover:text-slate-900 dark:hover:text-white'
+              : isLight
+              ? 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
+              : 'text-[#A8BBD6] hover:text-white hover:bg-white/5'
           }`}
         >
           <span>🇳🇬</span>
@@ -272,7 +283,9 @@ export const PersonalHeroShowcase: React.FC<PersonalHeroShowcaseProps> = ({
           className={`px-3 py-1 rounded-xl text-xs font-bold transition-all cursor-pointer flex items-center gap-1.5 ${
             cardType === 'usd'
               ? 'bg-[#0D95FE] text-white shadow-sm'
-              : 'text-slate-600 dark:text-[#A8BBD6] hover:text-slate-900 dark:hover:text-white'
+              : isLight
+              ? 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
+              : 'text-[#A8BBD6] hover:text-white hover:bg-white/5'
           }`}
         >
           <span>🇺🇸</span>
@@ -282,7 +295,7 @@ export const PersonalHeroShowcase: React.FC<PersonalHeroShowcaseProps> = ({
         <button
           onClick={() => setIsFlipped(!isFlipped)}
           title="Flip card"
-          className="ml-1 p-1 rounded-lg text-slate-400 hover:text-white hover:bg-white/10 transition-colors cursor-pointer"
+          className="ml-1 p-1 rounded-lg text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-white/10 transition-colors cursor-pointer"
         >
           <span className="material-symbols-outlined text-[15px]">sync</span>
         </button>

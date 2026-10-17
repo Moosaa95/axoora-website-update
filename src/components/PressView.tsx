@@ -3,6 +3,8 @@
 import React from 'react';
 import { COMPANY_INFO } from '../data/mockData';
 
+import { AxooraLogo } from './AxooraLogo';
+
 export const PressView: React.FC = () => {
   const pressItems = [
     {
@@ -41,7 +43,7 @@ export const PressView: React.FC = () => {
           </h1>
 
           <p className="text-lg text-[#A8BBD6] leading-relaxed max-w-2xl">
-            Articles and coverage written about Axoora across national and continental business publications.
+            Official news, press coverage, and brand assets of AXOORA FINANCIAL TECHNOLOGIES LTD.
           </p>
         </div>
       </section>
@@ -71,6 +73,104 @@ export const PressView: React.FC = () => {
               </div>
             </a>
           ))}
+        </div>
+
+        {/* Official Brand Identity Assets & Palette */}
+        <div className="p-8 sm:p-10 rounded-3xl bg-[#0A1B3D] border-2 border-[#14294F] flex flex-col gap-6">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-[#14294F]">
+            <div className="flex flex-col gap-1">
+              <span className="font-mono text-xs text-[#0C91FA] uppercase font-bold tracking-wider">
+                BRAND ASSETS // AXOORA FINANCIAL TECHNOLOGIES LTD
+              </span>
+              <h3 className="text-2xl font-black text-[#F2F5F9]">
+                Brand Identity Guidelines
+              </h3>
+            </div>
+            <a
+              href="/axoora-logo.svg"
+              download="axoora-logo.svg"
+              className="px-4 py-2 rounded-xl bg-[#0C91FA] hover:bg-[#00DF8F] text-[#00325b] hover:text-[#003825] text-xs font-bold transition-all flex items-center gap-2 self-start sm:self-auto cursor-pointer"
+            >
+              <span className="material-symbols-outlined text-[16px]">download</span>
+              <span>Download Official SVG Logo</span>
+            </a>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {/* Logo Preview */}
+            <div className="p-6 rounded-2xl bg-[#020F2E] border border-[#14294F] flex flex-col items-center justify-center gap-3">
+              <AxooraLogo size="lg" theme="dark" />
+              <p className="text-[11px] text-[#A8BBD6] text-center max-w-xs mt-2">
+                Customized lowercase wordmark with linked &lsquo;oo&rsquo; emblem representing controlled movement and stability.
+              </p>
+            </div>
+
+            {/* Typography */}
+            <div className="p-6 rounded-2xl bg-[#020F2E] border border-[#14294F] flex flex-col justify-between gap-3">
+              <div>
+                <span className="text-[11px] font-mono uppercase text-[#0C91FA] font-bold">Brand Typography</span>
+                <div className="mt-2 flex flex-col gap-1.5">
+                  <div className="flex items-baseline justify-between text-xs">
+                    <span className="font-bold text-white text-sm">Satoshi</span>
+                    <span className="text-[#A8BBD6]">Primary Display &amp; Sans</span>
+                  </div>
+                  <div className="flex items-baseline justify-between text-xs">
+                    <span className="font-bold text-white text-sm">Manrope</span>
+                    <span className="text-[#A8BBD6]">Secondary (Reg, Med, SmBld)</span>
+                  </div>
+                </div>
+              </div>
+              <p className="text-[11px] text-[#A8BBD6] leading-relaxed">
+                Sans Serif typography maintains modernism, minimalism, and timeless clarity.
+              </p>
+            </div>
+          </div>
+
+          {/* Color Swatches */}
+          <div className="flex flex-col gap-2 pt-2">
+            <span className="text-xs font-mono font-bold uppercase text-[#A8BBD6]">Official Brand Color Palette</span>
+            <div className="grid grid-cols-2 sm:grid-cols-5 gap-3">
+              <div className="p-3 rounded-xl bg-[#020F2E] border border-[#14294F] flex flex-col gap-2">
+                <div className="w-full h-8 rounded-lg bg-[#0C91FA]" />
+                <div className="flex flex-col text-[11px]">
+                  <span className="font-bold text-white">Axoora Blue</span>
+                  <span className="font-mono text-[#A8BBD6]">#0C91FA</span>
+                </div>
+              </div>
+
+              <div className="p-3 rounded-xl bg-[#020F2E] border border-[#14294F] flex flex-col gap-2">
+                <div className="w-full h-8 rounded-lg bg-[#020F2E] border border-white/20" />
+                <div className="flex flex-col text-[11px]">
+                  <span className="font-bold text-white">Midnight Navy</span>
+                  <span className="font-mono text-[#A8BBD6]">#020F2E</span>
+                </div>
+              </div>
+
+              <div className="p-3 rounded-xl bg-[#020F2E] border border-[#14294F] flex flex-col gap-2">
+                <div className="w-full h-8 rounded-lg bg-[#0D95FE]" />
+                <div className="flex flex-col text-[11px]">
+                  <span className="font-bold text-white">Electric Accent</span>
+                  <span className="font-mono text-[#A8BBD6]">#0D95FE</span>
+                </div>
+              </div>
+
+              <div className="p-3 rounded-xl bg-[#020F2E] border border-[#14294F] flex flex-col gap-2">
+                <div className="w-full h-8 rounded-lg bg-[#075FBE]" />
+                <div className="flex flex-col text-[11px]">
+                  <span className="font-bold text-white">Deep Navy Blue</span>
+                  <span className="font-mono text-[#A8BBD6]">#075FBE</span>
+                </div>
+              </div>
+
+              <div className="p-3 rounded-xl bg-[#020F2E] border border-[#14294F] flex flex-col gap-2 col-span-2 sm:col-span-1">
+                <div className="w-full h-8 rounded-lg bg-[#C8E8F7]" />
+                <div className="flex flex-col text-[11px]">
+                  <span className="font-bold text-white">Soft Ice Blue</span>
+                  <span className="font-mono text-[#A8BBD6]">#C8E8F7</span>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
 
         {/* Media Inquiries Card */}

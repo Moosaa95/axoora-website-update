@@ -52,9 +52,9 @@ export const ApplyOnboardingView: React.FC<ApplyOnboardingViewProps> = ({
   const [isFinishing, setIsFinishing] = useState(false);
 
   // Success Step Data
-  const [generatedNuban, setGeneratedNuban] = useState('0849 201 394');
+  const [applicationRef, setApplicationRef] = useState('AXR-APP-8921-ABJ');
   const [trackingNumber, setTrackingNumber] = useState('AXR-POS-8921-ABJ');
-  const [copiedNuban, setCopiedNuban] = useState(false);
+  const [copiedRef, setCopiedRef] = useState(false);
   const [copiedTracking, setCopiedTracking] = useState(false);
 
   // Countdown timer for email resend
@@ -131,9 +131,11 @@ export const ApplyOnboardingView: React.FC<ApplyOnboardingViewProps> = ({
     e.preventDefault();
     setIsFinishing(true);
 
-    const generatedAcc = `08${Math.floor(10000000 + Math.random() * 90000000)}`;
-    const generatedTrk = `AXR-POS-${Math.floor(1000 + Math.random() * 9000)}-${stateName.slice(0, 3).toUpperCase()}`;
-    setGeneratedNuban(generatedAcc);
+    const statePrefix = (stateName || 'LAG').slice(0, 3).toUpperCase();
+    const randomSuffix = Math.floor(1000 + Math.random() * 9000);
+    const generatedRef = `AXR-APP-${randomSuffix}-${statePrefix}`;
+    const generatedTrk = `AXR-POS-${Math.floor(1000 + Math.random() * 9000)}-${statePrefix}`;
+    setApplicationRef(generatedRef);
     setTrackingNumber(generatedTrk);
 
     // Save lead to CMS and localStorage
@@ -144,8 +146,8 @@ export const ApplyOnboardingView: React.FC<ApplyOnboardingViewProps> = ({
         email,
         city: `${cityName}, ${stateName}`,
         interest: accountType === 'pos-agent' ? 'pos-agent' : accountType === 'personal' ? 'personal' : 'business',
-        status: 'approved',
-        notes: `Business: ${businessName || fullName}, CAC: ${cacNumber || 'N/A'}, POS: ${accountType === 'pos-agent' || accountType === 'business' ? `${terminalCount}x ${posModel}` : 'None'}`,
+        status: 'new',
+        notes: `Application Ref: ${generatedRef}, Business: ${businessName || fullName}, CAC: ${cacNumber || 'N/A'}, POS: ${accountType === 'pos-agent' || accountType === 'business' ? `${terminalCount}x ${posModel}` : 'None'}`,
       });
 
       const existing = JSON.parse(localStorage.getItem('axoora_waitlist') || '[]');
@@ -155,7 +157,7 @@ export const ApplyOnboardingView: React.FC<ApplyOnboardingViewProps> = ({
         phone,
         businessName,
         accountType,
-        nuban: generatedAcc,
+        applicationRef: generatedRef,
         submittedAt: new Date().toISOString(),
       });
       localStorage.setItem('axoora_waitlist', JSON.stringify(existing));
@@ -169,11 +171,11 @@ export const ApplyOnboardingView: React.FC<ApplyOnboardingViewProps> = ({
     }, 800);
   };
 
-  const copyToClipboard = (text: string, type: 'nuban' | 'tracking') => {
+  const copyToClipboard = (text: string, type: 'ref' | 'tracking') => {
     navigator.clipboard?.writeText(text);
-    if (type === 'nuban') {
-      setCopiedNuban(true);
-      setTimeout(() => setCopiedNuban(false), 2000);
+    if (type === 'ref') {
+      setCopiedRef(true);
+      setTimeout(() => setCopiedRef(false), 2000);
     } else {
       setCopiedTracking(true);
       setTimeout(() => setCopiedTracking(false), 2000);
@@ -339,7 +341,7 @@ export const ApplyOnboardingView: React.FC<ApplyOnboardingViewProps> = ({
                           )}
                         </div>
                         <div className="font-extrabold text-sm">Business Account</div>
-                        <div className="text-[11px] text-slate-400 mt-0.5">Commercial NUBAN & float</div>
+                        <div className="text-[11px] text-slate-400 mt-0.5">Account &amp; cash float</div>
                       </button>
 
                       <button
@@ -731,7 +733,7 @@ export const ApplyOnboardingView: React.FC<ApplyOnboardingViewProps> = ({
                       Tell us about your business
                     </h1>
                     <p className={`mt-2 text-sm sm:text-base leading-relaxed ${isLight ? 'text-slate-600' : 'text-[#A8BBD6]'}`}>
-                      Your official commercial NUBAN will be registered under this business profile with instant settlement rails.
+                      Your business account application and merchant profile will be reviewed under these details.
                     </p>
                   </div>
 
@@ -1001,11 +1003,11 @@ export const ApplyOnboardingView: React.FC<ApplyOnboardingViewProps> = ({
                       {isFinishing ? (
                         <>
                           <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                          <span>Generating commercial NUBAN & dispatching order...</span>
+                          <span>Submitting application for KYC review...</span>
                         </>
                       ) : (
                         <>
-                          <span>Complete Application & Activate</span>
+                          <span>Submit Application for Review</span>
                           <span className="material-symbols-outlined text-[18px]">verified</span>
                         </>
                       )}
@@ -1014,7 +1016,7 @@ export const ApplyOnboardingView: React.FC<ApplyOnboardingViewProps> = ({
                 </motion.div>
               )}
 
-              {/* STEP 4: Success & Celebration (NUBAN + Dispatch Details) */}
+              {/* STEP 4: Application Submitted & Review Status */}
               {currentStep === 4 && (
                 <motion.div
                   key="step-4"
@@ -1025,19 +1027,19 @@ export const ApplyOnboardingView: React.FC<ApplyOnboardingViewProps> = ({
                 >
                   <div className="text-center flex flex-col items-center gap-3">
                     <div className="w-16 h-16 rounded-3xl bg-gradient-to-tr from-[#00DF8F] to-[#0D95FE] flex items-center justify-center text-[#003825] shadow-xl shadow-[#00DF8F]/20">
-                      <span className="material-symbols-outlined text-[36px] font-black">check</span>
+                      <span className="material-symbols-outlined text-[36px] font-black">mark_email_read</span>
                     </div>
                     <div>
                       <h1 className="text-2xl sm:text-3xl font-black tracking-tight leading-tight">
-                        Application Approved!
+                        Application Successfully Submitted!
                       </h1>
                       <p className={`mt-1.5 text-sm sm:text-base ${isLight ? 'text-slate-600' : 'text-[#A8BBD6]'}`}>
-                        Welcome to Axoora, <span className="font-bold text-slate-900 dark:text-white">{fullName}</span>. Your commercial account is active and ready.
+                        Thank you, <span className="font-bold text-slate-900 dark:text-white">{fullName}</span>. Your application for <span className="font-bold text-[#0D95FE]">{businessName || 'your business'}</span> has been received and logged for compliance review.
                       </p>
                     </div>
                   </div>
 
-                  {/* Commercial NUBAN Card */}
+                  {/* Application Reference & Verification Status Card */}
                   <div
                     className={`p-6 rounded-3xl border-2 relative overflow-hidden ${
                       isLight
@@ -1047,29 +1049,30 @@ export const ApplyOnboardingView: React.FC<ApplyOnboardingViewProps> = ({
                   >
                     <div className="flex items-center justify-between mb-4">
                       <div className="flex items-center gap-2">
-                        <div className="w-2 h-2 rounded-full bg-[#00DF8F] animate-ping" />
-                        <span className="text-xs font-mono font-bold text-[#00DF8F] uppercase tracking-wider">
-                          Active Commercial NUBAN
+                        <div className="w-2.5 h-2.5 rounded-full bg-amber-400 animate-pulse" />
+                        <span className="text-xs font-mono font-bold text-amber-500 uppercase tracking-wider">
+                          Under KYC Review · 24hr Target
                         </span>
                       </div>
-                      <span className="px-2.5 py-1 rounded-full bg-[#0D95FE]/10 border border-[#0D95FE]/30 text-[#0D95FE] text-[11px] font-mono font-bold">
-                        NIBSS 2s Settlement
+                      <span className="px-2.5 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-600 dark:text-[#00DF8F] text-[11px] font-mono font-bold flex items-center gap-1">
+                        <span className="material-symbols-outlined text-[14px]">shield</span>
+                        <span>CBN Supervised</span>
                       </span>
                     </div>
 
-                    <div className="flex items-baseline justify-between mb-3">
+                    <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-3 mb-4">
                       <div>
-                        <div className="text-[11px] uppercase font-bold text-slate-400">Account Number</div>
+                        <div className="text-[11px] uppercase font-bold text-slate-400 tracking-wider">Application Reference ID</div>
                         <div className="text-2xl sm:text-3xl font-mono font-black text-slate-900 dark:text-white tracking-wider">
-                          {generatedNuban}
+                          {applicationRef}
                         </div>
                       </div>
 
                       <button
                         type="button"
-                        onClick={() => copyToClipboard(generatedNuban, 'nuban')}
-                        className={`px-3.5 py-2 rounded-xl border text-xs font-bold flex items-center gap-1.5 transition-all cursor-pointer ${
-                          copiedNuban
+                        onClick={() => copyToClipboard(applicationRef, 'ref')}
+                        className={`px-3.5 py-2 rounded-xl border text-xs font-bold flex items-center justify-center gap-1.5 transition-all cursor-pointer self-start sm:self-auto ${
+                          copiedRef
                             ? 'bg-[#00DF8F] text-[#003825] border-[#00DF8F]'
                             : isLight
                             ? 'bg-slate-100 hover:bg-slate-200 border-slate-300 text-slate-800'
@@ -1077,29 +1080,91 @@ export const ApplyOnboardingView: React.FC<ApplyOnboardingViewProps> = ({
                         }`}
                       >
                         <span className="material-symbols-outlined text-[16px]">
-                          {copiedNuban ? 'check' : 'content_copy'}
+                          {copiedRef ? 'check' : 'content_copy'}
                         </span>
-                        <span>{copiedNuban ? 'Copied!' : 'Copy NUBAN'}</span>
+                        <span>{copiedRef ? 'Copied Ref!' : 'Copy Reference ID'}</span>
                       </button>
                     </div>
 
-                    <div className="grid grid-cols-2 gap-4 pt-3 border-t border-slate-200 dark:border-[#14294F] text-xs">
+                    <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 pt-4 border-t border-slate-200 dark:border-[#14294F] text-xs">
                       <div>
-                        <span className="text-slate-400 text-[11px] block">Account Name</span>
+                        <span className="text-slate-400 text-[11px] block">Trading Name</span>
                         <span className="font-bold text-slate-900 dark:text-white truncate block">
                           {businessName || fullName}
                         </span>
                       </div>
                       <div>
-                        <span className="text-slate-400 text-[11px] block">Settlement Bank</span>
+                        <span className="text-slate-400 text-[11px] block">Service Applied For</span>
                         <span className="font-bold text-slate-900 dark:text-white block">
-                          Axoora MFB / Wema Rails
+                          {accountType === 'pos-agent' ? 'POS Agent Merchant' : accountType === 'personal' ? 'Personal Account' : 'Business Account'}
+                        </span>
+                      </div>
+                      <div className="col-span-2 sm:col-span-1">
+                        <span className="text-slate-400 text-[11px] block">Verification Speed</span>
+                        <span className="font-bold text-emerald-600 dark:text-[#00DF8F] block">
+                          Usually within 24 hours
                         </span>
                       </div>
                     </div>
                   </div>
 
-                  {/* POS Terminal Dispatch Tracking Card */}
+                  {/* Clear What Happens Next Timeline */}
+                  <div
+                    className={`p-5 rounded-2xl border flex flex-col gap-3.5 ${
+                      isLight ? 'bg-slate-50 border-slate-200' : 'bg-[#0A1B3D] border-[#14294F]'
+                    }`}
+                  >
+                    <div className="flex items-center gap-2">
+                      <span className="material-symbols-outlined text-[#0D95FE] text-[20px]">
+                        fact_check
+                      </span>
+                      <span className="text-xs font-bold uppercase tracking-wider text-slate-900 dark:text-white">
+                        What Happens Next
+                      </span>
+                    </div>
+
+                    <div className="flex flex-col gap-3">
+                      <div className="flex items-start gap-3">
+                        <div className="w-6 h-6 rounded-full bg-blue-500/20 text-[#0D95FE] font-bold text-xs flex items-center justify-center shrink-0 mt-0.5">
+                          1
+                        </div>
+                        <div className="text-xs">
+                          <span className="font-bold text-slate-900 dark:text-white">KYC &amp; CAC Document Review:</span>{' '}
+                          <span className="text-slate-500 dark:text-slate-400">
+                            Our compliance desk validates your identity, business details, and CAC filing against regulatory databases.
+                          </span>
+                        </div>
+                      </div>
+
+                      <div className="flex items-start gap-3">
+                        <div className="w-6 h-6 rounded-full bg-emerald-500/20 text-[#00DF8F] font-bold text-xs flex items-center justify-center shrink-0 mt-0.5">
+                          2
+                        </div>
+                        <div className="text-xs">
+                          <span className="font-bold text-slate-900 dark:text-white">Official Account Number Allocation:</span>{' '}
+                          <span className="text-slate-500 dark:text-slate-400">
+                            Upon verification approval, your official business NUBAN is assigned and sent straight to {email} and via SMS.
+                          </span>
+                        </div>
+                      </div>
+
+                      {(accountType === 'pos-agent' || accountType === 'business') && (
+                        <div className="flex items-start gap-3">
+                          <div className="w-6 h-6 rounded-full bg-purple-500/20 text-purple-400 font-bold text-xs flex items-center justify-center shrink-0 mt-0.5">
+                            3
+                          </div>
+                          <div className="text-xs">
+                            <span className="font-bold text-slate-900 dark:text-white">Smart POS Terminal Configuration &amp; Courier:</span>{' '}
+                            <span className="text-slate-500 dark:text-slate-400">
+                              Your {terminalCount}x {posModel === 'apex-pro' ? 'Apex Pro 4G' : 'Apex Pocket'} terminal is provisioned to your merchant profile and dispatched for delivery.
+                            </span>
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+
+                  {/* Hardware Courier Request Summary (if POS was requested) */}
                   {(accountType === 'pos-agent' || accountType === 'business') && (
                     <div
                       className={`p-5 rounded-2xl border flex flex-col gap-3 ${
@@ -1112,35 +1177,20 @@ export const ApplyOnboardingView: React.FC<ApplyOnboardingViewProps> = ({
                             local_shipping
                           </span>
                           <span className="text-xs font-bold text-slate-900 dark:text-white">
-                            Hardware Courier Tracking
+                            Terminal Delivery Request Logged
                           </span>
                         </div>
-                        <span className="text-[11px] font-bold text-[#0D95FE]">
-                          Dispatched · 48hr Delivery
+                        <span className="text-[11px] font-bold text-amber-500">
+                          Pending KYC Approval
                         </span>
                       </div>
 
-                      <div className="flex items-center justify-between text-xs bg-slate-100 dark:bg-[#081532] p-3 rounded-xl border border-slate-200 dark:border-[#14294F]">
-                        <div>
-                          <span className="text-slate-400 block text-[10px]">Tracking Number</span>
-                          <span className="font-mono font-bold text-slate-900 dark:text-white">
-                            {trackingNumber}
-                          </span>
-                        </div>
-                        <button
-                          type="button"
-                          onClick={() => copyToClipboard(trackingNumber, 'tracking')}
-                          className="text-[11px] font-bold text-[#0D95FE] hover:underline cursor-pointer"
-                        >
-                          {copiedTracking ? 'Copied!' : 'Copy Tracking'}
-                        </button>
-                      </div>
-
-                      <div className="text-[11px] text-slate-400 leading-relaxed">
-                        Your {terminalCount}x {posModel === 'apex-pro' ? 'Apex Pro 4G' : 'Apex Pocket'} terminal is being packaged for courier delivery to{' '}
+                      <div className="text-[11px] text-slate-500 dark:text-slate-400 leading-relaxed">
+                        Your requested {terminalCount}x {posModel === 'apex-pro' ? 'Apex Pro 4G' : 'Apex Pocket'} terminal order will be dispatched to{' '}
                         <span className="text-slate-700 dark:text-slate-200 font-medium">
-                          {streetAddress || 'your address'}, {cityName}, {stateName}
-                        </span>.
+                          {streetAddress || 'your shop address'}, {cityName}, {stateName}
+                        </span>{' '}
+                        immediately after compliance clearance.
                       </div>
                     </div>
                   )}
@@ -1167,7 +1217,7 @@ export const ApplyOnboardingView: React.FC<ApplyOnboardingViewProps> = ({
                         }`}
                       >
                         <span className="material-symbols-outlined text-[#00DF8F] text-[18px]">chat</span>
-                        <span>Open WhatsApp Banking</span>
+                        <span>Track Application on WhatsApp</span>
                       </button>
                     )}
                   </div>
