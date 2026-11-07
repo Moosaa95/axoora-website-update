@@ -1,0 +1,361 @@
+@import "tailwindcss";
+
+@theme {
+  --color-surface: #020F2E;
+  --color-surface-dim: #01091C;
+  --color-surface-bright: #0A1B3D;
+  --color-surface-container-lowest: #01091C;
+  --color-surface-container-low: #020F2E;
+  --color-surface-container: #0A1B3D;
+  --color-surface-container-high: #14294F;
+  --color-surface-container-highest: #1E3A6B;
+  --color-on-surface: #F2F5F9;
+  --color-on-surface-variant: #A8BBD6;
+  --color-outline: #14294F;
+  --color-outline-variant: #0A1B3D;
+  --color-primary: #0D95FE;
+  --color-on-primary: #00325b;
+  --color-primary-container: #0d95fe;
+  --color-on-primary-container: #6FBDFE;
+  --color-secondary: #00DF8F;
+  --color-on-secondary: #003825;
+  --color-secondary-alt: #34C08D;
+  --color-tertiary: #F2A93B;
+  --color-on-tertiary: #01091C;
+  --color-tertiary-container: #c78413;
+  --color-error: #FF6A6A;
+  --color-on-error: #690005;
+  --color-background: #041231;
+  --color-surface-variant: #273454;
+
+  --font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  --font-display: 'Plus Jakarta Sans', sans-serif;
+  --font-headline: 'Plus Jakarta Sans', sans-serif;
+  --font-mono: 'IBM Plex Mono', 'IBM Plex Sans', monospace;
+  --font-code-mono: 'IBM Plex Mono', monospace;
+  --font-numeric-amount: 'IBM Plex Sans', monospace;
+}
+
+@layer base {
+  html, body {
+    margin: 0;
+    padding: 0;
+    background-color: #020F2E;
+    color: #F2F5F9;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    transition: background-color 0.25s ease, color 0.25s ease;
+  }
+
+  button,
+  [role="button"],
+  input[type="button"],
+  input[type="submit"],
+  input[type="reset"],
+  summary,
+  a {
+    cursor: pointer;
+  }
+}
+
+.tabular-nums {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Material symbols outlined helper */
+.material-symbols-outlined {
+  font-family: 'Material Symbols Outlined';
+  font-weight: normal;
+  font-style: normal;
+  line-height: 1;
+  letter-spacing: normal;
+  text-transform: none;
+  display: inline-block;
+  white-space: nowrap;
+  word-wrap: normal;
+  direction: ltr;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Custom scrollbars */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #01091C;
+}
+::-webkit-scrollbar-thumb {
+  background: #14294F;
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #1E3A6B;
+}
+
+/* ========================================================================= */
+/* LIGHT THEME COMPREHENSIVE OVERHAUL & CONTRAST FIXES */
+/* ========================================================================= */
+html.light,
+[data-theme="light"],
+.light {
+  --color-surface: #FFFFFF;
+  --color-surface-dim: #F1F5F9;
+  --color-surface-bright: #FFFFFF;
+  --color-surface-container-lowest: #FFFFFF;
+  --color-surface-container-low: #F8FAFC;
+  --color-surface-container: #FFFFFF;
+  --color-surface-container-high: #F1F5F9;
+  --color-surface-container-highest: #E2E8F0;
+  --color-on-surface: #0A1B3D;
+  --color-on-surface-variant: #475569;
+  --color-outline: #E2E8F0;
+  --color-outline-variant: #CBD5E1;
+  --color-background: #F8FAFC;
+
+  color-scheme: light;
+  background-color: #F8FAFC !important;
+  color: #0A1B3D !important;
+}
+
+html.light body,
+[data-theme="light"] body,
+.light body {
+  background-color: #F8FAFC !important;
+  color: #0A1B3D !important;
+}
+
+/* Scrollbar in Light Mode */
+html.light ::-webkit-scrollbar-track,
+[data-theme="light"] ::-webkit-scrollbar-track {
+  background: #F1F5F9;
+}
+html.light ::-webkit-scrollbar-thumb,
+[data-theme="light"] ::-webkit-scrollbar-thumb {
+  background: #CBD5E1;
+}
+html.light ::-webkit-scrollbar-thumb:hover,
+[data-theme="light"] ::-webkit-scrollbar-thumb:hover {
+  background: #94A3B8;
+}
+
+/* Base surface containers */
+html.light .bg-\[\#020F2E\],
+html.light .bg-\[\#041231\],
+[data-theme="light"] .bg-\[\#020F2E\],
+[data-theme="light"] .bg-\[\#041231\] {
+  background-color: #F8FAFC !important;
+  color: #0A1B3D !important;
+}
+
+html.light .bg-\[\#01091C\],
+[data-theme="light"] .bg-\[\#01091C\] {
+  background-color: #F1F5F9 !important;
+  color: #0A1B3D !important;
+}
+
+/* Cards, Flyouts, and Elevated Surface Containers */
+html.light .bg-\[\#0A1B3D\],
+html.light .bg-\[\#08152F\],
+html.light .bg-\[\#0B1A3A\],
+[data-theme="light"] .bg-\[\#0A1B3D\],
+[data-theme="light"] .bg-\[\#08152F\],
+[data-theme="light"] .bg-\[\#0B1A3A\] {
+  background-color: #FFFFFF !important;
+  color: #0A1B3D !important;
+  box-shadow: 0 1px 3px 0 rgba(15, 23, 42, 0.05), 0 1px 2px -1px rgba(15, 23, 42, 0.05);
+}
+
+html.light .bg-\[\#0A1B3D\]\/70,
+html.light .bg-\[\#0A1B3D\]\/80,
+html.light .bg-\[\#0A1B3D\]\/60,
+[data-theme="light"] .bg-\[\#0A1B3D\]\/70,
+[data-theme="light"] .bg-\[\#0A1B3D\]\/80,
+[data-theme="light"] .bg-\[\#0A1B3D\]\/60 {
+  background-color: #F8FAFC !important;
+  color: #0A1B3D !important;
+}
+
+/* Secondary muted surfaces */
+html.light .bg-\[\#020B1D\],
+html.light .bg-\[\#14294F\],
+html.light .bg-\[\#1E3A6B\],
+[data-theme="light"] .bg-\[\#020B1D\],
+[data-theme="light"] .bg-\[\#14294F\],
+[data-theme="light"] .bg-\[\#1E3A6B\] {
+  background-color: #F1F5F9 !important;
+  color: #0A1B3D !important;
+}
+
+html.light .bg-\[\#020F2E\]\/90,
+html.light .bg-\[\#020F2E\]\/70,
+html.light .bg-\[\#020F2E\]\/80,
+[data-theme="light"] .bg-\[\#020F2E\]\/90,
+[data-theme="light"] .bg-\[\#020F2E\]\/70,
+[data-theme="light"] .bg-\[\#020F2E\]\/80 {
+  background-color: #FFFFFF !important;
+  color: #0A1B3D !important;
+}
+
+/* Borders */
+html.light .border-\[\#14294F\],
+html.light .border-\[\#193566\],
+html.light .border-\[\#142A58\],
+[data-theme="light"] .border-\[\#14294F\],
+[data-theme="light"] .border-\[\#193566\],
+[data-theme="light"] .border-\[\#142A58\] {
+  border-color: #E2E8F0 !important;
+}
+
+html.light .border-\[\#1E3A6B\],
+[data-theme="light"] .border-\[\#1E3A6B\] {
+  border-color: #CBD5E1 !important;
+}
+
+/* Text Colors - WCAG AAA High Contrast */
+html.light .text-\[\#F2F5F9\],
+html.light .text-\[\#F2F5F9\]\/90,
+html.light .text-\[\#F2F5F9\]\/80,
+[data-theme="light"] .text-\[\#F2F5F9\],
+[data-theme="light"] .text-\[\#F2F5F9\]\/90,
+[data-theme="light"] .text-\[\#F2F5F9\]\/80 {
+  color: #0A1B3D !important;
+}
+
+html.light .text-\[\#A8BBD6\],
+html.light .text-\[\#A8BBD6\]\/80,
+html.light .text-\[\#A8BBD6\]\/60,
+html.light .text-\[\#7B9CD2\],
+[data-theme="light"] .text-\[\#A8BBD6\],
+[data-theme="light"] .text-\[\#A8BBD6\]\/80,
+[data-theme="light"] .text-\[\#A8BBD6\]\/60,
+[data-theme="light"] .text-\[\#7B9CD2\] {
+  color: #475569 !important;
+}
+
+/* Headings and Titles inside white cards */
+html.light h1.text-\[\#F2F5F9\],
+html.light h2.text-\[\#F2F5F9\],
+html.light h3.text-\[\#F2F5F9\],
+html.light h4.text-\[\#F2F5F9\],
+[data-theme="light"] h1.text-\[\#F2F5F9\],
+[data-theme="light"] h2.text-\[\#F2F5F9\],
+[data-theme="light"] h3.text-\[\#F2F5F9\],
+[data-theme="light"] h4.text-\[\#F2F5F9\] {
+  color: #0A1B3D !important;
+}
+
+/* Inputs, Textareas, Selects in Light Mode */
+html.light input,
+html.light textarea,
+html.light select,
+[data-theme="light"] input,
+[data-theme="light"] textarea,
+[data-theme="light"] select {
+  background-color: #FFFFFF !important;
+  border-color: #CBD5E1 !important;
+  color: #0A1B3D !important;
+}
+
+html.light input::placeholder,
+html.light textarea::placeholder,
+[data-theme="light"] input::placeholder,
+[data-theme="light"] textarea::placeholder {
+  color: #94A3B8 !important;
+}
+
+/* Primary Action Buttons retain high-contrast readable text */
+html.light .bg-\[\#0D95FE\],
+[data-theme="light"] .bg-\[\#0D95FE\] {
+  background-color: #0D95FE !important;
+  color: #FFFFFF !important;
+}
+
+html.light .bg-\[\#00DF8F\],
+[data-theme="light"] .bg-\[\#00DF8F\] {
+  background-color: #00DF8F !important;
+  color: #003825 !important;
+}
+
+html.light .bg-\[\#F2A93B\],
+[data-theme="light"] .bg-\[\#F2A93B\] {
+  background-color: #F2A93B !important;
+  color: #01091C !important;
+}
+
+/* Category Badges in Light Mode */
+html.light .bg-emerald-950\/60,
+[data-theme="light"] .bg-emerald-950\/60 {
+  background-color: #DCFCE7 !important;
+  color: #15803D !important;
+  border-color: #86EFAC !important;
+}
+
+html.light .bg-blue-950\/60,
+[data-theme="light"] .bg-blue-950\/60 {
+  background-color: #E0F2FE !important;
+  color: #0369A1 !important;
+  border-color: #7DD3FC !important;
+}
+
+html.light .bg-amber-950\/60,
+[data-theme="light"] .bg-amber-950\/60 {
+  background-color: #FEF3C7 !important;
+  color: #B45309 !important;
+  border-color: #FCD34D !important;
+}
+
+html.light .bg-teal-950\/60,
+[data-theme="light"] .bg-teal-950\/60 {
+  background-color: #CCFBF1 !important;
+  color: #0F766E !important;
+  border-color: #5EEAD4 !important;
+}
+
+html.light .bg-purple-950\/60,
+[data-theme="light"] .bg-purple-950\/60 {
+  background-color: #F3E8FF !important;
+  color: #7E22CE !important;
+  border-color: #D8B4FE !important;
+}
+
+/* Header sticky in light mode */
+html.light header,
+[data-theme="light"] header {
+  background-color: rgba(255, 255, 255, 0.95) !important;
+  border-color: #E2E8F0 !important;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.05) !important;
+}
+
+/* Sticky tools sub-navigation in light mode */
+html.light #all-business-tools .sticky,
+[data-theme="light"] #all-business-tools .sticky {
+  background-color: rgba(255, 255, 255, 0.95) !important;
+  border-color: #E2E8F0 !important;
+}
+
+/* Realistic debit card styling preservation */
+html.light .aspect-\[1\.58\/1\],
+[data-theme="light"] .aspect-\[1\.58\/1\] {
+  background: linear-gradient(135deg, #0F285A 0%, #0A1B3D 50%, #041231 100%) !important;
+  border-color: #1E3A6B !important;
+}
+html.light .aspect-\[1\.58\/1\] span,
+html.light .aspect-\[1\.58\/1\] div,
+[data-theme="light"] .aspect-\[1\.58\/1\] span,
+[data-theme="light"] .aspect-\[1\.58\/1\] div {
+  color: #FFFFFF !important;
+}
+html.light .aspect-\[1\.58\/1\] .text-\[\#A8BBD6\],
+[data-theme="light"] .aspect-\[1\.58\/1\] .text-\[\#A8BBD6\] {
+  color: #CBD5E1 !important;
+}
+html.light .aspect-\[1\.58\/1\] .text-\[\#00DF8F\],
+[data-theme="light"] .aspect-\[1\.58\/1\] .text-\[\#00DF8F\] {
+  color: #00DF8F !important;
+}
+
+/* Modal Dialogs in Light Mode */
+html.light .fixed.inset-0.bg-\[\#01091C\]\/80,
+[data-theme="light"] .fixed.inset-0.bg-\[\#01091C\]\/80 {
+  background-color: rgba(15, 23, 42, 0.45) !important;
+}

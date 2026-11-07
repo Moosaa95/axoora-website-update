@@ -1,0 +1,893 @@
+'use client';
+
+import React, { useRef, useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { useCms } from '../context/CmsContext';
+import { useTheme } from '../context/ThemeContext';
+import { AppleAppStoreBadge, GooglePlayBadge } from './StoreBadges';
+
+interface InteractiveGetStartedProps {
+  isLight?: boolean;
+  onOpenWaitlist: (interest?: 'personal' | 'business' | 'pos-agent') => void;
+  onOpenDownloadApp: () => void;
+  onOpenWhatsApp?: () => void;
+}
+
+interface StepData {
+  num: number;
+  tag: string;
+  title: string;
+  desc: string;
+  accent: string;
+  user: {
+    photo: string;
+    name: string;
+    role: string;
+    location: string;
+    comment: string;
+  };
+}
+
+export const InteractiveGetStarted: React.FC<InteractiveGetStartedProps> = ({
+  isLight: propIsLight,
+  onOpenWaitlist,
+  onOpenDownloadApp,
+  onOpenWhatsApp,
+}) => {
+  const { theme } = useTheme();
+  const isLight = propIsLight ?? theme === 'light';
+  const sectionRef = useRef<HTMLElement>(null);
+  const [activeStep, setActiveStep] = useState<number>(1);
+  const [progress, setProgress] = useState<number>(0);
+
+  // Scroll listener to calculate progress and lock the user into the sequence until finished
+  useEffect(() => {
+    const handleScroll = () => {
+      if (!sectionRef.current) return;
+      const rect = sectionRef.current.getBoundingClientRect();
+      const sectionHeight = sectionRef.current.offsetHeight;
+      const windowHeight = window.innerHeight;
+      const headerOffset = window.innerWidth >= 1024 ? 80 : 64;
+
+      // Distance scrolled through the sticky pinning window
+      const scrolled = headerOffset - rect.top;
+      const totalScrollable = sectionHeight - windowHeight;
+
+      if (totalScrollable <= 0) return;
+
+      const currentProgress = Math.min(Math.max(scrolled / totalScrollable, 0), 1);
+      setProgress(currentProgress);
+
+      // Distribute into 4 steps with generous runway for Step 4
+      if (currentProgress < 0.24) {
+        setActiveStep(1);
+      } else if (currentProgress < 0.48) {
+        setActiveStep(2);
+      } else if (currentProgress < 0.72) {
+        setActiveStep(3);
+      } else {
+        setActiveStep(4);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    handleScroll();
+
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  const handleStepClick = (stepNum: number) => {
+    setActiveStep(stepNum);
+    if (!sectionRef.current) return;
+    const headerOffset = window.innerWidth >= 1024 ? 80 : 64;
+    const sectionTop = sectionRef.current.getBoundingClientRect().top + window.scrollY - headerOffset;
+    const totalScrollable = sectionRef.current.offsetHeight - window.innerHeight;
+    const targetProgress = (stepNum - 1) / 4 + 0.05;
+
+    window.scrollTo({
+      top: sectionTop + targetProgress * totalScrollable,
+      behavior: 'smooth',
+    });
+  };
+
+  const { steps: cmsSteps } = useCms();
+  const steps: StepData[] = (cmsSteps && cmsSteps.length > 0) ? cmsSteps : [
+    {
+      num: 1,
+      tag: '01. Sign-up & Phone',
+      title: 'Download the App & Enter Phone Number',
+      desc: 'Get Axoora on iOS, Android, or bank straight through WhatsApp. Enter your Nigerian mobile number to receive an instant 6-digit WhatsApp or SMS verification code.',
+      accent: '#0D95FE',
+      user: {
+        photo: '/merchants/shopper.jpg',
+        name: 'Amina Bello',
+        role: 'Personal & Business Shopper',
+        location: 'Ikeja, Lagos',
+        comment: 'Received WhatsApp OTP in 1.2 seconds flat.',
+      },
+    },
+    {
+      num: 2,
+      tag: '02. Identity & BVN',
+      title: '30-Second BVN & Facial Biometrics Match',
+      desc: 'Verify your identity in under 30 seconds via direct CBN NIBSS check. Take a quick selfie for 3D liveness match—no bank queues, zero paper affidavits, Tier-3 limits unlocked.',
+      accent: '#00DF8F',
+      user: {
+        photo: '/merchants/fatima.jpg',
+        name: 'Fatima Al-Hassan',
+        role: 'Founder, Zaynab Couture',
+        location: 'Wuse II, Abuja',
+        comment: 'BVN & selfie matched in 20s without bank queues.',
+      },
+    },
+    {
+      num: 3,
+      tag: '03. Dedicated NUBAN',
+      title: 'Instant Account Funding & Dedicated NUBAN',
+      desc: 'Your dedicated Nigerian business or personal NUBAN is assigned instantly. Receive customer transfers from all commercial banks with sub-second NIBSS settlement.',
+      accent: '#0D95FE',
+      user: {
+        photo: '/merchants/emeka.jpg',
+        name: 'Emeka Chukwu',
+        role: 'Distributor, Emeka Gadgets',
+        location: 'Computer Village, Lagos',
+        comment: 'Shop NUBAN was active and taking payments on Day 1.',
+      },
+    },
+    {
+      num: 4,
+      tag: '04. Transact & Hardware',
+      title: 'Ready for Business: Card Active & POS Dispatched',
+      desc: 'Activate your free virtual Dollar & Naira card immediately. Request your dual-eSIM Apex POS terminal delivered directly to your shop counter within 48 hours.',
+      accent: '#F2A93B',
+      user: {
+        photo: '/merchants/tunde.jpg',
+        name: 'Tunde Bakare',
+        role: 'Operations Manager, Fresh Mart',
+        location: 'Lekki Phase 1, Lagos',
+        comment: 'Apex terminal arrived at our store in under 48 hours.',
+      },
+    },
+  ];
+
+  const currentStepData = steps.find((s) => s.num === activeStep) || steps[0];
+
+  return (
+    <section
+      ref={sectionRef}
+      id="how-to-get-started"
+      className={`relative w-full h-[360vh] lg:h-[400vh] border-b transition-colors ${
+        isLight ? 'bg-[#F8FAFC] border-slate-200 text-slate-900' : 'bg-[#020F2E] border-[#14294F] text-[#F2F5F9]'
+      }`}
+    >
+      {/* Ambient background light */}
+      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[700px] h-[350px] bg-[#0D95FE]/5 rounded-full blur-[140px] pointer-events-none" />
+
+      {/* ========================================================================= */}
+      {/* PINNED STICKY CONTAINER: Stays locked in viewport while user scrolls through */}
+      {/* all 4 steps before allowing normal page scroll down */}
+      {/* ========================================================================= */}
+      <div className="sticky top-16 lg:top-20 w-full h-[calc(100vh-4rem)] lg:h-[calc(100vh-5rem)] max-h-[calc(100vh-4rem)] lg:max-h-[calc(100vh-5rem)] flex flex-col justify-between py-2 sm:py-3 lg:py-4 px-4 sm:px-6 lg:px-8 z-10">
+        
+        {/* Top Header & Continuous Scroll Progress Indicators */}
+        <div className="max-w-7xl mx-auto w-full flex flex-col gap-2 sm:gap-3 shrink-0">
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-2">
+            <div className="flex flex-col gap-0.5 text-center md:text-left">
+              <span className="text-[10px] sm:text-xs font-mono font-bold uppercase tracking-wider text-[#0D95FE]">
+                ONBOARDING IN 4 STEPS // ZERO BRANCH VISITS
+              </span>
+              <h2 className={`text-xl sm:text-2xl lg:text-3xl font-extrabold tracking-tight ${isLight ? 'text-slate-900' : 'text-[#F2F5F9]'}`}>
+                How to Get Started
+              </h2>
+              <p className={`text-xs sm:text-sm hidden sm:block ${isLight ? 'text-slate-600' : 'text-[#A8BBD6]'}`}>
+                Scroll down to see each step unfold sequentially before proceeding.
+              </p>
+            </div>
+
+            {/* Step Checkpoints Navigator (Touch & Click Friendly) */}
+            <div className={`flex items-center justify-center gap-1 sm:gap-1.5 p-1 rounded-full self-center md:self-auto shadow-inner max-w-full overflow-x-auto no-scrollbar border ${
+              isLight ? 'bg-white border-slate-200 shadow-sm' : 'bg-[#05112A] border-[#14294F]'
+            }`}>
+              {[1, 2, 3, 4].map((s) => {
+                const isCurrent = activeStep === s;
+                const isPassed = activeStep > s;
+                return (
+                  <button
+                    key={s}
+                    onClick={() => handleStepClick(s)}
+                    className={`px-2.5 sm:px-3 py-1 rounded-full text-xs font-semibold transition-all cursor-pointer flex items-center gap-1 sm:gap-1.5 shrink-0 ${
+                      isCurrent
+                        ? 'bg-[#0D95FE] text-[#00284D] font-bold shadow-md'
+                        : isPassed
+                        ? 'bg-[#00DF8F]/20 text-[#00DF8F] border border-[#00DF8F]/30'
+                        : isLight
+                        ? 'text-slate-600 hover:text-slate-900'
+                        : 'text-[#A8BBD6] hover:text-white'
+                    }`}
+                  >
+                    <span>{isPassed ? '✓' : `0${s}`}</span>
+                    <span className="inline">
+                      {s === 1 ? 'Download' : s === 2 ? 'Verify' : s === 3 ? 'Fund' : 'Transact'}
+                    </span>
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+
+          {/* Continuous Scroll Progress Bar */}
+          <div className={`w-full h-1 sm:h-1.5 rounded-full overflow-hidden border ${
+            isLight ? 'bg-slate-200 border-slate-300' : 'bg-[#05112A] border-[#14294F]'
+          }`}>
+            <motion.div
+              className="h-full bg-gradient-to-r from-[#0D95FE] via-[#00DF8F] to-[#F2A93B]"
+              style={{ width: `${Math.min(Math.max(progress * 100, 3), 100)}%` }}
+            />
+          </div>
+        </div>
+
+        {/* ========================================================================= */}
+        {/* MOBILE STAGE (< lg): Active Step Card + Interactive Phone Preview */}
+        {/* Perfectly sized to fit cleanly inside mobile viewport without cutoffs */}
+        {/* ========================================================================= */}
+        <div className="lg:hidden flex-1 flex flex-col justify-center gap-3 my-auto py-2 w-full max-w-md mx-auto">
+          {/* Active Step Card for Mobile */}
+          <div className={`p-3.5 rounded-2xl shadow-lg flex flex-col gap-1.5 border ${
+            isLight ? 'bg-white border-slate-200 text-slate-900 shadow-slate-200/50' : 'bg-[#0A1B3D] border-[#0D95FE] text-white'
+          }`}>
+            <div className="flex items-center justify-between">
+              <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-[#0D95FE]">
+                {currentStepData.tag}
+              </span>
+              <span className="px-2 py-0.5 rounded-full bg-[#00DF8F]/20 text-[#00DF8F] text-[9px] font-mono font-bold">
+                Step {activeStep} of 4
+              </span>
+            </div>
+
+            <h3 className={`font-bold text-sm sm:text-base leading-snug ${isLight ? 'text-slate-900' : 'text-white'}`}>
+              {currentStepData.title}
+            </h3>
+
+            <p className={`text-xs leading-relaxed ${isLight ? 'text-slate-600' : 'text-[#A8BBD6]'}`}>
+              {currentStepData.desc}
+            </p>
+
+            {/* User Endorsement Chip */}
+            <div className={`mt-1 flex items-center gap-2 p-1.5 rounded-xl border ${
+              isLight ? 'bg-slate-100 border-slate-200 text-slate-800' : 'bg-[#020B1D]/80 border-[#14294F] text-white'
+            }`}>
+              <img
+                src={currentStepData.user.photo}
+                alt={currentStepData.user.name}
+                className="w-6 h-6 rounded-full object-cover ring-1 ring-[#00DF8F]/50 shrink-0"
+              />
+              <div className="flex items-center gap-1.5 text-[10px] overflow-hidden truncate">
+                <span className={`font-semibold truncate ${isLight ? 'text-slate-900' : 'text-white'}`}>{currentStepData.user.name}</span>
+                <span className="text-[#00DF8F] font-mono shrink-0">({currentStepData.user.location})</span>
+                <span className={`italic truncate ${isLight ? 'text-slate-500' : 'text-[#A8BBD6]'}`}>"{currentStepData.user.comment}"</span>
+              </div>
+            </div>
+          </div>
+
+          {/* Interactive Mobile Smartphone Preview Screen (Dark hardware preservation) */}
+          <div className="dark-hardware preserve-dark relative w-full max-w-[290px] h-[230px] sm:h-[250px] mx-auto rounded-[32px] p-[4px] bg-gradient-to-b from-[#2A4374] via-[#142A58] to-[#0A1B3D] shadow-xl border border-[#14294F]">
+            <div className="w-full h-full rounded-[28px] bg-[#020B1D] p-3 flex flex-col justify-between overflow-hidden shadow-inner text-white">
+              
+              {/* Mini Status Bar */}
+              <div className="flex items-center justify-between text-[9px] font-mono text-[#7B9CD2] pb-1 border-b border-[#14294F]/80">
+                <span>9:41</span>
+                <div className="w-2.5 h-2.5 rounded-full bg-black border border-neutral-700" />
+                <span>4G ●●●</span>
+              </div>
+
+              {/* Dynamic Animated Screen Content for Active Step */}
+              <AnimatePresence mode="wait">
+                {activeStep === 1 && (
+                  <motion.div
+                    key="step-1-mobile"
+                    initial={{ opacity: 0, scale: 0.96 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0.96 }}
+                    transition={{ duration: 0.2 }}
+                    className="flex-1 flex flex-col justify-center gap-2 py-0.5"
+                  >
+                    <div className="flex items-center gap-2 p-1.5 rounded-xl bg-[#0A1B3D] border border-[#14294F]">
+                      <img
+                        src={currentStepData.user.photo || '/merchants/shopper.jpg'}
+                        alt={currentStepData.user.name}
+                        className="w-8 h-8 rounded-full object-cover ring-1 ring-[#0D95FE] shrink-0"
+                      />
+                      <div className="flex flex-col">
+                        <span className="text-xs font-bold text-white leading-tight">{currentStepData.user.name}</span>
+                        <span className="text-[9px] text-[#00DF8F] font-mono">{currentStepData.user.location}</span>
+                      </div>
+                    </div>
+
+                    <div className="flex gap-1 justify-center">
+                      {[4, 9, 2, 0, '•', '•'].map((digit, i) => (
+                        <div
+                          key={i}
+                          className="w-6 h-7 rounded-md bg-[#0E1D3B] border border-[#0D95FE] flex items-center justify-center font-mono font-bold text-xs text-[#0D95FE]"
+                        >
+                          {digit}
+                        </div>
+                      ))}
+                    </div>
+
+                    <div className="p-1 rounded-lg bg-emerald-950/60 border border-[#00DF8F]/50 text-center">
+                      <span className="text-[9px] font-mono text-[#00DF8F] font-bold">
+                        ✓ OTP VERIFIED IN 1.2s
+                      </span>
+                    </div>
+                  </motion.div>
+                )}
+
+                {activeStep === 2 && (
+                  <motion.div
+                    key="step-2-mobile"
+                    initial={{ opacity: 0, scale: 0.96 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0.96 }}
+                    transition={{ duration: 0.2 }}
+                    className="flex-1 flex flex-col justify-center gap-1.5 py-0.5 text-center"
+                  >
+                    <div className="relative w-18 h-18 mx-auto rounded-full overflow-hidden border-2 border-[#00DF8F] shadow-md">
+                      <img
+                        src={currentStepData.user.photo || '/merchants/fatima.jpg'}
+                        alt={currentStepData.user.name}
+                        className="w-full h-full object-cover object-top"
+                      />
+                      <div className="absolute inset-0 border border-dashed border-[#00DF8F] rounded-full animate-spin" />
+                      <div className="absolute bottom-0 inset-x-0 bg-[#00DF8F] text-[#003825] text-[7px] font-mono font-black py-0.5">
+                        ✓ 99.4% MATCH
+                      </div>
+                    </div>
+
+                    <div className="p-1 rounded-lg bg-[#0A1B3D] border border-[#00DF8F] flex items-center justify-between text-[10px] px-2">
+                      <span className="text-white font-medium">BVN Identity Match</span>
+                      <span className="text-[#00DF8F] font-bold font-mono">✓ PASSED</span>
+                    </div>
+
+                    <span className="text-[9px] font-mono text-[#0D95FE] font-bold">
+                      TIER 3 DAILY LIMIT: ₦5,000,000
+                    </span>
+                  </motion.div>
+                )}
+
+                {activeStep === 3 && (
+                  <motion.div
+                    key="step-3-mobile"
+                    initial={{ opacity: 0, scale: 0.96 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0.96 }}
+                    transition={{ duration: 0.2 }}
+                    className="flex-1 flex flex-col justify-center gap-1.5 py-0.5"
+                  >
+                    <div className="flex items-center gap-2 p-1.5 rounded-xl bg-[#0A1B3D] border border-[#14294F]">
+                      <img
+                        src={currentStepData.user.photo || '/merchants/emeka.jpg'}
+                        alt={currentStepData.user.name}
+                        className="w-8 h-8 rounded-full object-cover ring-1 ring-[#0D95FE] shrink-0"
+                      />
+                      <div className="flex flex-col">
+                        <span className="text-xs font-bold text-white leading-tight">{currentStepData.user.name}</span>
+                        <span className="text-[9px] text-[#00DF8F] font-mono">{currentStepData.user.location}</span>
+                      </div>
+                    </div>
+
+                    <div className="p-1.5 rounded-lg bg-[#0A1B3D] border border-[#14294F] flex items-center justify-between">
+                      <span className="text-[9px] text-[#7B9CD2] font-mono">NUBAN: 9012345678</span>
+                      <span className="text-[9px] text-[#00DF8F] font-bold font-mono">READY</span>
+                    </div>
+
+                    <div className="p-1 rounded-lg bg-emerald-950/80 border border-[#00DF8F] text-center">
+                      <span className="text-[8px] text-white block">Inflow Settled in 0.9s</span>
+                      <span className="text-xs font-black text-[#00DF8F] font-mono">+ ₦50,000.00</span>
+                    </div>
+                  </motion.div>
+                )}
+
+                {activeStep === 4 && (
+                  <motion.div
+                    key="step-4-mobile"
+                    initial={{ opacity: 0, scale: 0.96 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0.96 }}
+                    transition={{ duration: 0.2 }}
+                    className="flex-1 flex flex-col justify-center gap-1.5 py-0.5"
+                  >
+                    <div className="flex items-center gap-2 p-1.5 rounded-xl bg-[#0A1B3D] border border-[#14294F]">
+                      <img
+                        src={currentStepData.user.photo || '/merchants/tunde.jpg'}
+                        alt={currentStepData.user.name}
+                        className="w-8 h-8 rounded-full object-cover ring-1 ring-[#F2A93B] shrink-0"
+                      />
+                      <div className="flex flex-col">
+                        <span className="text-xs font-bold text-white leading-tight">{currentStepData.user.name}</span>
+                        <span className="text-[9px] text-[#00DF8F] font-mono">{currentStepData.user.location}</span>
+                      </div>
+                    </div>
+
+                    <div className="p-1 rounded-lg bg-[#0A1B3D] border border-[#00DF8F] flex items-center justify-between text-[10px] px-2">
+                      <span className="text-white font-medium">Apex Dual-eSIM POS</span>
+                      <span className="text-[#00DF8F] font-bold">DISPATCHED</span>
+                    </div>
+
+                    <div className="p-1 rounded-lg bg-emerald-950/60 border border-[#00DF8F] text-center">
+                      <span className="text-[9px] font-mono text-[#00DF8F] font-bold">
+                        ✓ ALL STEPS COMPLETE (48H DELIVERY)
+                      </span>
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+
+              {/* Bottom bar indicator */}
+              <div className="w-16 h-1 rounded-full bg-slate-600 self-center" />
+            </div>
+          </div>
+
+          {/* Mobile Tap Navigation & Quick Actions */}
+          <div className="flex items-center justify-between gap-2 pt-1">
+            <button
+              onClick={() => handleStepClick(Math.max(activeStep - 1, 1))}
+              disabled={activeStep === 1}
+              className={`px-3 py-1.5 rounded-full text-xs font-semibold flex items-center gap-1 ${
+                activeStep === 1
+                  ? 'opacity-30 text-[#A8BBD6]'
+                  : 'bg-[#0A1B3D] text-white hover:bg-[#14294F] border border-[#14294F]'
+              }`}
+            >
+              <span className="material-symbols-outlined text-[14px]">arrow_back</span>
+              <span>Prev</span>
+            </button>
+
+            <button
+              onClick={() => onOpenWaitlist('business')}
+              className="flex-1 py-1.5 px-3 rounded-full bg-[#0D95FE] hover:bg-[#00DF8F] text-[#00284D] font-bold text-xs transition-all text-center shadow-md truncate"
+            >
+              Open Account
+            </button>
+
+            <button
+              onClick={() => handleStepClick(Math.min(activeStep + 1, 4))}
+              disabled={activeStep === 4}
+              className={`px-3 py-1.5 rounded-full text-xs font-semibold flex items-center gap-1 ${
+                activeStep === 4
+                  ? 'opacity-30 text-[#A8BBD6]'
+                  : 'bg-[#0A1B3D] text-white hover:bg-[#14294F] border border-[#14294F]'
+              }`}
+            >
+              <span>Next</span>
+              <span className="material-symbols-outlined text-[14px]">arrow_forward</span>
+            </button>
+          </div>
+        </div>
+
+        {/* ========================================================================= */}
+        {/* DESKTOP STAGE (hidden lg:grid): Spacious 12-Column Side-by-Side View */}
+        {/* Left Column (4 Steps) + Right Column (Full 470px Smartphone) */}
+        {/* ========================================================================= */}
+        <div className="hidden lg:grid max-w-7xl mx-auto w-full my-auto py-3 sm:py-4 grid-cols-12 gap-12 items-center">
+          
+          {/* Left Column: Sequential Step Cards with Progress Highlight */}
+          <div className="col-span-7 flex flex-col gap-3 relative">
+            {/* Continuous Vertical Connector Spine Line across gaps */}
+            <div className="absolute left-[30px] -translate-x-1/2 top-5 bottom-5 w-0.5 bg-[#14294F] z-0">
+              <motion.div
+                className="w-full bg-[#0D95FE]"
+                style={{ height: `${Math.min(Math.max(progress * 100, 5), 100)}%` }}
+              />
+            </div>
+
+            {steps.map((item) => {
+              const isCurrent = activeStep === item.num;
+              const isDone = activeStep > item.num;
+              const stepFraction = Math.min(Math.max((progress - (item.num - 1) * 0.25) / 0.25, 0), 1);
+
+              if (isCurrent) {
+                return (
+                  <motion.div
+                    key={item.num}
+                    layout
+                    initial={{ opacity: 0.9 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ duration: 0.2 }}
+                    onClick={() => handleStepClick(item.num)}
+                    className={`pt-3.5 pb-3.5 pl-4 pr-3.5 rounded-2xl border relative overflow-hidden flex flex-col gap-1.5 cursor-pointer shadow-xl ${
+                      isLight
+                        ? 'bg-white border-[#0D95FE] text-slate-900 shadow-blue-500/10'
+                        : 'bg-[#0A1B3D] border-[#0D95FE] text-white shadow-[#0D95FE]/10'
+                    }`}
+                  >
+                    {/* Step inner progress bar synced to scroll within this step */}
+                    <motion.div
+                      className="absolute top-0 left-0 h-1 bg-gradient-to-r from-[#0D95FE] to-[#00DF8F]"
+                      style={{ width: `${stepFraction * 100}%` }}
+                    />
+
+                    {/* Connecting line entering from the top of the card into the circle */}
+                    {item.num > 1 && (
+                      <div className="absolute left-[30px] -translate-x-1/2 top-0 h-[15px] w-0.5 bg-[#0D95FE] z-10" />
+                    )}
+
+                    {/* Connecting line exiting the bottom of the circle towards the card bottom */}
+                    {item.num < steps.length && (
+                      <div className="absolute left-[30px] -translate-x-1/2 top-[41px] bottom-0 w-0.5 bg-gradient-to-b from-[#0D95FE] to-[#14294F]/40 z-10" />
+                    )}
+
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-3">
+                        <div className="relative z-20 w-7 h-7 rounded-full flex items-center justify-center font-bold text-xs font-mono shrink-0 bg-[#0D95FE] text-[#00284D] shadow-md shadow-[#0D95FE]/30 ring-2 ring-[#0A1B3D]">
+                          {`0${item.num}`}
+                        </div>
+
+                        <div className="flex flex-col">
+                          <span className="text-[10px] font-mono text-[#0D95FE] uppercase font-bold leading-none">
+                            {item.tag}
+                          </span>
+                          <h4 className={`font-bold text-sm lg:text-base leading-snug ${isLight ? 'text-slate-900' : 'text-white'}`}>
+                            {item.title}
+                          </h4>
+                        </div>
+                      </div>
+
+                      <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-[#00DF8F]/20 text-[#00DF8F] text-[10px] font-mono font-bold uppercase shrink-0">
+                        <span className="w-1.5 h-1.5 rounded-full bg-[#00DF8F] animate-ping" />
+                        <span>Active Step</span>
+                      </span>
+                    </div>
+
+                    <p className={`text-xs lg:text-sm leading-relaxed pl-10 ${isLight ? 'text-slate-600' : 'text-[#A8BBD6]'}`}>
+                      {item.desc}
+                    </p>
+
+                    {/* Real Human User Endorsement Pill (Grounding the Brand in Reality) */}
+                    <div className={`ml-10 mt-0.5 flex items-center gap-2 p-1.5 rounded-xl border ${
+                      isLight ? 'bg-slate-100 border-slate-200 text-slate-800' : 'bg-[#020B1D]/80 border-[#14294F]/80 text-white'
+                    }`}>
+                      <img
+                        src={item.user.photo}
+                        alt={item.user.name}
+                        className="w-6 h-6 rounded-full object-cover ring-1 ring-[#00DF8F]/50 shrink-0"
+                      />
+                      <div className="flex items-center gap-1.5 text-[11px] overflow-hidden">
+                        <span className={`font-semibold truncate ${isLight ? 'text-slate-900' : 'text-white'}`}>{item.user.name}</span>
+                        <span className="text-[#00DF8F] font-mono text-[10px] shrink-0">({item.user.location})</span>
+                        <span className={`italic truncate ${isLight ? 'text-slate-500' : 'text-[#A8BBD6]'}`}>"{item.user.comment}"</span>
+                      </div>
+                    </div>
+                  </motion.div>
+                );
+              }
+
+              // Inactive card (sleek single-row layout that is ALWAYS visible and clickable)
+              return (
+                <motion.div
+                  key={item.num}
+                  layout
+                  onClick={() => handleStepClick(item.num)}
+                  className={`py-2.5 pl-4 pr-3.5 rounded-xl border transition-all cursor-pointer flex items-center justify-between gap-3 relative overflow-hidden ${
+                    isDone
+                      ? isLight
+                        ? 'bg-white border-emerald-300 text-slate-900 hover:border-emerald-400 hover:bg-slate-50 shadow-xs'
+                        : 'bg-[#05112A]/80 border-[#00DF8F]/30 hover:border-[#00DF8F]/60 hover:bg-[#071738]'
+                      : isLight
+                      ? 'bg-slate-50 border-slate-200 text-slate-600 hover:border-blue-300 hover:bg-white'
+                      : 'bg-[#05112A]/40 border-[#14294F] hover:border-[#0D95FE]/40 hover:bg-[#071738]'
+                  }`}
+                >
+                  {/* Connecting line entering from the top of the card into the circle */}
+                  {item.num > 1 && (
+                    <div
+                      className={`absolute left-[30px] -translate-x-1/2 top-0 h-[11px] w-0.5 z-10 ${
+                        isDone ? 'bg-[#00DF8F]' : isLight ? 'bg-slate-200' : 'bg-[#14294F]'
+                      }`}
+                    />
+                  )}
+
+                  {/* Connecting line exiting the bottom of the circle towards the card bottom */}
+                  {item.num < steps.length && (
+                    <div
+                      className={`absolute left-[30px] -translate-x-1/2 top-[37px] bottom-0 w-0.5 z-10 ${
+                        isDone ? 'bg-[#00DF8F]' : isLight ? 'bg-slate-200' : 'bg-[#14294F]'
+                      }`}
+                    />
+                  )}
+
+                  <div className="flex items-center gap-3 min-w-0">
+                    <div
+                      className={`relative z-20 w-7 h-7 rounded-full flex items-center justify-center font-bold text-xs font-mono shrink-0 ${
+                        isDone
+                          ? 'bg-[#00DF8F] text-[#003825] shadow-sm ring-2 ring-[#020F2E]'
+                          : isLight
+                          ? 'bg-slate-200 text-slate-600'
+                          : 'bg-[#14294F] text-[#A8BBD6]'
+                      }`}
+                    >
+                      {isDone ? '✓' : `0${item.num}`}
+                    </div>
+
+                    <div className="flex items-center gap-2 min-w-0">
+                      <span className="text-[10px] font-mono text-[#0D95FE] font-bold shrink-0">
+                        {`0${item.num}.`}
+                      </span>
+                      <h4 className={`font-semibold text-xs lg:text-sm truncate ${
+                        isLight ? 'text-slate-700 hover:text-slate-900' : 'text-[#A8BBD6] hover:text-white'
+                      }`}>
+                        {item.title}
+                      </h4>
+                    </div>
+                  </div>
+
+                  <span
+                    className={`text-[10px] font-mono px-2 py-0.5 rounded-full shrink-0 ${
+                      isDone
+                        ? isLight ? 'bg-emerald-100 text-emerald-800 font-semibold' : 'bg-[#00DF8F]/15 text-[#00DF8F] font-medium'
+                        : isLight ? 'bg-slate-200 text-slate-600' : 'bg-[#14294F]/60 text-[#7B9CD2]'
+                    }`}
+                  >
+                    {isDone ? '✓ Done' : `Step 0${item.num}`}
+                  </span>
+                </motion.div>
+              );
+            })}
+
+            {/* Quick Action CTAs & Store Badges (Matches Video at 00:30 & 01:13) */}
+            <div className="pt-1 pl-2 flex flex-wrap items-center gap-3">
+              <AppleAppStoreBadge
+                onClick={onOpenDownloadApp}
+                className="py-2"
+                isLight={isLight}
+              />
+              <GooglePlayBadge
+                onClick={onOpenDownloadApp}
+                className="py-2"
+                isLight={isLight}
+              />
+
+              <button
+                onClick={() => onOpenWaitlist('business')}
+                className="px-5 py-2.5 rounded-xl bg-[#0D95FE] hover:bg-[#00DF8F] text-[#00284D] hover:text-[#003825] font-bold text-sm transition-all shadow-md cursor-pointer flex items-center gap-2"
+              >
+                <span>Apply for Business</span>
+                <span className="material-symbols-outlined text-[16px]">arrow_forward</span>
+              </button>
+
+              {onOpenWhatsApp && (
+                <button
+                  onClick={onOpenWhatsApp}
+                  className={`px-3.5 py-2 rounded-xl text-xs font-semibold transition-colors flex items-center gap-1.5 cursor-pointer border ${
+                    isLight
+                      ? 'bg-white hover:bg-slate-100 text-slate-700 border-slate-200 shadow-xs'
+                      : 'bg-[#0A1B3D] text-[#A8BBD6] hover:text-[#00DF8F] border-[#14294F]'
+                  }`}
+                >
+                  <span className="material-symbols-outlined text-[16px] text-[#00DF8F]">chat</span>
+                  <span>WhatsApp Banking</span>
+                </button>
+              )}
+            </div>
+          </div>
+
+          {/* Right Column: Dynamic Interactive Smartphone synced to Active Step with Real People & Hardware (Dark hardware preservation) */}
+          <div className="col-span-5 flex justify-center w-full">
+            <div className="dark-hardware preserve-dark relative w-72 lg:w-80 h-[410px] lg:h-[425px] rounded-[40px] p-[5px] bg-gradient-to-b from-[#2A4374] via-[#142A58] to-[#0A1B3D] shadow-2xl border-2 border-[#14294F]">
+              <div className="w-full h-full rounded-[35px] bg-[#020B1D] p-4 lg:p-5 flex flex-col justify-between overflow-hidden shadow-inner text-white">
+                
+                {/* Phone Status Bar */}
+                <div className="flex items-center justify-between text-[11px] font-mono text-[#7B9CD2] pb-2 border-b border-[#14294F]">
+                  <span>9:41</span>
+                  <div className="w-3.5 h-3.5 rounded-full bg-black border border-neutral-700" />
+                  <span>4G ●●●</span>
+                </div>
+
+                {/* Animated Screen Content Synced to Active Scroll Step */}
+                <AnimatePresence mode="wait">
+                  {activeStep === 1 && (
+                    <motion.div
+                      key="step-1-screen"
+                      initial={{ opacity: 0, scale: 0.95 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      exit={{ opacity: 0, scale: 0.95 }}
+                      transition={{ duration: 0.25 }}
+                      className="flex-1 flex flex-col justify-center gap-3 py-1"
+                    >
+                      {/* Customer Photo Profile in context */}
+                      <div className="flex items-center gap-2.5 p-2 rounded-2xl bg-[#0A1B3D] border border-[#14294F]">
+                        <img
+                          src={currentStepData.user.photo || '/merchants/shopper.jpg'}
+                          alt={currentStepData.user.name}
+                          className="w-10 h-10 rounded-full object-cover ring-2 ring-[#0D95FE] shrink-0"
+                        />
+                        <div className="flex flex-col">
+                          <span className="text-xs font-bold text-white leading-tight">{currentStepData.user.name}</span>
+                          <span className="text-[10px] text-[#00DF8F] font-mono">{currentStepData.user.role}</span>
+                        </div>
+                      </div>
+
+                      <div>
+                        <span className="text-[10px] font-mono text-[#0D95FE] uppercase font-bold">{currentStepData.tag}</span>
+                        <h5 className="font-bold text-sm text-white mt-0.5">{currentStepData.title}</h5>
+                        <p className="text-[11px] text-[#A8BBD6]">Instant 6-digit WhatsApp or SMS code.</p>
+                      </div>
+
+                      <div className="p-2 rounded-xl bg-[#0A1B3D] border border-[#14294F] flex items-center gap-2">
+                        <span className="text-xs font-bold text-[#00DF8F]">🇳🇬 +234</span>
+                        <span className="text-xs font-mono text-white">803 123 4567</span>
+                      </div>
+
+                      <div className="flex gap-1.5 justify-center">
+                        {[4, 9, 2, 0, '•', '•'].map((digit, i) => (
+                          <div
+                            key={i}
+                            className="w-7 h-8 rounded-lg bg-[#0E1D3B] border border-[#0D95FE] flex items-center justify-center font-mono font-bold text-xs text-[#0D95FE]"
+                          >
+                            {digit}
+                          </div>
+                        ))}
+                      </div>
+
+                      <div className="p-1.5 rounded-xl bg-emerald-950/60 border border-[#00DF8F]/50 text-center">
+                        <span className="text-[10px] font-mono text-[#00DF8F] font-bold">
+                          ✓ OTP VERIFIED IN 1.2s
+                        </span>
+                      </div>
+                    </motion.div>
+                  )}
+
+                  {activeStep === 2 && (
+                    <motion.div
+                      key="step-2-screen"
+                      initial={{ opacity: 0, scale: 0.95 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      exit={{ opacity: 0, scale: 0.95 }}
+                      transition={{ duration: 0.25 }}
+                      className="flex-1 flex flex-col justify-center gap-2.5 py-1 text-center"
+                    >
+                      {/* Realistic Biometric Selfie Viewfinder with Actual Human Photo */}
+                      <div className="relative w-24 h-24 mx-auto rounded-full overflow-hidden border-2 border-[#00DF8F] shadow-lg shadow-[#00DF8F]/20">
+                        <img
+                          src={currentStepData.user.photo || '/merchants/fatima.jpg'}
+                          alt={currentStepData.user.name}
+                          className="w-full h-full object-cover object-top"
+                        />
+                        <div
+                          className="absolute inset-0 border-2 border-dashed border-[#00DF8F] rounded-full animate-spin"
+                          style={{ animationDuration: '10s' }}
+                        />
+                        <div className="absolute bottom-0 inset-x-0 bg-[#00DF8F] text-[#003825] text-[8px] font-mono font-black py-0.5">
+                          ✓ 99.4% LIVENESS MATCH
+                        </div>
+                      </div>
+
+                      <div>
+                        <span className="text-[10px] font-mono text-[#00DF8F] uppercase font-bold">{currentStepData.tag}</span>
+                        <h5 className="font-bold text-sm text-white mt-0.5">{currentStepData.title}</h5>
+                        <p className="text-[11px] text-[#A8BBD6]">Direct automated CBN NIBSS check.</p>
+                      </div>
+
+                      <div className="p-2 rounded-xl bg-[#0A1B3D] border border-[#00DF8F] flex items-center justify-between text-xs">
+                        <span className="text-white font-medium">BVN Identity Match</span>
+                        <span className="text-[#00DF8F] font-bold">✓ PASSED</span>
+                      </div>
+
+                      <div className="p-1.5 rounded-xl bg-[#020F2E] border border-[#0D95FE]/50 text-center">
+                        <span className="text-[10px] font-mono text-[#0D95FE] font-bold">
+                          TIER 3 DAILY LIMIT: ₦5,000,000
+                        </span>
+                      </div>
+                    </motion.div>
+                  )}
+
+                  {activeStep === 3 && (
+                    <motion.div
+                      key="step-3-screen"
+                      initial={{ opacity: 0, scale: 0.95 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      exit={{ opacity: 0, scale: 0.95 }}
+                      transition={{ duration: 0.25 }}
+                      className="flex-1 flex flex-col justify-center gap-2.5 py-1"
+                    >
+                      {/* Merchant Shop Profile in context */}
+                      <div className="flex items-center gap-2.5 p-2 rounded-2xl bg-[#0A1B3D] border border-[#14294F]">
+                        <img
+                          src={currentStepData.user.photo || '/merchants/emeka.jpg'}
+                          alt={currentStepData.user.name}
+                          className="w-10 h-10 rounded-full object-cover ring-2 ring-[#0D95FE] shrink-0"
+                        />
+                        <div className="flex flex-col">
+                          <span className="text-xs font-bold text-white leading-tight">{currentStepData.user.name}</span>
+                          <span className="text-[10px] text-[#00DF8F] font-mono">{currentStepData.user.location}</span>
+                        </div>
+                      </div>
+
+                      <div>
+                        <span className="text-[10px] font-mono text-[#0D95FE] uppercase font-bold">{currentStepData.tag}</span>
+                        <h5 className="font-bold text-sm text-white mt-0.5">{currentStepData.title}</h5>
+                      </div>
+
+                      <div className="p-2.5 rounded-xl bg-[#0A1B3D] border border-[#14294F] flex flex-col gap-0.5">
+                        <span className="text-[9px] text-[#7B9CD2] uppercase font-mono">Axoora Business NUBAN</span>
+                        <div className="flex items-center justify-between">
+                          <span className="text-base font-bold font-mono text-white">9012345678</span>
+                          <span className="text-[10px] text-[#00DF8F] font-bold uppercase">Ready</span>
+                        </div>
+                      </div>
+
+                      <div className="p-2 rounded-xl bg-emerald-950/80 border border-[#00DF8F] text-center">
+                        <span className="text-[10px] text-white font-bold block">First Inflow Settled in 0.9s</span>
+                        <span className="text-sm font-black text-[#00DF8F] font-mono">+ ₦50,000.00</span>
+                      </div>
+                    </motion.div>
+                  )}
+
+                  {activeStep === 4 && (
+                    <motion.div
+                      key="step-4-screen"
+                      initial={{ opacity: 0, scale: 0.95 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      exit={{ opacity: 0, scale: 0.95 }}
+                      transition={{ duration: 0.25 }}
+                      className="flex-1 flex flex-col justify-center gap-2.5 py-1"
+                    >
+                      {/* Mart Manager Profile in context */}
+                      <div className="flex items-center gap-2.5 p-2 rounded-2xl bg-[#0A1B3D] border border-[#14294F]">
+                        <img
+                          src={currentStepData.user.photo || '/merchants/tunde.jpg'}
+                          alt={currentStepData.user.name}
+                          className="w-10 h-10 rounded-full object-cover ring-2 ring-[#F2A93B] shrink-0"
+                        />
+                        <div className="flex flex-col">
+                          <span className="text-xs font-bold text-white leading-tight">{currentStepData.user.name}</span>
+                          <span className="text-[10px] text-[#00DF8F] font-mono">{currentStepData.user.location}</span>
+                        </div>
+                      </div>
+
+                      <div>
+                        <span className="text-[10px] font-mono text-[#F2A93B] uppercase font-bold">{currentStepData.tag}</span>
+                        <h5 className="font-bold text-sm text-white mt-0.5">{currentStepData.title}</h5>
+                      </div>
+
+                      <div className="p-2 rounded-xl bg-[#0A1B3D] border border-[#0D95FE] flex items-center justify-between text-xs">
+                        <span className="text-white font-medium">Virtual Dollar &amp; Naira Card</span>
+                        <span className="text-[#0D95FE] font-bold">ACTIVE</span>
+                      </div>
+
+                      <div className="p-2 rounded-xl bg-[#0A1B3D] border border-[#00DF8F] flex items-center justify-between text-xs">
+                        <span className="text-white font-medium">Apex Dual-eSIM POS</span>
+                        <span className="text-[#00DF8F] font-bold">DISPATCHED (48H)</span>
+                      </div>
+
+                      <div className="p-1.5 rounded-xl bg-emerald-950/60 border border-[#00DF8F] text-center">
+                        <span className="text-[10px] font-mono text-[#00DF8F] font-bold">
+                          ✓ ALL ONBOARDING STEPS COMPLETE
+                        </span>
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+
+                {/* Phone Home Indicator Bar */}
+                <div className="w-24 h-1 rounded-full bg-slate-600 self-center mt-2" />
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        {/* Bottom subtle progress hint */}
+        <div className="max-w-7xl mx-auto w-full pt-2 flex items-center justify-between text-[10px] sm:text-[11px] text-[#A8BBD6]/70 border-t border-[#14294F]/60 shrink-0">
+          <div className="flex items-center gap-1.5">
+            <span className="w-1.5 h-1.5 rounded-full bg-[#00DF8F]" />
+            <span>Step {activeStep} of 4 · Scroll or tap checkpoints to advance</span>
+          </div>
+          <span className="font-mono text-[9px] sm:text-[10px] text-[#00DF8F]">
+            {activeStep === 4 ? '✓ Complete — ready to scroll' : `${Math.round(progress * 100)}% viewed`}
+          </span>
+        </div>
+
+      </div>
+    </section>
+  );
+};

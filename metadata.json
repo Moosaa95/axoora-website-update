@@ -1,0 +1,7 @@
+{
+  "name": "Axoora.ai — Sovereign Digital Financial Platform",
+  "description": "Enterprise-grade financial ecosystem and sovereign banking rails for individuals, shops, and POS agents across Nigeria with instant NIBSS settlement and WhatsApp AI commerce.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
+
