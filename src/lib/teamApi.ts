@@ -29,10 +29,12 @@ export interface TeamMember {
   job_title: string;
   phone_number: string;
   department: string;
-  status: 'active' | 'inactive' | 'suspended';
+  status: 'active' | 'inactive' | 'suspended' | 'invited';
   role: TeamRole | null;
   custom_permissions?: string[];
   effective_permissions: string[];
+  has_accepted?: boolean;
+  last_login?: string | null;
   created_at: string;
   updated_at: string;
 }
@@ -186,7 +188,7 @@ export const teamMembers = {
     department?: string;
     password?: string;
   }) =>
-    apiFetch<{ success: boolean; data: TeamMember }>('/members/', {
+    apiFetch<{ success: boolean; data: TeamMember; generated_password?: string; email_sent?: boolean }>('/members/', {
       method: 'POST',
       body: JSON.stringify(data),
     }),
@@ -212,6 +214,21 @@ export const teamMembers = {
 
   delete: (id: string) =>
     apiFetch<{ success: boolean }>(`/members/${id}/`, { method: 'DELETE' }),
+
+  resetPassword: (id: string, new_password?: string) =>
+    apiFetch<{ success: boolean; message: string; new_password: string; email_sent: boolean }>(
+      `/members/${id}/reset-password/`,
+      {
+        method: 'POST',
+        body: JSON.stringify(new_password ? { new_password } : {}),
+      }
+    ),
+
+  resendInvite: (id: string) =>
+    apiFetch<{ success: boolean; message: string; temporary_password: string; email_sent: boolean }>(
+      `/members/${id}/resend-invite/`,
+      { method: 'POST' }
+    ),
 };
 
 // ─── Content / Articles / Hero / Stories / Products API ──────────────────────

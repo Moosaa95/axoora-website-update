@@ -37,17 +37,19 @@ type TeamSubTab = 'members' | 'roles';
 
 // ─── Status badge colours ─────────────────────────────────────────────────────
 
-function StatusBadge({ status }: { status: string }) {
+function StatusBadge({ status, hasAccepted }: { status: string; hasAccepted?: boolean }) {
+  const isPending = status === 'invited' || hasAccepted === false;
   const cfg: Record<string, { bg: string; text: string; label: string }> = {
     active: { bg: 'bg-[#00DF8F]/15', text: 'text-[#00DF8F]', label: 'Active' },
+    invited: { bg: 'bg-[#F2A93B]/15', text: 'text-[#F2A93B]', label: 'Invite Pending' },
     inactive: { bg: 'bg-[#14294F]', text: 'text-[#7B9CD2]', label: 'Inactive' },
     suspended: { bg: 'bg-[#EF4444]/15', text: 'text-[#EF4444]', label: 'Suspended' },
   };
-  const c = cfg[status] || cfg.inactive;
+  const c = isPending ? cfg.invited : (cfg[status] || cfg.inactive);
   return (
     <span className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-mono font-bold uppercase ${c.bg} ${c.text}`}>
-      <span className={`w-1 h-1 rounded-full ${status === 'active' ? 'bg-[#00DF8F] animate-pulse' : status === 'suspended' ? 'bg-[#EF4444]' : 'bg-[#7B9CD2]'}`} />
-      {c.label}
+      <span className={`w-1 h-1 rounded-full ${status === 'active' && hasAccepted !== false ? 'bg-[#00DF8F] animate-pulse' : isPending ? 'bg-[#F2A93B] animate-pulse' : status === 'suspended' ? 'bg-[#EF4444]' : 'bg-[#7B9CD2]'}`} />
+      {isPending ? 'Invite Pending' : c.label}
     </span>
   );
 }
@@ -352,6 +354,114 @@ function RoleDrawer({ role, isNew, allPermissions, onClose, onSaved, onShowToast
   );
 }
 
+// ─── Credentials Modal ────────────────────────────────────────────────────────
+
+interface CredentialsModalProps {
+  isOpen: boolean;
+  title: string;
+  subtitle: string;
+  memberName: string;
+  email: string;
+  password?: string;
+  emailSent?: boolean;
+  onClose: () => void;
+  onShowToast: (msg: string) => void;
+}
+
+function CredentialsModal({
+  isOpen,
+  title,
+  subtitle,
+  memberName,
+  email,
+  password,
+  emailSent,
+  onClose,
+  onShowToast,
+}: CredentialsModalProps) {
+  const [copied, setCopied] = useState(false);
+
+  if (!isOpen) return null;
+
+  const handleCopy = () => {
+    if (password) {
+      navigator.clipboard.writeText(password);
+      setCopied(true);
+      onShowToast('Password copied to clipboard!');
+      setTimeout(() => setCopied(false), 2000);
+    }
+  };
+
+  return (
+    <AnimatePresence>
+      <div className="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm flex items-center justify-center p-4">
+        <motion.div
+          initial={{ opacity: 0, scale: 0.95 }}
+          animate={{ opacity: 1, scale: 1 }}
+          exit={{ opacity: 0, scale: 0.95 }}
+          className="w-full max-w-md bg-[#030E26] border border-[#14294F] rounded-2xl p-6 shadow-2xl flex flex-col gap-4 text-left"
+        >
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 rounded-xl bg-[#00DF8F]/15 border border-[#00DF8F]/30 text-[#00DF8F] flex items-center justify-center shrink-0">
+              <span className="material-symbols-outlined text-[22px]">mark_email_read</span>
+            </div>
+            <div>
+              <h3 className="text-base font-bold text-white">{title}</h3>
+              <p className="text-xs text-[#7B9CD2]">{subtitle}</p>
+            </div>
+          </div>
+
+          <div className="p-4 rounded-xl bg-[#05112A] border border-[#14294F] flex flex-col gap-2.5 font-mono text-xs">
+            <div className="flex items-center justify-between text-[#7B9CD2]">
+              <span>Team Member:</span>
+              <span className="text-white font-sans font-bold">{memberName}</span>
+            </div>
+            <div className="flex items-center justify-between text-[#7B9CD2]">
+              <span>Login Email:</span>
+              <span className="text-[#0D95FE]">{email}</span>
+            </div>
+            {password && (
+              <div className="flex items-center justify-between pt-2 border-t border-[#14294F]">
+                <span className="text-[#7B9CD2]">Temporary Password:</span>
+                <div className="flex items-center gap-2">
+                  <span className="text-[#00DF8F] font-bold tracking-wider">{password}</span>
+                  <button
+                    onClick={handleCopy}
+                    className="p-1 rounded-lg bg-[#0A1B3D] border border-[#14294F] hover:bg-[#14294F] text-[#7B9CD2] hover:text-white transition-all cursor-pointer"
+                    title="Copy password"
+                  >
+                    <span className="material-symbols-outlined text-[14px]">
+                      {copied ? 'check' : 'content_copy'}
+                    </span>
+                  </button>
+                </div>
+              </div>
+            )}
+          </div>
+
+          <div className="p-3 rounded-xl bg-[#0D95FE]/10 border border-[#0D95FE]/20 text-[11px] text-[#A8BBD6] flex items-center gap-2">
+            <span className="material-symbols-outlined text-[16px] text-[#0D95FE] shrink-0">
+              {emailSent ? 'check_circle' : 'info'}
+            </span>
+            <span>
+              {emailSent
+                ? `An invitation email has been dispatched to ${email}.`
+                : `Save this password or copy it now to share with the team member directly.`}
+            </span>
+          </div>
+
+          <button
+            onClick={onClose}
+            className="w-full py-2.5 rounded-xl bg-[#0D95FE] hover:bg-[#00DF8F] text-white hover:text-[#003825] font-bold text-xs transition-all cursor-pointer"
+          >
+            Done
+          </button>
+        </motion.div>
+      </div>
+    </AnimatePresence>
+  );
+}
+
 // ─── Member drawer ────────────────────────────────────────────────────────────
 
 interface MemberDrawerProps {
@@ -360,7 +470,7 @@ interface MemberDrawerProps {
   roles: TeamRole[];
   allPermissions: PermissionGroup[];
   onClose: () => void;
-  onSaved: (m: TeamMember) => void;
+  onSaved: (m: TeamMember, generatedPassword?: string, emailSent?: boolean) => void;
   onShowToast: (msg: string) => void;
 }
 
@@ -422,10 +532,15 @@ function MemberDrawer({ member, isNew, roles, allPermissions, onClose, onSaved, 
       if (password) payload.password = password;
 
       let saved: TeamMember;
+      let genPass: string | undefined;
+      let emailDispatched: boolean | undefined;
+
       if (isNew) {
         const res = await teamMembers.create(payload as Parameters<typeof teamMembers.create>[0]);
         saved = res.data;
-        onShowToast(`Team member "${saved.full_name}" added!`);
+        genPass = res.generated_password;
+        emailDispatched = res.email_sent;
+        onShowToast(`Team member "${saved.full_name}" invited!`);
       } else if (member) {
         const res = await teamMembers.update(member.id, payload as Parameters<typeof teamMembers.update>[1]);
         saved = res.data;
@@ -434,7 +549,7 @@ function MemberDrawer({ member, isNew, roles, allPermissions, onClose, onSaved, 
         return;
       }
 
-      onSaved(saved);
+      onSaved(saved, genPass, emailDispatched);
       onClose();
     } catch (err: unknown) {
       const apiErr = err as { detail?: string; email?: string[]; full_name?: string[] };
@@ -606,18 +721,36 @@ function MemberDrawer({ member, isNew, roles, allPermissions, onClose, onSaved, 
                   </div>
                 )}
 
-                {/* Password */}
+                {/* Password Configuration */}
                 <div className="flex flex-col gap-1.5">
-                  <label className="text-xs font-semibold text-[#A8BBD6]">
-                    {isNew ? 'Initial Password' : 'New Password (leave blank to keep current)'}
-                  </label>
+                  <div className="flex items-center justify-between">
+                    <label className="text-xs font-semibold text-[#A8BBD6]">
+                      {isNew ? 'Password Configuration' : 'New Password'}
+                    </label>
+                    {isNew && (
+                      <button
+                        type="button"
+                        onClick={() => {
+                          const chars = 'abcdefghjkmnpqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ23456789!@#$%&*';
+                          let gen = '';
+                          for (let i = 0; i < 12; i++) gen += chars.charAt(Math.floor(Math.random() * chars.length));
+                          setPassword(gen);
+                          setShowPass(true);
+                        }}
+                        className="text-[10px] text-[#00DF8F] hover:underline flex items-center gap-1 font-mono cursor-pointer"
+                      >
+                        <span className="material-symbols-outlined text-[13px]">autorenew</span>
+                        <span>Auto-Generate</span>
+                      </button>
+                    )}
+                  </div>
                   <div className="relative">
                     <input
                       type={showPass ? 'text' : 'password'}
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
-                      placeholder={isNew ? 'Min 6 characters' : '••••••••'}
-                      className="w-full pl-3 pr-10 py-2.5 rounded-xl bg-[#05112A] border border-[#14294F] text-sm text-white placeholder-[#7B9CD2] focus:outline-none focus:border-[#0D95FE] transition-colors"
+                      placeholder={isNew ? 'Leave blank to auto-generate & email' : 'Leave blank to keep current'}
+                      className="w-full pl-3 pr-10 py-2.5 rounded-xl bg-[#05112A] border border-[#14294F] text-sm text-white placeholder-[#7B9CD2] focus:outline-none focus:border-[#0D95FE] transition-colors font-mono"
                     />
                     <button
                       type="button"
@@ -629,8 +762,13 @@ function MemberDrawer({ member, isNew, roles, allPermissions, onClose, onSaved, 
                       </span>
                     </button>
                   </div>
-                  {isNew && (
-                    <p className="text-[10px] text-[#7B9CD2]">Default: AxooraPass2026! if left blank</p>
+                  {isNew ? (
+                    <p className="text-[11px] text-[#7B9CD2] flex items-center gap-1 mt-0.5">
+                      <span className="material-symbols-outlined text-[14px] text-[#00DF8F]">mail</span>
+                      <span>A secure password will be auto-generated and emailed to the member.</span>
+                    </p>
+                  ) : (
+                    <p className="text-[10px] text-[#7B9CD2]">Leave blank to preserve member's existing password.</p>
                   )}
                 </div>
               </>
@@ -775,6 +913,71 @@ export function TeamManagementTab({ onShowToast }: TeamManagementTabProps) {
     onConfirm: () => {},
   });
 
+  const [credentialsModal, setCredentialsModal] = useState<{
+    isOpen: boolean;
+    title: string;
+    subtitle: string;
+    memberName: string;
+    email: string;
+    password?: string;
+    emailSent?: boolean;
+  }>({
+    isOpen: false,
+    title: '',
+    subtitle: '',
+    memberName: '',
+    email: '',
+    password: '',
+    emailSent: false,
+  });
+
+  const handleResetPassword = (m: TeamMember) => {
+    setConfirmState({
+      isOpen: true,
+      title: 'Reset Member Password?',
+      message: `Generate a new password for ${m.full_name}? The new credentials will be immediately emailed to ${m.email}.`,
+      confirmLabel: 'Reset & Send Email',
+      onConfirm: async () => {
+        setConfirmState((prev) => ({ ...prev, isOpen: false }));
+        try {
+          const res = await teamMembers.resetPassword(m.id);
+          setCredentialsModal({
+            isOpen: true,
+            title: 'Password Reset Successful',
+            subtitle: `A new secure password was generated and dispatched to ${m.email}.`,
+            memberName: m.full_name,
+            email: m.email,
+            password: res.new_password,
+            emailSent: res.email_sent,
+          });
+          onShowToast(`Password reset email sent to ${m.email}`);
+          loadMembers();
+        } catch (err: any) {
+          onShowToast(err?.detail || 'Failed to reset password.');
+        }
+      },
+    });
+  };
+
+  const handleResendInvite = async (m: TeamMember) => {
+    try {
+      const res = await teamMembers.resendInvite(m.id);
+      setCredentialsModal({
+        isOpen: true,
+        title: 'Invitation Email Resent',
+        subtitle: `A fresh invitation with login credentials has been dispatched to ${m.email}.`,
+        memberName: m.full_name,
+        email: m.email,
+        password: res.temporary_password,
+        emailSent: res.email_sent,
+      });
+      onShowToast(`Invite resent to ${m.email}`);
+      loadMembers();
+    } catch (err: any) {
+      onShowToast(err?.detail || 'Failed to resend invite.');
+    }
+  };
+
   const handleDeleteRole = (role: TeamRole) => {
     if (role.is_system) {
       onShowToast('System roles cannot be deleted.');
@@ -916,7 +1119,7 @@ export function TeamManagementTab({ onShowToast }: TeamManagementTabProps) {
                     <div className="flex flex-col gap-0.5 min-w-0">
                       <div className="flex items-center gap-2 flex-wrap">
                         <span className="text-sm font-bold text-white truncate">{m.full_name}</span>
-                        <StatusBadge status={m.status} />
+                        <StatusBadge status={m.status} hasAccepted={m.has_accepted} />
                       </div>
                       <span className="text-[11px] text-[#7B9CD2]">{m.email}</span>
                       <div className="flex items-center gap-2 flex-wrap mt-0.5">
@@ -935,7 +1138,27 @@ export function TeamManagementTab({ onShowToast }: TeamManagementTabProps) {
                     </div>
                   </div>
 
-                  <div className="flex items-center gap-2 shrink-0">
+                  <div className="flex items-center gap-2 shrink-0 flex-wrap">
+                    {(!m.has_accepted || m.status === 'invited') && (
+                      <button
+                        onClick={() => handleResendInvite(m)}
+                        className="px-2.5 py-1.5 rounded-xl bg-[#F2A93B]/10 text-xs text-[#F2A93B] border border-[#F2A93B]/30 hover:bg-[#F2A93B]/20 cursor-pointer transition-all flex items-center gap-1.5 font-semibold"
+                        title="Resend invitation email with new temporary credentials"
+                      >
+                        <span className="material-symbols-outlined text-[15px]">forward_to_inbox</span>
+                        <span>Resend Invite</span>
+                      </button>
+                    )}
+
+                    <button
+                      onClick={() => handleResetPassword(m)}
+                      className="px-2.5 py-1.5 rounded-xl bg-[#0A1B3D] text-xs text-[#7B9CD2] hover:text-white border border-[#14294F] hover:border-[#0D95FE]/40 cursor-pointer transition-all flex items-center gap-1.5"
+                      title="Reset member password and dispatch credentials"
+                    >
+                      <span className="material-symbols-outlined text-[15px]">lock_reset</span>
+                      <span>Reset Pass</span>
+                    </button>
+
                     <button
                       onClick={() => setMemberDrawer({ open: true, member: m, isNew: false })}
                       className="px-3 py-1.5 rounded-xl bg-[#0A1B3D] text-xs text-[#0D95FE] border border-[#14294F] hover:border-[#0D95FE]/40 cursor-pointer transition-all"
@@ -945,6 +1168,7 @@ export function TeamManagementTab({ onShowToast }: TeamManagementTabProps) {
                     <button
                       onClick={() => handleDeleteMember(m)}
                       className="p-1.5 rounded-xl text-[#7B9CD2] hover:text-[#EF4444] hover:bg-[#EF4444]/10 cursor-pointer transition-all"
+                      title="Remove member"
                     >
                       <span className="material-symbols-outlined text-[18px]">delete</span>
                     </button>
@@ -1073,12 +1297,35 @@ export function TeamManagementTab({ onShowToast }: TeamManagementTabProps) {
           roles={roles}
           allPermissions={allPermissions}
           onClose={() => setMemberDrawer({ open: false, member: null, isNew: false })}
-          onSaved={() => {
+          onSaved={(saved, genPass, emailDispatched) => {
             loadMembers();
+            if (genPass) {
+              setCredentialsModal({
+                isOpen: true,
+                title: 'Team Member Invited',
+                subtitle: `Account provisioned for ${saved.full_name}. Credentials dispatched to their inbox.`,
+                memberName: saved.full_name,
+                email: saved.email,
+                password: genPass,
+                emailSent: emailDispatched,
+              });
+            }
           }}
           onShowToast={onShowToast}
         />
       )}
+
+      <CredentialsModal
+        isOpen={credentialsModal.isOpen}
+        title={credentialsModal.title}
+        subtitle={credentialsModal.subtitle}
+        memberName={credentialsModal.memberName}
+        email={credentialsModal.email}
+        password={credentialsModal.password}
+        emailSent={credentialsModal.emailSent}
+        onClose={() => setCredentialsModal((prev) => ({ ...prev, isOpen: false }))}
+        onShowToast={onShowToast}
+      />
 
       <ConfirmModal
         isOpen={confirmState.isOpen}
