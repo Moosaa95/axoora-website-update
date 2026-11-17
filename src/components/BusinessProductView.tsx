@@ -31,12 +31,13 @@ export const BusinessProductView: React.FC<BusinessProductViewProps> = ({
 }) => {
   const { theme } = useTheme();
   const isLight = theme === 'light';
-  const { hero } = useCms();
+  const { hero, faqs } = useCms();
 
   // Business-only FAQs
-  const businessFaqs = FAQ_LIST.filter(
+  const sourceFaqs = faqs && faqs.length > 0 ? faqs : FAQ_LIST;
+  const businessFaqs = sourceFaqs.filter(
     (faq) => faq.category === 'Business & POS'
-  ).slice(0, 6);
+  ).slice(0, 8);
   const [openFaqId, setOpenFaqId] = useState<string | null>(businessFaqs[0]?.id || null);
 
   return (

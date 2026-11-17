@@ -148,8 +148,53 @@ export const JournalView: React.FC = () => {
               </p>
 
               {activeArticle.content ? (
-                <div className="flex flex-col gap-3 whitespace-pre-line text-sm text-[#CAD5E8] leading-relaxed">
-                  {activeArticle.content}
+                <div className="flex flex-col gap-2.5 text-sm text-[#CAD5E8] leading-relaxed">
+                  {activeArticle.content.split('\n').map((line, idx) => {
+                    const trimmed = line.trim();
+                    if (!trimmed) return <div key={idx} className="h-1.5" />;
+                    if (trimmed.startsWith('### ')) {
+                      return (
+                        <h4 key={idx} className="text-base font-bold text-white mt-3 mb-1 flex items-center gap-2">
+                          <span className="w-1.5 h-3.5 rounded-full bg-[#00DF8F]" />
+                          <span>{trimmed.replace('### ', '')}</span>
+                        </h4>
+                      );
+                    }
+                    if (trimmed.startsWith('## ')) {
+                      return (
+                        <h3 key={idx} className="text-lg font-extrabold text-[#0D95FE] mt-4 mb-1.5 border-b border-[#14294F] pb-1 flex items-center gap-2">
+                          <span className="w-2 h-4 rounded-full bg-[#0D95FE]" />
+                          <span>{trimmed.replace('## ', '')}</span>
+                        </h3>
+                      );
+                    }
+                    if (trimmed.startsWith('# ')) {
+                      return (
+                        <h2 key={idx} className="text-xl font-black text-white mt-5 mb-2">
+                          {trimmed.replace('# ', '')}
+                        </h2>
+                      );
+                    }
+                    if (trimmed.startsWith('> ')) {
+                      return (
+                        <blockquote key={idx} className="pl-3.5 border-l-2 border-[#00DF8F] text-[#E2E8F0] italic my-2 py-2 bg-[#00DF8F]/5 rounded-r-xl text-sm">
+                          {trimmed.replace('> ', '')}
+                        </blockquote>
+                      );
+                    }
+                    if (trimmed.startsWith('- ') || trimmed.startsWith('* ')) {
+                      return (
+                        <li key={idx} className="list-disc list-inside text-sm text-[#CAD5E8] ml-2">
+                          {trimmed.substring(2)}
+                        </li>
+                      );
+                    }
+                    return (
+                      <p key={idx} className="text-sm text-[#CAD5E8] leading-relaxed">
+                        {line}
+                      </p>
+                    );
+                  })}
                 </div>
               ) : (
                 <>

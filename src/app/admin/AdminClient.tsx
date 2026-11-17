@@ -18,11 +18,13 @@ export function AdminClient() {
     dispatch(checkAuthThunk())
       .unwrap()
       .catch(() => {
-        router.replace('/admin/login');
+        if (typeof window !== 'undefined' && !localStorage.getItem('axoora_auth_session')) {
+          router.replace('/admin/login');
+        }
       });
   }, [dispatch, router]);
 
-  const checking = status === 'loading' || status === 'idle';
+  const checking = (status === 'loading' || status === 'idle') && !isAuthenticated;
 
   if (checking) {
     return <AdminShellSkeleton />;

@@ -2,7 +2,6 @@
 
 import React, { useState, useEffect, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { COMPANY_INFO } from '../data/mockData';
 import { useTheme } from '../context/ThemeContext';
 
 export interface WhatsAppCommandFaqDrawerProps {
@@ -55,52 +54,52 @@ export const COMMAND_CATALOG: CommandItem[] = [
   {
     id: 'tr-1',
     category: 'transfers',
-    categoryName: 'Transfers & NIP',
-    badge: '0% Transfer Fee',
+    categoryName: 'Transfers',
+    badge: 'Zero Fee',
     badgeColor: '#00DF8F',
-    icon: 'north_east',
+    icon: 'send',
     title: 'Transfer by Recipient Name',
-    description: 'Send money to frequent contacts or saved beneficiaries without typing their account number.',
+    description: 'Send money to frequent contacts or saved beneficiaries without typing account numbers.',
     samplePrompt: 'Axoora send ₦15,000 to Musa for lunch from main account',
     mode: 'text',
     aiResponse: {
-      summary: 'Recipient resolved: Musa Ibrahim (Kuda Bank · 2098411234). Fee: ₦0.00. Settled via NIBSS Instant rails.',
+      summary: 'Ready to send ₦15,000 to Musa Ibrahim (Kuda Bank · 2098411234)?',
       details: [
-        { label: 'Beneficiary', value: 'Musa Ibrahim' },
+        { label: 'Recipient', value: 'Musa Ibrahim' },
         { label: 'Bank', value: 'Kuda Bank · 2098411234' },
         { label: 'Amount', value: '₦15,000.00', highlight: true },
-        { label: 'Transfer Fee', value: '₦0.00 (Zero Fee)' },
+        { label: 'Transfer Fee', value: '₦0.00 (Free)' },
       ],
-      footer: 'Settled in 0.8s · Authorized via biometric touch / PIN',
+      footer: 'Reply with your 4-digit PIN to confirm · Settles instantly via NIBSS',
     },
   },
   {
     id: 'tr-2',
     category: 'transfers',
-    categoryName: 'Transfers & NIP',
-    badge: 'Instant Name Lookup',
+    categoryName: 'Transfers',
+    badge: 'Instant Verification',
     badgeColor: '#00DF8F',
-    icon: 'north_east',
+    icon: 'account_balance',
     title: 'Direct Transfer with NUBAN & Bank',
-    description: 'Provide an account number and bank name; Axoora runs an instant NIBSS verification before sending.',
+    description: 'Provide an account number and bank name; Axoora verifies the name before sending.',
     samplePrompt: 'Transfer ₦50,000 to Halimah Balogun GTBank 0124981123',
     mode: 'text',
     aiResponse: {
-      summary: 'Beneficiary verified: Halimah Balogun at Guaranty Trust Bank. Ready to dispatch:',
+      summary: 'Verified account for Halimah Balogun at Guaranty Trust Bank:',
       details: [
         { label: 'Beneficiary', value: 'Halimah Balogun' },
-        { label: 'Bank', value: 'GTBank · 0124981123' },
+        { label: 'Bank & NUBAN', value: 'GTBank · 0124981123' },
         { label: 'Amount', value: '₦50,000.00', highlight: true },
-        { label: 'Fee', value: '₦0.00 (100% Free)' },
+        { label: 'Transfer Fee', value: '₦0.00 (Zero Fee)' },
       ],
-      footer: '0.6s Instant NIP Rail · Zero transfer fee',
+      footer: 'Reply with your 4-digit PIN to authorize payment',
     },
   },
   {
     id: 'tr-3',
     category: 'transfers',
-    categoryName: 'Transfers & NIP',
-    badge: 'Pidgin Natural Command',
+    categoryName: 'Transfers',
+    badge: 'Pidgin Friendly',
     badgeColor: '#0D95FE',
     icon: 'forum',
     title: 'Pidgin Transfer & Split Bill',
@@ -108,21 +107,21 @@ export const COMMAND_CATALOG: CommandItem[] = [
     samplePrompt: 'Abeg send ₦20,000 to Chidi for fuel from my balance',
     mode: 'text',
     aiResponse: {
-      summary: 'Resolved: Chinedu Eze (Zenith Bank · 1014920491). Transfer Fee: ₦0.00.',
+      summary: 'I don resolve am: Chinedu Eze (Zenith Bank · 1014920491).',
       details: [
         { label: 'Beneficiary', value: 'Chinedu Eze' },
         { label: 'Bank', value: 'Zenith Bank · 1014920491' },
         { label: 'Amount', value: '₦20,000.00', highlight: true },
-        { label: 'Fee', value: '₦0.00' },
+        { label: 'Fee', value: '₦0.00 (No charges)' },
       ],
-      footer: 'Pidgin NLP intent engine · Zero latency',
+      footer: 'Enter your 4-digit PIN make we dispatch am sharp-sharp',
     },
   },
   {
     id: 'tr-4',
     category: 'transfers',
-    categoryName: 'Transfers & NIP',
-    badge: 'Scheduled Auto-Debit',
+    categoryName: 'Transfers',
+    badge: 'Auto-Debit',
     badgeColor: '#8B5CF6',
     icon: 'schedule',
     title: 'Schedule Recurring Rent or Allowance',
@@ -130,20 +129,20 @@ export const COMMAND_CATALOG: CommandItem[] = [
     samplePrompt: 'Axoora schedule ₦35,000 monthly allowance to Mummy on the 28th',
     mode: 'text',
     aiResponse: {
-      summary: 'Scheduled standing order created: ₦35,000 will disburse on the 28th of every month to Mrs. Bello.',
+      summary: 'Recurring standing order configured for Mrs. Amina Bello:',
       details: [
         { label: 'Recipient', value: 'Mrs. Amina Bello (Mummy)' },
-        { label: 'Frequency', value: 'Monthly (Every 28th)' },
+        { label: 'Frequency', value: 'Monthly on the 28th' },
         { label: 'Amount', value: '₦35,000.00', highlight: true },
         { label: 'Status', value: 'Active Standing Order' },
       ],
-      footer: 'Cancel or pause anytime by texting "Pause Mummy allowance"',
+      footer: 'You can pause or edit anytime by texting "Pause Mummy allowance"',
     },
   },
   {
     id: 'tr-5',
     category: 'transfers',
-    categoryName: 'Transfers & NIP',
+    categoryName: 'Transfers',
     badge: 'Share NUBAN',
     badgeColor: '#00DF8F',
     icon: 'badge',
@@ -165,23 +164,23 @@ export const COMMAND_CATALOG: CommandItem[] = [
   {
     id: 'tr-6',
     category: 'transfers',
-    categoryName: 'Transfers & NIP',
+    categoryName: 'Transfers',
     badge: 'Limits & Upgrade',
     badgeColor: '#0D95FE',
     icon: 'tune',
     title: 'Check & Upgrade Daily Transfer Limits',
-    description: 'Check your tier and upgrade transfer limits up to unlimited with automated biometric KYC.',
+    description: 'Check your tier and upgrade transfer limits with automated biometric KYC.',
     samplePrompt: 'What is my daily transfer limit and how do I upgrade to Tier 3?',
     mode: 'text',
     aiResponse: {
-      summary: 'You are currently on Tier 3 (Unlimited Daily Volume). Single transaction cap: ₦10,000,000.00.',
+      summary: 'You are currently on Tier 3 (Unlimited Daily Volume):',
       details: [
         { label: 'Current Tier', value: 'Tier 3 (Verified)' },
         { label: 'Daily Cap', value: 'No Daily Limit', highlight: true },
         { label: 'BVN & NIN Status', value: 'Linked & Confirmed' },
-        { label: 'Settlement Speed', value: 'Sub-2s Real-Time' },
+        { label: 'Settlement Speed', value: 'Instant (< 1 second)' },
       ],
-      footer: 'CBN PSSP Microfinance Compliant · No branch visits needed',
+      footer: 'CBN licensed · No branch visits needed',
     },
   },
 
@@ -189,67 +188,67 @@ export const COMMAND_CATALOG: CommandItem[] = [
   {
     id: 'ocr-1',
     category: 'ocr',
-    categoryName: 'Photo & Invoice OCR',
-    badge: 'Vision AI · 99.8% Match',
+    categoryName: 'Scan & Pay',
+    badge: 'Photo OCR',
     badgeColor: '#00DF8F',
     icon: 'document_scanner',
     title: 'Pay Vendor Invoice from Photo',
-    description: 'Snap or forward any PDF or JPG invoice. Vision OCR extracts the bank, NUBAN, and amount instantly.',
+    description: 'Snap or forward any invoice photo. Axoora extracts the bank, NUBAN, and amount automatically.',
     samplePrompt: 'Axoora please pay this invoice for me [Photo Attached]',
     mode: 'image',
     aiResponse: {
-      summary: 'Vision OCR detected: Bello Textiles & Fabrics Ltd · GTBank · 0124981123. Total: ₦25,000.00.',
+      summary: 'Invoice details extracted from your photo:',
       details: [
-        { label: 'Vendor / Beneficiary', value: 'Halimah Balogun (Bello Fabrics)' },
+        { label: 'Vendor', value: 'Halimah Balogun (Bello Fabrics)' },
         { label: 'Bank & NUBAN', value: 'GTBank · 0124981123' },
-        { label: 'Invoice Total', value: '₦25,000.00', highlight: true },
-        { label: 'OCR Match Score', value: '99.8% Exact Match' },
+        { label: 'Invoice Amount', value: '₦25,000.00', highlight: true },
+        { label: 'Match Confidence', value: '99.8% Exact Match' },
       ],
-      footer: 'Extracted automatically from photo · Settled with ₦0 fee',
+      footer: 'Reply with PIN to disburse payment directly to vendor',
     },
   },
   {
     id: 'ocr-2',
     category: 'ocr',
-    categoryName: 'Photo & Invoice OCR',
-    badge: 'Handwritten Recognition',
+    categoryName: 'Scan & Pay',
+    badge: 'Handwritten Paper',
     badgeColor: '#00DF8F',
-    icon: 'document_scanner',
-    title: 'Scan Handwritten Bank Account Slip',
-    description: 'Send a photo of a vendor who wrote their account details on a piece of paper or cardboard.',
+    icon: 'edit_note',
+    title: 'Scan Handwritten Bank Slip',
+    description: 'Send a photo of a vendor who wrote their account number on a piece of paper or paper bag.',
     samplePrompt: 'Extract account number from this handwritten paper and pay ₦12,500',
     mode: 'image',
     aiResponse: {
-      summary: 'Handwriting OCR parsed: "0219481920 Wema Bank - Chinedu Eze". Verified on NIP rails.',
+      summary: 'Handwriting recognized and verified on bank rails:',
       details: [
         { label: 'Parsed Account', value: 'Wema Bank · 0219481920' },
         { label: 'Resolved Name', value: 'Chinedu Eze' },
         { label: 'Amount to Pay', value: '₦12,500.00', highlight: true },
         { label: 'Transfer Fee', value: '₦0.00' },
       ],
-      footer: 'Neural Vision handwriting extraction · Zero errors',
+      footer: 'Reply with your 4-digit PIN to confirm payment',
     },
   },
   {
     id: 'ocr-3',
     category: 'ocr',
-    categoryName: 'Photo & Invoice OCR',
-    badge: 'Utility Bill OCR',
+    categoryName: 'Scan & Pay',
+    badge: 'Electricity Slip',
     badgeColor: '#F59E0B',
     icon: 'electric_meter',
-    title: 'Scan Electricity Prepaid Bill / Notice',
-    description: 'Snap a photo of your meter slip or bill; Axoora parses the meter ID and loads the credit.',
+    title: 'Scan Electricity Bill or Meter Notice',
+    description: 'Snap a photo of your meter card or bill; Axoora parses the meter ID and loads units.',
     samplePrompt: 'Snap meter notice: Buy ₦10,000 prepaid units for this meter',
     mode: 'image',
     aiResponse: {
-      summary: 'Meter slip parsed: AEDC Prepaid Meter 0149204918. ₦10,000 processed.',
+      summary: 'Meter slip parsed: AEDC Prepaid Meter 0149204918:',
       details: [
-        { label: 'Disco', value: 'Abuja Electricity (AEDC)' },
-        { label: 'Meter No', value: '0149204918' },
+        { label: 'Provider', value: 'Abuja Electricity (AEDC)' },
+        { label: 'Meter Number', value: '0149204918' },
         { label: 'Units Token', value: '4920 - 1824 - 0192 - 9481', highlight: true },
-        { label: 'Units Credited', value: '52.4 kWh' },
+        { label: 'Power Credited', value: '52.4 kWh' },
       ],
-      footer: '20-digit token delivered in WhatsApp chat in 0.5 seconds',
+      footer: '20-digit token generated and saved in your chat history',
     },
   },
 
@@ -257,67 +256,67 @@ export const COMMAND_CATALOG: CommandItem[] = [
   {
     id: 'vn-1',
     category: 'voice',
-    categoryName: 'Voice Note AI',
-    badge: 'Biometric Neural Audio',
+    categoryName: 'Voice Notes',
+    badge: 'Voice Payment',
     badgeColor: '#53BDEB',
     icon: 'mic',
-    title: 'Send Money with 5s Voice Note',
-    description: 'Just press record and speak in English or Pidgin: "Axoora send 5k transport to Dad".',
-    samplePrompt: '🎙️ "Axoora send ₦5,000 transport to Dad from main account" (0:07 audio)',
+    title: 'Send Money with a 5-Second Voice Note',
+    description: 'Press record and speak naturally in English or Pidgin: "Axoora send 5k transport to Dad".',
+    samplePrompt: '🎙️ "Axoora send ₦5,000 transport to Dad from main account"',
     mode: 'voice',
     aiResponse: {
-      summary: 'Voice command authenticated via Biometric Neural Audio. Dispatched to Dad (Babatunde Ibrahim):',
+      summary: 'Voice instruction understood and matched to your voiceprint:',
       details: [
         { label: 'Recipient', value: 'Babatunde Ibrahim (Dad)' },
-        { label: 'Bank', value: 'First Bank of Nigeria · 3089124419' },
+        { label: 'Bank', value: 'First Bank · 3089124419' },
         { label: 'Amount', value: '₦5,000.00', highlight: true },
-        { label: 'Audio Biometrics', value: '99.4% Match Verified' },
+        { label: 'Voice Match', value: 'Verified Voiceprint' },
       ],
-      footer: 'Spoken command executed in 0.7s · ₦0 fee',
+      footer: 'Reply with your 4-digit PIN to complete the transfer',
     },
   },
   {
     id: 'vn-2',
     category: 'voice',
-    categoryName: 'Voice Note AI',
-    badge: 'Voice Balance Check',
+    categoryName: 'Voice Notes',
+    badge: 'Voice Balance',
     badgeColor: '#53BDEB',
     icon: 'mic',
-    title: 'Check Balance via Voice Message',
+    title: 'Check Balance via Voice Note',
     description: 'Send a quick voice note asking for your balance while walking, driving, or in the market.',
     samplePrompt: '🎙️ "Axoora how much is in my account right now?"',
     mode: 'voice',
     aiResponse: {
-      summary: 'Your current available balance across all wallets is ₦97,430.00 (Tier 3 · No daily cap).',
+      summary: 'Here is your current balance breakdown:',
       details: [
-        { label: 'Main Available', value: '₦97,430.00', highlight: true },
+        { label: 'Available Balance', value: '₦97,430.00', highlight: true },
         { label: 'Halal Vault', value: '₦115,000.00 (Locked)' },
         { label: 'USD Virtual Card', value: '$50.00 (₦74,250)' },
         { label: 'Today\'s Spend', value: '₦15,000.00' },
       ],
-      footer: 'Private encrypted response sent directly to your WhatsApp',
+      footer: 'Private encrypted message sent directly to you',
     },
   },
   {
     id: 'vn-3',
     category: 'voice',
-    categoryName: 'Voice Note AI',
-    badge: 'Hausa & Yoruba Audio',
+    categoryName: 'Voice Notes',
+    badge: 'Multilingual',
     badgeColor: '#53BDEB',
     icon: 'mic',
-    title: 'Multilingual Spoken Payment in Local Tongues',
-    description: 'Axoora understands spoken Pidgin, Yoruba, Hausa, and Igbo financial expressions.',
+    title: 'Spoken Payments in Hausa, Yoruba & Igbo',
+    description: 'Axoora understands spoken Pidgin, Yoruba, Hausa, and Igbo financial requests.',
     samplePrompt: '🎙️ "Axoora tura kudi dubu ashirin ga Amina" / "E fi 20k ranse si Amina"',
     mode: 'voice',
     aiResponse: {
-      summary: 'Multilingual speech processor resolved: Transfer ₦20,000 to Amina Bello (GTBank).',
+      summary: 'Regional language instruction resolved successfully:',
       details: [
-        { label: 'Language', value: 'Hausa / Yoruba Regional NLP' },
-        { label: 'Resolved Target', value: 'Amina Bello (GTBank)' },
+        { label: 'Language', value: 'Hausa / Yoruba Regional Voice' },
+        { label: 'Beneficiary', value: 'Amina Bello (GTBank)' },
         { label: 'Amount', value: '₦20,000.00', highlight: true },
         { label: 'Status', value: 'Awaiting PIN confirmation' },
       ],
-      footer: 'Natural speech intelligence tailored for Nigerian everyday commerce',
+      footer: 'Reply with your 4-digit PIN to authorize',
     },
   },
 
@@ -334,21 +333,21 @@ export const COMMAND_CATALOG: CommandItem[] = [
     samplePrompt: 'Buy ₦2,000 MTN airtime for 08031234567 with cashback',
     mode: 'text',
     aiResponse: {
-      summary: 'MTN Airtime top-up successful on instant VTU rails. 2% cashback credited to your wallet:',
+      summary: 'MTN Airtime top-up processed with 2% cashback:',
       details: [
-        { label: 'Recipient Phone', value: '0803 123 4567' },
-        { label: 'Telco Network', value: 'MTN Nigeria' },
+        { label: 'Phone Number', value: '0803 123 4567' },
+        { label: 'Network', value: 'MTN Nigeria' },
         { label: 'Airtime Loaded', value: '₦2,000.00', highlight: true },
-        { label: 'Cashback Earned', value: '+₦40.00 (Instant Credit)' },
+        { label: 'Cashback Earned', value: '+₦40.00 (Credited)' },
       ],
-      footer: 'Instant Telco Clearing · Cash back credited automatically',
+      footer: 'Airtime loaded instantly to line · No fee',
     },
   },
   {
     id: 'ut-2',
     category: 'utilities',
     categoryName: 'Bills & Airtime',
-    badge: 'Token Delivered in 0.5s',
+    badge: 'Instant Token',
     badgeColor: '#00DF8F',
     icon: 'power',
     title: 'Pay Prepaid Electricity (AEDC, EKEDC, IBEDC)',
@@ -356,21 +355,21 @@ export const COMMAND_CATALOG: CommandItem[] = [
     samplePrompt: 'Pay ₦10,000 AEDC prepaid electricity for meter 0149204918',
     mode: 'text',
     aiResponse: {
-      summary: 'AEDC prepaid payment confirmed. 52.4 kWh units generated:',
+      summary: 'AEDC prepaid payment successful. Here is your token:',
       details: [
-        { label: 'Disco Provider', value: 'Abuja Electricity (AEDC)' },
+        { label: 'Provider', value: 'Abuja Electricity (AEDC)' },
         { label: 'Meter Number', value: '0149204918' },
-        { label: 'Electricity Token', value: '4920 - 1824 - 0192 - 9481', highlight: true },
-        { label: 'Units Credited', value: '52.4 kWh (₦10,000)' },
+        { label: 'Token', value: '4920 - 1824 - 0192 - 9481', highlight: true },
+        { label: 'Units Credited', value: '52.4 kWh' },
       ],
-      footer: 'Token delivered directly in WhatsApp chat · Zero convenience fee',
+      footer: 'Zero convenience fee · Token saved in your chat history',
     },
   },
   {
     id: 'ut-3',
     category: 'utilities',
     categoryName: 'Bills & Airtime',
-    badge: 'Instant Activation',
+    badge: 'Fast Reconnect',
     badgeColor: '#00DF8F',
     icon: 'tv',
     title: 'Renew DStv, GOtv, or StarTimes',
@@ -378,31 +377,31 @@ export const COMMAND_CATALOG: CommandItem[] = [
     samplePrompt: 'Renew my DStv Compact package for smartcard 1029481029',
     mode: 'text',
     aiResponse: {
-      summary: 'DStv Compact renewed for Smartcard 1029481029. Error code E16 cleared automatically:',
+      summary: 'DStv Compact package renewed for Smartcard 1029481029:',
       details: [
-        { label: 'Service', value: 'DStv Compact (1 Month)' },
+        { label: 'Package', value: 'DStv Compact (1 Month)' },
         { label: 'Smartcard No', value: '1029481029' },
         { label: 'Amount Paid', value: '₦15,700.00', highlight: true },
-        { label: 'Viewing Expiry', value: 'November 15, 2026' },
+        { label: 'Viewing Expiry', value: 'Next Month (30 Days)' },
       ],
-      footer: 'Signal restored in 60 seconds · Direct MultiChoice integration',
+      footer: 'Channels reactivated automatically within 60 seconds',
     },
   },
 
-  // 5. CARDS & FX
+  // 5. CARDS & CONTROLS
   {
     id: 'cd-1',
     category: 'cards',
-    categoryName: 'USD & Physical Cards',
-    badge: 'Mastercard Active',
+    categoryName: 'Cards & Controls',
+    badge: 'USD Mastercard',
     badgeColor: '#0D95FE',
     icon: 'credit_card',
-    title: 'Create Instant Virtual Dollar Mastercard',
+    title: 'Create Instant Virtual Dollar Card',
     description: 'Spin up a virtual USD card in seconds for international payments, streaming, and software subscriptions.',
     samplePrompt: 'Create a virtual dollar card with $50 for my OpenAI subscription',
     mode: 'text',
     aiResponse: {
-      summary: 'Axoora Virtual Dollar Mastercard issued and funded at official interbank rate:',
+      summary: 'Virtual Dollar Mastercard created and funded at interbank rate:',
       details: [
         { label: 'Card Number', value: '4111 •••• •••• 9204' },
         { label: 'Funded Balance', value: '$50.00 (₦74,250)', highlight: true },
@@ -415,54 +414,54 @@ export const COMMAND_CATALOG: CommandItem[] = [
   {
     id: 'cd-2',
     category: 'cards',
-    categoryName: 'USD & Physical Cards',
-    badge: 'Emergency Security',
+    categoryName: 'Cards & Controls',
+    badge: 'Instant Lock',
     badgeColor: '#EF4444',
     icon: 'lock',
     title: '1-Tap Freeze / Unfreeze Debit Card',
     description: 'Misplaced your physical card? Send a 1-word freeze command to block unauthorized charges immediately.',
-    samplePrompt: 'Freeze my physical platinum debit card immediately',
+    samplePrompt: 'Freeze my physical debit card immediately',
     mode: 'text',
     aiResponse: {
-      summary: 'Your Physical Platinum Debit Card (*8421) has been FROZEN instantly across all ATMs, POS, and web terminals.',
+      summary: 'Your Physical Debit Card (*8421) has been FROZEN instantly:',
       details: [
         { label: 'Card Mask', value: '5399 •••• •••• 8421' },
         { label: 'Card Status', value: 'FROZEN (Locked)', highlight: true },
         { label: 'ATM / POS Rail', value: 'All Attempts Blocked' },
         { label: 'To Unlock', value: 'Text "Unfreeze card"' },
       ],
-      footer: 'Zero liability guarantee · Unfreeze anytime with your PIN',
+      footer: 'Zero liability protection · Text "Unfreeze" anytime with PIN',
     },
   },
   {
     id: 'cd-3',
     category: 'cards',
-    categoryName: 'USD & Physical Cards',
-    badge: 'Limit Management',
+    categoryName: 'Cards & Controls',
+    badge: 'Spend Cap',
     badgeColor: '#0D95FE',
     icon: 'tune',
     title: 'Set Daily Card Spending Limit',
-    description: 'Protect against overcharging or skimming by capping daily card spend to a set threshold.',
+    description: 'Protect against overcharging by setting a maximum daily spend threshold on your card.',
     samplePrompt: 'Set my physical debit card daily limit to ₦100,000',
     mode: 'text',
     aiResponse: {
-      summary: 'Daily spending limit updated to ₦100,000.00 for Debit Card (*8421).',
+      summary: 'Daily spending limit updated for Debit Card (*8421):',
       details: [
         { label: 'Card', value: 'Platinum Debit (*8421)' },
         { label: 'New Daily Cap', value: '₦100,000.00', highlight: true },
-        { label: 'Web Purchases', value: 'Capped' },
-        { label: 'POS & ATM', value: 'Capped' },
+        { label: 'Online Spend', value: 'Capped at limit' },
+        { label: 'ATM / POS', value: 'Capped at limit' },
       ],
-      footer: 'Takes effect instantly · Update anytime on WhatsApp',
+      footer: 'Takes effect immediately · Change anytime in chat',
     },
   },
 
-  // 6. HALAL SAVE & EARN
+  // 6. HALAL VAULT
   {
     id: 'sv-1',
     category: 'savings',
-    categoryName: 'Halal Save & Earn',
-    badge: '0% Riba · Real Commerce',
+    categoryName: 'Halal Vault',
+    badge: '0% Riba',
     badgeColor: '#F59E0B',
     icon: 'savings',
     title: 'Lock Capital in Shari\'ah Mudarabah Vault',
@@ -470,10 +469,10 @@ export const COMMAND_CATALOG: CommandItem[] = [
     samplePrompt: 'Lock ₦150,000 into my 3-month Halal Mudarabah Vault',
     mode: 'text',
     aiResponse: {
-      summary: '₦150,000 locked into Mudarabah Agriculture & Wholesale Pool (3 Months).',
+      summary: '₦150,000 locked into Mudarabah Wholesale Pool (3 Months):',
       details: [
         { label: 'Capital Saved', value: '₦150,000.00', highlight: true },
-        { label: 'Tenor', value: '90 Days (Maturity Nov 2026)' },
+        { label: 'Tenor', value: '90 Days (Maturity in 3 months)' },
         { label: 'Profit Share Model', value: '70/30 Profit Sharing' },
         { label: 'Estimated Return', value: '+₦6,750 (Halal Profit)' },
       ],
@@ -483,32 +482,32 @@ export const COMMAND_CATALOG: CommandItem[] = [
   {
     id: 'sv-2',
     category: 'savings',
-    categoryName: 'Halal Save & Earn',
-    badge: 'Hajj & Target Pool',
+    categoryName: 'Halal Vault',
+    badge: 'Target Savings',
     badgeColor: '#F59E0B',
     icon: 'mosque',
-    title: 'Create Hajj or Ramadan Target Vault',
+    title: 'Create Hajj or Family Target Vault',
     description: 'Build a dedicated targeted vault for sacred pilgrimages or family feasts with automatic weekly micro-saves.',
-    samplePrompt: 'Create a Hajj 2027 savings target with ₦25,000 weekly auto-save',
+    samplePrompt: 'Create a Hajj savings target with ₦25,000 weekly auto-save',
     mode: 'text',
     aiResponse: {
-      summary: 'Target Vault "Hajj 2027" activated. ₦25,000 weekly auto-debit scheduled every Monday.',
+      summary: 'Target Vault "Hajj Pilgrimage" activated:',
       details: [
-        { label: 'Target Vault', value: 'Hajj 2027 Pilgrimage' },
+        { label: 'Target Vault', value: 'Hajj Pilgrimage' },
         { label: 'Weekly Auto-save', value: '₦25,000.00', highlight: true },
         { label: 'Target Goal', value: '₦4,500,000.00' },
-        { label: 'Profit Accrual', value: 'Accrues Monthly' },
+        { label: 'Schedule', value: 'Every Monday' },
       ],
-      footer: 'Funds safely escrowed with zero bank maintenance deductions',
+      footer: 'Zero bank maintenance deductions · Withdraw anytime upon maturity',
     },
   },
 
-  // 7. PAYCIRCLE (DIGITAL AJO)
+  // 7. PAYCIRCLE (AJO)
   {
     id: 'pc-1',
     category: 'paycircle',
-    categoryName: 'Paycircle (Ajo Thrift)',
-    badge: 'Digital Ajo Escrow',
+    categoryName: 'Paycircle (Ajo)',
+    badge: 'Thrift Payout',
     badgeColor: '#8B5CF6',
     icon: 'group',
     title: 'Check Balogun Circle Payout Turn',
@@ -516,10 +515,10 @@ export const COMMAND_CATALOG: CommandItem[] = [
     samplePrompt: 'When is my payout turn in Balogun Traders Paycircle?',
     mode: 'text',
     aiResponse: {
-      summary: 'You are Turn 3 of 10 in "Balogun Traders Paycircle". Turn 2 just cleared.',
+      summary: 'You are Turn 3 of 10 in "Balogun Traders Paycircle":',
       details: [
         { label: 'Circle Name', value: 'Balogun Traders Guild' },
-        { label: 'Your Turn', value: 'Turn 3 (Receives Friday 12th)', highlight: true },
+        { label: 'Your Turn', value: 'Turn 3 (Receives this Friday)', highlight: true },
         { label: 'Lump Sum Payout', value: '₦200,000.00' },
         { label: 'Members Paid', value: '10/10 Confirmed' },
       ],
@@ -529,8 +528,8 @@ export const COMMAND_CATALOG: CommandItem[] = [
   {
     id: 'pc-2',
     category: 'paycircle',
-    categoryName: 'Paycircle (Ajo Thrift)',
-    badge: 'Automated Debit',
+    categoryName: 'Paycircle (Ajo)',
+    badge: 'Contribution',
     badgeColor: '#8B5CF6',
     icon: 'sync_alt',
     title: 'Pay Weekly Ajo Contribution',
@@ -538,60 +537,14 @@ export const COMMAND_CATALOG: CommandItem[] = [
     samplePrompt: 'Pay my ₦20,000 weekly contribution for Lekki Foodies Circle',
     mode: 'text',
     aiResponse: {
-      summary: 'Contribution of ₦20,000 confirmed for Lekki Foodies Circle (Round 4). Receipt #AJO-9021.',
+      summary: 'Contribution of ₦20,000 confirmed for Lekki Foodies Circle:',
       details: [
-        { label: 'Circle', value: 'Lekki Friends & Foodies' },
+        { label: 'Circle', value: 'Lekki Foodies Circle' },
         { label: 'Contribution', value: '₦20,000.00', highlight: true },
-        { label: 'Pot Balance', value: '₦180,000 / ₦200,000' },
+        { label: 'Pot Total', value: '₦180,000 / ₦200,000' },
         { label: 'Current Turn', value: 'Fatima Bello' },
       ],
-      footer: 'Receipt shared with circle admin automatically',
-    },
-  },
-
-  // 8. FAQS & CONTROLS
-  {
-    id: 'fq-1',
-    category: 'faqs',
-    categoryName: 'WhatsApp Banking FAQs',
-    badge: 'Security & PIN',
-    badgeColor: '#00DF8F',
-    icon: 'help',
-    title: 'How does Axoora secure my WhatsApp banking?',
-    description: 'Learn how hardware security modules (HSM) and private 4-digit PINs protect your funds.',
-    samplePrompt: 'How safe is my money on WhatsApp and what happens if I lose my phone?',
-    mode: 'text',
-    aiResponse: {
-      summary: 'Your Axoora account is secured by 256-bit AES encryption. Transfers strictly require your private 4-digit PIN.',
-      details: [
-        { label: 'PIN Protection', value: 'Required on all outgoing funds' },
-        { label: 'Phone Stolen?', value: 'Call hotline to freeze session' },
-        { label: 'Deposit Insurance', value: 'NDIC Insured up to ₦5,000,000' },
-        { label: 'Regulatory License', value: 'Central Bank of Nigeria (CBN)' },
-      ],
-      footer: 'Axoora staff will NEVER ask for your PIN on a call or website',
-    },
-  },
-  {
-    id: 'fq-2',
-    category: 'faqs',
-    categoryName: 'WhatsApp Banking FAQs',
-    badge: 'Zero Fees',
-    badgeColor: '#00DF8F',
-    icon: 'savings',
-    title: 'Are WhatsApp transfers truly free?',
-    description: 'No hidden SMS charges, no account maintenance fees, and 0% transfer charges.',
-    samplePrompt: 'Are there any charges for sending money or checking balance on WhatsApp?',
-    mode: 'text',
-    aiResponse: {
-      summary: 'Axoora charges ₦0.00 for all interbank transfers and balance inquiries on WhatsApp.',
-      details: [
-        { label: 'Interbank Fee', value: '₦0.00 (Free)' },
-        { label: 'Maintenance Fee', value: '₦0.00 (Free)' },
-        { label: 'SMS Notification', value: 'Free WhatsApp Alerts' },
-        { label: 'Legacy Bank Avg', value: '₦53.75 per transfer' },
-      ],
-      footer: 'Save up to ₦45,000+ per year in eliminated bank charges',
+      footer: 'Receipt shared with group admin automatically',
     },
   },
 ];
@@ -619,7 +572,7 @@ export const DRAWER_FAQS: DrawerFaqItem[] = [
     id: 'dfaq-3',
     question: 'Can I send money to any Nigerian bank from WhatsApp?',
     answer:
-      'Yes. Axoora routes directly via the NIBSS Instant Payment (NIP) clearing rail, allowing instant 0.8s settlement to GTBank, Access, Zenith, FirstBank, UBA, Kuda, Moniepoint, OPay, and all 40+ licensed commercial banks with zero fees.',
+      'Yes. Axoora routes directly via the NIBSS Instant Payment (NIP) clearing rail, allowing instant settlement to GTBank, Access, Zenith, FirstBank, UBA, Kuda, Moniepoint, OPay, and all 40+ licensed commercial banks with zero transfer fees.',
     category: 'Transfers',
     tag: '40+ Banks',
     actionPrompt: 'Axoora send ₦10,000 to Babatunde at Access Bank',
@@ -639,7 +592,7 @@ export const DRAWER_FAQS: DrawerFaqItem[] = [
     answer:
       'Yes. Axoora uses biometric voiceprint verification along with neural speech-to-intent parsing. Outgoing transfers still require your 4-digit PIN confirmation or biometric authorization.',
     category: 'Voice Notes',
-    tag: 'Biometric AI',
+    tag: 'Voice Security',
     actionPrompt: '🎙️ "Axoora how much is in my account?"',
   },
 ];
@@ -660,8 +613,6 @@ export const WhatsAppCommandFaqDrawer: React.FC<WhatsAppCommandFaqDrawerProps> =
   const [selectedCommandId, setSelectedCommandId] = useState<string>(COMMAND_CATALOG[0].id);
   const [copiedPrompt, setCopiedPrompt] = useState<string | null>(null);
   const [openFaqId, setOpenFaqId] = useState<string | null>(DRAWER_FAQS[0].id);
-  const [testCustomPrompt, setTestCustomPrompt] = useState('');
-  const [simulatedCustomReply, setSimulatedCustomReply] = useState<string | null>(null);
 
   // Esc key listener
   useEffect(() => {
@@ -679,7 +630,8 @@ export const WhatsAppCommandFaqDrawer: React.FC<WhatsAppCommandFaqDrawerProps> =
   // Filter commands
   const filteredCommands = useMemo(() => {
     return COMMAND_CATALOG.filter((cmd) => {
-      const matchesCategory = activeCategory === 'all' || cmd.category === activeCategory;
+      const matchesCategory =
+        activeCategory === 'all' || activeCategory === 'faqs' || cmd.category === activeCategory;
       const q = searchQuery.toLowerCase().trim();
       const matchesSearch =
         !q ||
@@ -692,45 +644,25 @@ export const WhatsAppCommandFaqDrawer: React.FC<WhatsAppCommandFaqDrawerProps> =
   }, [activeCategory, searchQuery]);
 
   const activeCommand = useMemo(() => {
-    return (
-      COMMAND_CATALOG.find((c) => c.id === selectedCommandId) ||
-      filteredCommands[0] ||
-      COMMAND_CATALOG[0]
-    );
+    const found = filteredCommands.find((c) => c.id === selectedCommandId);
+    return found || filteredCommands[0] || COMMAND_CATALOG[0];
   }, [selectedCommandId, filteredCommands]);
 
   const handleCopy = (text: string) => {
-    navigator.clipboard.writeText(text);
+    const clean = text.replace(/^🎙️\s*"/, '').replace(/"$/, '');
+    navigator.clipboard.writeText(clean);
     setCopiedPrompt(text);
     setTimeout(() => setCopiedPrompt(null), 2000);
   };
 
   const handleLaunchWhatsApp = (promptText: string) => {
-    const encoded = encodeURIComponent(promptText.replace(/^🎙️\s*"/, '').replace(/"$/, ''));
-    const url = `https://wa.me/2349110002966?text=${encoded}`;
+    const cleaned = promptText
+      .replace(/^🎙️\s*"/, '')
+      .replace(/"$/, '')
+      .replace(/\[Photo Attached\]/g, '')
+      .trim();
+    const url = `https://wa.me/2349110002966?text=${encodeURIComponent(cleaned)}`;
     window.open(url, '_blank', 'noopener,noreferrer');
-  };
-
-  const handleRunSandbox = () => {
-    if (!testCustomPrompt.trim()) return;
-    const lower = testCustomPrompt.toLowerCase();
-    if (lower.includes('transfer') || lower.includes('send') || lower.includes('abeg')) {
-      setSimulatedCustomReply(
-        `✓ Axoora Intent: Transfer Detected · 0% Fee · NIBSS 0.8s settlement ready for PIN authorization.`
-      );
-    } else if (lower.includes('airtime') || lower.includes('data') || lower.includes('bill')) {
-      setSimulatedCustomReply(
-        `✓ Axoora Intent: VTU / Utility Payment · 2% instant cashback will be credited to your wallet.`
-      );
-    } else if (lower.includes('card') || lower.includes('dollar') || lower.includes('freeze')) {
-      setSimulatedCustomReply(
-        `✓ Axoora Intent: Card Command · Ready to adjust limits or toggle 1-tap card lock.`
-      );
-    } else {
-      setSimulatedCustomReply(
-        `✓ Axoora AI: Message understood. Ready to execute on official WhatsApp Desk.`
-      );
-    }
   };
 
   if (!isOpen) return null;
@@ -743,7 +675,7 @@ export const WhatsAppCommandFaqDrawer: React.FC<WhatsAppCommandFaqDrawerProps> =
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
         onClick={onClose}
-        className="fixed inset-0 bg-black/75 backdrop-blur-sm cursor-pointer"
+        className="fixed inset-0 bg-black/60 backdrop-blur-sm cursor-pointer"
       />
 
       {/* Slide-over panel */}
@@ -752,45 +684,36 @@ export const WhatsAppCommandFaqDrawer: React.FC<WhatsAppCommandFaqDrawerProps> =
         animate={{ x: 0 }}
         exit={{ x: '100%' }}
         transition={{ type: 'spring', damping: 28, stiffness: 300 }}
-        className={`fixed inset-y-0 right-0 max-w-full flex w-full sm:max-w-2xl lg:max-w-3xl border-l shadow-2xl flex-col z-50 overflow-hidden ${
+        className={`fixed inset-y-0 right-0 max-w-full flex w-full md:max-w-3xl lg:max-w-4xl border-l shadow-2xl flex-col z-50 overflow-hidden ${
           isLight
-            ? 'bg-white text-slate-900 border-slate-200'
-            : 'bg-[#030D22] text-[#F2F5F9] border-[#152E5E]'
+            ? 'bg-slate-50 text-slate-900 border-slate-200'
+            : 'bg-[#0B132B] text-slate-100 border-slate-800'
         }`}
       >
         {/* ================================================================= */}
-        {/* 1. DRAWER TOP HEADER */}
+        {/* 1. CLEAN SPACIOUS HEADER */}
         {/* ================================================================= */}
         <div
-          className={`p-4 sm:p-6 border-b shrink-0 flex items-center justify-between gap-4 ${
-            isLight
-              ? 'bg-slate-50 border-slate-200 text-slate-900'
-              : 'bg-[#071533] border-[#152E5E] text-white'
+          className={`px-5 py-4 sm:px-6 sm:py-5 border-b shrink-0 flex items-center justify-between gap-4 ${
+            isLight ? 'bg-white border-slate-200' : 'bg-[#0F1B38] border-slate-800'
           }`}
         >
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-2xl bg-[#00A884] text-white flex items-center justify-center shadow-lg shadow-[#00A884]/30 shrink-0">
-              <span className="material-symbols-outlined text-[22px]">chat</span>
+            <div className="w-10 h-10 rounded-2xl bg-[#25D366] text-white flex items-center justify-center shadow-md shadow-[#25D366]/20 shrink-0">
+              <span className="material-symbols-outlined text-[24px]">chat</span>
             </div>
             <div>
               <div className="flex items-center gap-2">
-                <span
-                  className={`text-sm sm:text-base font-extrabold tracking-tight ${
-                    isLight ? 'text-slate-900' : 'text-white'
-                  }`}
-                >
-                  Axoora WhatsApp Command Catalog
-                </span>
-                <span
-                  className={`text-[10px] font-mono px-2 py-0.5 rounded-full font-bold uppercase ${
-                    isLight ? 'bg-emerald-100 text-emerald-800' : 'bg-[#00DF8F]/20 text-[#00DF8F]'
-                  }`}
-                >
-                  35+ Live Commands
+                <h2 className="text-base sm:text-lg font-bold tracking-tight">
+                  Bank on WhatsApp
+                </h2>
+                <span className="inline-flex items-center gap-1 text-[11px] font-medium px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-500 font-sans">
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                  Verified
                 </span>
               </div>
-              <p className={`text-xs ${isLight ? 'text-slate-600' : 'text-[#8EA2C6]'}`}>
-                Natural text, Vision OCR, &amp; voice note commands for official WhatsApp banking.
+              <p className={`text-xs ${isLight ? 'text-slate-500' : 'text-slate-400'}`}>
+                Send money, pay bills, and manage your account by chatting · +234 911 000 2966
               </p>
             </div>
           </div>
@@ -799,8 +722,8 @@ export const WhatsAppCommandFaqDrawer: React.FC<WhatsAppCommandFaqDrawerProps> =
             onClick={onClose}
             className={`w-9 h-9 rounded-full flex items-center justify-center transition-colors cursor-pointer shrink-0 ${
               isLight
-                ? 'bg-slate-200/70 text-slate-600 hover:text-slate-900 hover:bg-slate-300'
-                : 'bg-[#0B1E42] text-[#8EA2C6] hover:text-white hover:bg-[#14294F]'
+                ? 'bg-slate-100 text-slate-600 hover:text-slate-900 hover:bg-slate-200'
+                : 'bg-slate-800/60 text-slate-400 hover:text-white hover:bg-slate-800'
             }`}
             title="Close Drawer (Esc)"
           >
@@ -809,18 +732,18 @@ export const WhatsAppCommandFaqDrawer: React.FC<WhatsAppCommandFaqDrawerProps> =
         </div>
 
         {/* ================================================================= */}
-        {/* 2. SEARCH BAR & CATEGORY PILLS */}
+        {/* 2. SEARCH & CATEGORY PILLS */}
         {/* ================================================================= */}
         <div
-          className={`p-4 sm:p-5 border-b shrink-0 flex flex-col gap-3 ${
-            isLight ? 'bg-slate-50/70 border-slate-200' : 'bg-[#051128] border-[#152E5E]'
+          className={`px-5 py-3.5 sm:px-6 border-b shrink-0 flex flex-col gap-3 ${
+            isLight ? 'bg-white/70 border-slate-200' : 'bg-[#0D1832] border-slate-800/80'
           }`}
         >
           {/* Search Input */}
           <div className="relative w-full">
             <span
               className={`material-symbols-outlined text-[18px] absolute left-3.5 top-1/2 -translate-y-1/2 ${
-                isLight ? 'text-slate-400' : 'text-[#8EA2C6]'
+                isLight ? 'text-slate-400' : 'text-slate-500'
               }`}
             >
               search
@@ -829,61 +752,50 @@ export const WhatsAppCommandFaqDrawer: React.FC<WhatsAppCommandFaqDrawerProps> =
               type="text"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="Search commands, Pidgin prompts, or bills (e.g., 'airtime', 'voice', 'transfer')..."
-              className={`w-full pl-10 pr-9 py-2.5 rounded-xl border focus:outline-none text-xs transition-colors ${
+              placeholder="Search what you want to do (e.g., 'send money', 'NEPA', 'airtime', 'freeze card')..."
+              className={`w-full pl-10 pr-9 py-2.5 rounded-xl border text-xs sm:text-sm focus:outline-none transition-all ${
                 isLight
-                  ? 'bg-white border-slate-200 text-slate-900 placeholder-slate-400 focus:border-emerald-500'
-                  : 'bg-[#081838] border-[#162D58] focus:border-[#00DF8F] text-white placeholder-[#7B9CD2]'
+                  ? 'bg-slate-50 border-slate-200 text-slate-900 placeholder-slate-400 focus:bg-white focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20'
+                  : 'bg-slate-900/60 border-slate-800 text-white placeholder-slate-500 focus:bg-slate-900 focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20'
               }`}
             />
             {searchQuery && (
               <button
                 onClick={() => setSearchQuery('')}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-700 dark:hover:text-white text-xs cursor-pointer"
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 text-xs cursor-pointer p-1"
               >
                 ✕
               </button>
             )}
           </div>
 
-          {/* Category Filter Pills */}
-          <div className="flex items-center gap-1.5 overflow-x-auto pb-1 scrollbar-none">
+          {/* Clean Category Filter Tabs */}
+          <div className="flex items-center gap-1.5 overflow-x-auto pb-0.5 scrollbar-none">
             {[
-              { id: 'all', label: 'All Commands', count: COMMAND_CATALOG.length },
-              { id: 'transfers', label: 'Transfers & NIP', count: 6 },
-              { id: 'ocr', label: 'Photo OCR', count: 3 },
-              { id: 'voice', label: 'Voice Note AI', count: 3 },
-              { id: 'utilities', label: 'Bills & Airtime', count: 3 },
-              { id: 'cards', label: 'Cards & Controls', count: 3 },
-              { id: 'savings', label: 'Halal Vault', count: 2 },
-              { id: 'paycircle', label: 'Ajo Paycircle', count: 2 },
-              { id: 'faqs', label: 'Banking FAQs', count: 2 },
+              { id: 'all', label: 'All Commands' },
+              { id: 'transfers', label: '💸 Send Money' },
+              { id: 'ocr', label: '📸 Scan & Pay' },
+              { id: 'voice', label: '🎙️ Voice Notes' },
+              { id: 'utilities', label: '⚡ Bills & Airtime' },
+              { id: 'cards', label: '💳 Cards' },
+              { id: 'savings', label: '🌙 Halal Vault' },
+              { id: 'paycircle', label: '🤝 Paycircle' },
+              { id: 'faqs', label: '❓ FAQs' },
             ].map((tab) => {
               const isActive = activeCategory === tab.id;
               return (
                 <button
                   key={tab.id}
                   onClick={() => setActiveCategory(tab.id as CommandCategory)}
-                  className={`px-3 py-1.5 rounded-xl text-[11px] font-bold whitespace-nowrap transition-all cursor-pointer flex items-center gap-1.5 ${
+                  className={`px-3 py-1.5 rounded-lg text-xs font-medium whitespace-nowrap transition-all cursor-pointer ${
                     isActive
-                      ? 'bg-[#00A884] text-white shadow-md font-extrabold'
+                      ? 'bg-[#25D366] text-white shadow-sm font-semibold'
                       : isLight
-                      ? 'bg-white text-slate-700 hover:text-slate-900 hover:bg-slate-100 border border-slate-200'
-                      : 'bg-[#0A1B3D] text-[#8EA2C6] hover:text-white hover:bg-[#102552] border border-[#14294F]'
+                      ? 'bg-slate-100 text-slate-600 hover:text-slate-900 hover:bg-slate-200'
+                      : 'bg-slate-800/50 text-slate-400 hover:text-slate-200 hover:bg-slate-800'
                   }`}
                 >
-                  <span>{tab.label}</span>
-                  <span
-                    className={`text-[9px] px-1.5 py-0.2 rounded-full font-mono ${
-                      isActive
-                        ? 'bg-white/20 text-white'
-                        : isLight
-                        ? 'bg-slate-100 text-slate-600'
-                        : 'bg-white/10 text-white/70'
-                    }`}
-                  >
-                    {tab.count}
-                  </span>
+                  {tab.label}
                 </button>
               );
             })}
@@ -891,487 +803,438 @@ export const WhatsAppCommandFaqDrawer: React.FC<WhatsAppCommandFaqDrawerProps> =
         </div>
 
         {/* ================================================================= */}
-        {/* 3. MAIN SCROLLABLE CONTENT: COMMAND SPLIT VIEW & FAQS */}
+        {/* 3. MAIN CONTENT AREA */}
         {/* ================================================================= */}
-        <div className="flex-1 overflow-y-auto p-4 sm:p-6 flex flex-col gap-6">
-          {/* Top Info Banner */}
-          <div
-            className={`p-3.5 rounded-2xl border flex items-center justify-between gap-3 text-xs ${
-              isLight
-                ? 'bg-emerald-50/80 border-emerald-200 text-emerald-900'
-                : 'bg-[#00A884]/15 border-[#00A884]/30 text-white'
-            }`}
-          >
-            <div className="flex items-center gap-2.5">
-              <span
-                className={`material-symbols-outlined text-[20px] ${
-                  isLight ? 'text-emerald-700' : 'text-[#00DF8F]'
-                }`}
-              >
-                chat_bubble
-              </span>
-              <span>
-                Verified WhatsApp Desk:{' '}
-                <strong
-                  className={`font-mono font-bold ${
-                    isLight ? 'text-emerald-950' : 'text-white'
-                  }`}
-                >
-                  +234 911 000 2966
-                </strong>
-              </span>
-            </div>
-            <a
-              href="https://wa.me/2349110002966?text=Hi%20Axoora"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="px-3 py-1.5 rounded-xl bg-[#00A884] hover:bg-[#008F6F] text-white text-[11px] font-bold flex items-center gap-1 cursor-pointer transition-transform hover:scale-102 shrink-0 shadow-xs"
-            >
-              <span>Say &quot;Hi&quot;</span>
-              <span className="material-symbols-outlined text-[13px]">arrow_forward</span>
-            </a>
-          </div>
+        <div className="flex-1 overflow-y-auto p-4 sm:p-6">
+          {activeCategory === 'faqs' ? (
+            /* FAQS VIEW */
+            <div className="max-w-2xl mx-auto flex flex-col gap-4">
+              <div className="mb-2">
+                <h3 className="text-base font-bold">Frequently Asked Questions</h3>
+                <p className={`text-xs ${isLight ? 'text-slate-500' : 'text-slate-400'}`}>
+                  Everything you need to know about safety, zero fees, and WhatsApp banking.
+                </p>
+              </div>
 
-          {/* TWO COLUMN GRID: COMMANDS LIST & LIVE AI RESPONSE PREVIEW */}
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-5">
-            {/* Left: Commands List (5 cols) */}
-            <div className="lg:col-span-5 flex flex-col gap-2.5">
-              <span
-                className={`text-[11px] font-mono uppercase font-bold tracking-wider ${
-                  isLight ? 'text-slate-500' : 'text-[#8EA2C6]'
-                }`}
-              >
-                Select a Command ({filteredCommands.length} Found)
-              </span>
-
-              <div className="flex flex-col gap-2 max-h-[500px] overflow-y-auto pr-1">
-                {filteredCommands.map((cmd) => {
-                  const isSelected = activeCommand.id === cmd.id;
+              <div className="flex flex-col gap-2.5">
+                {DRAWER_FAQS.map((faq) => {
+                  const isOpenFaq = openFaqId === faq.id;
                   return (
                     <div
-                      key={cmd.id}
-                      onClick={() => setSelectedCommandId(cmd.id)}
-                      className={`p-3 rounded-2xl border transition-all cursor-pointer flex flex-col gap-1.5 text-left ${
-                        isSelected
-                          ? isLight
-                            ? 'bg-emerald-50/80 border-emerald-500 shadow-md shadow-emerald-500/10'
-                            : 'bg-[#0E2452] border-[#00DF8F] shadow-lg shadow-[#00DF8F]/10'
-                          : isLight
-                          ? 'bg-white border-slate-200 hover:border-slate-300 hover:bg-slate-50/80 shadow-xs'
-                          : 'bg-[#071633] border-[#152E5E] hover:border-[#1F4284] hover:bg-[#0A1E42]'
+                      key={faq.id}
+                      className={`rounded-xl border transition-colors overflow-hidden ${
+                        isLight
+                          ? 'bg-white border-slate-200 shadow-xs'
+                          : 'bg-[#0E1A36] border-slate-800'
                       }`}
                     >
-                      <div className="flex items-center justify-between gap-1">
-                        <span
-                          className="text-[9px] font-mono font-bold px-1.5 py-0.5 rounded uppercase"
-                          style={{
-                            backgroundColor: `${cmd.badgeColor}20`,
-                            color: isLight && cmd.badgeColor === '#00DF8F' ? '#047857' : cmd.badgeColor,
-                          }}
-                        >
-                          {cmd.categoryName}
-                        </span>
-                        <span
-                          className={`text-[9px] font-mono font-bold ${
-                            isLight ? 'text-emerald-700' : 'text-[#00DF8F]'
-                          }`}
-                        >
-                          {cmd.badge}
-                        </span>
-                      </div>
-
-                      <div className="flex items-center gap-2">
-                        <span
-                          className="material-symbols-outlined text-[16px] shrink-0"
-                          style={{ color: isLight && cmd.badgeColor === '#00DF8F' ? '#047857' : cmd.badgeColor }}
-                        >
-                          {cmd.icon}
-                        </span>
-                        <h4
-                          className={`font-bold text-xs truncate ${
-                            isLight ? 'text-slate-900' : 'text-white'
-                          }`}
-                        >
-                          {cmd.title}
-                        </h4>
-                      </div>
-
-                      <p
-                        className={`text-[10.5px] line-clamp-1 ${
-                          isLight ? 'text-slate-500' : 'text-[#8EA2C6]'
+                      <button
+                        onClick={() => setOpenFaqId(isOpenFaq ? null : faq.id)}
+                        className={`w-full p-4 text-left flex items-center justify-between gap-3 cursor-pointer ${
+                          isLight ? 'hover:bg-slate-50' : 'hover:bg-slate-800/40'
                         }`}
                       >
-                        {cmd.description}
-                      </p>
+                        <span className="font-semibold text-xs sm:text-sm">
+                          {faq.question}
+                        </span>
+                        <span
+                          className={`material-symbols-outlined text-[18px] shrink-0 transition-transform ${
+                            isOpenFaq ? 'rotate-180' : ''
+                          } ${isLight ? 'text-slate-400' : 'text-slate-500'}`}
+                        >
+                          keyboard_arrow_down
+                        </span>
+                      </button>
+
+                      <AnimatePresence>
+                        {isOpenFaq && (
+                          <motion.div
+                            initial={{ opacity: 0, height: 0 }}
+                            animate={{ opacity: 1, height: 'auto' }}
+                            exit={{ opacity: 0, height: 0 }}
+                            transition={{ duration: 0.18 }}
+                            className={`px-4 pb-4 pt-1 text-xs leading-relaxed border-t ${
+                              isLight
+                                ? 'text-slate-600 border-slate-100 bg-slate-50/50'
+                                : 'text-slate-300 border-slate-800/60 bg-slate-900/30'
+                            }`}
+                          >
+                            <p>{faq.answer}</p>
+                            {faq.actionPrompt && (
+                              <div className="mt-3 pt-3 border-t border-slate-200/60 dark:border-slate-800 flex items-center justify-between flex-wrap gap-2">
+                                <span className={`text-[11px] ${isLight ? 'text-slate-500' : 'text-slate-400'}`}>
+                                  Sample prompt: <strong className={isLight ? 'text-slate-800' : 'text-white'}>&ldquo;{faq.actionPrompt}&rdquo;</strong>
+                                </span>
+                                <button
+                                  onClick={() => handleLaunchWhatsApp(faq.actionPrompt!)}
+                                  className="text-xs font-semibold text-emerald-600 hover:text-emerald-500 flex items-center gap-1 cursor-pointer"
+                                >
+                                  <span>Send on WhatsApp</span>
+                                  <span className="material-symbols-outlined text-[13px]">arrow_outward</span>
+                                </button>
+                              </div>
+                            )}
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
                     </div>
                   );
                 })}
               </div>
             </div>
-
-            {/* Right: Active Command Details & Live AI Resolution Card (7 cols) */}
-            <div className="lg:col-span-7 flex flex-col gap-3">
-              <span
-                className={`text-[11px] font-mono uppercase font-bold tracking-wider ${
-                  isLight ? 'text-slate-500' : 'text-[#8EA2C6]'
-                }`}
-              >
-                Simulated AI Execution &amp; Response
-              </span>
-
-              {/* Sample Prompt Box with Copy & Launch */}
-              <div
-                className={`p-4 rounded-2xl border flex flex-col gap-2.5 ${
-                  isLight ? 'bg-slate-50 border-slate-200 shadow-xs' : 'bg-[#071633] border-[#152E5E]'
-                }`}
-              >
-                <div className="flex items-center justify-between text-xs">
+          ) : (
+            /* INTERACTIVE TWO-COLUMN WORKSPACE */
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 h-full">
+              {/* Left Column: Commands List */}
+              <div className="lg:col-span-5 flex flex-col gap-2.5">
+                <div className="flex items-center justify-between px-1">
                   <span
-                    className={`font-mono text-[10px] uppercase font-bold ${
-                      isLight ? 'text-blue-700' : 'text-[#0D95FE]'
+                    className={`text-[11px] font-semibold uppercase tracking-wider ${
+                      isLight ? 'text-slate-500' : 'text-slate-400'
                     }`}
                   >
-                    Sample Prompt to Send
+                    Choose a Command ({filteredCommands.length})
                   </span>
-                  <div className="flex items-center gap-2">
-                    <button
-                      onClick={() => handleCopy(activeCommand.samplePrompt)}
-                      className={`text-[11px] font-bold hover:underline flex items-center gap-1 cursor-pointer ${
-                        isLight ? 'text-emerald-700' : 'text-[#00DF8F]'
-                      }`}
-                    >
-                      <span className="material-symbols-outlined text-[14px]">content_copy</span>
-                      <span>{copiedPrompt === activeCommand.samplePrompt ? 'Copied!' : 'Copy'}</span>
-                    </button>
-                  </div>
-                </div>
-
-                <div
-                  className={`p-3 rounded-xl font-mono text-xs leading-relaxed border ${
-                    isLight
-                      ? 'bg-white border-slate-200 text-slate-900 shadow-inner'
-                      : 'bg-black/40 border-white/5 text-white'
-                  }`}
-                >
-                  &ldquo;{activeCommand.samplePrompt}&rdquo;
-                </div>
-
-                <div className="flex items-center justify-between pt-1">
-                  <span className={`text-[10px] ${isLight ? 'text-slate-500' : 'text-[#8EA2C6]'}`}>
-                    Mode:{' '}
-                    <strong className={`uppercase ${isLight ? 'text-slate-800' : 'text-white'}`}>
-                      {activeCommand.mode}
-                    </strong>
-                  </span>
-
-                  <button
-                    onClick={() => handleLaunchWhatsApp(activeCommand.samplePrompt)}
-                    className="px-3.5 py-1.5 rounded-xl bg-[#00A884] hover:bg-[#008F6F] text-white text-xs font-bold flex items-center gap-1.5 transition-transform hover:scale-102 cursor-pointer shadow-md"
-                  >
-                    <span>Test on WhatsApp</span>
-                    <span className="material-symbols-outlined text-[14px]">open_in_new</span>
-                  </button>
-                </div>
-              </div>
-
-              {/* Simulated AI Response Card (Protected Dark Hardware simulation for WhatsApp) */}
-              <div className="dark-hardware preserve-dark p-4 rounded-2xl bg-slate-950 border border-emerald-500/40 flex flex-col gap-3 shadow-xl text-white">
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-2">
-                    <div className="w-6 h-6 rounded-full bg-[#00A884] flex items-center justify-center text-white">
-                      <span className="material-symbols-outlined text-[14px]">smart_toy</span>
-                    </div>
-                    <span className="font-bold text-xs text-[#00DF8F]">
-                      Axoora AI Assistant Reply
-                    </span>
-                  </div>
-                  <span className="text-[10px] font-mono text-[#53BDEB] font-bold">
-                    0.8s NIP Settlement
+                  <span className={`text-[11px] ${isLight ? 'text-slate-400' : 'text-slate-500'}`}>
+                    Click to test
                   </span>
                 </div>
 
-                <p className="text-xs leading-relaxed text-[#F2F5F9]">
-                  {activeCommand.aiResponse.summary}
-                </p>
-
-                {/* Details Breakdown */}
-                <div className="p-2.5 rounded-xl bg-black/40 border border-white/10 flex flex-col gap-1.5">
-                  {activeCommand.aiResponse.details.map((det, i) => (
+                <div className="flex flex-col gap-2 max-h-[520px] overflow-y-auto pr-1">
+                  {filteredCommands.length === 0 ? (
                     <div
-                      key={i}
-                      className="flex items-center justify-between text-[11px] font-mono"
-                    >
-                      <span className="text-[#8EA2C6]">{det.label}:</span>
-                      <span
-                        className={`font-bold ${
-                          det.highlight ? 'text-[#00DF8F]' : 'text-white'
-                        }`}
-                      >
-                        {det.value}
-                      </span>
-                    </div>
-                  ))}
-                </div>
-
-                <div className="flex items-center justify-between text-[10px] text-[#8EA2C6] pt-1 border-t border-white/5 font-mono">
-                  <span>{activeCommand.aiResponse.footer}</span>
-                  <span className="text-[#53BDEB]">✓✓ Delivered</span>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* ================================================================= */}
-          {/* INTEGRATED WHATSAPP FAQS ACCORDION SECTION */}
-          {/* ================================================================= */}
-          <div
-            className={`flex flex-col gap-3 pt-4 border-t ${
-              isLight ? 'border-slate-200' : 'border-[#152E5E]'
-            }`}
-          >
-            <div className="flex items-center justify-between">
-              <div>
-                <h3
-                  className={`text-base font-extrabold tracking-tight ${
-                    isLight ? 'text-slate-900' : 'text-white'
-                  }`}
-                >
-                  Frequently Asked Questions About WhatsApp Banking
-                </h3>
-                <p className={`text-xs ${isLight ? 'text-slate-600' : 'text-[#8EA2C6]'}`}>
-                  Everything you need to know about security, 0% fees, and lost phone procedures.
-                </p>
-              </div>
-              <span
-                className={`text-xs font-mono font-bold ${
-                  isLight ? 'text-emerald-700' : 'text-[#00DF8F]'
-                }`}
-              >
-                {DRAWER_FAQS.length} Answers
-              </span>
-            </div>
-
-            <div className="flex flex-col gap-2">
-              {DRAWER_FAQS.map((faq) => {
-                const isOpenFaq = openFaqId === faq.id;
-                return (
-                  <div
-                    key={faq.id}
-                    className={`rounded-2xl border overflow-hidden transition-colors ${
-                      isLight
-                        ? 'border-slate-200 bg-white'
-                        : 'border-[#152E5E] bg-[#071633]'
-                    }`}
-                  >
-                    <button
-                      onClick={() => setOpenFaqId(isOpenFaq ? null : faq.id)}
-                      className={`w-full p-3.5 text-left flex items-center justify-between gap-3 cursor-pointer transition-colors ${
-                        isLight ? 'hover:bg-slate-50' : 'hover:bg-[#0A1E42]'
+                      className={`p-6 text-center rounded-2xl border text-xs ${
+                        isLight
+                          ? 'bg-white border-slate-200 text-slate-500'
+                          : 'bg-[#0E1A36] border-slate-800 text-slate-400'
                       }`}
                     >
-                      <div className="flex items-center gap-2">
-                        <span
-                          className={`text-[10px] font-mono px-2 py-0.5 rounded font-bold uppercase ${
-                            isLight
-                              ? 'bg-blue-50 text-blue-700 border border-blue-200'
-                              : 'bg-[#0D95FE]/20 text-[#0D95FE]'
+                      No commands found for &ldquo;{searchQuery}&rdquo;. Try another term.
+                    </div>
+                  ) : (
+                    filteredCommands.map((cmd) => {
+                      const isSelected = activeCommand.id === cmd.id;
+                      return (
+                        <div
+                          key={cmd.id}
+                          onClick={() => setSelectedCommandId(cmd.id)}
+                          className={`p-3.5 rounded-xl border transition-all cursor-pointer flex flex-col gap-1 text-left ${
+                            isSelected
+                              ? isLight
+                                ? 'bg-white border-[#25D366] ring-2 ring-[#25D366]/20 shadow-sm'
+                                : 'bg-[#122246] border-[#25D366] ring-2 ring-[#25D366]/20 shadow-md'
+                              : isLight
+                              ? 'bg-white border-slate-200 hover:border-slate-300 hover:bg-slate-50/60'
+                              : 'bg-[#0E1A36] border-slate-800/80 hover:border-slate-700 hover:bg-[#111F40]'
                           }`}
                         >
-                          {faq.tag}
-                        </span>
-                        <span
-                          className={`font-bold text-xs sm:text-sm ${
-                            isLight ? 'text-slate-900' : 'text-white'
-                          }`}
-                        >
-                          {faq.question}
-                        </span>
-                      </div>
-                      <span
-                        className={`material-symbols-outlined text-[18px] shrink-0 ${
-                          isLight ? 'text-slate-500' : 'text-[#8EA2C6]'
-                        }`}
-                      >
-                        {isOpenFaq ? 'expand_less' : 'expand_more'}
-                      </span>
-                    </button>
+                          <div className="flex items-center justify-between gap-2">
+                            <div className="flex items-center gap-2">
+                              <div
+                                className={`w-7 h-7 rounded-lg flex items-center justify-center shrink-0 ${
+                                  isSelected
+                                    ? 'bg-[#25D366] text-white'
+                                    : isLight
+                                    ? 'bg-slate-100 text-slate-600'
+                                    : 'bg-slate-800 text-slate-300'
+                                }`}
+                              >
+                                <span className="material-symbols-outlined text-[15px]">
+                                  {cmd.icon}
+                                </span>
+                              </div>
+                              <h4 className="font-semibold text-xs truncate">
+                                {cmd.title}
+                              </h4>
+                            </div>
 
-                    <AnimatePresence>
-                      {isOpenFaq && (
-                        <motion.div
-                          initial={{ opacity: 0, height: 0 }}
-                          animate={{ opacity: 1, height: 'auto' }}
-                          exit={{ opacity: 0, height: 0 }}
-                          transition={{ duration: 0.2 }}
-                          className={`p-3.5 pt-0 text-xs leading-relaxed border-t ${
-                            isLight
-                              ? 'text-slate-600 border-slate-200 bg-slate-50/60'
-                              : 'text-[#A8BBD6] border-white/5 bg-[#051128]'
-                          }`}
-                        >
-                          <p className="pt-2">{faq.answer}</p>
-                          {faq.actionPrompt && (
-                            <div
-                              className={`mt-2.5 pt-2 border-t flex items-center justify-between ${
-                                isLight ? 'border-slate-200' : 'border-white/5'
+                            <span
+                              className={`text-[10px] font-medium px-1.5 py-0.5 rounded shrink-0 ${
+                                isLight
+                                  ? 'bg-emerald-50 text-emerald-700'
+                                  : 'bg-emerald-500/15 text-emerald-400'
                               }`}
                             >
-                              <span
-                                className={`text-[10px] font-mono ${
-                                  isLight ? 'text-slate-500' : 'text-slate-400'
-                                }`}
-                              >
-                                Try asking:{' '}
-                                <strong className={isLight ? 'text-slate-900' : 'text-white'}>
-                                  &ldquo;{faq.actionPrompt}&rdquo;
-                                </strong>
-                              </span>
-                              <button
-                                onClick={() => handleLaunchWhatsApp(faq.actionPrompt!)}
-                                className={`text-[10px] font-bold hover:underline flex items-center gap-1 cursor-pointer ${
-                                  isLight ? 'text-emerald-700' : 'text-[#00DF8F]'
-                                }`}
-                              >
-                                <span>Send on WhatsApp</span>
-                                <span className="material-symbols-outlined text-[12px]">
-                                  open_in_new
-                                </span>
-                              </button>
-                            </div>
-                          )}
-                        </motion.div>
-                      )}
-                    </AnimatePresence>
-                  </div>
-                );
-              })}
-            </div>
-          </div>
+                              {cmd.badge}
+                            </span>
+                          </div>
 
-          {/* ================================================================= */}
-          {/* INTERACTIVE CUSTOM COMMAND PROMPT SANDBOX */}
-          {/* ================================================================= */}
-          <div
-            className={`p-4 sm:p-5 rounded-2xl border flex flex-col gap-3 ${
-              isLight
-                ? 'bg-gradient-to-r from-emerald-50 via-teal-50 to-blue-50 border-emerald-200 text-slate-900 shadow-sm'
-                : 'bg-gradient-to-r from-[#00A884]/15 via-[#00DF8F]/10 to-[#0D95FE]/15 border-[#00DF8F]/30 text-[#F2F5F9]'
-            }`}
-          >
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-2">
-                <span
-                  className={`material-symbols-outlined text-[20px] ${
-                    isLight ? 'text-emerald-700' : 'text-[#00DF8F]'
-                  }`}
-                >
-                  terminal
-                </span>
-                <span
-                  className={`font-extrabold text-xs ${
-                    isLight ? 'text-slate-900' : 'text-white'
-                  }`}
-                >
-                  Natural Language &amp; Pidgin Sandbox Tester
-                </span>
-              </div>
-              <span
-                className={`text-[10px] font-mono font-bold ${
-                  isLight ? 'text-emerald-800' : 'text-[#00DF8F]'
-                }`}
-              >
-                AI Intent Engine
-              </span>
-            </div>
-
-            <p className={`text-xs ${isLight ? 'text-slate-600' : 'text-[#A8BBD6]'}`}>
-              Type how you talk in real life (English or Pidgin) to test how Axoora resolves your banking intent before sending to WhatsApp.
-            </p>
-
-            <div className="flex flex-col sm:flex-row gap-2">
-              <input
-                type="text"
-                value={testCustomPrompt}
-                onChange={(e) => setTestCustomPrompt(e.target.value)}
-                onKeyDown={(e) => {
-                  if (e.key === 'Enter') handleRunSandbox();
-                }}
-                placeholder="e.g. 'Abeg transfer 15k to brother Segun' or 'Snap invoice for laptop'"
-                className={`flex-1 px-3.5 py-2.5 rounded-xl border text-xs focus:outline-none transition-colors ${
-                  isLight
-                    ? 'bg-white border-slate-300 text-slate-900 placeholder-slate-400 focus:border-emerald-500'
-                    : 'bg-black/40 border-white/10 text-white placeholder-slate-400 focus:border-[#00DF8F]'
-                }`}
-              />
-              <button
-                onClick={handleRunSandbox}
-                className="px-4 py-2.5 rounded-xl bg-[#00A884] hover:bg-[#008F6F] text-white font-extrabold text-xs flex items-center justify-center gap-1.5 transition-transform hover:scale-102 cursor-pointer shrink-0 shadow-sm"
-              >
-                <span>Parse Intent</span>
-                <span className="material-symbols-outlined text-[15px]">play_arrow</span>
-              </button>
-            </div>
-
-            {simulatedCustomReply && (
-              <motion.div
-                initial={{ opacity: 0, y: 5 }}
-                animate={{ opacity: 1, y: 0 }}
-                className={`p-3 rounded-xl border font-mono text-xs flex flex-col gap-1.5 ${
-                  isLight
-                    ? 'bg-white border-emerald-300 shadow-sm'
-                    : 'bg-black/50 border-[#00DF8F]/40'
-                }`}
-              >
-                <p className={isLight ? 'text-emerald-900 font-semibold' : 'text-emerald-100'}>
-                  {simulatedCustomReply}
-                </p>
-                <div className="flex justify-end">
-                  <button
-                    onClick={() => handleLaunchWhatsApp(testCustomPrompt)}
-                    className="px-3 py-1 rounded bg-[#00A884] hover:bg-[#008F6F] text-white text-[10px] font-bold flex items-center gap-1 cursor-pointer"
-                  >
-                    <span>Send this exact message to WhatsApp Desk</span>
-                    <span className="material-symbols-outlined text-[12px]">send</span>
-                  </button>
+                          <p
+                            className={`text-[11px] line-clamp-1 pl-9 ${
+                              isLight ? 'text-slate-500' : 'text-slate-400'
+                            }`}
+                          >
+                            {cmd.description}
+                          </p>
+                        </div>
+                      );
+                    })
+                  )}
                 </div>
-              </motion.div>
-            )}
-          </div>
+              </div>
+
+              {/* Right Column: Realistic WhatsApp Chat Simulation */}
+              <div className="lg:col-span-7 flex flex-col gap-2.5">
+                <div className="flex items-center justify-between px-1">
+                  <span
+                    className={`text-[11px] font-semibold uppercase tracking-wider ${
+                      isLight ? 'text-slate-500' : 'text-slate-400'
+                    }`}
+                  >
+                    Live WhatsApp Preview
+                  </span>
+                  <span
+                    className={`text-[11px] ${
+                      isLight ? 'text-slate-500' : 'text-slate-400'
+                    }`}
+                  >
+                    Real-time response
+                  </span>
+                </div>
+
+                {/* WhatsApp Phone Mockup Container */}
+                <div
+                  className={`rounded-2xl border shadow-lg overflow-hidden flex flex-col ${
+                    isLight
+                      ? 'bg-[#EFEAE2] border-slate-300 text-slate-900'
+                      : 'bg-[#0B141A] border-slate-800 text-slate-100'
+                  }`}
+                >
+                  {/* WhatsApp Chat Bar Header */}
+                  <div
+                    className={`px-4 py-3 border-b flex items-center justify-between shrink-0 ${
+                      isLight
+                        ? 'bg-[#008069] text-white border-[#006e5a]'
+                        : 'bg-[#202C33] text-white border-slate-800'
+                    }`}
+                  >
+                    <div className="flex items-center gap-2.5">
+                      <div className="w-8 h-8 rounded-full bg-white/20 text-white flex items-center justify-center font-bold text-xs shrink-0">
+                        A
+                      </div>
+                      <div className="flex flex-col">
+                        <div className="flex items-center gap-1.5 leading-tight">
+                          <span className="font-semibold text-xs sm:text-sm">Axoora</span>
+                          <span className="material-symbols-outlined text-[13px] text-emerald-300">
+                            verified
+                          </span>
+                        </div>
+                        <span className="text-[10px] text-white/80 leading-none">
+                          Online · Official Banking
+                        </span>
+                      </div>
+                    </div>
+
+                    <div className="flex items-center gap-2 text-white/80">
+                      <span className="text-[10px] font-mono hidden sm:inline">
+                        +234 911 000 2966
+                      </span>
+                    </div>
+                  </div>
+
+                  {/* Chat Conversation Canvas */}
+                  <div className="p-4 sm:p-5 flex flex-col gap-3 min-h-[300px] justify-center">
+                    {/* Date Pill */}
+                    <div className="flex justify-center my-0.5">
+                      <span
+                        className={`text-[10px] font-medium px-2.5 py-0.5 rounded-md shadow-2xs ${
+                          isLight
+                            ? 'bg-white/90 text-slate-500'
+                            : 'bg-[#182229] text-slate-400'
+                        }`}
+                      >
+                        TODAY
+                      </span>
+                    </div>
+
+                    {/* 1. Customer Message (Outgoing, Right) */}
+                    <div className="flex flex-col items-end gap-1">
+                      <div
+                        className={`max-w-[85%] rounded-2xl rounded-tr-xs p-3.5 shadow-sm text-xs sm:text-sm leading-relaxed ${
+                          isLight
+                            ? 'bg-[#D9FDD3] text-slate-900'
+                            : 'bg-[#005C4B] text-white'
+                        }`}
+                      >
+                        {activeCommand.mode === 'voice' ? (
+                          <div className="flex items-center gap-2.5">
+                            <div className="w-8 h-8 rounded-full bg-emerald-600 text-white flex items-center justify-center shrink-0">
+                              <span className="material-symbols-outlined text-[16px]">
+                                play_arrow
+                              </span>
+                            </div>
+                            <div className="flex flex-col">
+                              <div className="flex items-center gap-1 h-3">
+                                <span className="w-1 h-2 bg-emerald-500 rounded-full" />
+                                <span className="w-1 h-4 bg-emerald-500 rounded-full" />
+                                <span className="w-1 h-3 bg-emerald-400 rounded-full" />
+                                <span className="w-1 h-5 bg-emerald-600 rounded-full" />
+                                <span className="w-1 h-2 bg-emerald-400 rounded-full" />
+                                <span className="w-1 h-3 bg-emerald-500 rounded-full" />
+                              </div>
+                              <span className="text-[10px] font-mono opacity-80 mt-1">
+                                0:05 Voice Note
+                              </span>
+                            </div>
+                          </div>
+                        ) : activeCommand.mode === 'image' ? (
+                          <div className="flex flex-col gap-1.5">
+                            <div
+                              className={`p-2 rounded-lg flex items-center gap-2 text-xs ${
+                                isLight ? 'bg-black/5' : 'bg-black/20'
+                              }`}
+                            >
+                              <span className="material-symbols-outlined text-[18px]">
+                                image
+                              </span>
+                              <span>Photo / Receipt Attached</span>
+                            </div>
+                            <span>{activeCommand.samplePrompt}</span>
+                          </div>
+                        ) : (
+                          <span>&ldquo;{activeCommand.samplePrompt}&rdquo;</span>
+                        )}
+
+                        <div className="flex items-center justify-end gap-1 text-[9px] opacity-70 mt-1">
+                          <span>10:42 AM</span>
+                          <span className="text-emerald-600 dark:text-emerald-300 font-bold">
+                            ✓✓
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* 2. Axoora Response (Incoming, Left) */}
+                    <div className="flex flex-col items-start gap-1">
+                      <div
+                        className={`max-w-[90%] rounded-2xl rounded-tl-xs p-3.5 sm:p-4 shadow-sm text-xs sm:text-sm flex flex-col gap-2.5 ${
+                          isLight
+                            ? 'bg-white text-slate-900'
+                            : 'bg-[#202C33] text-slate-100'
+                        }`}
+                      >
+                        <p className="font-medium text-xs leading-relaxed">
+                          {activeCommand.aiResponse.summary}
+                        </p>
+
+                        {/* Breakdown Box */}
+                        <div
+                          className={`rounded-xl p-2.5 sm:p-3 flex flex-col gap-1.5 text-xs ${
+                            isLight
+                              ? 'bg-slate-50 border border-slate-100'
+                              : 'bg-black/20 border border-white/5'
+                          }`}
+                        >
+                          {activeCommand.aiResponse.details.map((detail, idx) => (
+                            <div
+                              key={idx}
+                              className="flex items-center justify-between text-[11px] sm:text-xs"
+                            >
+                              <span
+                                className={isLight ? 'text-slate-500' : 'text-slate-400'}
+                              >
+                                {detail.label}:
+                              </span>
+                              <span
+                                className={`font-semibold ${
+                                  detail.highlight
+                                    ? 'text-emerald-600 dark:text-emerald-400'
+                                    : ''
+                                }`}
+                              >
+                                {detail.value}
+                              </span>
+                            </div>
+                          ))}
+                        </div>
+
+                        <p
+                          className={`text-[10px] sm:text-[11px] ${
+                            isLight ? 'text-slate-500' : 'text-slate-400'
+                          }`}
+                        >
+                          {activeCommand.aiResponse.footer}
+                        </p>
+
+                        <div className="flex items-center justify-end text-[9px] opacity-60">
+                          <span>10:42 AM</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* WhatsApp Action Bottom Bar */}
+                  <div
+                    className={`p-3 sm:p-4 border-t flex flex-col sm:flex-row items-center justify-between gap-2.5 ${
+                      isLight
+                        ? 'bg-white border-slate-200'
+                        : 'bg-[#182229] border-slate-800'
+                    }`}
+                  >
+                    <div className="text-xs text-left w-full sm:w-auto">
+                      <span className={`block text-[11px] ${isLight ? 'text-slate-500' : 'text-slate-400'}`}>
+                        Test this command in real life:
+                      </span>
+                    </div>
+
+                    <div className="flex items-center gap-2 w-full sm:w-auto justify-end">
+                      <button
+                        onClick={() => handleCopy(activeCommand.samplePrompt)}
+                        className={`px-3 py-2 rounded-xl text-xs font-medium border flex items-center gap-1.5 transition-colors cursor-pointer shrink-0 ${
+                          isLight
+                            ? 'border-slate-200 bg-slate-50 hover:bg-slate-100 text-slate-700'
+                            : 'border-slate-700 bg-slate-800 hover:bg-slate-700 text-slate-200'
+                        }`}
+                      >
+                        <span className="material-symbols-outlined text-[14px]">
+                          content_copy
+                        </span>
+                        <span>{copiedPrompt === activeCommand.samplePrompt ? 'Copied' : 'Copy'}</span>
+                      </button>
+
+                      <button
+                        onClick={() => handleLaunchWhatsApp(activeCommand.samplePrompt)}
+                        className="flex-1 sm:flex-none px-4 py-2 rounded-xl bg-[#25D366] hover:bg-[#20BD5A] text-white text-xs font-bold flex items-center justify-center gap-1.5 shadow-sm transition-transform hover:scale-102 cursor-pointer"
+                      >
+                        <span>Try on WhatsApp</span>
+                        <span className="material-symbols-outlined text-[14px]">
+                          arrow_forward
+                        </span>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
         </div>
 
         {/* ================================================================= */}
-        {/* 4. DRAWER FOOTER ACTION BAR */}
+        {/* 4. CALM, SIMPLE DRAWER FOOTER */}
         {/* ================================================================= */}
         <div
-          className={`p-4 sm:p-5 border-t shrink-0 flex flex-col sm:flex-row items-center justify-between gap-3 ${
+          className={`px-5 py-3.5 sm:px-6 border-t shrink-0 flex flex-col sm:flex-row items-center justify-between gap-3 ${
             isLight
-              ? 'bg-slate-50 border-slate-200 text-slate-600'
-              : 'bg-[#051024] border-[#152E5E] text-[#8EA2C6]'
+              ? 'bg-white border-slate-200 text-slate-600'
+              : 'bg-[#0F1B38] border-slate-800 text-slate-400'
           }`}
         >
           <div className="flex items-center gap-2 text-xs">
-            <span
-              className={`material-symbols-outlined text-[16px] ${
-                isLight ? 'text-emerald-700' : 'text-[#00DF8F]'
-              }`}
-            >
-              verified
+            <span className="material-symbols-outlined text-[16px] text-emerald-500">
+              verified_user
             </span>
-            <span>Central Bank of Nigeria (CBN) licensed · NDIC insured deposits</span>
+            <span>Central Bank of Nigeria (CBN) licensed · NDIC insured</span>
           </div>
 
-          <div className="flex items-center gap-2.5 w-full sm:w-auto">
-            <button
-              onClick={() => handleLaunchWhatsApp(activeCommand.samplePrompt)}
-              className="flex-1 sm:flex-none py-2.5 px-5 rounded-xl bg-[#00A884] hover:bg-[#008F6F] text-white text-xs font-bold flex items-center justify-center gap-2 transition-transform hover:scale-102 shadow-md cursor-pointer"
-            >
-              <span className="material-symbols-outlined text-[16px]">chat</span>
-              <span>Open Verified WhatsApp Desk</span>
-            </button>
-          </div>
+          <button
+            onClick={() => handleLaunchWhatsApp('Hi Axoora')}
+            className="w-full sm:w-auto px-5 py-2.5 rounded-xl bg-[#25D366] hover:bg-[#20BD5A] text-white text-xs font-bold flex items-center justify-center gap-2 transition-transform hover:scale-102 shadow-md cursor-pointer"
+          >
+            <span className="material-symbols-outlined text-[16px]">chat</span>
+            <span>Chat with Axoora AI (+234 911 000 2966)</span>
+          </button>
         </div>
       </motion.div>
     </div>
   );
 };
-

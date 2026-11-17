@@ -1,7 +1,7 @@
 'use client';
 
 import React, { createContext, useContext, useEffect } from 'react';
-import { JournalArticle } from '../types';
+import { JournalArticle, FaqItem } from '../types';
 import { useAppDispatch, useAppSelector } from '../store';
 import {
   DEFAULT_STEPS,
@@ -17,6 +17,9 @@ import {
   addProduct as addProductAction,
   updateProduct as updateProductAction,
   deleteProduct as deleteProductAction,
+  addFaq as addFaqAction,
+  updateFaq as updateFaqAction,
+  deleteFaq as deleteFaqAction,
   resetAllContent as resetAllContentAction,
   fetchBackendCmsThunk,
 } from '../store/slices/contentSlice';
@@ -106,6 +109,10 @@ interface CmsContextType {
   addArticle: (article: JournalArticle) => void;
   updateArticle: (id: string, patch: Partial<JournalArticle>) => void;
   deleteArticle: (id: string) => void;
+  faqs: FaqItem[];
+  addFaq: (faq: FaqItem) => void;
+  updateFaq: (id: string, patch: Partial<FaqItem>) => void;
+  deleteFaq: (id: string) => void;
   leads: AdminLeadItem[];
   updateLeadStatus: (id: string, status: AdminLeadItem['status']) => void;
   deleteLead: (id: string) => void;
@@ -121,7 +128,7 @@ const CmsContext = createContext<CmsContextType | undefined>(undefined);
 
 export const CmsProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const dispatch = useAppDispatch();
-  const { hero, steps, merchants, articles, products } = useAppSelector((state) => state.content);
+  const { hero, steps, merchants, articles, products, faqs } = useAppSelector((state) => state.content);
   const { leads } = useAppSelector((state) => state.waitlist);
 
   useEffect(() => {
@@ -218,14 +225,116 @@ export const CmsProvider: React.FC<{ children: React.ReactNode }> = ({ children 
 
   const addArticle = (article: JournalArticle) => {
     dispatch(addArticleAction(article));
+    contentApi
+      .createArticle({
+        title: article.title,
+        category: article.category,
+        summary: article.summary,
+        content: article.content || '',
+        author: article.author || 'Axoora Editorial Board',
+        read_time: article.readTime || '4 min read',
+        published_date: article.date || 'Oct 2026',
+        is_published: true,
+      })
+      .then((res) => {
+        if (res?.data?.id && res.data.id !== article.id) {
+          dispatch(
+            updateArticleAction({
+              id: article.id,
+              patch: { id: res.data.id, slug: res.data.slug },
+            })
+          );
+        }
+      })
+      .catch((err) => {
+        console.warn('Failed to persist article to backend API, cached locally:', err);
+      });
   };
 
   const updateArticle = (id: string, patch: Partial<JournalArticle>) => {
     dispatch(updateArticleAction({ id, patch }));
+    const current = articles.find((a) => a.id === id);
+    const merged = current ? { ...current, ...patch } : patch;
+    const slugOrId = (merged as any).slug || id;
+    contentApi
+      .updateArticle(slugOrId, {
+        ...(merged.title !== undefined ? { title: merged.title } : {}),
+        ...(merged.category !== undefined ? { category: merged.category } : {}),
+        ...(merged.summary !== undefined ? { summary: merged.summary } : {}),
+        ...(merged.content !== undefined ? { content: merged.content } : {}),
+        ...(merged.author !== undefined ? { author: merged.author } : {}),
+        ...(merged.readTime !== undefined ? { read_time: merged.readTime } : {}),
+        ...(merged.date !== undefined ? { published_date: merged.date } : {}),
+      })
+      .then((res) => {
+        if (res?.data?.slug && res.data.slug !== (merged as any).slug) {
+          dispatch(updateArticleAction({ id, patch: { slug: res.data.slug } }));
+        }
+      })
+      .catch((err) => {
+        console.warn('Failed to update article on backend API, cached locally:', err);
+      });
   };
 
   const deleteArticle = (id: string) => {
+    const target = articles.find((a) => a.id === id);
+    const slugOrId = (target as any)?.slug || id;
     dispatch(deleteArticleAction(id));
+    contentApi.deleteArticle(slugOrId).catch((err) => {
+      console.warn('Failed to delete article on backend API, removed locally:', err);
+    });
+  };
+
+  const addFaq = (faq: FaqItem) => {
+    dispatch(addFaqAction(faq));
+    contentApi
+      .createFaq({
+        question: faq.question,
+        answer: faq.answer,
+        category: faq.category,
+        order: faq.order || 0,
+        is_active: faq.isActive !== undefined ? faq.isActive : true,
+      })
+      .then((res) => {
+        if (res?.data?.id && res.data.id !== faq.id) {
+          dispatch(
+            updateFaqAction({
+              id: faq.id || faq.question,
+              patch: { id: res.data.id },
+            })
+          );
+        }
+      })
+      .catch((err) => {
+        console.warn('Failed to create FAQ on backend API, cached locally:', err);
+      });
+  };
+
+  const updateFaq = (id: string, patch: Partial<FaqItem>) => {
+    dispatch(updateFaqAction({ id, patch }));
+    const current = faqs.find((f) => f.id === id || f.question === id);
+    const merged = current ? { ...current, ...patch } : patch;
+    const faqId = current?.id || id;
+    contentApi
+      .updateFaq(faqId, {
+        ...(merged.question !== undefined ? { question: merged.question } : {}),
+        ...(merged.answer !== undefined ? { answer: merged.answer } : {}),
+        ...(merged.category !== undefined ? { category: merged.category } : {}),
+        ...(merged.order !== undefined ? { order: merged.order } : {}),
+        ...(merged.isActive !== undefined ? { is_active: merged.isActive } : {}),
+      })
+      .catch((err) => {
+        console.warn('Failed to update FAQ on backend API, cached locally:', err);
+      });
+  };
+
+  const deleteFaq = (id: string) => {
+    const target = faqs.find((f) => f.id === id || f.question === id);
+    const faqId = target?.id || id;
+    dispatch(deleteFaqAction(id));
+    contentApi.deleteFaq(faqId).catch((err) => {
+      console.warn('Failed to delete FAQ on backend API, removed locally:', err);
+    });
   };
 
   const updateLeadStatus = (id: string, status: AdminLeadItem['status']) => {
@@ -324,6 +433,10 @@ export const CmsProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         addArticle,
         updateArticle,
         deleteArticle,
+        faqs,
+        addFaq,
+        updateFaq,
+        deleteFaq,
         leads,
         updateLeadStatus,
         deleteLead,

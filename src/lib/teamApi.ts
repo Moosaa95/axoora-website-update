@@ -4,7 +4,23 @@
  * role management, and team member directory.
  */
 
-const API_BASE = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
+export const getApiBase = (): string => {
+  if (process.env.NEXT_PUBLIC_API_URL) {
+    return process.env.NEXT_PUBLIC_API_URL.replace(/\/$/, '');
+  }
+  if (typeof window !== 'undefined') {
+    const host = window.location.hostname;
+    if (host && !host.includes('localhost') && !host.includes('127.0.0.1')) {
+      return 'https://axoora-backend.onrender.com';
+    }
+  }
+  if (process.env.NODE_ENV === 'production') {
+    return 'https://axoora-backend.onrender.com';
+  }
+  return 'http://localhost:8000';
+};
+
+const API_BASE = getApiBase();
 const TEAM_API = `${API_BASE}/api/v1/team`;
 
 // ─── Types ────────────────────────────────────────────────────────────────────
@@ -83,7 +99,8 @@ async function apiFetch<T>(
     headers['X-CSRFToken'] = csrfToken;
   }
 
-  const res = await fetch(`${TEAM_API}${path}`, {
+  const base = getApiBase();
+  const res = await fetch(`${base}/api/v1/team${path}`, {
     credentials: 'include',
     headers,
     ...options,
@@ -233,8 +250,8 @@ export const teamMembers = {
 
 // ─── Content / Articles / Hero / Stories / Products API ──────────────────────
 
-const CONTENT_API = `${API_BASE}/api/v1/content`;
-const WAITLIST_API = `${API_BASE}/api/v1/waitlist`;
+const CONTENT_API = `${getApiBase()}/api/v1/content`;
+const WAITLIST_API = `${getApiBase()}/api/v1/waitlist`;
 
 export interface HeroConfigApi {
   id: string;
@@ -256,6 +273,18 @@ export interface ContentBootstrapApi {
   stories: MerchantStoryApi[];
   products: ProductItemApi[];
   articles: JournalArticleApi[];
+  faqs?: FaqItemApi[];
+}
+
+export interface FaqItemApi {
+  id: string;
+  question: string;
+  answer: string;
+  category: string;
+  order: number;
+  is_active: boolean;
+  created_at?: string;
+  updated_at?: string;
 }
 
 export interface JournalArticleApi {
@@ -353,7 +382,11 @@ export const contentApi = {
       credentials: 'include',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(data),
-    }).then((r) => r.json()),
+    }).then(async (r) => {
+      const json = await r.json();
+      if (!r.ok) throw json;
+      return json;
+    }),
 
   updateArticle: (slug: string, data: Partial<JournalArticleApi>) =>
     fetch(`${CONTENT_API}/articles/${slug}/`, {
@@ -361,13 +394,66 @@ export const contentApi = {
       credentials: 'include',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(data),
-    }).then((r) => r.json()),
+    }).then(async (r) => {
+      const json = await r.json();
+      if (!r.ok) throw json;
+      return json;
+    }),
 
   deleteArticle: (slug: string) =>
     fetch(`${CONTENT_API}/articles/${slug}/`, {
       method: 'DELETE',
       credentials: 'include',
-    }).then((r) => (r.ok ? { success: true } : r.json())),
+    }).then(async (r) => {
+      const json = await r.json().catch(() => ({}));
+      if (!r.ok) throw json;
+      return { success: true };
+    }),
+
+  getFaqs: (params?: { include_inactive?: boolean; category?: string; search?: string }) => {
+    const qs = new URLSearchParams();
+    if (params?.include_inactive) qs.set('include_inactive', 'true');
+    if (params?.category && params.category.toLowerCase() !== 'all') qs.set('category', params.category);
+    if (params?.search) qs.set('search', params.search);
+    const query = qs.toString() ? `?${qs.toString()}` : '';
+    return fetch(`${CONTENT_API}/faqs/${query}`, { credentials: 'include' })
+      .then((r) => r.json())
+      .then((d) => d as { count: number; results: FaqItemApi[] });
+  },
+
+  createFaq: (data: Partial<FaqItemApi>) =>
+    fetch(`${CONTENT_API}/faqs/`, {
+      method: 'POST',
+      credentials: 'include',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data),
+    }).then(async (r) => {
+      const json = await r.json();
+      if (!r.ok) throw json;
+      return json;
+    }),
+
+  updateFaq: (id: string, data: Partial<FaqItemApi>) =>
+    fetch(`${CONTENT_API}/faqs/${id}/`, {
+      method: 'PATCH',
+      credentials: 'include',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data),
+    }).then(async (r) => {
+      const json = await r.json();
+      if (!r.ok) throw json;
+      return json;
+    }),
+
+  deleteFaq: (id: string) =>
+    fetch(`${CONTENT_API}/faqs/${id}/`, {
+      method: 'DELETE',
+      credentials: 'include',
+    }).then(async (r) => {
+      const json = await r.json().catch(() => ({}));
+      if (!r.ok) throw json;
+      return { success: true };
+    }),
 
   getStories: () =>
     fetch(`${CONTENT_API}/stories/`, { credentials: 'include' })

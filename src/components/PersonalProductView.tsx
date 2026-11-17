@@ -35,7 +35,7 @@ export const PersonalProductView: React.FC<PersonalProductViewProps> = ({
 }) => {
   const { theme } = useTheme();
   const isLight = theme === 'light';
-  const { hero } = useCms();
+  const { hero, faqs } = useCms();
 
   let navOpenCommandDrawer: (() => void) | undefined;
   try {
@@ -56,12 +56,13 @@ export const PersonalProductView: React.FC<PersonalProductViewProps> = ({
   const totalAnnualLegacyLoss = Math.round(legacyTransferFees + legacyMaintenance);
 
   // Filter FAQs strictly relevant to Personal Banking
-  const personalFaqs = FAQ_LIST.filter(
+  const sourceFaqs = faqs && faqs.length > 0 ? faqs : FAQ_LIST;
+  const personalFaqs = sourceFaqs.filter(
     (faq) =>
       faq.category === 'Personal & Cards' ||
       faq.category === 'Save and Earn' ||
       faq.category === 'Paycircle'
-  ).slice(0, 6);
+  ).slice(0, 8);
   const [openFaqId, setOpenFaqId] = useState<string | null>(personalFaqs[0]?.id || null);
 
   const personalBenefits = [

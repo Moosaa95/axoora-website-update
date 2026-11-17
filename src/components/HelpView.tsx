@@ -4,19 +4,23 @@ import React, { useState } from 'react';
 import { COMPANY_INFO, FAQ_LIST } from '../data/mockData';
 import { FaqAccordionItem } from './FaqAccordionItem';
 import { useTheme } from '../context/ThemeContext';
+import { useCms } from '../context/CmsContext';
 
 export const HelpView: React.FC = () => {
   const { theme } = useTheme();
   const isLight = theme === 'light';
+  const { faqs } = useCms();
+  const allFaqs = faqs && faqs.length > 0 ? faqs : FAQ_LIST;
+
   const [selectedCategory, setSelectedCategory] = useState<string>('All');
-  const [openFaqId, setOpenFaqId] = useState<string | null>(FAQ_LIST[0]?.id || null);
+  const [openFaqId, setOpenFaqId] = useState<string | null>(allFaqs[0]?.id || null);
 
   const categories = ['All', 'General', 'Personal & Cards', 'Save and Earn', 'Paycircle', 'Business & POS', 'Security'];
 
   const filteredFaqs =
     selectedCategory === 'All'
-      ? FAQ_LIST
-      : FAQ_LIST.filter((f) => f.category === selectedCategory);
+      ? allFaqs
+      : allFaqs.filter((f) => f.category === selectedCategory);
 
   return (
     <div className={`w-full font-sans transition-colors duration-200 ${

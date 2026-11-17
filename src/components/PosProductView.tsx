@@ -5,6 +5,7 @@ import { motion } from 'framer-motion';
 import { ScreenType } from '../types';
 import { FAQ_LIST } from '../data/mockData';
 import { useTheme } from '../context/ThemeContext';
+import { useCms } from '../context/CmsContext';
 import { FaqAccordionItem } from './FaqAccordionItem';
 import { BlogArticlesCarousel } from './BlogArticlesCarousel';
 
@@ -76,9 +77,11 @@ export const PosProductView: React.FC<PosProductViewProps> = ({
     },
   ];
 
-  const posFaqs = FAQ_LIST.filter(
+  const { faqs } = useCms();
+  const sourceFaqs = faqs && faqs.length > 0 ? faqs : FAQ_LIST;
+  const posFaqs = sourceFaqs.filter(
     (faq) => faq.category === 'Business & POS' || faq.tags?.includes('pos')
-  ).slice(0, 6);
+  ).slice(0, 8);
   const [openFaqId, setOpenFaqId] = useState<string | null>(posFaqs[0]?.id || null);
 
   return (

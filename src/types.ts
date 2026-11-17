@@ -52,7 +52,9 @@ export interface FaqItem {
   id?: string;
   question: string;
   answer: string;
-  category: 'General' | 'Personal & Cards' | 'Save and Earn' | 'Paycircle' | 'Business & POS' | 'Security';
+  category: 'General' | 'Personal & Cards' | 'Save and Earn' | 'Paycircle' | 'Business & POS' | 'Security' | string;
+  order?: number;
+  isActive?: boolean;
   tags?: string[];
   actionLink?: {
     label: string;

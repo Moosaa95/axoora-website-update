@@ -9,13 +9,41 @@ export interface AuthState {
   error: string | null;
 }
 
-const initialState: AuthState = {
-  user: null,
-  permissions: [],
-  isAuthenticated: false,
-  status: 'idle',
-  error: null,
-};
+function loadInitialAuthState(): AuthState {
+  if (typeof window === 'undefined') {
+    return {
+      user: null,
+      permissions: [],
+      isAuthenticated: false,
+      status: 'idle',
+      error: null,
+    };
+  }
+  try {
+    const raw = localStorage.getItem('axoora_auth_session');
+    if (raw) {
+      const parsed = JSON.parse(raw);
+      if (parsed?.user) {
+        return {
+          user: parsed.user,
+          permissions: parsed.permissions || [],
+          isAuthenticated: true,
+          status: 'authenticated',
+          error: null,
+        };
+      }
+    }
+  } catch {}
+  return {
+    user: null,
+    permissions: [],
+    isAuthenticated: false,
+    status: 'idle',
+    error: null,
+  };
+}
+
+const initialState: AuthState = loadInitialAuthState();
 
 // Async Thunks
 export const checkAuthThunk = createAsyncThunk<LoginResponse, void, { rejectValue: string }>(
@@ -86,8 +114,20 @@ export const authSlice = createSlice({
       state.isAuthenticated = true;
       state.status = 'authenticated';
       state.error = null;
+      if (typeof window !== 'undefined' && action.payload.user) {
+        try {
+          localStorage.setItem(
+            'axoora_auth_session',
+            JSON.stringify({ user: action.payload.user, permissions: action.payload.permissions || [] })
+          );
+        } catch {}
+      }
     });
     builder.addCase(checkAuthThunk.rejected, (state) => {
+      // If we already have a persisted local session, keep it valid to prevent flash redirect on refresh
+      if (typeof window !== 'undefined' && localStorage.getItem('axoora_auth_session')) {
+        return;
+      }
       state.user = null;
       state.permissions = [];
       state.isAuthenticated = false;
@@ -105,6 +145,14 @@ export const authSlice = createSlice({
       state.isAuthenticated = true;
       state.status = 'authenticated';
       state.error = null;
+      if (typeof window !== 'undefined' && action.payload.user) {
+        try {
+          localStorage.setItem(
+            'axoora_auth_session',
+            JSON.stringify({ user: action.payload.user, permissions: action.payload.permissions || [] })
+          );
+        } catch {}
+      }
     });
     builder.addCase(loginThunk.rejected, (state, action) => {
       state.user = null;
@@ -112,6 +160,11 @@ export const authSlice = createSlice({
       state.isAuthenticated = false;
       state.status = 'error';
       state.error = action.payload || 'Login failed';
+      if (typeof window !== 'undefined') {
+        try {
+          localStorage.removeItem('axoora_auth_session');
+        } catch {}
+      }
     });
 
     // Logout
@@ -121,6 +174,11 @@ export const authSlice = createSlice({
       state.isAuthenticated = false;
       state.status = 'unauthenticated';
       state.error = null;
+      if (typeof window !== 'undefined') {
+        try {
+          localStorage.removeItem('axoora_auth_session');
+        } catch {}
+      }
     });
   },
 });

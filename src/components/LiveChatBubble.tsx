@@ -8,6 +8,7 @@ import {
   escalateChatToHuman,
   getChatHistory,
   updateChatSession,
+  sendChatInactivityEvent,
   type ChatTranscriptMessageApi,
 } from '../lib/api';
 
@@ -54,6 +55,14 @@ export const LiveChatBubble: React.FC<LiveChatBubbleProps> = ({
   const [escalatePhone, setEscalatePhone] = useState<string>('');
   const [isSubmittingEscalation, setIsSubmittingEscalation] = useState<boolean>(false);
 
+  // Inactivity Warning & Auto-Disconnect State (when speaking with human agent)
+  const [inactivityWarning, setInactivityWarning] = useState<boolean>(false);
+  const [countdownSeconds, setCountdownSeconds] = useState<number>(45);
+  const [isDisconnected, setIsDisconnected] = useState<boolean>(false);
+  const inactivityTimerRef = useRef<NodeJS.Timeout | null>(null);
+  const countdownIntervalRef = useRef<NodeJS.Timeout | null>(null);
+  const hasWarnedRef = useRef<boolean>(false);
+
   const WELCOME_MESSAGE: Message = {
     id: 'welcome-1',
     sender: 'bot',
@@ -87,6 +96,12 @@ export const LiveChatBubble: React.FC<LiveChatBubbleProps> = ({
         const session = await getChatHistory(sid);
         if (session?.ticket_code) setTicketCode(session.ticket_code);
         setIsEscalated(session.status === 'escalated' || session.status === 'human_active');
+        if (session.status === 'closed') {
+          setIsDisconnected(true);
+          setInactivityWarning(false);
+        } else if (session.status === 'human_active' || session.status === 'escalated' || session.status === 'ai_active') {
+          setIsDisconnected(false);
+        }
         if (Array.isArray(session.messages) && session.messages.length > 0) {
           setMessages((prev) => {
             if (prev.length - 1 === session.messages.length && prev[prev.length - 1]?.id === session.messages[session.messages.length - 1]?.id) {
@@ -124,10 +139,20 @@ export const LiveChatBubble: React.FC<LiveChatBubbleProps> = ({
     return () => clearInterval(interval);
   }, [isOpen, sessionId, syncSessionHistory]);
 
+  const resetInactivityTimer = useCallback(() => {
+    if (inactivityTimerRef.current) clearTimeout(inactivityTimerRef.current);
+    if (countdownIntervalRef.current) clearInterval(countdownIntervalRef.current);
+    setInactivityWarning(false);
+    hasWarnedRef.current = false;
+    setCountdownSeconds(45);
+  }, []);
+
   const handleResetChat = () => {
     try {
       sessionStorage.removeItem('axoora_chat_session');
     } catch {}
+    resetInactivityTimer();
+    setIsDisconnected(false);
     setSessionId(null);
     setTicketCode('AX-LIVE');
     setIsEscalated(false);
@@ -135,6 +160,55 @@ export const LiveChatBubble: React.FC<LiveChatBubbleProps> = ({
     setRated(null);
     setMessages([WELCOME_MESSAGE]);
   };
+
+  // Customer Inactivity Monitor: Active when connected to a human agent
+  useEffect(() => {
+    if (!isOpen || !sessionId || !isEscalated || isDisconnected) {
+      if (inactivityTimerRef.current) clearTimeout(inactivityTimerRef.current);
+      if (countdownIntervalRef.current) clearInterval(countdownIntervalRef.current);
+      return;
+    }
+
+    const lastMsg = messages[messages.length - 1];
+    // If the customer was the last one to speak, they're waiting on the agent — no penalty!
+    if (!lastMsg || lastMsg.sender === 'user') {
+      if (inactivityTimerRef.current) clearTimeout(inactivityTimerRef.current);
+      if (countdownIntervalRef.current) clearInterval(countdownIntervalRef.current);
+      setInactivityWarning(false);
+      hasWarnedRef.current = false;
+      return;
+    }
+
+    // If human agent replied and we haven't warned yet, start the 60s inactivity grace period
+    if (lastMsg.sender === 'agent' && !hasWarnedRef.current && !inactivityWarning) {
+      inactivityTimerRef.current = setTimeout(async () => {
+        hasWarnedRef.current = true;
+        setInactivityWarning(true);
+        setCountdownSeconds(45);
+
+        try {
+          await sendChatInactivityEvent({ sessionId, action: 'warn' });
+        } catch {}
+
+        countdownIntervalRef.current = setInterval(() => {
+          setCountdownSeconds((prev) => {
+            if (prev <= 1) {
+              if (countdownIntervalRef.current) clearInterval(countdownIntervalRef.current);
+              sendChatInactivityEvent({ sessionId, action: 'disconnect' }).catch(() => {});
+              setIsDisconnected(true);
+              setInactivityWarning(false);
+              return 0;
+            }
+            return prev - 1;
+          });
+        }, 1000);
+      }, 60000);
+    }
+
+    return () => {
+      if (inactivityTimerRef.current) clearTimeout(inactivityTimerRef.current);
+    };
+  }, [isOpen, sessionId, isEscalated, isDisconnected, messages, inactivityWarning]);
 
   useEffect(() => {
     if (isOpen) {
@@ -145,6 +219,7 @@ export const LiveChatBubble: React.FC<LiveChatBubbleProps> = ({
   const handleSend = async (textToSend?: string) => {
     const text = textToSend || inputValue;
     if (!text.trim()) return;
+    resetInactivityTimer();
     const userText = text;
     const now = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 
@@ -682,23 +757,92 @@ export const LiveChatBubble: React.FC<LiveChatBubbleProps> = ({
               <div ref={messagesEndRef} />
             </div>
 
-            {/* Input Bar */}
-            <div className="p-3 bg-[#020F2E] border-t border-[#14294F] flex items-center gap-2">
-              <input
-                type="text"
-                value={inputValue}
-                onChange={(e) => setInputValue(e.target.value)}
-                onKeyDown={(e) => e.key === 'Enter' && handleSend()}
-                placeholder={isEscalated ? "Type message for human officer..." : "Ask questions or type 'talk to human'..."}
-                className="flex-1 bg-[#0A1B3D] border border-[#14294F] focus:border-[#0D95FE] text-white text-xs px-3.5 py-2.5 rounded-xl outline-none placeholder-[#7B9CD2]"
-              />
-              <button
-                onClick={() => handleSend()}
-                className="w-10 h-10 rounded-xl bg-[#0D95FE] text-[#00284D] hover:bg-[#00DF8F] hover:text-[#003825] flex items-center justify-center font-bold transition-all cursor-pointer shrink-0"
-              >
-                <span className="material-symbols-outlined text-[18px]">send</span>
-              </button>
-            </div>
+            {/* Inactivity Warning Banner (shown when customer hasn't replied to human agent) */}
+            <AnimatePresence>
+              {inactivityWarning && !isDisconnected && (
+                <motion.div
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: 10 }}
+                  className="mx-3 my-2 p-3 rounded-xl bg-amber-500/15 border border-amber-500/40 text-amber-200 flex flex-col gap-2 shadow-lg"
+                >
+                  <div className="flex items-center justify-between text-xs font-bold">
+                    <span className="flex items-center gap-1.5 text-amber-300">
+                      <span className="material-symbols-outlined text-[16px] animate-pulse">timer</span>
+                      <span>Inactivity Warning</span>
+                    </span>
+                    <span className="font-mono text-xs px-2 py-0.5 rounded bg-amber-500/20 text-amber-200 border border-amber-500/30 font-black">
+                      Disconnecting in {countdownSeconds}s
+                    </span>
+                  </div>
+                  <p className="text-[11px] text-amber-100/90 leading-tight">
+                    Our support officer is waiting for your reply. Are you still with us?
+                  </p>
+                  <div className="flex items-center gap-2 pt-0.5">
+                    <button
+                      onClick={() => handleSend("Yes, I am still here!")}
+                      className="px-3 py-1.5 rounded-lg bg-[#00DF8F] text-[#003825] font-bold text-xs hover:bg-emerald-300 transition-colors cursor-pointer flex items-center gap-1 shadow-sm"
+                    >
+                      <span>✅ I&apos;m Still Here</span>
+                    </button>
+                    <button
+                      onClick={resetInactivityTimer}
+                      className="px-2.5 py-1.5 rounded-lg bg-white/10 hover:bg-white/20 text-xs text-white transition-colors cursor-pointer"
+                    >
+                      Dismiss
+                    </button>
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
+
+            {/* Input Bar or Disconnect State */}
+            {isDisconnected ? (
+              <div className="p-3.5 bg-[#020F2E] border-t border-[#14294F] flex flex-col gap-2.5">
+                <div className="flex items-center gap-2 text-xs text-amber-300 font-semibold">
+                  <span className="material-symbols-outlined text-[18px] text-amber-400">schedule</span>
+                  <span>Chat disconnected due to customer inactivity.</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <button
+                    onClick={handleResetChat}
+                    className="flex-1 py-2 rounded-xl bg-[#0D95FE] hover:bg-[#00DF8F] text-[#00284D] hover:text-[#003825] font-bold text-xs transition-colors flex items-center justify-center gap-1.5 cursor-pointer shadow-md"
+                  >
+                    <span className="material-symbols-outlined text-[16px]">refresh</span>
+                    <span>Start New Chat</span>
+                  </button>
+                  <a
+                    href={`https://wa.me/2349110002966?text=Hello%20Axoora%20Desk!%20I%20am%20following%20up%20on%20my%20chat%20session%20(Ticket%20%23${ticketCode})`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="py-2 px-3 rounded-xl bg-[#00DF8F]/15 hover:bg-[#00DF8F]/30 text-[#00DF8F] border border-[#00DF8F]/30 font-bold text-xs transition-colors flex items-center gap-1"
+                  >
+                    <span>WhatsApp</span>
+                    <span className="material-symbols-outlined text-[14px]">open_in_new</span>
+                  </a>
+                </div>
+              </div>
+            ) : (
+              <div className="p-3 bg-[#020F2E] border-t border-[#14294F] flex items-center gap-2">
+                <input
+                  type="text"
+                  value={inputValue}
+                  onChange={(e) => {
+                    setInputValue(e.target.value);
+                    if (inactivityWarning) resetInactivityTimer();
+                  }}
+                  onKeyDown={(e) => e.key === 'Enter' && handleSend()}
+                  placeholder={isEscalated ? "Type message for human officer..." : "Ask questions or type 'talk to human'..."}
+                  className="flex-1 bg-[#0A1B3D] border border-[#14294F] focus:border-[#0D95FE] text-white text-xs px-3.5 py-2.5 rounded-xl outline-none placeholder-[#7B9CD2]"
+                />
+                <button
+                  onClick={() => handleSend()}
+                  className="w-10 h-10 rounded-xl bg-[#0D95FE] text-[#00284D] hover:bg-[#00DF8F] hover:text-[#003825] flex items-center justify-center font-bold transition-all cursor-pointer shrink-0"
+                >
+                  <span className="material-symbols-outlined text-[18px]">send</span>
+                </button>
+              </div>
+            )}
           </motion.div>
         )}
       </AnimatePresence>

@@ -11,6 +11,8 @@ import { AxooraLogo } from './AxooraLogo';
 import { WaitlistDataTable } from './WaitlistDataTable';
 import { TeamManagementTab } from './TeamManagementTab';
 import { LiveChatAdminTab } from './LiveChatAdminTab';
+import { FaqManagementTab } from './FaqManagementTab';
+import { WysiwygArticleEditor } from './WysiwygArticleEditor';
 import { ConfirmModal } from './ConfirmModal';
 import { AdminCardsSkeleton } from './AdminSkeleton';
 import { teamAuth, contentApi, type LoginResponse } from '../lib/teamApi';
@@ -27,7 +29,7 @@ interface AdminDashboardProps {
   onExitAdmin: () => void;
 }
 
-type AdminTab =
+export type AdminTab =
   | 'overview'
   | 'hero'
   | 'get-started'
@@ -36,7 +38,8 @@ type AdminTab =
   | 'journal'
   | 'leads'
   | 'chat'
-  | 'team';
+  | 'team'
+  | 'faqs';
 
 const PRESET_MERCHANT_PHOTOS = [
   { label: 'Fatima (Abuja)', url: '/merchants/fatima.jpg' },
@@ -61,6 +64,10 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onExitAdmin }) =
     addArticle,
     updateArticle,
     deleteArticle,
+    faqs,
+    addFaq,
+    updateFaq,
+    deleteFaq,
     leads,
     updateLeadStatus,
     products,
@@ -70,7 +77,39 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onExitAdmin }) =
     resetAllCmsData,
   } = useCms();
 
-  const [activeTab, setActiveTab] = useState<AdminTab>('overview');
+  const [activeTab, setActiveTabState] = useState<AdminTab>(() => {
+    if (typeof window !== 'undefined') {
+      const urlTab = new URLSearchParams(window.location.search).get('tab') as AdminTab | null;
+      const validTabs: AdminTab[] = [
+        'overview',
+        'hero',
+        'get-started',
+        'merchants',
+        'products',
+        'journal',
+        'leads',
+        'chat',
+        'team',
+        'faqs',
+      ];
+      if (urlTab && validTabs.includes(urlTab)) return urlTab;
+      const savedTab = localStorage.getItem('axoora_admin_active_tab') as AdminTab | null;
+      if (savedTab && validTabs.includes(savedTab)) return savedTab;
+    }
+    return 'overview';
+  });
+
+  const setActiveTab = (tab: AdminTab) => {
+    setActiveTabState(tab);
+    if (typeof window !== 'undefined') {
+      try {
+        localStorage.setItem('axoora_admin_active_tab', tab);
+        const url = new URL(window.location.href);
+        url.searchParams.set('tab', tab);
+        window.history.replaceState(null, '', url.toString());
+      } catch {}
+    }
+  };
   const [isSyncing, setIsSyncing] = useState(false);
   const dispatch = useAppDispatch();
   const reduxUser = useAppSelector((state) => state.auth.user);
@@ -204,6 +243,13 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onExitAdmin }) =
       icon: 'contacts',
       badge: `${leads.length}`,
       reflectsOn: 'Apply (/apply), Waitlist Modal & Track (/track)',
+    },
+    {
+      id: 'faqs',
+      label: 'FAQs & Help',
+      icon: 'help_center',
+      badge: `${faqs.length}`,
+      reflectsOn: 'Help Desk (/help), Product Page Accordions & WhatsApp FAQs',
     },
     {
       id: 'chat',
@@ -487,6 +533,14 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onExitAdmin }) =
                         desc: 'Review applications from /apply, update approval status, and export CSV.',
                         stat: `${leads.length} Total Leads`,
                         color: '#A78BFA',
+                      },
+                      {
+                        tab: 'faqs' as AdminTab,
+                        icon: 'help_center',
+                        title: 'Resolution Desk FAQs',
+                        desc: 'Edit questions & answers for website accordion drawers across all products.',
+                        stat: `${faqs.length} FAQs Live`,
+                        color: '#38BDF8',
                       },
                     ].map((card) => (
                       <button
@@ -1425,6 +1479,19 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onExitAdmin }) =
               {/* 9. TEAM & ACCESS */}
               {/* ========================================================= */}
               {activeTab === 'team' && <TeamManagementTab onShowToast={showToast} />}
+
+              {/* ========================================================= */}
+              {/* 10. FAQS & RESOLUTION DESK */}
+              {/* ========================================================= */}
+              {activeTab === 'faqs' && (
+                <FaqManagementTab
+                  faqs={faqs}
+                  onAddFaq={addFaq}
+                  onUpdateFaq={updateFaq}
+                  onDeleteFaq={deleteFaq}
+                  showToast={showToast}
+                />
+              )}
             </motion.div>
           </AnimatePresence>
         </main>
@@ -1782,7 +1849,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onExitAdmin }) =
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.95 }}
               onClick={(e) => e.stopPropagation()}
-              className="w-full max-w-2xl rounded-2xl bg-[#05112A] border border-[#1E3A6B] p-6 shadow-2xl flex flex-col gap-4 max-h-[90vh] overflow-y-auto"
+              className="w-full max-w-4xl rounded-2xl bg-[#05112A] border border-[#1E3A6B] p-6 shadow-2xl flex flex-col gap-4 max-h-[90vh] overflow-y-auto"
             >
               <div className="flex items-center justify-between pb-3 border-b border-[#14294F]">
                 <h3 className="text-base font-bold text-white">
@@ -1864,15 +1931,20 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onExitAdmin }) =
                 />
               </div>
 
-              <div className="flex flex-col gap-1">
-                <label className="text-xs text-[#A8BBD6]">Full Article Body</label>
-                <textarea
-                  rows={6}
-                  value={editingArticle.content || ''}
-                  onChange={(e) =>
-                    setEditingArticle({ ...editingArticle, content: e.target.value })
-                  }
-                  className="px-3.5 py-2.5 rounded-xl bg-[#020B1D] border border-[#14294F] text-xs text-white leading-relaxed"
+              <div className="flex flex-col gap-1.5">
+                <label className="text-xs text-[#A8BBD6] flex items-center justify-between">
+                  <span>Full Article Body (What You See Is What You Get)</span>
+                  <span className="text-[11px] text-[#00DF8F] font-mono">Toolbar &bull; Live Preview &bull; Split View</span>
+                </label>
+                <WysiwygArticleEditor
+                  content={editingArticle.content || ''}
+                  onChange={(val) => setEditingArticle({ ...editingArticle, content: val })}
+                  title={editingArticle.title}
+                  category={editingArticle.category}
+                  author={editingArticle.author}
+                  readTime={editingArticle.readTime}
+                  date={editingArticle.date}
+                  summary={editingArticle.summary}
                 />
               </div>
 

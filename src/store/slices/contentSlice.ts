@@ -1,12 +1,13 @@
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
-import { COMPANY_INFO, JOURNAL_ARTICLES } from '../../data/mockData';
-import { JournalArticle } from '../../types';
+import { COMPANY_INFO, JOURNAL_ARTICLES, FAQ_LIST } from '../../data/mockData';
+import { JournalArticle, FaqItem } from '../../types';
 import {
   contentApi,
   type JournalArticleApi,
   type HeroConfigApi,
   type MerchantStoryApi,
   type ProductItemApi,
+  type FaqItemApi,
 } from '../../lib/teamApi';
 import {
   AdminHeroConfig,
@@ -21,6 +22,7 @@ export interface ContentState {
   merchants: AdminMerchantItem[];
   articles: JournalArticle[];
   products: AdminProductItem[];
+  faqs: FaqItem[];
   loading: boolean;
   error: string | null;
 }
@@ -214,6 +216,7 @@ function loadInitialState(): ContentState {
       merchants: DEFAULT_MERCHANTS,
       articles: JOURNAL_ARTICLES,
       products: DEFAULT_PRODUCTS,
+      faqs: FAQ_LIST,
       loading: false,
       error: null,
     };
@@ -225,6 +228,7 @@ function loadInitialState(): ContentState {
     const merchants = localStorage.getItem('axoora_cms_merchants');
     const articles = localStorage.getItem('axoora_cms_articles');
     const products = localStorage.getItem('axoora_cms_products');
+    const faqs = localStorage.getItem('axoora_cms_faqs');
 
     return {
       hero: hero ? { ...DEFAULT_HERO, ...JSON.parse(hero) } : DEFAULT_HERO,
@@ -232,6 +236,7 @@ function loadInitialState(): ContentState {
       merchants: merchants ? JSON.parse(merchants) : DEFAULT_MERCHANTS,
       articles: articles ? JSON.parse(articles) : JOURNAL_ARTICLES,
       products: products ? JSON.parse(products) : DEFAULT_PRODUCTS,
+      faqs: faqs ? JSON.parse(faqs) : FAQ_LIST,
       loading: false,
       error: null,
     };
@@ -242,6 +247,7 @@ function loadInitialState(): ContentState {
       merchants: DEFAULT_MERCHANTS,
       articles: JOURNAL_ARTICLES,
       products: DEFAULT_PRODUCTS,
+      faqs: FAQ_LIST,
       loading: false,
       error: null,
     };
@@ -283,6 +289,7 @@ export const fetchBackendCmsThunk = createAsyncThunk<
     merchants: AdminMerchantItem[];
     products: AdminProductItem[];
     articles: JournalArticle[];
+    faqs: FaqItem[];
   },
   void,
   { rejectValue: string }
@@ -357,7 +364,18 @@ export const fetchBackendCmsThunk = createAsyncThunk<
         }))
       : [];
 
-    return { hero, steps, merchants, products, articles };
+    const faqs: FaqItem[] = Array.isArray(data?.faqs) && data.faqs.length > 0
+      ? data.faqs.map((f: FaqItemApi) => ({
+          id: f.id,
+          question: f.question,
+          answer: f.answer,
+          category: f.category,
+          order: f.order,
+          isActive: f.is_active,
+        }))
+      : [];
+
+    return { hero, steps, merchants, products, articles, faqs };
   } catch (err: any) {
     return rejectWithValue(err?.message || 'Failed to sync backend CMS');
   }
@@ -459,18 +477,53 @@ export const contentSlice = createSlice({
         localStorage.setItem('axoora_cms_products', JSON.stringify(state.products));
       }
     },
+    addFaq: (state, action: PayloadAction<FaqItem>) => {
+      state.faqs.unshift(action.payload);
+      if (typeof window !== 'undefined') {
+        localStorage.setItem('axoora_cms_faqs', JSON.stringify(state.faqs));
+      }
+    },
+    updateFaq: (
+      state,
+      action: PayloadAction<{ id: string; patch: Partial<FaqItem> }>
+    ) => {
+      state.faqs = state.faqs.map((f) =>
+        f.id === action.payload.id || f.question === action.payload.id
+          ? { ...f, ...action.payload.patch }
+          : f
+      );
+      if (typeof window !== 'undefined') {
+        localStorage.setItem('axoora_cms_faqs', JSON.stringify(state.faqs));
+      }
+    },
+    deleteFaq: (state, action: PayloadAction<string>) => {
+      state.faqs = state.faqs.filter(
+        (f) => f.id !== action.payload && f.question !== action.payload
+      );
+      if (typeof window !== 'undefined') {
+        localStorage.setItem('axoora_cms_faqs', JSON.stringify(state.faqs));
+      }
+    },
+    setFaqs: (state, action: PayloadAction<FaqItem[]>) => {
+      state.faqs = action.payload;
+      if (typeof window !== 'undefined') {
+        localStorage.setItem('axoora_cms_faqs', JSON.stringify(state.faqs));
+      }
+    },
     resetAllContent: (state) => {
       state.hero = DEFAULT_HERO;
       state.steps = DEFAULT_STEPS;
       state.merchants = DEFAULT_MERCHANTS;
       state.articles = JOURNAL_ARTICLES;
       state.products = DEFAULT_PRODUCTS;
+      state.faqs = FAQ_LIST;
       if (typeof window !== 'undefined') {
         localStorage.removeItem('axoora_cms_hero');
         localStorage.removeItem('axoora_cms_steps');
         localStorage.removeItem('axoora_cms_merchants');
         localStorage.removeItem('axoora_cms_articles');
         localStorage.removeItem('axoora_cms_products');
+        localStorage.removeItem('axoora_cms_faqs');
       }
     },
   },
@@ -525,6 +578,12 @@ export const contentSlice = createSlice({
           localStorage.setItem('axoora_cms_articles', JSON.stringify(state.articles));
         }
       }
+      if (action.payload.faqs && action.payload.faqs.length > 0) {
+        state.faqs = action.payload.faqs;
+        if (typeof window !== 'undefined') {
+          localStorage.setItem('axoora_cms_faqs', JSON.stringify(state.faqs));
+        }
+      }
     });
     builder.addCase(fetchBackendCmsThunk.rejected, (state) => {
       state.loading = false;
@@ -545,6 +604,10 @@ export const {
   addProduct,
   updateProduct,
   deleteProduct,
+  addFaq,
+  updateFaq,
+  deleteFaq,
+  setFaqs,
   resetAllContent,
 } = contentSlice.actions;
 

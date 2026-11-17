@@ -2,12 +2,28 @@
  * Axoora API Client for Django Backend
  */
 
-export const API_BASE_URL =
-  process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:8000';
+export const getApiBaseUrl = (): string => {
+  if (process.env.NEXT_PUBLIC_API_URL) {
+    return process.env.NEXT_PUBLIC_API_URL.replace(/\/$/, '');
+  }
+  if (typeof window !== 'undefined') {
+    const host = window.location.hostname;
+    if (host && !host.includes('localhost') && !host.includes('127.0.0.1')) {
+      return 'https://axoora-backend.onrender.com';
+    }
+  }
+  if (process.env.NODE_ENV === 'production') {
+    return 'https://axoora-backend.onrender.com';
+  }
+  return 'http://127.0.0.1:8000';
+};
+
+export const API_BASE_URL = getApiBaseUrl();
 
 export interface ChatTranscriptMessageApi {
   id: string;
   sender: 'user' | 'ai' | 'agent' | 'system';
+  sender_name?: string;
   text: string;
   time: string;
   suggested_actions?: Array<{
@@ -30,9 +46,14 @@ export interface ChatSessionApi {
   customer_phone: string;
   customer_email: string;
   status: 'ai_active' | 'escalated' | 'human_active' | 'resolved' | 'closed';
+  priority?: 'low' | 'normal' | 'high' | 'urgent';
   issue_summary: string;
   escalation_reason: string;
   escalated_at: string | null;
+  resolved_at: string | null;
+  resolved_by_name?: string;
+  resolution_notes?: string;
+  assigned_agent_name?: string;
   created_at: string;
   updated_at: string;
   messages: ChatTranscriptMessageApi[];
@@ -123,10 +144,12 @@ export async function getChatHistory(sessionId: string): Promise<ChatSessionApi>
 export async function getChatSessions(params?: {
   status?: string;
   search?: string;
+  priority?: string;
 }): Promise<{ count: number; results: ChatSessionApi[] }> {
   const qs = new URLSearchParams();
   if (params?.status && params.status !== 'all') qs.set('status', params.status);
   if (params?.search) qs.set('search', params.search);
+  if (params?.priority && params.priority !== 'all') qs.set('priority', params.priority);
   const query = qs.toString() ? `?${qs.toString()}` : '';
   const res = await fetch(`${API_BASE_URL}/api/v1/chat/sessions/${query}`, {
     method: 'GET',
@@ -160,9 +183,38 @@ export async function sendAgentReply(params: {
   return res.json();
 }
 
+export async function sendChatInactivityEvent(params: {
+  sessionId: string;
+  action: 'warn' | 'disconnect';
+}): Promise<{ success: boolean; action: string; status: ChatSessionApi['status']; message: ChatTranscriptMessageApi }> {
+  const res = await fetch(`${API_BASE_URL}/api/v1/chat/inactivity/`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      session_id: params.sessionId,
+      action: params.action,
+    }),
+  });
+  if (!res.ok) {
+    throw new Error(`Inactivity event error: ${res.status}`);
+  }
+  return res.json();
+}
+
 export async function updateChatSession(
   sessionId: string,
-  data: Partial<Pick<ChatSessionApi, 'status' | 'customer_name' | 'customer_phone' | 'issue_summary'>>
+  data: Partial<
+    Pick<
+      ChatSessionApi,
+      | 'status'
+      | 'customer_name'
+      | 'customer_phone'
+      | 'issue_summary'
+      | 'priority'
+      | 'resolved_by_name'
+      | 'resolution_notes'
+    >
+  >
 ): Promise<{ success: boolean; data: ChatSessionApi }> {
   const res = await fetch(`${API_BASE_URL}/api/v1/chat/sessions/${sessionId}/`, {
     method: 'PATCH',
