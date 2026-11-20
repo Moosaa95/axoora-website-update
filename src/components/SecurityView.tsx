@@ -1,87 +1,128 @@
 'use client';
 
-import React, { useState } from 'react';
-import { COMPANY_INFO } from '../data/mockData';
+import React from 'react';
+import { useTheme } from '../context/ThemeContext';
+import { useNavigation } from '../context/NavigationContext';
+import { ShieldCheck, Lock, AlertCircle, RefreshCw, Smartphone, KeyRound, CheckCircle2 } from 'lucide-react';
 
 export const SecurityView: React.FC = () => {
-  const [cardFrozen, setCardFrozen] = useState(false);
+  const { theme } = useTheme();
+  const isLight = theme === 'light';
+  const { openWhatsApp, openDownloadApp } = useNavigation();
 
   return (
-    <div className="w-full bg-[#020F2E] text-[#F2F5F9] font-sans selection:bg-[#0D95FE]/30 selection:text-[#F2F5F9]">
-      <section className="max-w-4xl mx-auto px-4 sm:px-6 pt-16 pb-20 flex flex-col gap-10">
-        {/* Header */}
-        <div className="flex flex-col gap-3">
-          <div className="inline-flex items-center gap-2 py-1 px-3.5 rounded-full bg-[#0A1B3D] border border-[#14294F] w-fit">
-            <span className="h-2 w-2 rounded-full bg-[#00DF8F]"></span>
-            <span className="font-mono text-xs text-[#00DF8F] uppercase tracking-wider font-semibold">
-              SECURITY &amp; COMPLIANCE
-            </span>
-          </div>
-          <h1 className="text-3xl sm:text-5xl font-extrabold tracking-tight text-[#F2F5F9]">
-            How your money and chat are protected.
+    <div
+      className={`w-full min-h-screen font-['DM_Sans',sans-serif] transition-colors duration-200 ${
+        isLight ? 'bg-[#f7f9fb] text-[#161c22]' : 'bg-[#020F2E] text-[#F2F5F9]'
+      }`}
+    >
+      {/* ─── Hero Header matching Figma 3222:1583 ─── */}
+      <section className="max-w-[1280px] mx-auto px-4 sm:px-8 lg:px-16 pt-16 pb-12">
+        <div className="max-w-3xl">
+          <span className="text-xs font-bold uppercase tracking-wider text-blue-600 block mb-3">
+            Security &amp; Financial Trust
+          </span>
+          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight leading-[1.05] mb-6">
+            You Always Know Where Your Money Is.
           </h1>
-          <p className="text-base sm:text-lg text-[#A8BBD6] leading-relaxed">
-            Licensed by the Central Bank of Nigeria. Deposits insured by NDIC. NDPR compliant data encryption.
+          <p className="text-lg sm:text-xl text-[#4c5866] dark:text-slate-300 leading-relaxed mb-8">
+            Security at Axoora is not an invisible black box. It is immediate transparency on every payment, every failure, and every debit.
           </p>
-        </div>
 
-        {/* 1. What We Never Ask */}
-        <div className="p-8 rounded-3xl bg-[#0A1B3D] border border-[#14294F] flex flex-col gap-4">
-          <span className="text-xs font-mono uppercase text-[#00DF8F] font-bold">
-            The Golden Rule
-          </span>
-          <h2 className="text-xl sm:text-2xl font-bold text-[#F2F5F9]">What Axoora will never ask</h2>
-          <p className="text-sm sm:text-base text-[#A8BBD6] leading-relaxed">
-            Axoora will never ask for your PIN, account password, or one-time security code (OTP) in chat, on this website, or over a phone call. If anyone claims to be an Axoora agent asking for your PIN or OTP to "upgrade your account" or "fix a transfer", it is a scam.
-          </p>
-          <div className="p-4 rounded-xl bg-[#020F2E] border border-[#14294F] text-xs text-[#00DF8F] font-mono">
-            Report suspicious messages immediately to {COMPANY_INFO.supportEmail}
-          </div>
-        </div>
-
-        {/* 2. How a Chat Payment is Confirmed */}
-        <div className="p-8 rounded-3xl bg-[#0A1B3D] border border-[#14294F] flex flex-col gap-4">
-          <span className="text-xs font-mono uppercase text-[#0D95FE] font-bold">
-            Transaction Safeguards
-          </span>
-          <h2 className="text-xl sm:text-2xl font-bold text-[#F2F5F9]">How a chat payment is confirmed</h2>
-          <p className="text-sm sm:text-base text-[#A8BBD6] leading-relaxed">
-            Every transfer or bill payment in Axoora AI undergoes a mandatory two-step verification before funds move:
-          </p>
-          <ol className="list-decimal list-inside text-sm sm:text-base text-[#A8BBD6] flex flex-col gap-2.5">
-            <li>
-              <strong className="text-[#F2F5F9]">Name &amp; account check:</strong> The AI verifies the beneficiary’s verified NUBAN name against Central Bank records.
-            </li>
-            <li>
-              <strong className="text-[#F2F5F9]">Explicit confirmation tap:</strong> The AI presents the exact recipient, amount, and fee. Money only leaves after you tap the confirm button.
-            </li>
-          </ol>
-        </div>
-
-        {/* 3. Instant Card Freeze Simulation */}
-        <div className="p-8 rounded-3xl bg-[#0A1B3D] border border-[#14294F] flex flex-col gap-4">
-          <span className="text-xs font-mono uppercase text-[#F2A93B] font-bold">
-            Instant Controls
-          </span>
-          <h2 className="text-xl sm:text-2xl font-bold text-[#F2F5F9]">Lost card? Freeze in one tap</h2>
-          <p className="text-sm sm:text-base text-[#A8BBD6] leading-relaxed">
-            If you misplace your physical or virtual debit card, you can lock it immediately from chat or settings without waiting on a bank queue.
-          </p>
-          <div className="flex items-center gap-4 pt-2">
+          <div className="flex flex-wrap items-center gap-4">
             <button
-              onClick={() => setCardFrozen(!cardFrozen)}
-              className={`px-5 py-3 rounded-2xl text-xs sm:text-sm font-extrabold transition-all cursor-pointer ${
-                cardFrozen
-                  ? 'bg-[#00DF8F] text-[#003825]'
-                  : 'bg-[#FF6A6A] hover:bg-[#FF8585] text-white'
-              }`}
+              type="button"
+              onClick={openDownloadApp}
+              className="bg-[#161c22] text-white hover:bg-black px-6 py-3 rounded-xl font-bold text-sm transition"
             >
-              {cardFrozen ? 'Unfreeze Card' : 'Freeze Card Now'}
+              Get the app
             </button>
-            <span className="text-xs sm:text-sm font-mono text-[#A8BBD6]">
-              Card status: <strong className={cardFrozen ? 'text-[#FF6A6A]' : 'text-[#00DF8F]'}>{cardFrozen ? 'LOCKED / FROZEN' : 'ACTIVE & READY'}</strong>
-            </span>
+            <button
+              type="button"
+              onClick={openWhatsApp}
+              className="border border-[#161c22] dark:border-white text-[#161c22] dark:text-white px-6 py-3 rounded-xl font-bold text-sm hover:bg-slate-100 dark:hover:bg-slate-800 transition"
+            >
+              Start on WhatsApp
+            </button>
           </div>
+        </div>
+      </section>
+
+      {/* ─── 4 Security Pillars ─── */}
+      <section className="max-w-[1280px] mx-auto px-4 sm:px-8 lg:px-16 py-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div className="bg-white dark:bg-slate-900 border border-[#dde3ea] dark:border-slate-800 rounded-2xl p-8 sm:p-10 shadow-xs">
+            <div className="w-12 h-12 rounded-xl bg-blue-50 dark:bg-blue-950 text-blue-600 flex items-center justify-center mb-6">
+              <KeyRound className="w-6 h-6" />
+            </div>
+            <h3 className="text-2xl font-bold text-slate-900 dark:text-white mb-3">
+              PIN or Fingerprint on Every Payment
+            </h3>
+            <p className="text-base text-[#4c5866] dark:text-slate-400 leading-relaxed">
+              With the verified recipient name and exact amount on screen before you authorize. No silent background debits, ever.
+            </p>
+          </div>
+
+          <div className="bg-white dark:bg-slate-900 border border-[#dde3ea] dark:border-slate-800 rounded-2xl p-8 sm:p-10 shadow-xs">
+            <div className="w-12 h-12 rounded-xl bg-emerald-50 dark:bg-emerald-950 text-emerald-600 flex items-center justify-center mb-6">
+              <Lock className="w-6 h-6" />
+            </div>
+            <h3 className="text-2xl font-bold text-slate-900 dark:text-white mb-3">
+              Your BVN Stays Private
+            </h3>
+            <p className="text-base text-[#4c5866] dark:text-slate-400 leading-relaxed">
+              Used strictly to confirm your legal identity with NIBSS during tier compliance. It is never exposed, shared, or accessible to merchants.
+            </p>
+          </div>
+
+          <div className="bg-white dark:bg-slate-900 border border-[#dde3ea] dark:border-slate-800 rounded-2xl p-8 sm:p-10 shadow-xs">
+            <div className="w-12 h-12 rounded-xl bg-amber-50 dark:bg-amber-950 text-amber-600 flex items-center justify-center mb-6">
+              <AlertCircle className="w-6 h-6" />
+            </div>
+            <h3 className="text-2xl font-bold text-slate-900 dark:text-white mb-3">
+              Clear Answers When Things Fail
+            </h3>
+            <p className="text-base text-[#4c5866] dark:text-slate-400 leading-relaxed">
+              Every failed transfer screen explicitly states whether your balance was debited, why the beneficiary bank refused it, and what happens next.
+            </p>
+          </div>
+
+          <div className="bg-white dark:bg-slate-900 border border-[#dde3ea] dark:border-slate-800 rounded-2xl p-8 sm:p-10 shadow-xs">
+            <div className="w-12 h-12 rounded-xl bg-purple-50 dark:bg-purple-950 text-purple-600 flex items-center justify-center mb-6">
+              <RefreshCw className="w-6 h-6" />
+            </div>
+            <h3 className="text-2xl font-bold text-slate-900 dark:text-white mb-3">
+              Stalled Transfers Get a Deadline
+            </h3>
+            <p className="text-base text-[#4c5866] dark:text-slate-400 leading-relaxed">
+              No endless waiting for reversals. When NIBSS interbank rails stall, an automated 2-hour settlement deadline either forces settlement or reverses the funds back into your wallet.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* ─── Institutional Compliance Box ─── */}
+      <section className="max-w-[1280px] mx-auto px-4 sm:px-8 lg:px-16 py-12">
+        <div className="bg-[#161c22] text-white rounded-[28px] p-8 sm:p-12 shadow-xl flex flex-col md:flex-row items-center justify-between gap-8">
+          <div className="max-w-2xl">
+            <div className="inline-flex items-center gap-2 px-3 py-1 bg-emerald-500/20 text-emerald-400 rounded-full text-xs font-bold uppercase tracking-wider mb-4">
+              <ShieldCheck className="w-4 h-4" />
+              <span>CBN &amp; NDIC Protected</span>
+            </div>
+            <h3 className="text-2xl sm:text-3xl font-bold mb-3">
+              Central Bank of Nigeria Regulated Rails
+            </h3>
+            <p className="text-sm sm:text-base text-slate-300 leading-relaxed">
+              All transactions settle directly over official Nigerian interbank payment switches. Customer balances are safeguarded under legal NDIC insurance guidelines.
+            </p>
+          </div>
+          <button
+            type="button"
+            onClick={openWhatsApp}
+            className="border border-slate-600 text-white hover:bg-slate-800 px-6 py-3 rounded-xl font-bold text-sm shrink-0 transition"
+          >
+            Ask Compliance Desk
+          </button>
         </div>
       </section>
     </div>

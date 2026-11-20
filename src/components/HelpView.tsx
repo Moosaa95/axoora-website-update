@@ -1,141 +1,260 @@
 'use client';
 
 import React, { useState } from 'react';
-import { COMPANY_INFO, FAQ_LIST } from '../data/mockData';
-import { FaqAccordionItem } from './FaqAccordionItem';
+import {
+  Search,
+  ArrowUpRight,
+  CreditCard,
+  Lock,
+  Users,
+  ShieldCheck,
+  UserCheck,
+  MessageSquare,
+  AlertTriangle,
+  ChevronDown,
+  HelpCircle
+} from 'lucide-react';
 import { useTheme } from '../context/ThemeContext';
-import { useCms } from '../context/CmsContext';
+import { useNavigation } from '../context/NavigationContext';
 
 export const HelpView: React.FC = () => {
   const { theme } = useTheme();
   const isLight = theme === 'light';
-  const { faqs } = useCms();
-  const allFaqs = faqs && faqs.length > 0 ? faqs : FAQ_LIST;
+  const { openWhatsApp, openDownloadApp } = useNavigation();
 
-  const [selectedCategory, setSelectedCategory] = useState<string>('All');
-  const [openFaqId, setOpenFaqId] = useState<string | null>(allFaqs[0]?.id || null);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [openFaq, setOpenFaq] = useState<number | null>(0);
 
-  const categories = ['All', 'General', 'Personal & Cards', 'Save and Earn', 'Paycircle', 'Business & POS', 'Security'];
+  const topics = [
+    {
+      title: 'Getting Started',
+      desc: 'Opening an account, your BVN, and your tier.',
+      icon: UserCheck,
+    },
+    {
+      title: 'Sending Money',
+      desc: 'Transfers, schedules, bulk payouts and failures.',
+      icon: ArrowUpRight,
+    },
+    {
+      title: 'Cards',
+      desc: 'Naira, Dollar, freezing, and replacing a lost card.',
+      icon: CreditCard,
+    },
+    {
+      title: 'Savings and Ajo',
+      desc: 'Plans, profit, circles and payouts.',
+      icon: Users,
+    },
+    {
+      title: 'Security',
+      desc: 'Your PIN, your BVN, devices and sign-in.',
+      icon: ShieldCheck,
+    },
+    {
+      title: 'Account and Limits',
+      desc: 'Statements, beneficiaries and tier limits.',
+      icon: Lock,
+    },
+  ];
 
-  const filteredFaqs =
-    selectedCategory === 'All'
-      ? allFaqs
-      : allFaqs.filter((f) => f.category === selectedCategory);
+  const faqs = [
+    {
+      q: 'My transfer is still pending. What now?',
+      a: 'A stalled transfer gets an automatic deadline. It either settles with the beneficiary bank by that exact deadline, or it is automatically reversed back into your wallet balance.',
+    },
+    {
+      q: 'The name on the account did not match. Can I still send?',
+      a: 'You will clearly see the verified name returned by NIBSS before entering your PIN. If it is not who you intended to pay, cancel before confirming.',
+    },
+    {
+      q: 'How do I raise my limit?',
+      a: 'Your tier sets your limits. Upgrading from Tier 1 to Tier 3 requires verifying your BVN, proof of address, and ID in the app, unlocking unlimited daily transfers and multi-currency dollar cards.',
+    },
+    {
+      q: 'Someone sent money and it did not arrive.',
+      a: 'If a transfer would push you past your tier cap, it is turned back at the sender bank before settling, so it never leaves them in limbo.',
+    },
+  ];
+
+  const filteredFaqs = faqs.filter(
+    (f) =>
+      f.q.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      f.a.toLowerCase().includes(searchQuery.toLowerCase())
+  );
 
   return (
-    <div className={`w-full font-sans transition-colors duration-200 ${
-      isLight 
-        ? 'bg-[#F4F7FC] text-[#0A1B3D] selection:bg-[#0D95FE]/20 selection:text-[#0A1B3D]' 
-        : 'bg-[#020F2E] text-[#F2F5F9] selection:bg-[#0D95FE]/30 selection:text-[#F2F5F9]'
-    }`}>
-      {/* Header */}
-      <section className={`relative px-4 sm:px-8 pt-16 pb-16 border-b transition-colors duration-200 ${
-        isLight ? 'bg-white border-slate-200' : 'bg-[#020F2E] border-[#14294F]'
-      }`}>
-        <div className="max-w-4xl mx-auto flex flex-col items-center text-center gap-5">
-          <div className={`inline-flex items-center gap-2 py-1 px-3.5 rounded-full border transition-colors ${
-            isLight ? 'bg-emerald-50 border-emerald-200' : 'bg-[#0A1B3D] border-[#14294F]'
-          }`}>
-            <span className="h-2 w-2 rounded-full bg-[#00DF8F]"></span>
-            <span className={`font-mono text-xs uppercase tracking-wider font-semibold ${
-              isLight ? 'text-emerald-700' : 'text-[#00DF8F]'
-            }`}>
-              HELP &amp; RESOLUTION DESK
-            </span>
-          </div>
-
-          <h1 className={`text-4xl sm:text-5xl font-extrabold tracking-tight ${
-            isLight ? 'text-[#0A1B3D]' : 'text-[#F2F5F9]'
-          }`}>
-            Frequently Asked Questions
+    <div
+      className={`w-full min-h-screen font-['DM_Sans',sans-serif] transition-colors duration-200 ${
+        isLight ? 'bg-[#f7f9fb] text-[#161c22]' : 'bg-[#020F2E] text-[#F2F5F9]'
+      }`}
+    >
+      {/* ─── Hero / Search Section matching Figma 3227:2395 ─── */}
+      <section className="max-w-[1280px] mx-auto px-4 sm:px-8 lg:px-16 pt-12 pb-16">
+        <div className="max-w-2xl">
+          <span className="text-xs font-bold uppercase tracking-wider text-blue-600 block mb-3">
+            Help & Resolution
+          </span>
+          <h1 className="text-4xl sm:text-5xl font-bold tracking-tight mb-4">
+            Need a Hand?
           </h1>
-
-          <p className={`text-sm sm:text-base max-w-xl ${
-            isLight ? 'text-slate-600' : 'text-[#A8BBD6]'
-          }`}>
-            Everything you need to know about our personal accounts, dual-currency cards, Islamic savings, shop accounts, and POS hardware.
+          <p className="text-lg text-[#4c5866] dark:text-slate-300 leading-relaxed mb-8">
+            Search for the thing you are stuck on, or start a chat in the app.
           </p>
+
+          {/* Search Bar matching Figma input */}
+          <div className="relative">
+            <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
+            <input
+              type="text"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              placeholder="Search help topics, transfers, cards, or limits..."
+              className="w-full h-14 pl-12 pr-4 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 text-base text-slate-900 dark:text-white placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 shadow-xs"
+            />
+          </div>
         </div>
       </section>
 
-      {/* FAQs Container */}
-      <section className="px-4 sm:px-8 py-16 max-w-4xl mx-auto flex flex-col gap-8">
-        {/* Category Pills */}
-        <div className="flex flex-wrap items-center justify-center gap-2">
-          {categories.map((cat) => (
-            <button
-              key={cat}
-              onClick={() => setSelectedCategory(cat)}
-              className={`px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all cursor-pointer ${
-                selectedCategory === cat
-                  ? isLight
-                    ? 'bg-[#0D95FE] text-white shadow-md'
-                    : 'bg-[#0D95FE] text-[#002447]'
-                  : isLight
-                    ? 'bg-white text-slate-700 border border-slate-200 hover:bg-slate-50 hover:text-slate-900 shadow-sm'
-                    : 'bg-[#0A1B3D] text-[#A8BBD6] border border-[#14294F] hover:text-[#F2F5F9]'
-              }`}
-            >
-              {cat}
-            </button>
-          ))}
+      {/* ─── Browse by Topic ─── */}
+      <section className="max-w-[1280px] mx-auto px-4 sm:px-8 lg:px-16 py-8">
+        <h2 className="text-2xl font-bold tracking-tight mb-6">Browse by Topic</h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+          {topics.map((t, idx) => {
+            const Icon = t.icon;
+            return (
+              <div
+                key={idx}
+                className="bg-white dark:bg-slate-900 border border-[#dde3ea] dark:border-slate-800 rounded-2xl p-6 shadow-xs hover:border-blue-500 hover:shadow-sm transition cursor-pointer"
+              >
+                <div className="w-10 h-10 rounded-xl bg-blue-50 dark:bg-blue-950/60 text-blue-600 flex items-center justify-center mb-4">
+                  <Icon className="w-5 h-5" />
+                </div>
+                <h3 className="font-bold text-lg text-slate-900 dark:text-white mb-1.5">
+                  {t.title}
+                </h3>
+                <p className="text-sm text-[#4c5866] dark:text-slate-400 leading-relaxed">
+                  {t.desc}
+                </p>
+              </div>
+            );
+          })}
         </div>
+      </section>
 
-        {/* FAQ List */}
-        <div className="flex flex-col gap-3">
-          {filteredFaqs.map((faq) => (
-            <FaqAccordionItem
-              key={faq.id || faq.question}
-              item={faq}
-              isOpen={openFaqId === (faq.id || faq.question)}
-              onToggle={() =>
-                setOpenFaqId(
-                  openFaqId === (faq.id || faq.question) ? null : faq.id || faq.question
-                )
-              }
-            />
-          ))}
+      {/* ─── Asked Most Often ─── */}
+      <section className="max-w-[1280px] mx-auto px-4 sm:px-8 lg:px-16 py-12">
+        <h2 className="text-2xl font-bold tracking-tight mb-6">Asked Most Often</h2>
+        <div className="space-y-4 max-w-3xl">
+          {filteredFaqs.map((faq, idx) => {
+            const isOpen = openFaq === idx;
+            return (
+              <div
+                key={idx}
+                className="bg-white dark:bg-slate-900 border border-[#dde3ea] dark:border-slate-800 rounded-2xl p-6 shadow-xs transition"
+              >
+                <button
+                  type="button"
+                  onClick={() => setOpenFaq(isOpen ? null : idx)}
+                  className="w-full flex items-center justify-between text-left font-bold text-base sm:text-lg text-slate-900 dark:text-white cursor-pointer"
+                >
+                  <span>{faq.q}</span>
+                  <ChevronDown
+                    className={`w-5 h-5 text-slate-400 transition-transform ${
+                      isOpen ? 'rotate-180 text-blue-600' : ''
+                    }`}
+                  />
+                </button>
+                {isOpen && (
+                  <p className="mt-3 text-sm sm:text-base text-[#4c5866] dark:text-slate-300 leading-relaxed border-t border-slate-100 dark:border-slate-800 pt-3">
+                    {faq.a}
+                  </p>
+                )}
+              </div>
+            );
+          })}
         </div>
+      </section>
 
-        {/* Dispute Resolution Box */}
-        <div className={`mt-8 p-6 sm:p-8 rounded-3xl border flex flex-col sm:flex-row items-center justify-between gap-6 transition-colors duration-200 ${
-          isLight
-            ? 'bg-white border-slate-200 shadow-sm'
-            : 'bg-[#0A1B3D] border-[#14294F]'
-        }`}>
-          <div className="flex flex-col gap-2 text-center sm:text-left">
-            <h3 className={`text-lg sm:text-xl font-bold ${
-              isLight ? 'text-[#0A1B3D]' : 'text-[#F2F5F9]'
-            }`}>
-              Need direct help or have a dispute?
-            </h3>
-            <p className={`text-xs sm:text-sm max-w-md ${
-              isLight ? 'text-slate-600' : 'text-[#A8BBD6]'
-            }`}>
-              Our Abuja customer desk responds in minutes. Message us directly on WhatsApp or email our support inbox.
-            </p>
+      {/* ─── Still Stuck? ─── */}
+      <section className="max-w-[1280px] mx-auto px-4 sm:px-8 lg:px-16 py-12">
+        <div className="bg-white dark:bg-slate-900 border border-[#dde3ea] dark:border-slate-800 rounded-2xl p-8 sm:p-12 shadow-xs">
+          <h2 className="text-2xl font-bold tracking-tight mb-2">Still Stuck?</h2>
+          <p className="text-sm text-[#4c5866] dark:text-slate-400 mb-8">
+            Connect with a live human support specialist immediately.
+          </p>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="p-6 rounded-xl bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 flex flex-col justify-between">
+              <div>
+                <div className="w-10 h-10 rounded-lg bg-emerald-100 dark:bg-emerald-950 text-emerald-600 flex items-center justify-center mb-4">
+                  <MessageSquare className="w-5 h-5" />
+                </div>
+                <h3 className="font-bold text-lg text-slate-900 dark:text-white mb-1.5">
+                  Chat in the App
+                </h3>
+                <p className="text-sm text-[#4c5866] dark:text-slate-400 leading-relaxed mb-6">
+                  Open Axoora and tap the chat button. It is the fastest route to a verified person.
+                </p>
+              </div>
+              <button
+                type="button"
+                onClick={openDownloadApp}
+                className="w-full py-2.5 bg-emerald-600 text-white rounded-lg text-xs font-bold hover:bg-emerald-700 transition"
+              >
+                Open App Chat
+              </button>
+            </div>
+
+            <div className="p-6 rounded-xl bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 flex flex-col justify-between">
+              <div>
+                <div className="w-10 h-10 rounded-lg bg-blue-100 dark:bg-blue-950 text-blue-600 flex items-center justify-center mb-4">
+                  <AlertTriangle className="w-5 h-5" />
+                </div>
+                <h3 className="font-bold text-lg text-slate-900 dark:text-white mb-1.5">
+                  Report a Problem
+                </h3>
+                <p className="text-sm text-[#4c5866] dark:text-slate-400 leading-relaxed mb-6">
+                  Raise an institutional dispute on any payment directly from the transaction slip itself.
+                </p>
+              </div>
+              <button
+                type="button"
+                onClick={openWhatsApp}
+                className="w-full py-2.5 bg-[#043e97] text-white rounded-lg text-xs font-bold hover:bg-blue-800 transition"
+              >
+                Talk on WhatsApp Desk
+              </button>
+            </div>
           </div>
-          <div className="flex flex-wrap items-center gap-3 shrink-0">
-            <a
-              href={COMPANY_INFO.whatsappUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="px-5 py-3 rounded-2xl bg-[#00DF8F] hover:bg-[#34C08D] text-[#003825] font-extrabold text-xs sm:text-sm flex items-center gap-2 transition-all shadow-sm"
-            >
-              <span className="material-symbols-outlined text-[18px]">chat</span>
-              <span>WhatsApp Support</span>
-            </a>
-            <a
-              href={`mailto:${COMPANY_INFO.supportEmail}`}
-              className={`px-5 py-3 rounded-2xl font-bold text-xs sm:text-sm transition-all ${
-                isLight
-                  ? 'bg-slate-100 hover:bg-slate-200 text-slate-800 border border-slate-200'
-                  : 'bg-[#14294F] hover:bg-[#1E3A6B] text-[#F2F5F9]'
-              }`}
-            >
-              {COMPANY_INFO.supportEmail}
-            </a>
-          </div>
+        </div>
+      </section>
+
+      {/* ─── Bottom CTA ─── */}
+      <section className="max-w-[1280px] mx-auto px-4 sm:px-8 lg:px-16 py-16 flex flex-col md:flex-row items-center justify-between gap-8 border-t border-slate-200 dark:border-slate-800">
+        <div>
+          <h3 className="text-3xl font-bold tracking-tight mb-2">
+            We Would Rather You Asked.
+          </h3>
+          <p className="text-base text-[#4c5866] dark:text-slate-400">
+            Chat lives in the app, on every single screen.
+          </p>
+        </div>
+        <div className="flex items-center gap-4">
+          <button
+            type="button"
+            onClick={openDownloadApp}
+            className="bg-[#161c22] text-white hover:bg-black px-6 py-3 rounded-xl font-bold text-sm transition"
+          >
+            Get the app
+          </button>
+          <button
+            type="button"
+            onClick={openWhatsApp}
+            className="border border-[#161c22] dark:border-white text-[#161c22] dark:text-white px-6 py-3 rounded-xl font-bold text-sm hover:bg-slate-100 dark:hover:bg-slate-800 transition"
+          >
+            Start on WhatsApp
+          </button>
         </div>
       </section>
     </div>

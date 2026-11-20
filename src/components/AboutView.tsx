@@ -2,168 +2,171 @@
 
 import React from 'react';
 import { ScreenType } from '../types';
-import { VALUES_LIST, COMPANY_INFO } from '../data/mockData';
-import { OurPeopleSection } from './OurPeopleSection';
+import { useTheme } from '../context/ThemeContext';
+import { useNavigation } from '../context/NavigationContext';
+import { ShieldCheck, CheckCircle2, Clock, Lock, Sparkles, Building2, MapPin } from 'lucide-react';
 
 interface AboutViewProps {
-  onNavigate: (screen: ScreenType) => void;
-  onOpenWaitlist: () => void;
+  onNavigate?: (screen: ScreenType) => void;
+  onOpenWaitlist?: () => void;
 }
 
-export const AboutView: React.FC<AboutViewProps> = ({
-  onNavigate,
-  onOpenWaitlist,
-}) => {
+export const AboutView: React.FC<AboutViewProps> = () => {
+  const { theme } = useTheme();
+  const isLight = theme === 'light';
+  const { openWhatsApp, openDownloadApp } = useNavigation();
+
   return (
-    <div className="w-full bg-[#020F2E] text-[#F2F5F9] font-sans selection:bg-[#0D95FE]/30 selection:text-[#F2F5F9]">
-      {/* Header / Story Hero */}
-      <section className="relative px-4 sm:px-8 pt-16 pb-20 border-b border-[#14294F] bg-[#020F2E]">
-        <div className="max-w-4xl mx-auto flex flex-col items-center text-center gap-6">
-          <div className="inline-flex items-center gap-2 py-1 px-3.5 rounded-full bg-[#0A1B3D] border border-[#14294F]">
-            <span className="h-2 w-2 rounded-full bg-[#00DF8F]"></span>
-            <span className="font-mono text-xs text-[#00DF8F] uppercase tracking-wider font-semibold">
-              OUR ORIGIN // ABUJA, NIGERIA
-            </span>
-          </div>
-
-          <h1 className="text-4xl sm:text-6xl font-extrabold tracking-tight text-[#F2F5F9] leading-tight">
-            We built one house for the person, the shop, and the agent.
+    <div
+      className={`w-full min-h-screen font-['DM_Sans',sans-serif] transition-colors duration-200 ${
+        isLight ? 'bg-[#f7f9fb] text-[#161c22]' : 'bg-[#020F2E] text-[#F2F5F9]'
+      }`}
+    >
+      {/* ─── Hero Section matching Figma 3227:2547 ─── */}
+      <section className="max-w-[1280px] mx-auto px-4 sm:px-8 lg:px-16 pt-16 pb-16">
+        <div className="max-w-3xl">
+          <span className="text-xs font-bold uppercase tracking-wider text-blue-600 block mb-3">
+            About Axoora
+          </span>
+          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight leading-[1.05] mb-6">
+            Money Should Be Simple. Especially Here.
           </h1>
-
-          <p className="text-lg sm:text-xl text-[#A8BBD6] leading-relaxed max-w-3xl">
-            We began in Abuja because too much of daily life still fights the tools that should carry it.
+          <p className="text-lg sm:text-xl text-[#4c5866] dark:text-slate-300 leading-relaxed mb-8">
+            Axoora is a Nigerian wallet built on one rule: you should never have to guess what your money is doing.
           </p>
+
+          <div className="flex flex-wrap items-center gap-4">
+            <button
+              type="button"
+              onClick={openDownloadApp}
+              className="bg-[#161c22] text-white hover:bg-black px-6 py-3 rounded-xl font-bold text-sm transition"
+            >
+              Get the app
+            </button>
+            <button
+              type="button"
+              onClick={openWhatsApp}
+              className="border border-[#161c22] dark:border-white text-[#161c22] dark:text-white px-6 py-3 rounded-xl font-bold text-sm hover:bg-slate-100 dark:hover:bg-slate-800 transition"
+            >
+              Start on WhatsApp
+            </button>
+          </div>
         </div>
       </section>
 
-      {/* The Story & Narrative */}
-      <section className="px-4 sm:px-8 py-16 max-w-4xl mx-auto flex flex-col gap-12 text-[#A8BBD6] leading-relaxed text-base sm:text-lg">
-        <div className="p-8 sm:p-10 rounded-3xl bg-[#0A1B3D] border-2 border-[#14294F] flex flex-col gap-6">
-          <h2 className="text-2xl sm:text-3xl font-extrabold text-[#F2F5F9] tracking-tight">
-            Why Axoora exists
+      {/* ─── Why We Built It ─── */}
+      <section className="max-w-[1280px] mx-auto px-4 sm:px-8 lg:px-16 py-12">
+        <div className="bg-white dark:bg-slate-900 border border-[#dde3ea] dark:border-slate-800 rounded-2xl p-8 sm:p-14 shadow-xs max-w-4xl">
+          <h2 className="text-2xl sm:text-3xl font-bold tracking-tight mb-6">
+            Why We Built It
           </h2>
-          <p>
-            In markets, residential streets, and rural outposts across Nigeria, honest commerce happens at immense speed. Yet the tools available to ordinary people and small traders have often been divided: one app for personal transfers, a separate difficult banking portal for a shop, and an estranged network for POS operators.
-          </p>
-          <p>
-            At Axoora, we believe inclusion does not stop at opening an account or checking a balance. True inclusion means providing ethical, interest-free finance that respects faith and values, alongside the dignified lifestyle experiences — a booking, a meal, an international software payment — that modern life requires.
-          </p>
-          <p>
-            We operate out of Cappador Mall in Maitama, Abuja. From our capital city, we build with both warmth and seriousness for the whole federation.
-          </p>
-        </div>
 
-        {/* The Brand Philosophy: Intelligence, Clarity & Trust */}
-        <div className="p-8 sm:p-10 rounded-3xl bg-gradient-to-br from-[#0B1E45] to-[#020F2E] border-2 border-[#0C91FA]/40 shadow-xl flex flex-col gap-5">
-          <div className="flex items-center gap-2">
-            <span className="material-symbols-outlined text-[#0C91FA] text-[22px]">lightbulb</span>
-            <span className="font-mono text-xs uppercase tracking-wider text-[#0C91FA] font-bold">
-              THE AXOORA BRAND IDENTITY
-            </span>
-          </div>
-
-          <h3 className="text-2xl sm:text-3xl font-extrabold text-[#F2F5F9] tracking-tight">
-            The intersection of intelligence and trust
-          </h3>
-
-          <p className="text-base sm:text-lg text-[#F2F5F9] leading-relaxed font-medium">
-            Axoora is an AI-powered fintech platform designed to simplify how people understand and manage their finances. It brings clarity to complex financial decisions by combining intelligent insights with a calm, structured user experience.
-          </p>
-
-          <p className="text-sm sm:text-base text-[#A8BBD6] leading-relaxed">
-            In a space often filled with noise and overwhelming data, Axoora focuses on what truly matters, helping users make confident decisions without confusion. Every interaction is built to feel simple, direct, and purposeful.
-          </p>
-
-          <div className="p-4 rounded-2xl bg-[#020F2E]/80 border border-[#14294F] text-xs sm:text-sm text-[#C8E8F7] font-medium leading-relaxed">
-            &ldquo;Axoora does not try to impress with complexity. Instead, it guides with clarity, giving users a sense of control and confidence at every step. Axoora is not just about managing money. It is about understanding it, making better choices, and moving forward with certainty.&rdquo;
-          </div>
-        </div>
-
-        {/* The Six Values (Strictly the six from Section 5 of the brief) */}
-        <div className="flex flex-col gap-6 pt-4">
-          <div className="flex flex-col gap-1">
-            <span className="font-mono text-xs text-[#0D95FE] uppercase tracking-wider font-semibold">
-              OUR SIX VALUES
-            </span>
-            <h3 className="text-3xl font-extrabold text-[#F2F5F9] tracking-tight">
-              The principles that govern our house
-            </h3>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {VALUES_LIST.map((val, idx) => (
-              <div
-                key={val.title}
-                className="p-6 rounded-3xl bg-[#0A1B3D] border-2 border-[#14294F] flex flex-col gap-2.5"
-              >
-                <div className="flex items-center justify-between">
-                  <span className="text-xl font-bold text-[#F2F5F9]">{val.title}</span>
-                  <span className="text-[10px] font-mono text-[#00DF8F] px-2 py-0.5 rounded-full bg-[#020F2E] border border-[#14294F]">
-                    {val.tag}
-                  </span>
-                </div>
-                <p className="text-sm text-[#A8BBD6] leading-relaxed">
-                  {val.description}
-                </p>
-              </div>
-            ))}
-          </div>
-
-          {/* Vision */}
-          <div className="p-6 sm:p-8 rounded-3xl bg-[#020F2E] border-2 border-[#00DF8F]/50 flex flex-col gap-2">
-            <span className="font-mono text-xs text-[#00DF8F] uppercase font-bold tracking-wider">
-              OUR VISION
-            </span>
-            <h4 className="text-2xl font-extrabold text-[#F2F5F9]">
-              Make a mark, and leave the world better than we met it.
-            </h4>
-            <p className="text-sm text-[#A8BBD6] leading-relaxed">
-              Every system we write, every terminal we dispatch, and every loan structure we reject in favor of halal profit-sharing is guided by this quiet imperative.
+          <div className="space-y-6 text-base sm:text-lg text-[#4c5866] dark:text-slate-300 leading-relaxed">
+            <p>
+              Most people in Nigeria do not lose money to fraud. They lose it to <em>not knowing</em>. A transfer that sits in limbo for three days. A debit with no explanation. A balance that does not match the one in your head.
+            </p>
+            <p>
+              So we started from the awkward end. Every failure explicitly states whether you were charged. Every stalled transfer gets a deadline it must resolve by. Every payment is approved by you, with the amount and the verified recipient on screen.
+            </p>
+            <p>
+              The rest of it — sending, paying, saving, and Ajo — is the part everybody builds. The real difference is whether you can trust what it tells you.
             </p>
           </div>
         </div>
+      </section>
 
-        {/* Culture Statement */}
-        <div className="p-8 sm:p-10 rounded-3xl bg-[#0A1B3D] border-2 border-[#14294F] flex flex-col gap-4">
-          <h3 className="text-2xl font-bold text-[#F2F5F9]">
-            Our Culture
-          </h3>
-          <p className="text-sm sm:text-base text-[#A8BBD6] leading-relaxed">
-            We want Axoora to feel welcoming, diverse, innovative, and driven by our vision. Anyone who is serious and decent should be able to see themselves here. We are not a closed room. We are not cold. We are not trendy for its own sake.
-          </p>
-          <p className="text-sm sm:text-base text-[#A8BBD6] leading-relaxed">
-            We invite people in, we take different backgrounds as a strength, we look for a better way, and we keep our eyes on leaving things better than we found them.
-          </p>
+      {/* ─── What We Hold To (The 3 Principles) ─── */}
+      <section className="max-w-[1280px] mx-auto px-4 sm:px-8 lg:px-16 py-12">
+        <h2 className="text-2xl sm:text-3xl font-bold tracking-tight mb-8">
+          What We Hold To
+        </h2>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="bg-white dark:bg-slate-900 border border-[#dde3ea] dark:border-slate-800 rounded-2xl p-8 shadow-xs">
+            <div className="w-10 h-10 rounded-xl bg-blue-50 dark:bg-blue-950 text-blue-600 flex items-center justify-center mb-6">
+              <CheckCircle2 className="w-5 h-5" />
+            </div>
+            <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-2">
+              Say If You Were Charged
+            </h3>
+            <p className="text-sm text-[#4c5866] dark:text-slate-400 leading-relaxed">
+              Every failure answers the only question that matters: was your money taken, or is it still safe in your wallet?
+            </p>
+          </div>
+
+          <div className="bg-white dark:bg-slate-900 border border-[#dde3ea] dark:border-slate-800 rounded-2xl p-8 shadow-xs">
+            <div className="w-10 h-10 rounded-xl bg-amber-50 dark:bg-amber-950 text-amber-600 flex items-center justify-center mb-6">
+              <Clock className="w-5 h-5" />
+            </div>
+            <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-2">
+              No Silent Limbo
+            </h3>
+            <p className="text-sm text-[#4c5866] dark:text-slate-400 leading-relaxed">
+              A payment that stalls gets an automatic time deadline. It resolves or returns.
+            </p>
+          </div>
+
+          <div className="bg-white dark:bg-slate-900 border border-[#dde3ea] dark:border-slate-800 rounded-2xl p-8 shadow-xs">
+            <div className="w-10 h-10 rounded-xl bg-emerald-50 dark:bg-emerald-950 text-emerald-600 flex items-center justify-center mb-6">
+              <Lock className="w-5 h-5" />
+            </div>
+            <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-2">
+              Nothing Without You
+            </h3>
+            <p className="text-sm text-[#4c5866] dark:text-slate-400 leading-relaxed">
+              Your PIN or your fingerprint on every single payment. Clear amounts on screen.
+            </p>
+          </div>
         </div>
       </section>
 
-      {/* Our People & Leadership Team Section */}
-      <OurPeopleSection onNavigate={onNavigate} onOpenWaitlist={onOpenWaitlist} />
+      {/* ─── Institutional Presence ─── */}
+      <section className="max-w-[1280px] mx-auto px-4 sm:px-8 lg:px-16 py-12">
+        <div className="bg-slate-900 text-white rounded-2xl p-8 sm:p-12 shadow-sm flex flex-col md:flex-row items-center justify-between gap-8">
+          <div className="max-w-xl">
+            <div className="flex items-center gap-2 mb-3 text-blue-400">
+              <Building2 className="w-5 h-5" />
+              <span className="text-xs font-bold uppercase tracking-wider">Lagos & Abuja Headquarters</span>
+            </div>
+            <h3 className="text-2xl font-bold mb-2">
+              Licensed & Institutional-Grade
+            </h3>
+            <p className="text-sm text-slate-300 leading-relaxed">
+              Axoora operates under full Central Bank of Nigeria (CBN) regulatory compliance guidelines. Customer deposits are insured by the NDIC up to legal maximum limits.
+            </p>
+          </div>
+          <div className="flex items-center gap-2 text-xs text-slate-400">
+            <MapPin className="w-4 h-4 text-emerald-400" />
+            <span>Suite 08 Cappador Mall, Maitama, Abuja</span>
+          </div>
+        </div>
+      </section>
 
-      {/* Close Section: Waitlist or Careers */}
-      <section className="px-4 sm:px-8 py-16 max-w-4xl mx-auto">
-        <div className="p-8 rounded-3xl cta-gradient-banner bg-gradient-to-r from-[#0A1B3D] via-[#020F2E] to-[#0A1B3D] border-2 border-[#0D95FE]/40 flex flex-col sm:flex-row items-center justify-between gap-6 text-center sm:text-left">
-          <div className="flex flex-col gap-1">
-            <h4 className="text-xl font-bold text-[#F2F5F9]">Be part of our journey</h4>
-            <p className="text-sm text-[#A8BBD6]">Join the waitlist to be notified when we are live, or explore career opportunities.</p>
-          </div>
-          <div className="flex items-center gap-3">
-            <button
-              onClick={onOpenWaitlist}
-              className="px-6 py-3 rounded-full bg-[#0D95FE] text-[#00325b] font-bold text-xs sm:text-sm hover:bg-[#00DF8F] hover:text-[#003825] transition-all cursor-pointer whitespace-nowrap"
-            >
-              Join the Waitlist
-            </button>
-            <button
-              onClick={() => {
-                onNavigate('careers');
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-              }}
-              className="px-5 py-3 rounded-full bg-[#14294F] text-[#F2F5F9] hover:bg-[#1E3A6B] text-xs sm:text-sm font-semibold transition-colors whitespace-nowrap"
-            >
-              View Careers
-            </button>
-          </div>
+      {/* ─── Bottom CTA ─── */}
+      <section className="max-w-[1280px] mx-auto px-4 sm:px-8 lg:px-16 py-16 flex flex-col md:flex-row items-center justify-between gap-8 border-t border-slate-200 dark:border-slate-800">
+        <div>
+          <h3 className="text-3xl font-bold tracking-tight mb-2">
+            Come and See.
+          </h3>
+          <p className="text-base text-[#4c5866] dark:text-slate-400">
+            Your phone number and BVN are all you need to start.
+          </p>
+        </div>
+        <div className="flex items-center gap-4">
+          <button
+            type="button"
+            onClick={openDownloadApp}
+            className="bg-[#161c22] text-white hover:bg-black px-6 py-3 rounded-xl font-bold text-sm transition"
+          >
+            Get the app
+          </button>
+          <button
+            type="button"
+            onClick={openWhatsApp}
+            className="border border-[#161c22] dark:border-white text-[#161c22] dark:text-white px-6 py-3 rounded-xl font-bold text-sm hover:bg-slate-100 dark:hover:bg-slate-800 transition"
+          >
+            Start on WhatsApp
+          </button>
         </div>
       </section>
     </div>
