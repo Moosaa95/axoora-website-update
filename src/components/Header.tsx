@@ -190,9 +190,9 @@ export const Header: React.FC<HeaderProps> = ({
         {/* Brand Logo & Business / Personal Segmented Switcher */}
         <div className="flex items-center gap-2 sm:gap-3.5 shrink-0">
           <button
-            onClick={() => handleNav('business')}
+            onClick={() => handleNav('home')}
             className="cursor-pointer focus:outline-none flex items-center shrink-0"
-            aria-label="Axoora Business"
+            aria-label="Axoora Home"
           >
             <div className="sm:hidden">
               <AxooraLogo size="sm" theme="auto" />

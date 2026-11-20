@@ -54,10 +54,10 @@ export const NavigationProvider: React.FC<{ children: React.ReactNode }> = ({ ch
   const [whatsappModalOpen, setWhatsappModalOpen] = useState(false);
   const [commandDrawerOpen, setCommandDrawerOpen] = useState(false);
   const [downloadModalOpen, setDownloadModalOpen] = useState(false);
-  const [homeMode, setHomeMode] = useState<'business' | 'personal'>('business');
+  const [homeMode, setHomeMode] = useState<'business' | 'personal'>('personal');
 
   const currentScreen: ScreenType = useMemo(() => {
-    if (!pathname || pathname === '/') return 'business';
+    if (!pathname || pathname === '/') return 'home';
     const clean = pathname.replace(/^\//, '').split('/')[0];
     if (clean === 'pos-agents') return 'pos-agents';
     const validScreens: ScreenType[] = [
@@ -68,11 +68,11 @@ export const NavigationProvider: React.FC<{ children: React.ReactNode }> = ({ ch
     if (validScreens.includes(clean as ScreenType)) {
       return clean as ScreenType;
     }
-    return 'business';
+    return 'home';
   }, [pathname]);
 
   const navigate = (screen: ScreenType) => {
-    const route = SCREEN_ROUTES[screen] || '/business';
+    const route = SCREEN_ROUTES[screen] || '/';
     router.push(route);
     if (typeof window !== 'undefined') {
       window.scrollTo({ top: 0, behavior: 'smooth' });

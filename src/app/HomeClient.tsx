@@ -1,16 +1,26 @@
 'use client';
 
-import { BusinessProductView } from '../components/BusinessProductView';
+import { HomeView } from '../components/HomeView';
 import { useNavigation } from '../context/NavigationContext';
 
 export default function HomeClient() {
-  const { navigate, openWaitlist, openWhatsApp } = useNavigation();
+  const {
+    navigate,
+    openWaitlist,
+    openWhatsApp,
+    openDownloadApp,
+    homeMode,
+    setHomeMode,
+  } = useNavigation();
 
   return (
-    <BusinessProductView
+    <HomeView
       onNavigate={navigate}
       onOpenWaitlist={openWaitlist}
       onOpenWhatsApp={openWhatsApp}
+      onOpenDownloadApp={openDownloadApp}
+      homeMode={homeMode}
+      onHomeModeChange={setHomeMode}
     />
   );
 }
