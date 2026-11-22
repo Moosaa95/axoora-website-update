@@ -5,7 +5,6 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { ScreenType } from '../types';
 import { AxooraLogo } from './AxooraLogo';
 import { useTheme } from '../context/ThemeContext';
-import { PersonalNavHeroType } from '../context/NavigationContext';
 import { User, Briefcase, Menu, X, ArrowUpRight } from 'lucide-react';
 
 interface HeaderProps {
@@ -16,8 +15,6 @@ interface HeaderProps {
   onOpenDownloadApp?: () => void;
   homeMode?: 'business' | 'personal';
   onHomeModeChange?: (mode: 'business' | 'personal') => void;
-  personalHeroNav?: PersonalNavHeroType;
-  onPersonalHeroNavChange?: (hero: PersonalNavHeroType) => void;
 }
 
 export const Header: React.FC<HeaderProps> = ({
@@ -28,8 +25,6 @@ export const Header: React.FC<HeaderProps> = ({
   onOpenDownloadApp,
   homeMode = 'personal',
   onHomeModeChange,
-  personalHeroNav = 'send',
-  onPersonalHeroNavChange,
 }) => {
   const { theme } = useTheme();
   const isLight = theme === 'light';
@@ -49,18 +44,6 @@ export const Header: React.FC<HeaderProps> = ({
 
   const handleNav = (screen: ScreenType) => {
     onNavigate(screen);
-    setMobileMenuOpen(false);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
-
-  const handleHeroNav = (nav: PersonalNavHeroType) => {
-    onPersonalHeroNavChange?.(nav);
-    if (isBusiness) {
-      onHomeModeChange?.('personal');
-    }
-    if (currentScreen !== 'home' && currentScreen !== 'personal') {
-      onNavigate('home');
-    }
     setMobileMenuOpen(false);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
@@ -107,56 +90,36 @@ export const Header: React.FC<HeaderProps> = ({
               <>
                 <button
                   type="button"
-                  onClick={() => handleHeroNav('send')}
-                  className={`transition cursor-pointer relative py-1 ${
-                    !isBusiness && personalHeroNav === 'send'
-                      ? 'font-bold text-[#0976da] dark:text-[#53a8f5]'
-                      : 'hover:text-blue-600 dark:hover:text-white'
-                  }`}
+                  onClick={() => handleNav('personal')}
+                  className="hover:text-blue-600 dark:hover:text-white transition cursor-pointer"
                 >
                   Send
                 </button>
                 <button
                   type="button"
-                  onClick={() => handleHeroNav('cards')}
-                  className={`transition cursor-pointer relative py-1 ${
-                    !isBusiness && personalHeroNav === 'cards'
-                      ? 'font-bold text-[#0976da] dark:text-[#53a8f5]'
-                      : 'hover:text-blue-600 dark:hover:text-white'
-                  }`}
+                  onClick={() => handleNav('personal')}
+                  className="hover:text-blue-600 dark:hover:text-white transition cursor-pointer"
                 >
                   Cards
                 </button>
                 <button
                   type="button"
-                  onClick={() => handleHeroNav('savings')}
-                  className={`transition cursor-pointer relative py-1 ${
-                    !isBusiness && personalHeroNav === 'savings'
-                      ? 'font-bold text-[#0976da] dark:text-[#53a8f5]'
-                      : 'hover:text-blue-600 dark:hover:text-white'
-                  }`}
+                  onClick={() => handleNav('personal')}
+                  className="hover:text-blue-600 dark:hover:text-white transition cursor-pointer"
                 >
                   Savings
                 </button>
                 <button
                   type="button"
-                  onClick={() => handleHeroNav('ajo')}
-                  className={`transition cursor-pointer relative py-1 ${
-                    !isBusiness && personalHeroNav === 'ajo'
-                      ? 'font-bold text-[#0976da] dark:text-[#53a8f5]'
-                      : 'hover:text-blue-600 dark:hover:text-white'
-                  }`}
+                  onClick={() => handleNav('personal')}
+                  className="hover:text-blue-600 dark:hover:text-white transition cursor-pointer"
                 >
                   Ajo
                 </button>
                 <button
                   type="button"
-                  onClick={() => handleHeroNav('mall')}
-                  className={`transition cursor-pointer relative py-1 ${
-                    !isBusiness && personalHeroNav === 'mall'
-                      ? 'font-bold text-[#0976da] dark:text-[#53a8f5]'
-                      : 'hover:text-blue-600 dark:hover:text-white'
-                  }`}
+                  onClick={() => handleNav('personal')}
+                  className="hover:text-blue-600 dark:hover:text-white transition cursor-pointer"
                 >
                   Mall
                 </button>
@@ -278,11 +241,11 @@ export const Header: React.FC<HeaderProps> = ({
             <div className="flex flex-col space-y-4 text-base font-medium text-[#161c22] dark:text-white mb-6">
               {!isBusiness ? (
                 <>
-                  <button onClick={() => handleHeroNav('send')} className={`text-left py-1 ${personalHeroNav === 'send' ? 'text-[#0976da] font-bold' : 'hover:text-blue-600'}`}>Send (Bank on WhatsApp)</button>
-                  <button onClick={() => handleHeroNav('cards')} className={`text-left py-1 ${personalHeroNav === 'cards' ? 'text-[#0976da] font-bold' : 'hover:text-blue-600'}`}>Cards (Naira & USD)</button>
-                  <button onClick={() => handleHeroNav('savings')} className={`text-left py-1 ${personalHeroNav === 'savings' ? 'text-[#0976da] font-bold' : 'hover:text-blue-600'}`}>Savings (Non-Interest)</button>
-                  <button onClick={() => handleHeroNav('ajo')} className={`text-left py-1 ${personalHeroNav === 'ajo' ? 'text-[#0976da] font-bold' : 'hover:text-blue-600'}`}>Ajo & Pay Circles</button>
-                  <button onClick={() => handleHeroNav('mall')} className={`text-left py-1 ${personalHeroNav === 'mall' ? 'text-[#0976da] font-bold' : 'hover:text-blue-600'}`}>Axoora Mall</button>
+                  <button onClick={() => handleNav('personal')} className="text-left py-1 hover:text-blue-600">Send Money</button>
+                  <button onClick={() => handleNav('personal')} className="text-left py-1 hover:text-blue-600">Cards (Naira & USD)</button>
+                  <button onClick={() => handleNav('personal')} className="text-left py-1 hover:text-blue-600">Non-Interest Savings</button>
+                  <button onClick={() => handleNav('personal')} className="text-left py-1 hover:text-blue-600">Ajo & Pay Circles</button>
+                  <button onClick={() => handleNav('personal')} className="text-left py-1 hover:text-blue-600">Axoora Mall</button>
                   <button onClick={() => handleNav('help')} className="text-left py-1 hover:text-blue-600">Help & Support</button>
                   <button onClick={() => handleNav('about')} className="text-left py-1 hover:text-blue-600">About Us</button>
                 </>

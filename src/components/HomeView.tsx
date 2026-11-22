@@ -36,7 +36,6 @@ import { StoreButtons, PhoneFrame, PhoneStatusBar, Money, Card, SectionHeading, 
 import { BusinessHome } from './home/BusinessHome';
 import { PersonalPhoneShowcase } from './home/PersonalPhoneShowcase';
 import { AnimatedCardsTile } from './home/AnimatedCardsTile';
-import { PersonalNavHero, PersonalNavHeroType } from './home/PersonalNavHero';
 
 export interface HomeViewProps {
   onNavigate: (screen: ScreenType) => void;
@@ -45,8 +44,6 @@ export interface HomeViewProps {
   onOpenDownloadApp: () => void;
   homeMode?: 'business' | 'personal';
   onHomeModeChange?: (mode: 'business' | 'personal') => void;
-  personalHeroNav?: PersonalNavHeroType;
-  onPersonalHeroNavChange?: (hero: PersonalNavHeroType) => void;
 }
 
 export const HomeView: React.FC<HomeViewProps> = ({
@@ -56,8 +53,6 @@ export const HomeView: React.FC<HomeViewProps> = ({
   onOpenDownloadApp,
   homeMode = 'personal',
   onHomeModeChange,
-  personalHeroNav = 'send',
-  onPersonalHeroNavChange,
 }) => {
   const { theme } = useTheme();
   const isLight = theme === 'light';
@@ -100,12 +95,31 @@ export const HomeView: React.FC<HomeViewProps> = ({
             transition={{ duration: 0.2 }}
             className="w-full"
           >
-            {/* ─── Hero Section (Dynamic across Send / Cards / Savings / Ajo / Mall) ─── */}
-            <PersonalNavHero
-              activeNav={personalHeroNav}
-              onOpenWhatsApp={onOpenWhatsApp}
-              onOpenDownloadApp={onOpenDownloadApp}
-            />
+            {/* ─── Hero Section ─── */}
+            <div className="max-w-[1280px] mx-auto px-4 sm:px-6 pt-2 pb-12">
+              <div className="bg-[#043e97] rounded-[28px] overflow-hidden pt-12 sm:pt-16 lg:pt-[88px] px-6 sm:px-12 lg:px-16 text-white shadow-[0_20px_50px_rgba(2,15,46,0.1)] grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-end">
+                {/* Left Column: Bold Human Copy */}
+                <div className="lg:col-span-7 self-start pb-12 sm:pb-16 lg:pb-[88px] flex flex-col gap-[26px]">
+                  <h1 className="text-[64px] sm:text-[80px] lg:text-[92px] font-bold leading-[0.94] tracking-[-0.04em] select-none text-white!">
+                    Send.<br />
+                    Pay.<br />
+                    Save.<br />
+                    Spend.
+                  </h1>
+
+                  <p className="text-[19px] text-[#d6ebff] font-normal leading-[1.6] max-w-lg">
+                    One account for all of it. In the app or on WhatsApp.
+                  </p>
+
+                  <StoreButtons tone="onBlue" onApp={onOpenDownloadApp} onWhatsApp={onOpenWhatsApp} />
+                </div>
+
+                {/* Right Column: Phone (Figma A1 · Product with Live Interactive Animations) */}
+                <div className="lg:col-span-5 flex items-end justify-center self-end">
+                  <PersonalPhoneShowcase onOpenWhatsApp={onOpenWhatsApp} onOpenDownloadApp={onOpenDownloadApp} />
+                </div>
+              </div>
+            </div>
 
             {/* ─── Feature Tiles (Figma A1 · Tiles) ─── */}
             <div className="max-w-[1280px] mx-auto px-4 sm:px-6 pt-16 lg:pt-[120px] pb-12 lg:px-16 flex flex-col gap-4">

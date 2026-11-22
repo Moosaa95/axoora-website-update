@@ -30,8 +30,6 @@ export const AppShell: React.FC<{ children: React.ReactNode }> = ({ children }) 
     waitlistInterest,
     homeMode,
     setHomeMode,
-    personalHeroNav,
-    setPersonalHeroNav,
   } = useNavigation();
 
   const [waitlistModalOpen, setWaitlistModalOpen] = useState(false);
@@ -64,8 +62,6 @@ export const AppShell: React.FC<{ children: React.ReactNode }> = ({ children }) 
           onOpenDownloadApp={openDownloadApp}
           homeMode={homeMode}
           onHomeModeChange={setHomeMode}
-          personalHeroNav={personalHeroNav}
-          onPersonalHeroNavChange={setPersonalHeroNav}
         />
       )}
 

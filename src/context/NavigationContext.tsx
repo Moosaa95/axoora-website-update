@@ -4,8 +4,6 @@ import React, { createContext, useContext, useState, useMemo } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
 import { ScreenType } from '../types';
 
-export type PersonalNavHeroType = 'send' | 'cards' | 'savings' | 'ajo' | 'mall';
-
 export const SCREEN_ROUTES: Record<ScreenType, string> = {
   home: '/',
   business: '/business',
@@ -44,8 +42,6 @@ interface NavigationContextType {
   setWaitlistInterest: (interest: 'personal' | 'business' | 'pos-agent' | 'aggregator') => void;
   homeMode: 'business' | 'personal';
   setHomeMode: (mode: 'business' | 'personal') => void;
-  personalHeroNav: PersonalNavHeroType;
-  setPersonalHeroNav: (hero: PersonalNavHeroType) => void;
 }
 
 const NavigationContext = createContext<NavigationContextType | undefined>(undefined);
@@ -59,7 +55,6 @@ export const NavigationProvider: React.FC<{ children: React.ReactNode }> = ({ ch
   const [commandDrawerOpen, setCommandDrawerOpen] = useState(false);
   const [downloadModalOpen, setDownloadModalOpen] = useState(false);
   const [homeMode, setHomeMode] = useState<'business' | 'personal'>('personal');
-  const [personalHeroNav, setPersonalHeroNav] = useState<PersonalNavHeroType>('send');
 
   const currentScreen: ScreenType = useMemo(() => {
     if (!pathname || pathname === '/') return 'home';
@@ -120,8 +115,6 @@ export const NavigationProvider: React.FC<{ children: React.ReactNode }> = ({ ch
         setWaitlistInterest,
         homeMode,
         setHomeMode,
-        personalHeroNav,
-        setPersonalHeroNav,
       }}
     >
       {children}
