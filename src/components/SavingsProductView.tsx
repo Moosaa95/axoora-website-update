@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   ArrowLeft,
@@ -13,9 +13,11 @@ import {
   ChevronRight,
   ShieldCheck,
   CheckCircle2,
-  PieChart,
-  X,
   Sparkles,
+  TrendingUp,
+  UserPlus,
+  Landmark,
+  ArrowUpRight,
 } from 'lucide-react';
 import { ScreenType } from '../types';
 import { useTheme } from '../context/ThemeContext';
@@ -37,8 +39,27 @@ export const SavingsProductView: React.FC<SavingsProductViewProps> = ({
   const { theme } = useTheme();
   const isLight = theme === 'light';
 
-  // Modal for "See Statement" profit breakdown
-  const [statementOpen, setStatementOpen] = useState(false);
+  // ─── Hero Phone: Auto-switching between Overview and Statement Breakdown ───
+  const [heroPhoneView, setHeroPhoneView] = useState<'overview' | 'statement'>('overview');
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setHeroPhoneView((prev) => (prev === 'overview' ? 'statement' : 'overview'));
+    }, 5500);
+    return () => clearInterval(timer);
+  }, []);
+
+  // ─── Circles Phone: Live member count & turn animation loop ───
+  const [joinedCount, setJoinedCount] = useState(6);
+  const [activeCircleTurn, setActiveCircleTurn] = useState(4);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setJoinedCount((prev) => (prev === 6 ? 7 : 6));
+      setActiveCircleTurn((prev) => (prev === 4 ? 5 : 4));
+    }, 3800);
+    return () => clearInterval(timer);
+  }, []);
 
   return (
     <div
@@ -72,187 +93,316 @@ export const SavingsProductView: React.FC<SavingsProductViewProps> = ({
             />
           </div>
 
-          {/* Right Column: Phone Mockup with Savings Plans */}
+          {/* Right Column: Phone Mockup with Animated Savings Plans */}
           <div className="lg:col-span-5 flex items-end justify-center self-end">
-            <PhoneFrame width={320} height={580} className="shadow-[0_25px_60px_rgba(2,15,46,0.35)]">
+            <PhoneFrame width={320} height={590} className="shadow-[0_25px_60px_rgba(2,15,46,0.35)]">
               <div className="h-full flex flex-col justify-between p-4 bg-white text-[#161c22] select-none font-sans relative overflow-hidden">
                 <PhoneStatusBar />
 
                 <div className="flex-1 flex flex-col justify-between pt-1">
-                  <div>
-                    {/* Top Bar: ← Savings */}
-                    <div className="flex items-center gap-2 pt-1 pb-3">
-                      <ArrowLeft className="w-4 h-4 text-[#161c22] cursor-pointer" />
-                      <span className="text-[13.5px] font-bold text-[#161c22]">Savings</span>
-                    </div>
-
-                    {/* Total Saved Headline */}
-                    <div className="text-center mt-2">
-                      <div className="text-[32px] font-bold text-[#161c22] tracking-tight">
-                        ₦85,000<span className="text-[20px] font-normal text-[#6c7a89]">.00</span>
-                      </div>
-                      <span className="text-[10px] text-[#6c7a89] font-medium block mt-0.5">
-                        Saved · Profit-Sharing, No Interest
-                      </span>
-                    </div>
-
-                    {/* Your Plans */}
-                    <div className="mt-5">
-                      <span className="text-[11px] font-bold text-[#161c22] block mb-2">
-                        Your Plans
-                      </span>
-
-                      {/* Plan 1: Flexible */}
+                  <AnimatePresence mode="wait">
+                    {/* ──────────────────────────────────────────────────
+                        STATE A: Savings Overview
+                        ────────────────────────────────────────────────── */}
+                    {heroPhoneView === 'overview' ? (
                       <motion.div
-                        whileHover={{ scale: 1.01 }}
-                        className="bg-[#f7f9fb] rounded-xl p-3 border border-[#edf1f7] flex items-center justify-between cursor-pointer transition hover:border-[#dde3ea]"
+                        key="savings-overview"
+                        initial={{ opacity: 0, x: -16 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        exit={{ opacity: 0, x: 16 }}
+                        transition={{ duration: 0.35, ease: 'easeInOut' }}
+                        className="flex-1 flex flex-col justify-between"
                       >
-                        <div className="flex items-center gap-2.5">
-                          <div className="w-8 h-8 rounded-lg bg-[#ebf5ff] text-[#0976da] flex items-center justify-center font-bold">
-                            <RefreshCw className="w-4 h-4" />
-                          </div>
-                          <div>
-                            <div className="text-[11.5px] font-bold text-[#161c22]">Flexible</div>
-                            <div className="text-[9px] text-[#6c7a89]">Take it out anytime</div>
-                          </div>
-                        </div>
-                        <span className="font-bold text-[12px] text-[#161c22]">₦ 35,000.00</span>
-                      </motion.div>
-
-                      {/* Plan 2: Fixed · 12 Months */}
-                      <motion.div
-                        whileHover={{ scale: 1.01 }}
-                        className="mt-2.5 bg-[#f7f9fb] rounded-xl p-3 border border-[#edf1f7] flex items-center justify-between cursor-pointer transition hover:border-[#dde3ea]"
-                      >
-                        <div className="flex items-center gap-2.5">
-                          <div className="w-8 h-8 rounded-lg bg-[#f0f7f3] text-[#0f6b45] flex items-center justify-center font-bold">
-                            <Lock className="w-4 h-4" />
-                          </div>
-                          <div>
-                            <div className="text-[11.5px] font-bold text-[#161c22]">
-                              Fixed · 12 Months
+                        <div>
+                          {/* Top Bar: ← Savings + Tab toggle indicator */}
+                          <div className="flex items-center justify-between pt-1 pb-2">
+                            <div className="flex items-center gap-2">
+                              <ArrowLeft className="w-4 h-4 text-[#161c22]" />
+                              <span className="text-[13.5px] font-bold text-[#161c22]">Savings</span>
                             </div>
-                            <div className="text-[9px] text-[#6c7a89]">Unlocks 3 Aug 2027</div>
-                          </div>
-                        </div>
-                        <span className="font-bold text-[12px] text-[#161c22]">₦ 50,000.00</span>
-                      </motion.div>
-                    </div>
-
-                    {/* Bottom Card: Profit Shared in August */}
-                    <div className="mt-5 bg-[#eef6fc] rounded-xl p-3.5 border border-[#d8eaf8]">
-                      <div className="flex items-start gap-2.5">
-                        <div className="w-7 h-7 rounded-lg bg-[#0976da] text-white flex items-center justify-center shrink-0 mt-0.5">
-                          <Coins className="w-3.5 h-3.5" />
-                        </div>
-                        <div className="flex-1">
-                          <div className="text-[11px] font-bold text-[#0976da]">
-                            ₦2,000 Profit Shared in August
-                          </div>
-                          <div className="text-[9px] text-[#4c5866] mt-0.5">
-                            See where it came from.
+                            <button
+                              type="button"
+                              onClick={() => setHeroPhoneView('statement')}
+                              className="text-[9.5px] font-bold text-[#0976da] bg-[#eef6fc] px-2 py-0.5 rounded-full cursor-pointer hover:bg-[#dcebf9] transition flex items-center gap-1"
+                            >
+                              <span>Statement</span>
+                              <ChevronRight className="w-2.5 h-2.5" />
+                            </button>
                           </div>
 
+                          {/* Total Saved Headline with animated profit ping */}
+                          <div className="text-center mt-2 relative">
+                            <motion.div
+                              initial={{ scale: 0.96 }}
+                              animate={{ scale: 1 }}
+                              transition={{ duration: 0.3 }}
+                              className="text-[32px] font-bold text-[#161c22] tracking-tight"
+                            >
+                              ₦85,000<span className="text-[20px] font-normal text-[#6c7a89]">.00</span>
+                            </motion.div>
+                            <div className="flex items-center justify-center gap-1.5 mt-0.5">
+                              <span className="text-[10px] text-[#6c7a89] font-medium">
+                                Saved · Profit-Sharing, No Interest
+                              </span>
+                              <motion.span
+                                animate={{ opacity: [0.7, 1, 0.7] }}
+                                transition={{ repeat: Infinity, duration: 2 }}
+                                className="inline-flex items-center px-1.5 py-0.2 rounded-full bg-[#e6f4ea] text-[8px] font-bold text-[#137333]"
+                              >
+                                +₦2k shared
+                              </motion.span>
+                            </div>
+                          </div>
+
+                          {/* Your Plans */}
+                          <div className="mt-5">
+                            <div className="flex items-center justify-between mb-2">
+                              <span className="text-[11px] font-bold text-[#161c22]">Your Plans</span>
+                              <span className="text-[9px] text-[#6c7a89]">2 Active</span>
+                            </div>
+
+                            {/* Plan 1: Flexible */}
+                            <motion.div
+                              whileHover={{ scale: 1.01 }}
+                              className="bg-[#f7f9fb] rounded-xl p-3 border border-[#edf1f7] flex flex-col gap-2 cursor-pointer transition hover:border-[#dde3ea]"
+                            >
+                              <div className="flex items-center justify-between">
+                                <div className="flex items-center gap-2.5">
+                                  <div className="w-8 h-8 rounded-lg bg-[#ebf5ff] text-[#0976da] flex items-center justify-center font-bold">
+                                    <RefreshCw className="w-4 h-4" />
+                                  </div>
+                                  <div>
+                                    <div className="text-[11.5px] font-bold text-[#161c22]">Flexible</div>
+                                    <div className="text-[9px] text-[#6c7a89]">Take it out anytime</div>
+                                  </div>
+                                </div>
+                                <span className="font-bold text-[12px] text-[#161c22]">₦ 35,000.00</span>
+                              </div>
+                              {/* Animated Progress Tracker */}
+                              <div className="w-full bg-[#e2e8f0] h-1 rounded-full overflow-hidden">
+                                <motion.div
+                                  initial={{ width: 0 }}
+                                  animate={{ width: '42%' }}
+                                  transition={{ duration: 0.8, delay: 0.1 }}
+                                  className="h-full bg-[#0976da] rounded-full"
+                                />
+                              </div>
+                            </motion.div>
+
+                            {/* Plan 2: Fixed · 12 Months */}
+                            <motion.div
+                              whileHover={{ scale: 1.01 }}
+                              className="mt-2.5 bg-[#f7f9fb] rounded-xl p-3 border border-[#edf1f7] flex flex-col gap-2 cursor-pointer transition hover:border-[#dde3ea]"
+                            >
+                              <div className="flex items-center justify-between">
+                                <div className="flex items-center gap-2.5">
+                                  <div className="w-8 h-8 rounded-lg bg-[#f0f7f3] text-[#0f6b45] flex items-center justify-center font-bold">
+                                    <Lock className="w-4 h-4" />
+                                  </div>
+                                  <div>
+                                    <div className="text-[11.5px] font-bold text-[#161c22]">
+                                      Fixed · 12 Months
+                                    </div>
+                                    <div className="text-[9px] text-[#6c7a89]">Unlocks 3 Aug 2027</div>
+                                  </div>
+                                </div>
+                                <span className="font-bold text-[12px] text-[#161c22]">₦ 50,000.00</span>
+                              </div>
+                              {/* Animated Progress Tracker */}
+                              <div className="w-full bg-[#e2e8f0] h-1 rounded-full overflow-hidden">
+                                <motion.div
+                                  initial={{ width: 0 }}
+                                  animate={{ width: '58%' }}
+                                  transition={{ duration: 0.8, delay: 0.2 }}
+                                  className="h-full bg-[#0f6b45] rounded-full"
+                                />
+                              </div>
+                            </motion.div>
+                          </div>
+
+                          {/* Bottom Card: Profit Shared in August */}
+                          <motion.div
+                            whileHover={{ scale: 1.01 }}
+                            onClick={() => setHeroPhoneView('statement')}
+                            className="mt-4 bg-[#eef6fc] rounded-xl p-3.5 border border-[#d8eaf8] cursor-pointer group"
+                          >
+                            <div className="flex items-start gap-2.5">
+                              <div className="w-7 h-7 rounded-lg bg-[#0976da] text-white flex items-center justify-center shrink-0 mt-0.5">
+                                <Coins className="w-3.5 h-3.5" />
+                              </div>
+                              <div className="flex-1">
+                                <div className="text-[11px] font-bold text-[#0976da] flex items-center justify-between">
+                                  <span>₦2,000 Profit Shared in August</span>
+                                  <span className="w-2 h-2 rounded-full bg-emerald-500 animate-ping" />
+                                </div>
+                                <div className="text-[9px] text-[#4c5866] mt-0.5">
+                                  See where it came from.
+                                </div>
+
+                                <button
+                                  type="button"
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    setHeroPhoneView('statement');
+                                  }}
+                                  className="mt-2.5 px-3 py-1 bg-white border border-[#dde3ea] rounded-full text-[9px] font-bold text-[#161c22] group-hover:bg-[#0976da] group-hover:text-white transition shadow-2xs cursor-pointer flex items-center gap-1"
+                                >
+                                  <span>See Statement</span>
+                                  <ChevronRight className="w-2.5 h-2.5" />
+                                </button>
+                              </div>
+                            </div>
+                          </motion.div>
+                        </div>
+
+                        {/* Switch indicator dots */}
+                        <div className="flex items-center justify-center gap-1.5 pt-3 pb-1">
                           <button
                             type="button"
-                            onClick={() => setStatementOpen(true)}
-                            className="mt-2.5 px-3 py-1 bg-white border border-[#dde3ea] rounded-full text-[9px] font-bold text-[#161c22] hover:bg-slate-50 transition shadow-2xs cursor-pointer flex items-center gap-1"
-                          >
-                            <span>See Statement</span>
-                            <ChevronRight className="w-2.5 h-2.5" />
-                          </button>
+                            onClick={() => setHeroPhoneView('overview')}
+                            className="h-1.5 w-5 bg-[#0976da] rounded-full transition-all cursor-pointer"
+                            aria-label="View overview"
+                          />
+                          <button
+                            type="button"
+                            onClick={() => setHeroPhoneView('statement')}
+                            className="h-1.5 w-1.5 bg-[#d0d7de] hover:bg-[#a8b3cf] rounded-full transition-all cursor-pointer"
+                            aria-label="View statement"
+                          />
                         </div>
-                      </div>
-                    </div>
-                  </div>
+                      </motion.div>
+                    ) : (
+                      /* ──────────────────────────────────────────────────
+                          STATE B: Statement & Underlying Working Breakdown
+                          ────────────────────────────────────────────────── */
+                      <motion.div
+                        key="savings-statement"
+                        initial={{ opacity: 0, x: 16 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        exit={{ opacity: 0, x: -16 }}
+                        transition={{ duration: 0.35, ease: 'easeInOut' }}
+                        className="flex-1 flex flex-col justify-between"
+                      >
+                        <div>
+                          {/* Top Bar: ← Return to Plans */}
+                          <div className="flex items-center justify-between pt-1 pb-2">
+                            <button
+                              type="button"
+                              onClick={() => setHeroPhoneView('overview')}
+                              className="flex items-center gap-2 cursor-pointer text-[#161c22]"
+                            >
+                              <ArrowLeft className="w-4 h-4" />
+                              <span className="text-[13.5px] font-bold text-[#161c22]">
+                                August Statement
+                              </span>
+                            </button>
+                            <span className="text-[9px] font-bold text-[#0f6b45] bg-[#e6f4ea] px-2 py-0.5 rounded-full">
+                              Credited
+                            </span>
+                          </div>
 
-                  {/* Sharia Compliance Badge */}
-                  <div className="pt-2 text-center">
-                    <span className="text-[8.5px] text-[#8492a6]">
-                      Certified Mudarabah & Murabaha · Non-Interest
-                    </span>
-                  </div>
+                          {/* Profit Header Box */}
+                          <div className="mt-2 bg-[#f0f7f3] rounded-xl p-3 border border-[#d1e7dd] text-center">
+                            <span className="text-[9px] uppercase tracking-wider text-[#0f6b45] font-semibold block">
+                              Total Profit Distributed
+                            </span>
+                            <div className="text-[26px] font-extrabold text-[#0f6b45] mt-0.5 tracking-tight">
+                              +₦2,000.00
+                            </div>
+                            <span className="text-[8.5px] text-[#4c5866] mt-0.5 block">
+                              Paid directly to wallet on 31 Aug 2026
+                            </span>
+                          </div>
+
+                          {/* Underlying Investment Allocation */}
+                          <div className="mt-4">
+                            <span className="text-[10px] font-bold text-[#161c22] uppercase tracking-wider block mb-2">
+                              Investments That Funded It
+                            </span>
+
+                            {/* Asset 1: Sovereign Sukuk Fund */}
+                            <div className="p-2.5 rounded-xl bg-[#f7f9fb] border border-[#edf1f7] mb-2">
+                              <div className="flex justify-between items-center text-[10.5px]">
+                                <span className="font-bold text-[#161c22]">Sovereign Sukuk Fund</span>
+                                <span className="font-extrabold text-[#0f6b45]">50% · ₦1,000.00</span>
+                              </div>
+                              <div className="flex justify-between items-center text-[8.5px] text-[#6c7a89] mt-0.5">
+                                <span>Federal Gov Infrastructure</span>
+                                <span>Mudarabah</span>
+                              </div>
+                              <div className="w-full bg-[#e2e8f0] h-1.5 rounded-full overflow-hidden mt-1.5">
+                                <motion.div
+                                  initial={{ width: 0 }}
+                                  animate={{ width: '50%' }}
+                                  transition={{ duration: 0.8, delay: 0.1 }}
+                                  className="h-full bg-[#0976da] rounded-full"
+                                />
+                              </div>
+                            </div>
+
+                            {/* Asset 2: Agricultural Trade Murabaha */}
+                            <div className="p-2.5 rounded-xl bg-[#f7f9fb] border border-[#edf1f7] mb-2">
+                              <div className="flex justify-between items-center text-[10.5px]">
+                                <span className="font-bold text-[#161c22]">
+                                  Agricultural Murabaha
+                                </span>
+                                <span className="font-extrabold text-[#0f6b45]">30% · ₦600.00</span>
+                              </div>
+                              <div className="flex justify-between items-center text-[8.5px] text-[#6c7a89] mt-0.5">
+                                <span>Grain Storage Financing</span>
+                                <span>Murabaha</span>
+                              </div>
+                              <div className="w-full bg-[#e2e8f0] h-1.5 rounded-full overflow-hidden mt-1.5">
+                                <motion.div
+                                  initial={{ width: 0 }}
+                                  animate={{ width: '30%' }}
+                                  transition={{ duration: 0.8, delay: 0.2 }}
+                                  className="h-full bg-[#0f6b45] rounded-full"
+                                />
+                              </div>
+                            </div>
+
+                            {/* Asset 3: Commodity Murabaha */}
+                            <div className="p-2.5 rounded-xl bg-[#f7f9fb] border border-[#edf1f7]">
+                              <div className="flex justify-between items-center text-[10.5px]">
+                                <span className="font-bold text-[#161c22]">Commodity Murabaha</span>
+                                <span className="font-extrabold text-[#0f6b45]">20% · ₦400.00</span>
+                              </div>
+                              <div className="flex justify-between items-center text-[8.5px] text-[#6c7a89] mt-0.5">
+                                <span>Short-Term Liquidity</span>
+                                <span>Murabaha</span>
+                              </div>
+                              <div className="w-full bg-[#e2e8f0] h-1.5 rounded-full overflow-hidden mt-1.5">
+                                <motion.div
+                                  initial={{ width: 0 }}
+                                  animate={{ width: '20%' }}
+                                  transition={{ duration: 0.8, delay: 0.3 }}
+                                  className="h-full bg-[#0256c4] rounded-full"
+                                />
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                        {/* Switch indicator dots */}
+                        <div className="flex items-center justify-center gap-1.5 pt-3 pb-1">
+                          <button
+                            type="button"
+                            onClick={() => setHeroPhoneView('overview')}
+                            className="h-1.5 w-1.5 bg-[#d0d7de] hover:bg-[#a8b3cf] rounded-full transition-all cursor-pointer"
+                            aria-label="View overview"
+                          />
+                          <button
+                            type="button"
+                            onClick={() => setHeroPhoneView('statement')}
+                            className="h-1.5 w-5 bg-[#0976da] rounded-full transition-all cursor-pointer"
+                            aria-label="View statement"
+                          />
+                        </div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
                 </div>
-
-                {/* Profit Statement Slide-up Sheet */}
-                <AnimatePresence>
-                  {statementOpen && (
-                    <motion.div
-                      initial={{ y: '100%' }}
-                      animate={{ y: 0 }}
-                      exit={{ y: '100%' }}
-                      transition={{ type: 'spring', damping: 28, stiffness: 300 }}
-                      className="absolute inset-x-0 bottom-0 top-10 bg-white rounded-t-2xl p-4 shadow-2xl flex flex-col justify-between z-30 border-t border-[#edf1f7]"
-                    >
-                      <div>
-                        <div className="flex items-center justify-between pb-3 border-b border-[#edf1f7]">
-                          <span className="text-[12.5px] font-bold text-[#161c22]">
-                            August Profit Statement
-                          </span>
-                          <button
-                            type="button"
-                            onClick={() => setStatementOpen(false)}
-                            className="text-[#8492a6] hover:text-[#161c22] cursor-pointer"
-                          >
-                            <X className="w-4 h-4" />
-                          </button>
-                        </div>
-
-                        <div className="mt-3 bg-[#f7f9fb] rounded-xl p-3 border border-[#edf1f7]">
-                          <div className="text-[9.5px] text-[#6c7a89]">Total Profit Earned</div>
-                          <div className="text-[20px] font-bold text-[#0f6b45] mt-0.5">
-                            +₦2,000.00
-                          </div>
-                        </div>
-
-                        <div className="mt-3">
-                          <span className="text-[10px] font-bold text-[#6c7a89] uppercase tracking-wider block mb-2">
-                            Investments That Funded It
-                          </span>
-                          <div className="space-y-2 text-[10px]">
-                            <div className="p-2 rounded-lg bg-[#f7f9fb] border border-[#edf1f7] flex justify-between items-center">
-                              <div>
-                                <div className="font-semibold text-[#161c22]">
-                                  Sovereign Sukuk Fund
-                                </div>
-                                <div className="text-[8px] text-[#6c7a89]">Federal Gov of Nigeria</div>
-                              </div>
-                              <span className="font-bold text-[#0f6b45]">50% (₦1,000)</span>
-                            </div>
-
-                            <div className="p-2 rounded-lg bg-[#f7f9fb] border border-[#edf1f7] flex justify-between items-center">
-                              <div>
-                                <div className="font-semibold text-[#161c22]">
-                                  Agricultural Trade Murabaha
-                                </div>
-                                <div className="text-[8px] text-[#6c7a89]">Grain Warehousing</div>
-                              </div>
-                              <span className="font-bold text-[#0f6b45]">30% (₦600)</span>
-                            </div>
-
-                            <div className="p-2 rounded-lg bg-[#f7f9fb] border border-[#edf1f7] flex justify-between items-center">
-                              <div>
-                                <div className="font-semibold text-[#161c22]">
-                                  Commodity Murabaha
-                                </div>
-                                <div className="text-[8px] text-[#6c7a89]">Short-Term Liquidity</div>
-                              </div>
-                              <span className="font-bold text-[#0f6b45]">20% (₦400)</span>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-
-                      <button
-                        type="button"
-                        onClick={() => setStatementOpen(false)}
-                        className="w-full py-2 bg-[#0976da] text-white rounded-lg text-xs font-bold cursor-pointer"
-                      >
-                        Close
-                      </button>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
               </div>
             </PhoneFrame>
           </div>
@@ -317,7 +467,7 @@ export const SavingsProductView: React.FC<SavingsProductViewProps> = ({
           ═══════════════════════════════════════════════════════════ */}
       <section className="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-16 pt-8 pb-12">
         <div className="grid grid-cols-1 lg:grid-cols-[460px_1fr] gap-10 lg:gap-16 items-center">
-          {/* Left Column: Phone Mockup showing Circles */}
+          {/* Left Column: Phone Mockup showing Circles with Live Animations */}
           <div className="bg-[#ebf5ff] dark:bg-slate-800/60 rounded-[28px] p-6 sm:p-10 flex items-center justify-center">
             <PhoneFrame width={310} height={540} className="shadow-[0_20px_45px_rgba(2,15,46,0.2)]">
               <div className="h-full flex flex-col justify-between p-4 bg-white text-[#161c22] select-none font-sans">
@@ -325,19 +475,31 @@ export const SavingsProductView: React.FC<SavingsProductViewProps> = ({
 
                 <div>
                   {/* Top Bar: ← Circles */}
-                  <div className="flex items-center gap-2 pt-1 pb-3">
-                    <ArrowLeft className="w-4 h-4 text-[#161c22] cursor-pointer" />
-                    <span className="text-[13.5px] font-bold text-[#161c22]">Circles</span>
+                  <div className="flex items-center justify-between pt-1 pb-3">
+                    <div className="flex items-center gap-2">
+                      <ArrowLeft className="w-4 h-4 text-[#161c22] cursor-pointer" />
+                      <span className="text-[13.5px] font-bold text-[#161c22]">Circles</span>
+                    </div>
+                    <span className="text-[9px] font-bold text-[#0976da] bg-[#eef6fc] px-2 py-0.5 rounded-full flex items-center gap-1">
+                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                      <span>Live Sync</span>
+                    </span>
                   </div>
 
                   {/* Section: Your Circles */}
                   <div className="mt-2">
-                    <span className="text-[10px] font-bold text-[#6c7a89] uppercase tracking-wider block mb-2">
-                      Your Circles
-                    </span>
+                    <div className="flex items-center justify-between mb-2">
+                      <span className="text-[10px] font-bold text-[#6c7a89] uppercase tracking-wider block">
+                        Your Circles
+                      </span>
+                      <span className="text-[9px] text-[#6c7a89]">Automatic Escrow</span>
+                    </div>
 
                     {/* Circle 1: Lagos Traders Circle */}
-                    <div className="bg-[#f7f9fb] rounded-xl p-3 border border-[#edf1f7] flex items-center justify-between">
+                    <motion.div
+                      whileHover={{ scale: 1.01 }}
+                      className="bg-[#f7f9fb] rounded-xl p-3 border border-[#edf1f7] flex items-center justify-between cursor-pointer transition hover:border-[#dde3ea]"
+                    >
                       <div className="flex items-center gap-2.5">
                         <div className="w-8 h-8 rounded-full bg-[#f0f2f5] text-[#4c5866] flex items-center justify-center">
                           <Users className="w-4 h-4" />
@@ -351,13 +513,23 @@ export const SavingsProductView: React.FC<SavingsProductViewProps> = ({
                           </div>
                         </div>
                       </div>
-                      <span className="text-[9.5px] font-semibold text-[#6c7a89]">Due Fri</span>
-                    </div>
+                      <div className="text-right">
+                        <span className="text-[9.5px] font-semibold text-[#6c7a89] block">
+                          Due Fri
+                        </span>
+                        <span className="text-[8px] text-emerald-600 font-medium">
+                          7 of 8 paid
+                        </span>
+                      </div>
+                    </motion.div>
 
-                    {/* Circle 2: Sisters' Savings (Your Turn) */}
-                    <div className="mt-2.5 bg-[#f7f9fb] rounded-xl p-3 border border-[#edf1f7] flex items-center justify-between">
+                    {/* Circle 2: Sisters' Savings (Your Turn) with animated pulse */}
+                    <motion.div
+                      whileHover={{ scale: 1.01 }}
+                      className="mt-2.5 bg-[#f7f9fb] rounded-xl p-3 border border-[#0976da]/30 bg-gradient-to-r from-[#f7f9fb] to-[#f0f7ff] flex items-center justify-between cursor-pointer transition relative overflow-hidden"
+                    >
                       <div className="flex items-center gap-2.5">
-                        <div className="w-8 h-8 rounded-full bg-[#ebf5ff] text-[#0976da] flex items-center justify-center">
+                        <div className="w-8 h-8 rounded-full bg-[#ebf5ff] text-[#0976da] flex items-center justify-center shadow-xs">
                           <Sparkles className="w-4 h-4" />
                         </div>
                         <div>
@@ -369,35 +541,76 @@ export const SavingsProductView: React.FC<SavingsProductViewProps> = ({
                           </div>
                         </div>
                       </div>
-                      <span className="px-2 py-0.5 rounded-full bg-[#ebf5ff] text-[9px] font-bold text-[#0976da]">
-                        Your Turn
-                      </span>
-                    </div>
+
+                      <div className="flex flex-col items-end gap-0.5">
+                        <motion.span
+                          animate={{ scale: [1, 1.06, 1] }}
+                          transition={{ repeat: Infinity, duration: 2.2, ease: 'easeInOut' }}
+                          className="px-2.5 py-0.5 rounded-full bg-[#0976da] text-[9px] font-bold text-white shadow-xs"
+                        >
+                          Your Turn
+                        </motion.span>
+                        <span className="text-[8px] text-[#0976da] font-medium">
+                          Payout ₦30,000
+                        </span>
+                      </div>
+                    </motion.div>
                   </div>
 
-                  {/* Section: Waiting to Fill */}
+                  {/* Section: Waiting to Fill with Dynamic Join Counter */}
                   <div className="mt-5">
-                    <span className="text-[10px] font-bold text-[#6c7a89] uppercase tracking-wider block mb-2">
-                      Waiting to Fill
-                    </span>
-
-                    {/* Circle 3: Ikeja Flat Mates */}
-                    <div className="bg-[#f7f9fb] rounded-xl p-3 border border-[#edf1f7] flex items-center justify-between">
-                      <div className="flex items-center gap-2.5">
-                        <div className="w-8 h-8 rounded-full bg-[#f0f2f5] text-[#8492a6] flex items-center justify-center">
-                          <Users className="w-4 h-4" />
-                        </div>
-                        <div>
-                          <div className="text-[11.5px] font-bold text-[#161c22]">
-                            Ikeja Flat Mates
-                          </div>
-                          <div className="text-[8.5px] text-[#6c7a89]">₦20,000 monthly</div>
-                        </div>
-                      </div>
-                      <span className="text-[9px] font-semibold text-[#6c7a89]">
-                        6 of 8 Joined
+                    <div className="flex items-center justify-between mb-2">
+                      <span className="text-[10px] font-bold text-[#6c7a89] uppercase tracking-wider block">
+                        Waiting to Fill
+                      </span>
+                      <span className="text-[9px] text-[#0976da] font-semibold flex items-center gap-1">
+                        <UserPlus className="w-2.5 h-2.5" />
+                        <span>Filling Fast</span>
                       </span>
                     </div>
+
+                    {/* Circle 3: Ikeja Flat Mates */}
+                    <motion.div
+                      whileHover={{ scale: 1.01 }}
+                      className="bg-[#f7f9fb] rounded-xl p-3 border border-[#edf1f7] flex flex-col gap-2 cursor-pointer transition hover:border-[#dde3ea]"
+                    >
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-2.5">
+                          <div className="w-8 h-8 rounded-full bg-[#f0f2f5] text-[#8492a6] flex items-center justify-center">
+                            <Users className="w-4 h-4" />
+                          </div>
+                          <div>
+                            <div className="text-[11.5px] font-bold text-[#161c22]">
+                              Ikeja Flat Mates
+                            </div>
+                            <div className="text-[8.5px] text-[#6c7a89]">₦20,000 monthly</div>
+                          </div>
+                        </div>
+
+                        {/* Animated Member Count Badge */}
+                        <AnimatePresence mode="wait">
+                          <motion.span
+                            key={joinedCount}
+                            initial={{ scale: 0.8, opacity: 0 }}
+                            animate={{ scale: 1, opacity: 1 }}
+                            exit={{ scale: 0.8, opacity: 0 }}
+                            transition={{ duration: 0.25 }}
+                            className="text-[9px] font-semibold text-[#0976da] bg-[#ebf5ff] px-2 py-0.5 rounded-full"
+                          >
+                            {joinedCount} of 8 Joined
+                          </motion.span>
+                        </AnimatePresence>
+                      </div>
+
+                      {/* Filling progress bar */}
+                      <div className="w-full bg-[#e2e8f0] h-1 rounded-full overflow-hidden">
+                        <motion.div
+                          animate={{ width: joinedCount === 7 ? '87.5%' : '75%' }}
+                          transition={{ duration: 0.5, ease: 'easeOut' }}
+                          className="h-full bg-[#0976da] rounded-full"
+                        />
+                      </div>
+                    </motion.div>
                   </div>
                 </div>
 
