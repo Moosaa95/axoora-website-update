@@ -71,13 +71,17 @@ export const Header: React.FC<HeaderProps> = ({
     >
       <div className="max-w-[1280px] h-[80px] mx-auto px-4 sm:px-8 lg:px-16 flex items-center justify-between font-['DM_Sans',sans-serif]">
         {/* Left: Brand Lockup Logo */}
-        <div className="flex items-center gap-8">
+        <div className="flex items-center gap-10">
           <button
             onClick={() => handleNav('home')}
             className="cursor-pointer focus:outline-none flex items-center shrink-0"
             aria-label="Axoora Home"
           >
-            <AxooraLogo size="md" theme="auto" />
+            {isLight ? (
+              <img src="/brand/lockup-light.svg" alt="Axoora" width={132} height={33} className="h-[33.206px] w-[132px] block" />
+            ) : (
+              <AxooraLogo size="md" theme="auto" />
+            )}
           </button>
 
           {/* Desktop Navigation Links matching Figma node 3216:645 */}
@@ -183,16 +187,6 @@ export const Header: React.FC<HeaderProps> = ({
               <span>Business</span>
             </button>
           </div>
-
-          {/* Quick CTA button */}
-          <button
-            type="button"
-            onClick={onOpenDownloadApp}
-            className="hidden lg:flex items-center gap-1.5 bg-[#161c22] dark:bg-white text-white dark:text-[#161c22] px-4 py-2 rounded-lg text-xs font-semibold hover:opacity-90 transition cursor-pointer"
-          >
-            <span>Get App</span>
-            <ArrowUpRight className="w-3.5 h-3.5" />
-          </button>
 
           {/* Mobile Menu Hamburger */}
           <button

@@ -16,13 +16,13 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
   const [theme, setThemeState] = useState<Theme>(() => {
     // 1. Check local storage
     if (typeof window !== 'undefined') {
-      const stored = localStorage.getItem('axoora-theme');
+      const stored = localStorage.getItem('axoora-theme-v2');
       if (stored === 'light' || stored === 'dark') {
         return stored;
       }
     }
-    // Default to dark as per original institutional aesthetic
-    return 'dark';
+    // Default to light to match the Figma design
+    return 'light';
   });
 
   useEffect(() => {
@@ -38,7 +38,7 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
       root.setAttribute('data-theme', 'dark');
       root.style.colorScheme = 'dark';
     }
-    localStorage.setItem('axoora-theme', theme);
+    localStorage.setItem('axoora-theme-v2', theme);
 
     // Sync theme-color meta tag for mobile browsers and PWA chrome
     let metaThemeColor = document.querySelector('meta[name="theme-color"]');

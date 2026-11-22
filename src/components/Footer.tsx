@@ -26,18 +26,18 @@ export const Footer: React.FC<FooterProps> = ({
 
   return (
     <footer
-      className={`w-full border-t transition-colors font-['DM_Sans',sans-serif] ${
+      className={`w-full transition-colors font-['DM_Sans',sans-serif] ${
         isLight
-          ? 'bg-[#f7f9fb] border-[#dde3ea] text-[#161c22]'
+          ? 'bg-[#f7f9fb] text-[#161c22]'
           : 'bg-[#020F2E] border-slate-800 text-[#F2F5F9]'
       }`}
     >
-      <div className="max-w-[1280px] mx-auto px-6 sm:px-12 lg:px-16 pt-16 pb-12 flex flex-col gap-11">
+      <div className="max-w-[1280px] mx-auto px-6 sm:px-12 lg:px-16 pt-[60px] pb-12 flex flex-col gap-11">
         {/* 4 Navigation Columns matching Figma node 3216:693 */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-8 lg:gap-14 w-full text-left">
           {/* Column 1: Products */}
           <div className="flex flex-col gap-3.5">
-            <h4 className="font-bold text-sm tracking-tight text-[#161c22] dark:text-white">
+            <h4 className="font-bold text-[15px] leading-[22px] text-[#161c22] dark:text-white">
               Products
             </h4>
             <div className="flex flex-col gap-3 text-[15px] text-[#4c5866] dark:text-slate-400">
@@ -81,7 +81,7 @@ export const Footer: React.FC<FooterProps> = ({
 
           {/* Column 2: Using Axoora */}
           <div className="flex flex-col gap-3.5">
-            <h4 className="font-bold text-sm tracking-tight text-[#161c22] dark:text-white">
+            <h4 className="font-bold text-[15px] leading-[22px] text-[#161c22] dark:text-white">
               Using Axoora
             </h4>
             <div className="flex flex-col gap-3 text-[15px] text-[#4c5866] dark:text-slate-400">
@@ -118,7 +118,7 @@ export const Footer: React.FC<FooterProps> = ({
 
           {/* Column 3: Company */}
           <div className="flex flex-col gap-3.5">
-            <h4 className="font-bold text-sm tracking-tight text-[#161c22] dark:text-white">
+            <h4 className="font-bold text-[15px] leading-[22px] text-[#161c22] dark:text-white">
               Company
             </h4>
             <div className="flex flex-col gap-3 text-[15px] text-[#4c5866] dark:text-slate-400">
@@ -148,7 +148,7 @@ export const Footer: React.FC<FooterProps> = ({
 
           {/* Column 4: Help */}
           <div className="flex flex-col gap-3.5">
-            <h4 className="font-bold text-sm tracking-tight text-[#161c22] dark:text-white">
+            <h4 className="font-bold text-[15px] leading-[22px] text-[#161c22] dark:text-white">
               Help
             </h4>
             <div className="flex flex-col gap-3 text-[15px] text-[#4c5866] dark:text-slate-400">
@@ -184,17 +184,19 @@ export const Footer: React.FC<FooterProps> = ({
           </div>
         </div>
 
-        {/* Legal & Compliance Meta line matching Figma node 3216:718 */}
-        <div className="pt-8 border-t border-slate-200 dark:border-slate-800 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 text-sm text-[#4c5866] dark:text-slate-400">
+        {/* Legal meta line */}
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 text-[15px] leading-[22px] text-[#4c5866] dark:text-slate-400">
           <p>Axoora Financial Technologies Limited · axoora.ai</p>
-          <p className="text-xs text-slate-500">
-            Regulated payment rails. Customer deposits eligible for statutory NDIC insurance.
-          </p>
+          <p>Licence and deposit-protection statement to be supplied.</p>
         </div>
 
         {/* Logo Lockup */}
-        <div className="pt-2">
-          <AxooraLogo size="sm" theme="auto" />
+        <div>
+          {isLight ? (
+            <img src="/brand/lockup-light.svg" alt="Axoora" width={96} height={24} className="h-[24.15px] w-[96px] block" />
+          ) : (
+            <AxooraLogo size="sm" theme="auto" />
+          )}
         </div>
       </div>
     </footer>
