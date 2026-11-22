@@ -4,6 +4,7 @@ import React from 'react';
 import { EyeOff, Search, ReceiptText, AlertTriangle, Fingerprint, ArrowLeft, ArrowUpRight, Check } from 'lucide-react';
 import { StoreButtons, PhoneFrame, PhoneStatusBar, Money, Card, SectionHeading, Eyebrow, SectionWrap, CheckBullet } from './shared';
 import { PhoneGroup, PhoneTx } from './phoneParts';
+import { BusinessPhoneShowcase } from './BusinessPhoneShowcase';
 
 /** Figma "Direction A · Business" home (BB1). Shared by the Home toggle and the /business screen. */
 export const BusinessHome: React.FC<{ onOpenDownloadApp: () => void; onOpenWhatsApp: () => void }> = ({
@@ -25,33 +26,8 @@ export const BusinessHome: React.FC<{ onOpenDownloadApp: () => void; onOpenWhats
           <StoreButtons tone="onBlueAlt" onApp={onOpenDownloadApp} onWhatsApp={onOpenWhatsApp} className="mt-[26px]" />
         </div>
 
-        <div className="flex items-end justify-center pt-4 lg:pt-[120px] lg:ml-3">
-          <PhoneFrame width={300} height={440} radius={44}>
-            <div className="px-[11px]">
-              <PhoneStatusBar className="px-[8px]" />
-              <div className="mt-[10px] px-[1px]">
-                <div className="flex items-center gap-2">
-                  <Money amount="112,430" big={24} small={17} />
-                  <EyeOff className="w-[14px] h-[14px] text-[#4c5866]" />
-                </div>
-                <div className="mt-[2px] text-[9px] leading-[13px] text-[#4c5866]">Current Balance</div>
-              </div>
-              <div className="mt-[14px] w-[230px] h-[34px] rounded-[4px] border border-[#dde3ea] flex items-center gap-2 px-3 text-[9px] text-[#4c5866]">
-                <Search className="w-[10px] h-[10px]" /> Search
-              </div>
-
-              <PhoneGroup label="Tomorrow" total="− ₦34,900" totalClass="text-[#8a4b00]" className="mt-[18px]">
-                <PhoneTx initials="CO" name="Chidinma Okafor" sub="Scheduled · 08:00" amount="− ₦29,400" tone="debitPending" />
-                <PhoneTx logo="DStv" name="DStv" sub="Subscription · 08:00" amount="− ₦5,500" tone="debitPending" />
-              </PhoneGroup>
-              <PhoneGroup label="Today" total="+ ₦25,000" totalClass="text-[#065f41]" className="mt-[16px]">
-                <PhoneTx initials="CO" name="Chidinma Okafor" sub="14:08" amount="+ ₦25,000" tone="credit" />
-              </PhoneGroup>
-              <PhoneGroup label="Yesterday" total="− ₦10,500" totalClass="text-[#161c22]" className="mt-[16px]">
-                <PhoneTx initials="IE" name="Ikeja Electric" sub="09:20" amount="− ₦10,500" tone="debit" />
-              </PhoneGroup>
-            </div>
-          </PhoneFrame>
+        <div className="flex items-end justify-center pt-4 lg:pt-[80px] lg:ml-3">
+          <BusinessPhoneShowcase />
         </div>
       </div>
     </SectionWrap>
