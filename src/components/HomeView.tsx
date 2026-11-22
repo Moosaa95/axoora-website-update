@@ -57,13 +57,10 @@ export const HomeView: React.FC<HomeViewProps> = ({
   const { theme } = useTheme();
   const isLight = theme === 'light';
 
-  // Toggle between Personal and Business direction
-  const [activeSegment, setActiveSegment] = useState<'personal' | 'business'>(
-    homeMode === 'business' ? 'business' : 'personal'
-  );
+  // Direct reactive segment driven by homeMode
+  const activeSegment = homeMode === 'business' ? 'business' : 'personal';
 
   const handleSegmentChange = (segment: 'personal' | 'business') => {
-    setActiveSegment(segment);
     onHomeModeChange?.(segment);
   };
 
