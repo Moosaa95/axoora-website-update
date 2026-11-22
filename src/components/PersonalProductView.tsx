@@ -21,6 +21,7 @@ import {
 } from 'lucide-react';
 import { ScreenType } from '../types';
 import { useTheme } from '../context/ThemeContext';
+import { PersonalNavHero, PersonalNavHeroType } from './home/PersonalNavHero';
 
 interface PersonalProductViewProps {
   onNavigate?: (screen: ScreenType) => void;
@@ -28,6 +29,7 @@ interface PersonalProductViewProps {
   onOpenWhatsApp: () => void;
   onOpenDownloadApp?: () => void;
   onOpenCommandDrawer?: () => void;
+  personalHeroNav?: PersonalNavHeroType;
 }
 
 export const PersonalProductView: React.FC<PersonalProductViewProps> = ({
@@ -35,6 +37,7 @@ export const PersonalProductView: React.FC<PersonalProductViewProps> = ({
   onOpenWaitlist,
   onOpenWhatsApp,
   onOpenDownloadApp,
+  personalHeroNav = 'send',
 }) => {
   const { theme } = useTheme();
   const isLight = theme === 'light';
@@ -52,83 +55,12 @@ export const PersonalProductView: React.FC<PersonalProductViewProps> = ({
         isLight ? 'bg-[#f7f9fb] text-[#161c22]' : 'bg-[#020F2E] text-[#F2F5F9]'
       }`}
     >
-      {/* ─── Hero Header: Send and Pay (Figma A2 · Send and Pay 3218:675) ─── */}
-      <section className="max-w-[1280px] mx-auto px-4 sm:px-8 lg:px-16 pt-12 pb-16">
-        <div className="bg-[#043e97] rounded-[28px] overflow-hidden p-8 sm:p-14 lg:p-16 text-white shadow-2xl grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-          <div className="lg:col-span-7">
-            <span className="text-xs font-bold uppercase tracking-wider text-blue-200 block mb-4">
-              Send and Pay
-            </span>
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight leading-[1.05] mb-6">
-              Bank on WhatsApp.
-            </h1>
-            <p className="text-lg sm:text-xl text-[#d6ebff] font-normal leading-relaxed max-w-lg mb-8">
-              The same account either way. Same limits, same PIN. Describe your transfer in natural words.
-            </p>
-
-            <div className="flex flex-wrap items-center gap-4">
-              <button
-                type="button"
-                onClick={onOpenDownloadApp}
-                className="bg-white text-[#161c22] hover:bg-slate-100 px-6 py-3.5 rounded-[10px] font-bold text-sm transition shadow-sm cursor-pointer"
-              >
-                Get the app
-              </button>
-              <button
-                type="button"
-                onClick={onOpenWhatsApp}
-                className="border-[1.5px] border-white text-white hover:bg-white/10 px-6 py-3.5 rounded-[10px] font-bold text-sm transition cursor-pointer"
-              >
-                Start on WhatsApp
-              </button>
-            </div>
-          </div>
-
-          {/* Right: Live WhatsApp Chat Simulation */}
-          <div className="lg:col-span-5 bg-[#0b141a] rounded-2xl p-5 shadow-2xl font-sans text-xs border border-slate-700 max-w-sm mx-auto w-full">
-            <div className="flex items-center gap-2.5 pb-3 border-b border-slate-800 text-white">
-              <div className="w-8 h-8 rounded-full bg-[#00a884] text-white flex items-center justify-center font-bold text-xs">
-                A
-              </div>
-              <div>
-                <span className="font-bold block text-sm">Axoora Verified Desk</span>
-                <span className="text-[10px] text-slate-400">Official Banking Assistant</span>
-              </div>
-            </div>
-
-            <div className="py-4 space-y-3">
-              <div className="bg-[#202c33] text-slate-100 p-2.5 rounded-lg rounded-tl-none max-w-[85%]">
-                <span>Hi Adaeze. What do you want to do today?</span>
-                <span className="block text-[9px] text-slate-400 text-right mt-1">14:06</span>
-              </div>
-
-              <div className="bg-[#005c4b] text-white p-2.5 rounded-lg rounded-tr-none max-w-[85%] ml-auto">
-                <span>Send 25k to Chidinma</span>
-                <span className="block text-[9px] text-emerald-200 text-right mt-1">14:07</span>
-              </div>
-
-              <div className="bg-[#202c33] text-slate-100 p-2.5 rounded-lg rounded-tl-none max-w-[90%]">
-                <span className="font-bold text-emerald-400 block mb-1">CHIDINMA OKAFOR</span>
-                <span className="block text-slate-300">GTBank · 0123456789</span>
-                <span className="block text-slate-300">₦25,000.00 · fee ₦0.00</span>
-                <span className="block mt-1 font-semibold text-white">Reply YES to confirm transfer.</span>
-                <span className="block text-[9px] text-slate-400 text-right mt-1">14:07</span>
-              </div>
-
-              <div className="bg-[#005c4b] text-white p-2.5 rounded-lg rounded-tr-none max-w-[40%] ml-auto text-center font-bold">
-                <span>YES</span>
-                <span className="block text-[9px] text-emerald-200 text-right mt-1">14:08</span>
-              </div>
-
-              <div className="bg-[#202c33] text-slate-100 p-2.5 rounded-lg rounded-tl-none max-w-[90%]">
-                <span className="text-emerald-400 font-bold block mb-1">✓ Done!</span>
-                <span>₦25,000.00 sent to CHIDINMA OKAFOR. Balance now ₦87,420.00.</span>
-                <span className="block text-[9px] text-slate-400 text-right mt-1">14:08</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+      {/* ─── Hero Header: Rotating Phone & Four Verbs ─── */}
+      <PersonalNavHero
+        activeNav={personalHeroNav}
+        onOpenWhatsApp={onOpenWhatsApp}
+        onOpenDownloadApp={onOpenDownloadApp}
+      />
 
       {/* ─── Bank Health Section (Figma 3218:675) ─── */}
       <section className="max-w-[1280px] mx-auto px-4 sm:px-8 lg:px-16 py-12">

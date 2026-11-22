@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { ScreenType } from '../types';
 import { AxooraLogo } from './AxooraLogo';
 import { useTheme } from '../context/ThemeContext';
+import { PersonalNavHeroType } from '../context/NavigationContext';
 import { User, Briefcase, Menu, X, ArrowUpRight } from 'lucide-react';
 
 interface HeaderProps {
@@ -15,6 +16,8 @@ interface HeaderProps {
   onOpenDownloadApp?: () => void;
   homeMode?: 'business' | 'personal';
   onHomeModeChange?: (mode: 'business' | 'personal') => void;
+  personalHeroNav?: PersonalNavHeroType;
+  onPersonalHeroNavChange?: (hero: PersonalNavHeroType) => void;
 }
 
 export const Header: React.FC<HeaderProps> = ({
@@ -25,6 +28,8 @@ export const Header: React.FC<HeaderProps> = ({
   onOpenDownloadApp,
   homeMode = 'personal',
   onHomeModeChange,
+  personalHeroNav = 'send',
+  onPersonalHeroNavChange,
 }) => {
   const { theme } = useTheme();
   const isLight = theme === 'light';
@@ -44,6 +49,18 @@ export const Header: React.FC<HeaderProps> = ({
 
   const handleNav = (screen: ScreenType) => {
     onNavigate(screen);
+    setMobileMenuOpen(false);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const handleHeroNav = (nav: PersonalNavHeroType) => {
+    onPersonalHeroNavChange?.(nav);
+    if (isBusiness) {
+      onHomeModeChange?.('personal');
+    }
+    if (currentScreen !== 'home' && currentScreen !== 'personal') {
+      onNavigate('home');
+    }
     setMobileMenuOpen(false);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
@@ -90,36 +107,56 @@ export const Header: React.FC<HeaderProps> = ({
               <>
                 <button
                   type="button"
-                  onClick={() => handleNav('personal')}
-                  className="hover:text-blue-600 dark:hover:text-white transition cursor-pointer"
+                  onClick={() => handleHeroNav('send')}
+                  className={`transition cursor-pointer relative py-1 ${
+                    !isBusiness && personalHeroNav === 'send'
+                      ? 'font-bold text-[#0976da] dark:text-[#53a8f5]'
+                      : 'hover:text-blue-600 dark:hover:text-white'
+                  }`}
                 >
                   Send
                 </button>
                 <button
                   type="button"
-                  onClick={() => handleNav('personal')}
-                  className="hover:text-blue-600 dark:hover:text-white transition cursor-pointer"
+                  onClick={() => handleHeroNav('cards')}
+                  className={`transition cursor-pointer relative py-1 ${
+                    !isBusiness && personalHeroNav === 'cards'
+                      ? 'font-bold text-[#0976da] dark:text-[#53a8f5]'
+                      : 'hover:text-blue-600 dark:hover:text-white'
+                  }`}
                 >
                   Cards
                 </button>
                 <button
                   type="button"
-                  onClick={() => handleNav('personal')}
-                  className="hover:text-blue-600 dark:hover:text-white transition cursor-pointer"
+                  onClick={() => handleHeroNav('savings')}
+                  className={`transition cursor-pointer relative py-1 ${
+                    !isBusiness && personalHeroNav === 'savings'
+                      ? 'font-bold text-[#0976da] dark:text-[#53a8f5]'
+                      : 'hover:text-blue-600 dark:hover:text-white'
+                  }`}
                 >
                   Savings
                 </button>
                 <button
                   type="button"
-                  onClick={() => handleNav('personal')}
-                  className="hover:text-blue-600 dark:hover:text-white transition cursor-pointer"
+                  onClick={() => handleHeroNav('ajo')}
+                  className={`transition cursor-pointer relative py-1 ${
+                    !isBusiness && personalHeroNav === 'ajo'
+                      ? 'font-bold text-[#0976da] dark:text-[#53a8f5]'
+                      : 'hover:text-blue-600 dark:hover:text-white'
+                  }`}
                 >
                   Ajo
                 </button>
                 <button
                   type="button"
-                  onClick={() => handleNav('personal')}
-                  className="hover:text-blue-600 dark:hover:text-white transition cursor-pointer"
+                  onClick={() => handleHeroNav('mall')}
+                  className={`transition cursor-pointer relative py-1 ${
+                    !isBusiness && personalHeroNav === 'mall'
+                      ? 'font-bold text-[#0976da] dark:text-[#53a8f5]'
+                      : 'hover:text-blue-600 dark:hover:text-white'
+                  }`}
                 >
                   Mall
                 </button>
