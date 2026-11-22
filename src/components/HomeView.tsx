@@ -130,16 +130,17 @@ export const HomeView: React.FC<HomeViewProps> = ({
               </div>
 
               <div className="bg-white dark:bg-slate-900 border border-[#dde3ea] dark:border-slate-800 rounded-[20px] overflow-hidden grid grid-cols-1 lg:grid-cols-[623px_1fr] min-h-[280px]">
-                <div className="p-12 flex flex-col gap-4">
+                <div className="p-8 sm:p-12 flex flex-col justify-center gap-4">
                   <Store className="w-7 h-7 text-[#0976da]" strokeWidth={1.5} />
                   <h3 className="text-[34px] leading-[1.06] tracking-[-0.85px] font-bold text-[#161c22] dark:text-white">Axoora Mall</h3>
                   <p className="text-[16px] leading-[1.6] text-[#4c5866] dark:text-slate-300">Flights, hotels and event tickets, paid from your wallet. If a booking fails after you pay, we tell you whether you were charged and when the refund lands.</p>
                 </div>
-                <div
-                  className="flex items-center justify-center text-center bg-[#f7f9fb] dark:bg-slate-800 min-h-[160px]"
-                  style={{ backgroundImage: 'repeating-linear-gradient(135deg, #eef1f5 0 10px, transparent 10px 20px)' }}
-                >
-                  <span className="text-[13px] font-bold leading-[1.6] text-[#343e4a] max-w-[165px]">Photo · a family arriving at a hotel in Abuja</span>
+                <div className="relative min-h-[240px] lg:min-h-full w-full overflow-hidden">
+                  <img
+                    src="/images/family-hotel-abuja.jpg"
+                    alt="A family arriving at a hotel in Abuja"
+                    className="w-full h-full object-cover object-center"
+                  />
                 </div>
               </div>
             </div>
