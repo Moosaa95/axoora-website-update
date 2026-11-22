@@ -6,6 +6,7 @@ import { Footer } from './components/Footer';
 import { CookieBanner } from './components/CookieBanner';
 import { HomeView } from './components/HomeView';
 import { PersonalProductView } from './components/PersonalProductView';
+import { CardsProductView } from './components/CardsProductView';
 import { BusinessProductView } from './components/BusinessProductView';
 import { PosProductView } from './components/PosProductView';
 import { SecurityView } from './components/SecurityView';
@@ -107,6 +108,15 @@ export default function App() {
 
         {currentScreen === 'personal' && (
           <PersonalProductView
+            onNavigate={handleNavigate}
+            onOpenWaitlist={handleOpenWaitlist}
+            onOpenWhatsApp={() => setWhatsappModalOpen(true)}
+            onOpenDownloadApp={() => setDownloadModalOpen(true)}
+          />
+        )}
+
+        {currentScreen === 'cards' && (
+          <CardsProductView
             onNavigate={handleNavigate}
             onOpenWaitlist={handleOpenWaitlist}
             onOpenWhatsApp={() => setWhatsappModalOpen(true)}

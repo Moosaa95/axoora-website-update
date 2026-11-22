@@ -54,12 +54,20 @@ export const Header: React.FC<HeaderProps> = ({
   };
 
   const isSendActive = !isBusiness && (currentScreen === 'send' || currentScreen === 'personal');
+  const isCardsActive = !isBusiness && currentScreen === 'cards';
 
   const handleSendClick = () => {
     if (isBusiness) {
       onHomeModeChange?.('personal');
     }
     handleNav('send');
+  };
+
+  const handleCardsClick = () => {
+    if (isBusiness) {
+      onHomeModeChange?.('personal');
+    }
+    handleNav('cards');
   };
 
   const handleHeroNav = (nav: PersonalNavHeroType) => {
@@ -127,9 +135,9 @@ export const Header: React.FC<HeaderProps> = ({
                 </button>
                 <button
                   type="button"
-                  onClick={() => handleHeroNav('cards')}
+                  onClick={handleCardsClick}
                   className={`transition cursor-pointer relative py-1 ${
-                    !isBusiness && personalHeroNav === 'cards'
+                    isCardsActive
                       ? 'font-bold text-[#0976da] dark:text-[#53a8f5]'
                       : 'hover:text-blue-600 dark:hover:text-white'
                   }`}
@@ -288,7 +296,7 @@ export const Header: React.FC<HeaderProps> = ({
               {!isBusiness ? (
                 <>
                   <button onClick={handleSendClick} className={`text-left py-1 ${isSendActive ? 'text-[#0976da] font-bold' : 'hover:text-blue-600'}`}>Send (Bank on WhatsApp)</button>
-                  <button onClick={() => handleHeroNav('cards')} className="text-left py-1 hover:text-blue-600">Cards (Naira & USD)</button>
+                  <button onClick={handleCardsClick} className={`text-left py-1 ${isCardsActive ? 'text-[#0976da] font-bold' : 'hover:text-blue-600'}`}>Cards (Naira & USD)</button>
                   <button onClick={() => handleHeroNav('savings')} className="text-left py-1 hover:text-blue-600">Non-Interest Savings</button>
                   <button onClick={() => handleHeroNav('ajo')} className="text-left py-1 hover:text-blue-600">Ajo & Pay Circles</button>
                   <button onClick={() => handleHeroNav('mall')} className="text-left py-1 hover:text-blue-600">Axoora Mall</button>
