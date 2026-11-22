@@ -5,6 +5,8 @@ export type ScreenType =
   | 'cards'
   | 'savings'
   | 'ajo'
+  | 'security'
+  | 'fees'
   | 'business'
   | 'pos-agents'
   | 'security'

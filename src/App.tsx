@@ -11,6 +11,7 @@ import { SavingsProductView } from './components/SavingsProductView';
 import { BusinessProductView } from './components/BusinessProductView';
 import { PosProductView } from './components/PosProductView';
 import { SecurityView } from './components/SecurityView';
+import { FeesProductView } from './components/FeesProductView';
 import { GovernanceView } from './components/GovernanceView';
 import { AboutView } from './components/AboutView';
 import { ImpactView } from './components/ImpactView';
@@ -150,6 +151,7 @@ export default function App() {
         )}
 
         {currentScreen === 'security' && <SecurityView />}
+        {currentScreen === 'fees' && <FeesProductView />}
 
         {currentScreen === 'governance' && <GovernanceView />}
 

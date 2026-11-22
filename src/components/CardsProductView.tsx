@@ -498,3 +498,4 @@ export const CardsProductView: React.FC<CardsProductViewProps> = ({
     </div>
   );
 };
+

@@ -14,6 +14,7 @@ export const SCREEN_ROUTES: Record<ScreenType, string> = {
   cards: '/cards',
   savings: '/savings',
   ajo: '/savings',
+  fees: '/fees',
   'pos-agents': '/pos-agents',
   security: '/security',
   governance: '/governance',
@@ -70,7 +71,7 @@ export const NavigationProvider: React.FC<{ children: React.ReactNode }> = ({ ch
     const clean = pathname.replace(/^\//, '').split('/')[0];
     if (clean === 'pos-agents') return 'pos-agents';
     const validScreens: ScreenType[] = [
-      'home', 'personal', 'send', 'cards', 'savings', 'ajo', 'business', 'pos-agents', 'security',
+      'home', 'personal', 'send', 'cards', 'savings', 'ajo', 'security', 'fees', 'business', 'pos-agents',
       'governance', 'about', 'impact', 'stories', 'journal',
       'press', 'events', 'careers', 'help', 'legal', 'contact', 'admin', 'apply'
     ];

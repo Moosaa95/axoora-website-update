@@ -64,10 +64,10 @@ export const Footer: React.FC<FooterProps> = ({
               </button>
               <button
                 type="button"
-                onClick={() => handleNav('personal')}
+                onClick={() => handleNav('savings')}
                 className="text-left hover:text-blue-600 dark:hover:text-white transition cursor-pointer"
               >
-                Ajo
+                Savings &amp; Ajo
               </button>
               <button
                 type="button"
@@ -108,7 +108,7 @@ export const Footer: React.FC<FooterProps> = ({
               </button>
               <button
                 type="button"
-                onClick={() => handleNav('help')}
+                onClick={() => handleNav('fees')}
                 className="text-left hover:text-blue-600 dark:hover:text-white transition cursor-pointer"
               >
                 Fees
