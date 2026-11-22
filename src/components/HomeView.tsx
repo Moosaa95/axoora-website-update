@@ -34,7 +34,7 @@ import { ScreenType } from '../types';
 import { useTheme } from '../context/ThemeContext';
 import { StoreButtons, PhoneFrame, PhoneStatusBar, Money, Card, SectionHeading, SectionWrap } from './home/shared';
 import { BusinessHome } from './home/BusinessHome';
-import { PersonalPhoneShowcase } from './home/PersonalPhoneShowcase';
+import { PersonalPhoneShowcase, PersonalScreen } from './home/PersonalPhoneShowcase';
 import { AnimatedCardsTile } from './home/AnimatedCardsTile';
 
 export interface HomeViewProps {
@@ -68,6 +68,7 @@ export const HomeView: React.FC<HomeViewProps> = ({
   };
 
   // State for interactive phone mockup in Personal Hero
+  const [activeHeroScreen, setActiveHeroScreen] = useState<PersonalScreen>('send');
   const [hideBalance, setHideBalance] = useState(false);
   const [activeTab, setActiveTab] = useState<'home' | 'send' | 'chat' | 'circles' | 'savings'>('home');
 
@@ -101,10 +102,38 @@ export const HomeView: React.FC<HomeViewProps> = ({
                 {/* Left Column: Bold Human Copy */}
                 <div className="lg:col-span-7 self-start pb-12 sm:pb-16 lg:pb-[88px] flex flex-col gap-[26px]">
                   <h1 className="text-[64px] sm:text-[80px] lg:text-[92px] font-bold leading-[0.94] tracking-[-0.04em] select-none text-white!">
-                    Send.<br />
-                    Pay.<br />
-                    Save.<br />
-                    Spend.
+                    <span
+                      onClick={() => setActiveHeroScreen('send')}
+                      className={`transition-opacity duration-300 cursor-pointer ${
+                        activeHeroScreen === 'send' ? 'opacity-100' : 'opacity-40 hover:opacity-75'
+                      }`}
+                    >
+                      Send.
+                    </span><br />
+                    <span
+                      onClick={() => setActiveHeroScreen('pay')}
+                      className={`transition-opacity duration-300 cursor-pointer ${
+                        activeHeroScreen === 'pay' ? 'opacity-100' : 'opacity-40 hover:opacity-75'
+                      }`}
+                    >
+                      Pay.
+                    </span><br />
+                    <span
+                      onClick={() => setActiveHeroScreen('save')}
+                      className={`transition-opacity duration-300 cursor-pointer ${
+                        activeHeroScreen === 'save' ? 'opacity-100' : 'opacity-40 hover:opacity-75'
+                      }`}
+                    >
+                      Save.
+                    </span><br />
+                    <span
+                      onClick={() => setActiveHeroScreen('spend')}
+                      className={`transition-opacity duration-300 cursor-pointer ${
+                        activeHeroScreen === 'spend' ? 'opacity-100' : 'opacity-40 hover:opacity-75'
+                      }`}
+                    >
+                      Spend.
+                    </span>
                   </h1>
 
                   <p className="text-[19px] text-[#d6ebff] font-normal leading-[1.6] max-w-lg">
@@ -116,7 +145,12 @@ export const HomeView: React.FC<HomeViewProps> = ({
 
                 {/* Right Column: Phone (Figma A1 · Product with Live Interactive Animations) */}
                 <div className="lg:col-span-5 flex items-end justify-center self-end">
-                  <PersonalPhoneShowcase onOpenWhatsApp={onOpenWhatsApp} onOpenDownloadApp={onOpenDownloadApp} />
+                  <PersonalPhoneShowcase
+                    activeScreen={activeHeroScreen}
+                    onScreenChange={setActiveHeroScreen}
+                    onOpenWhatsApp={onOpenWhatsApp}
+                    onOpenDownloadApp={onOpenDownloadApp}
+                  />
                 </div>
               </div>
             </div>

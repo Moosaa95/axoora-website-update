@@ -240,3 +240,4 @@ export const BatchReceiptPhoneShowcase: React.FC = () => {
     </div>
   );
 };
+
