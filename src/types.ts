@@ -7,6 +7,7 @@ export type ScreenType =
   | 'ajo'
   | 'security'
   | 'fees'
+  | 'pricing'
   | 'business'
   | 'pos-agents'
   | 'security'

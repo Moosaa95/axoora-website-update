@@ -33,7 +33,7 @@ import {
 import { ScreenType } from '../types';
 import { useTheme } from '../context/ThemeContext';
 import { StoreButtons, PhoneFrame, PhoneStatusBar, Money, Card, SectionHeading, SectionWrap } from './home/shared';
-import { BusinessHome } from './home/BusinessHome';
+import { BusinessHome, BusinessHeroVariant } from './home/BusinessHome';
 import { PersonalPhoneShowcase } from './home/PersonalPhoneShowcase';
 import { AnimatedCardsTile } from './home/AnimatedCardsTile';
 import { PersonalNavHero, PersonalNavHeroType } from './home/PersonalNavHero';
@@ -47,6 +47,8 @@ export interface HomeViewProps {
   onHomeModeChange?: (mode: 'business' | 'personal') => void;
   personalHeroNav?: PersonalNavHeroType;
   onPersonalHeroNavChange?: (hero: PersonalNavHeroType) => void;
+  businessHeroNav?: BusinessHeroVariant;
+  onBusinessHeroNavChange?: (hero: BusinessHeroVariant) => void;
 }
 
 export const HomeView: React.FC<HomeViewProps> = ({
@@ -58,6 +60,8 @@ export const HomeView: React.FC<HomeViewProps> = ({
   onHomeModeChange,
   personalHeroNav = 'send',
   onPersonalHeroNavChange,
+  businessHeroNav = 'business',
+  onBusinessHeroNavChange,
 }) => {
   const { theme } = useTheme();
   const isLight = theme === 'light';
@@ -247,7 +251,12 @@ export const HomeView: React.FC<HomeViewProps> = ({
             transition={{ duration: 0.2 }}
             className="w-full"
           >
-            <BusinessHome onOpenDownloadApp={onOpenDownloadApp} onOpenWhatsApp={onOpenWhatsApp} />
+            <BusinessHome
+              onOpenDownloadApp={onOpenDownloadApp}
+              onOpenWhatsApp={onOpenWhatsApp}
+              heroMode={businessHeroNav}
+              onHeroModeChange={onBusinessHeroNavChange}
+            />
           </motion.div>
         )}
       </AnimatePresence>

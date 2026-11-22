@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { ScreenType } from '../types';
 import { AxooraLogo } from './AxooraLogo';
 import { useTheme } from '../context/ThemeContext';
-import { PersonalNavHeroType } from '../context/NavigationContext';
+import { PersonalNavHeroType, BusinessNavHeroType } from '../context/NavigationContext';
 import { User, Briefcase, Menu, X, ArrowUpRight } from 'lucide-react';
 
 interface HeaderProps {
@@ -18,6 +18,8 @@ interface HeaderProps {
   onHomeModeChange?: (mode: 'business' | 'personal') => void;
   personalHeroNav?: PersonalNavHeroType;
   onPersonalHeroNavChange?: (hero: PersonalNavHeroType) => void;
+  businessHeroNav?: BusinessNavHeroType;
+  onBusinessHeroNavChange?: (hero: BusinessNavHeroType) => void;
 }
 
 export const Header: React.FC<HeaderProps> = ({
@@ -30,6 +32,8 @@ export const Header: React.FC<HeaderProps> = ({
   onHomeModeChange,
   personalHeroNav = 'send',
   onPersonalHeroNavChange,
+  businessHeroNav = 'business',
+  onBusinessHeroNavChange,
 }) => {
   const { theme } = useTheme();
   const isLight = theme === 'light';
@@ -186,22 +190,36 @@ export const Header: React.FC<HeaderProps> = ({
               <>
                 <button
                   type="button"
-                  onClick={() => handleNav('business')}
-                  className="hover:text-blue-600 dark:hover:text-white transition cursor-pointer font-medium"
+                  onClick={() => {
+                    onBusinessHeroNavChange?.('payouts');
+                    handleNav('business');
+                  }}
+                  className={`transition cursor-pointer relative py-1 ${
+                    isBusiness && businessHeroNav === 'payouts'
+                      ? 'font-bold text-[#0976da] dark:text-[#53a8f5]'
+                      : 'hover:text-blue-600 dark:hover:text-white'
+                  }`}
                 >
                   Payouts
                 </button>
                 <button
                   type="button"
-                  onClick={() => handleNav('business')}
-                  className="hover:text-blue-600 dark:hover:text-white transition cursor-pointer font-medium"
+                  onClick={() => {
+                    onBusinessHeroNavChange?.('pricing');
+                    handleNav('business');
+                  }}
+                  className={`transition cursor-pointer relative py-1 ${
+                    isBusiness && businessHeroNav === 'pricing'
+                      ? 'font-bold text-[#0976da] dark:text-[#53a8f5]'
+                      : 'hover:text-blue-600 dark:hover:text-white'
+                  }`}
                 >
                   Pricing
                 </button>
                 <button
                   type="button"
                   onClick={() => handleNav('help')}
-                  className="hover:text-blue-600 dark:hover:text-white transition cursor-pointer font-medium"
+                  className="hover:text-blue-600 dark:hover:text-white transition cursor-pointer"
                 >
                   Help
                 </button>

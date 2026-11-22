@@ -29,6 +29,7 @@ import { LiveChatBubble } from './components/LiveChatBubble';
 import { ReadingProgressBar } from './components/ReadingProgressBar';
 import { AdminDashboard } from './components/AdminDashboard';
 import { ApplyOnboardingView } from './components/ApplyOnboardingView';
+import { BusinessHeroVariant } from './components/home/BusinessHome';
 
 export default function App() {
   const [currentScreen, setCurrentScreen] = useState<ScreenType>('business');
@@ -37,6 +38,7 @@ export default function App() {
   const [whatsappModalOpen, setWhatsappModalOpen] = useState(false);
   const [downloadModalOpen, setDownloadModalOpen] = useState(false);
   const [homeMode, setHomeMode] = useState<'business' | 'personal'>('business');
+  const [businessHeroNav, setBusinessHeroNav] = useState<BusinessHeroVariant>('business');
 
   const handleNavigate = (screen: ScreenType) => {
     // There is no home page - site defaults straight to business
@@ -92,6 +94,8 @@ export default function App() {
           onOpenDownloadApp={() => setDownloadModalOpen(true)}
           homeMode={homeMode}
           onHomeModeChange={setHomeMode}
+          businessHeroNav={businessHeroNav}
+          onBusinessHeroNavChange={setBusinessHeroNav}
         />
       )}
 
@@ -105,6 +109,8 @@ export default function App() {
             onOpenDownloadApp={() => setDownloadModalOpen(true)}
             homeMode={homeMode}
             onHomeModeChange={setHomeMode}
+            businessHeroNav={businessHeroNav}
+            onBusinessHeroNavChange={setBusinessHeroNav}
           />
         )}
 
@@ -135,11 +141,13 @@ export default function App() {
           />
         )}
 
-        {currentScreen === 'business' && (
+        {(currentScreen === 'business' || currentScreen === 'pricing') && (
           <BusinessProductView
             onNavigate={handleNavigate}
             onOpenWaitlist={handleOpenWaitlist}
             onOpenWhatsApp={() => setWhatsappModalOpen(true)}
+            businessHeroNav={currentScreen === 'pricing' ? 'pricing' : businessHeroNav}
+            onBusinessHeroNavChange={setBusinessHeroNav}
           />
         )}
 

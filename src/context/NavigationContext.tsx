@@ -5,6 +5,7 @@ import { usePathname, useRouter } from 'next/navigation';
 import { ScreenType } from '../types';
 
 export type PersonalNavHeroType = 'send' | 'cards' | 'savings' | 'ajo' | 'mall';
+export type BusinessNavHeroType = 'business' | 'payouts' | 'pricing';
 
 export const SCREEN_ROUTES: Record<ScreenType, string> = {
   home: '/',
@@ -15,6 +16,7 @@ export const SCREEN_ROUTES: Record<ScreenType, string> = {
   savings: '/savings',
   ajo: '/savings',
   fees: '/fees',
+  pricing: '/pricing',
   'pos-agents': '/pos-agents',
   security: '/security',
   governance: '/governance',
@@ -51,6 +53,8 @@ interface NavigationContextType {
   setHomeMode: (mode: 'business' | 'personal') => void;
   personalHeroNav: PersonalNavHeroType;
   setPersonalHeroNav: (hero: PersonalNavHeroType) => void;
+  businessHeroNav: BusinessNavHeroType;
+  setBusinessHeroNav: (hero: BusinessNavHeroType) => void;
 }
 
 const NavigationContext = createContext<NavigationContextType | undefined>(undefined);
@@ -65,13 +69,14 @@ export const NavigationProvider: React.FC<{ children: React.ReactNode }> = ({ ch
   const [downloadModalOpen, setDownloadModalOpen] = useState(false);
   const [homeMode, setHomeMode] = useState<'business' | 'personal'>('personal');
   const [personalHeroNav, setPersonalHeroNav] = useState<PersonalNavHeroType>('send');
+  const [businessHeroNav, setBusinessHeroNav] = useState<BusinessNavHeroType>('business');
 
   const currentScreen: ScreenType = useMemo(() => {
     if (!pathname || pathname === '/') return 'home';
     const clean = pathname.replace(/^\//, '').split('/')[0];
     if (clean === 'pos-agents') return 'pos-agents';
     const validScreens: ScreenType[] = [
-      'home', 'personal', 'send', 'cards', 'savings', 'ajo', 'security', 'fees', 'business', 'pos-agents',
+      'home', 'personal', 'send', 'cards', 'savings', 'ajo', 'security', 'fees', 'pricing', 'business', 'pos-agents',
       'governance', 'about', 'impact', 'stories', 'journal',
       'press', 'events', 'careers', 'help', 'legal', 'contact', 'admin', 'apply'
     ];
@@ -127,6 +132,8 @@ export const NavigationProvider: React.FC<{ children: React.ReactNode }> = ({ ch
         setHomeMode,
         personalHeroNav,
         setPersonalHeroNav,
+        businessHeroNav,
+        setBusinessHeroNav,
       }}
     >
       {children}
