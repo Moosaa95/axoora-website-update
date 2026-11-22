@@ -1,7 +1,7 @@
 'use client';
 
-import React from 'react';
-import { motion } from 'framer-motion';
+import React, { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import {
   ArrowLeft,
   X,
@@ -24,6 +24,7 @@ import { ScreenType } from '../types';
 import { useTheme } from '../context/ThemeContext';
 import { StoreButtons, PhoneFrame, PhoneStatusBar, CheckBullet } from './home/shared';
 import { WhatsAppHeroPhone } from './home/WhatsAppHeroPhone';
+import { AppHeroPhone } from './home/AppHeroPhone';
 
 interface PersonalProductViewProps {
   onNavigate?: (screen: ScreenType) => void;
@@ -31,6 +32,7 @@ interface PersonalProductViewProps {
   onOpenWhatsApp: () => void;
   onOpenDownloadApp?: () => void;
   onOpenCommandDrawer?: () => void;
+  personalHeroNav?: string;
 }
 
 export const PersonalProductView: React.FC<PersonalProductViewProps> = ({
@@ -42,6 +44,16 @@ export const PersonalProductView: React.FC<PersonalProductViewProps> = ({
   const { theme } = useTheme();
   const isLight = theme === 'light';
 
+  // Two States, Cross-Fading (A2 Hero: "on WhatsApp." <-> "in the App.")
+  const [heroState, setHeroState] = useState<'whatsapp' | 'app'>('whatsapp');
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setHeroState((prev) => (prev === 'whatsapp' ? 'app' : 'whatsapp'));
+    }, 4500);
+    return () => clearInterval(timer);
+  }, []);
+
   return (
     <div
       className={`w-full min-h-screen font-['DM_Sans',sans-serif] transition-colors duration-200 ${
@@ -49,11 +61,11 @@ export const PersonalProductView: React.FC<PersonalProductViewProps> = ({
       }`}
     >
       {/* ═══════════════════════════════════════════════════════════
-          SECTION 1: HERO HEADER · Bank on WhatsApp (Image 1)
+          SECTION 1: HERO HEADER · A2 Hero Rotating Headline (Two States, Cross-Fading)
           ═══════════════════════════════════════════════════════════ */}
       <section className="max-w-[1280px] mx-auto px-4 sm:px-6 pt-2 pb-12">
         <div className="bg-[#043e97] rounded-[28px] overflow-hidden pt-12 sm:pt-16 lg:pt-[88px] px-6 sm:px-12 lg:px-16 text-white shadow-[0_20px_50px_rgba(2,15,46,0.1)] grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-end">
-          {/* Left Column: Bold Copy */}
+          {/* Left Column: Headline holds still, phrase swaps on a timer */}
           <div className="lg:col-span-7 self-start pb-12 sm:pb-16 lg:pb-[88px] flex flex-col gap-[26px]">
             <div className="flex items-center gap-2">
               <span className="text-[13px] font-bold text-[#d6ebff] tracking-wide">
@@ -64,8 +76,37 @@ export const PersonalProductView: React.FC<PersonalProductViewProps> = ({
               </div>
             </div>
 
-            <h1 className="text-[52px] sm:text-[72px] lg:text-[84px] font-bold leading-[0.96] tracking-[-0.04em] select-none text-white!">
-              Bank on WhatsApp.
+            <h1 className="text-[52px] sm:text-[72px] lg:text-[84px] font-bold leading-[0.96] tracking-[-0.04em] select-none text-white! flex flex-wrap items-baseline gap-x-3.5 sm:gap-x-4">
+              <span>Bank</span>
+              <span className="relative inline-block overflow-hidden py-1">
+                <AnimatePresence mode="wait">
+                  {heroState === 'whatsapp' ? (
+                    <motion.span
+                      key="whatsapp-text"
+                      initial={{ opacity: 0, y: 16 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -16 }}
+                      transition={{ duration: 0.35, ease: 'easeOut' }}
+                      className="text-[#92c5ff] inline-block cursor-pointer"
+                      onClick={() => setHeroState('app')}
+                    >
+                      on WhatsApp.
+                    </motion.span>
+                  ) : (
+                    <motion.span
+                      key="app-text"
+                      initial={{ opacity: 0, y: 16 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -16 }}
+                      transition={{ duration: 0.35, ease: 'easeOut' }}
+                      className="text-white inline-block cursor-pointer"
+                      onClick={() => setHeroState('whatsapp')}
+                    >
+                      in the App.
+                    </motion.span>
+                  )}
+                </AnimatePresence>
+              </span>
             </h1>
 
             <p className="text-[19px] text-[#d6ebff] font-normal leading-[1.6] max-w-lg">
@@ -79,9 +120,33 @@ export const PersonalProductView: React.FC<PersonalProductViewProps> = ({
             />
           </div>
 
-          {/* Right Column: Phone with Live WhatsApp Animation */}
+          {/* Right Column: Phone Screen Swaps with the phrase */}
           <div className="lg:col-span-5 flex items-end justify-center self-end">
-            <WhatsAppHeroPhone />
+            <div className="w-full flex justify-center">
+              <AnimatePresence mode="wait">
+                {heroState === 'whatsapp' ? (
+                  <motion.div
+                    key="phone-whatsapp"
+                    initial={{ opacity: 0, scale: 0.98 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0.98 }}
+                    transition={{ duration: 0.35, ease: 'easeInOut' }}
+                  >
+                    <WhatsAppHeroPhone />
+                  </motion.div>
+                ) : (
+                  <motion.div
+                    key="phone-app"
+                    initial={{ opacity: 0, scale: 0.98 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0.98 }}
+                    transition={{ duration: 0.35, ease: 'easeInOut' }}
+                  >
+                    <AppHeroPhone />
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
           </div>
         </div>
       </section>
