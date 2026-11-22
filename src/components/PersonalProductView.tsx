@@ -21,8 +21,7 @@ import {
 } from 'lucide-react';
 import { ScreenType } from '../types';
 import { useTheme } from '../context/ThemeContext';
-import { WhatsAppHeroPhone } from './home/WhatsAppHeroPhone';
-import { StoreButtons } from './home/shared';
+import { PersonalNavHero, PersonalNavHeroType } from './home/PersonalNavHero';
 
 interface PersonalProductViewProps {
   onNavigate?: (screen: ScreenType) => void;
@@ -30,6 +29,7 @@ interface PersonalProductViewProps {
   onOpenWhatsApp: () => void;
   onOpenDownloadApp?: () => void;
   onOpenCommandDrawer?: () => void;
+  personalHeroNav?: PersonalNavHeroType;
 }
 
 export const PersonalProductView: React.FC<PersonalProductViewProps> = ({
@@ -37,6 +37,7 @@ export const PersonalProductView: React.FC<PersonalProductViewProps> = ({
   onOpenWaitlist,
   onOpenWhatsApp,
   onOpenDownloadApp,
+  personalHeroNav = 'send',
 }) => {
   const { theme } = useTheme();
   const isLight = theme === 'light';
@@ -54,40 +55,12 @@ export const PersonalProductView: React.FC<PersonalProductViewProps> = ({
         isLight ? 'bg-[#f7f9fb] text-[#161c22]' : 'bg-[#020F2E] text-[#F2F5F9]'
       }`}
     >
-      {/* ─── Hero Header: Send and Pay (Figma A2 · Send and Pay 3218:675) ─── */}
-      <section id="send" className="max-w-[1280px] mx-auto px-4 sm:px-8 lg:px-16 pt-8 pb-12">
-        <div className="bg-[#043e97] rounded-[28px] overflow-hidden p-8 sm:p-12 lg:p-16 text-white shadow-2xl grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
-          <div className="lg:col-span-7 flex flex-col justify-center">
-            <div className="flex items-center gap-2 mb-4">
-              <span className="text-[13px] font-bold text-[#d6ebff] tracking-wide">
-                Send and Pay
-              </span>
-              <div className="w-6 h-6 rounded-full bg-[#f25a38] text-white flex items-center justify-center font-bold text-[11px] shadow-xs">
-                A
-              </div>
-            </div>
-
-            <h1 className="text-4xl sm:text-5xl lg:text-[62px] font-bold tracking-tight leading-[1.04] mb-5 text-white!">
-              Bank on WhatsApp.
-            </h1>
-
-            <p className="text-lg sm:text-[20px] text-[#d6ebff] font-normal leading-[1.6] max-w-lg mb-8">
-              The same account either way. Same limits, same PIN.
-            </p>
-
-            <StoreButtons
-              tone="onBlue"
-              onApp={onOpenDownloadApp ?? (() => {})}
-              onWhatsApp={onOpenWhatsApp}
-            />
-          </div>
-
-          {/* Right: Authentic Animated WhatsApp Phone (matching Image 5) */}
-          <div className="lg:col-span-5 flex items-center justify-center">
-            <WhatsAppHeroPhone />
-          </div>
-        </div>
-      </section>
+      {/* ─── Hero Header: Dynamic Hero (Send / Cards / Savings / Ajo / Mall) ─── */}
+      <PersonalNavHero
+        activeNav={personalHeroNav}
+        onOpenWhatsApp={onOpenWhatsApp}
+        onOpenDownloadApp={onOpenDownloadApp}
+      />
 
       {/* ─── Bank Health Section (Figma 3218:675) ─── */}
       <section className="max-w-[1280px] mx-auto px-4 sm:px-8 lg:px-16 py-12">
@@ -153,7 +126,7 @@ export const PersonalProductView: React.FC<PersonalProductViewProps> = ({
       </section>
 
       {/* ─── Cards Showcase (Figma A3 · Cards 3218:935) ─── */}
-      <section id="cards" className="max-w-[1280px] mx-auto px-4 sm:px-8 lg:px-16 py-12">
+      <section className="max-w-[1280px] mx-auto px-4 sm:px-8 lg:px-16 py-12">
         <div className="mb-8">
           <span className="text-xs font-bold uppercase tracking-wider text-blue-600 block mb-2">
             Multi-Currency Cards
@@ -228,7 +201,7 @@ export const PersonalProductView: React.FC<PersonalProductViewProps> = ({
       </section>
 
       {/* ─── Savings & Ajo Showcase (Figma A4 · Savings and Ajo 3222:1402) ─── */}
-      <section id="savings" className="max-w-[1280px] mx-auto px-4 sm:px-8 lg:px-16 py-12">
+      <section className="max-w-[1280px] mx-auto px-4 sm:px-8 lg:px-16 py-12">
         <div className="mb-8">
           <span className="text-xs font-bold uppercase tracking-wider text-emerald-600 block mb-2">
             Ethical Savings & Peer Thrift
@@ -264,7 +237,7 @@ export const PersonalProductView: React.FC<PersonalProductViewProps> = ({
           </div>
 
           {/* Ajo and Pay Circle */}
-          <div id="ajo" className="bg-white dark:bg-slate-900 border border-[#dde3ea] dark:border-slate-800 rounded-2xl p-8 shadow-xs">
+          <div className="bg-white dark:bg-slate-900 border border-[#dde3ea] dark:border-slate-800 rounded-2xl p-8 shadow-xs">
             <div className="w-10 h-10 rounded-xl bg-emerald-50 dark:bg-emerald-950 text-emerald-600 flex items-center justify-center mb-6">
               <Users className="w-5 h-5" />
             </div>
@@ -288,27 +261,6 @@ export const PersonalProductView: React.FC<PersonalProductViewProps> = ({
                 <span className="font-bold text-blue-600">₦5,000/wk</span>
               </div>
             </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ─── Mall Showcase (Figma A5 · Mall) ─── */}
-      <section id="mall" className="max-w-[1280px] mx-auto px-4 sm:px-8 lg:px-16 py-12">
-        <div className="bg-white dark:bg-slate-900 border border-[#dde3ea] dark:border-slate-800 rounded-2xl overflow-hidden grid grid-cols-1 lg:grid-cols-[623px_1fr] min-h-[280px]">
-          <div className="p-10 flex flex-col gap-4">
-            <Store className="w-8 h-8 text-[#0976da]" strokeWidth={1.5} />
-            <h3 className="text-[34px] leading-[1.06] tracking-[-0.85px] font-bold text-[#161c22] dark:text-white">Axoora Mall & Bills</h3>
-            <p className="text-[16px] leading-[1.6] text-[#4c5866] dark:text-slate-300">
-              Flights, electricity, cable TV and event tickets, paid directly from your wallet balance. Instant receipt and automated settlement.
-            </p>
-          </div>
-          <div
-            className="flex items-center justify-center text-center bg-[#f7f9fb] dark:bg-slate-800 min-h-[160px] p-6"
-            style={{ backgroundImage: 'repeating-linear-gradient(135deg, #eef1f5 0 10px, transparent 10px 20px)' }}
-          >
-            <span className="text-[13px] font-bold leading-[1.6] text-[#343e4a] max-w-[200px]">
-              Seamless utility checkout with zero hidden surcharges.
-            </span>
           </div>
         </div>
       </section>

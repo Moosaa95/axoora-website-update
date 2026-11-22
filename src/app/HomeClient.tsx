@@ -11,6 +11,8 @@ export default function HomeClient() {
     openDownloadApp,
     homeMode,
     setHomeMode,
+    personalHeroNav,
+    setPersonalHeroNav,
   } = useNavigation();
 
   return (
@@ -21,6 +23,8 @@ export default function HomeClient() {
       onOpenDownloadApp={openDownloadApp}
       homeMode={homeMode}
       onHomeModeChange={setHomeMode}
+      personalHeroNav={personalHeroNav}
+      onPersonalHeroNavChange={setPersonalHeroNav}
     />
   );
 }
