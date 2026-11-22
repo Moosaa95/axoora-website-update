@@ -1,6 +1,7 @@
 export type ScreenType = 
   | 'home'
   | 'personal'
+  | 'send'
   | 'business'
   | 'pos-agents'
   | 'security'

@@ -53,12 +53,21 @@ export const Header: React.FC<HeaderProps> = ({
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
+  const isSendActive = !isBusiness && (currentScreen === 'send' || currentScreen === 'personal');
+
+  const handleSendClick = () => {
+    if (isBusiness) {
+      onHomeModeChange?.('personal');
+    }
+    handleNav('send');
+  };
+
   const handleHeroNav = (nav: PersonalNavHeroType) => {
     onPersonalHeroNavChange?.(nav);
     if (isBusiness) {
       onHomeModeChange?.('personal');
     }
-    if (currentScreen !== 'home' && currentScreen !== 'personal') {
+    if (currentScreen !== 'home') {
       onNavigate('home');
     }
     setMobileMenuOpen(false);
@@ -70,7 +79,7 @@ export const Header: React.FC<HeaderProps> = ({
     if (mode === 'business') {
       onNavigate('business');
     } else {
-      onNavigate('personal');
+      onNavigate('home');
     }
   };
 
@@ -107,9 +116,9 @@ export const Header: React.FC<HeaderProps> = ({
               <>
                 <button
                   type="button"
-                  onClick={() => handleHeroNav('send')}
+                  onClick={handleSendClick}
                   className={`transition cursor-pointer relative py-1 ${
-                    !isBusiness && personalHeroNav === 'send'
+                    isSendActive
                       ? 'font-bold text-[#0976da] dark:text-[#53a8f5]'
                       : 'hover:text-blue-600 dark:hover:text-white'
                   }`}
@@ -278,11 +287,11 @@ export const Header: React.FC<HeaderProps> = ({
             <div className="flex flex-col space-y-4 text-base font-medium text-[#161c22] dark:text-white mb-6">
               {!isBusiness ? (
                 <>
-                  <button onClick={() => handleNav('personal')} className="text-left py-1 hover:text-blue-600">Send Money</button>
-                  <button onClick={() => handleNav('personal')} className="text-left py-1 hover:text-blue-600">Cards (Naira & USD)</button>
-                  <button onClick={() => handleNav('personal')} className="text-left py-1 hover:text-blue-600">Non-Interest Savings</button>
-                  <button onClick={() => handleNav('personal')} className="text-left py-1 hover:text-blue-600">Ajo & Pay Circles</button>
-                  <button onClick={() => handleNav('personal')} className="text-left py-1 hover:text-blue-600">Axoora Mall</button>
+                  <button onClick={handleSendClick} className={`text-left py-1 ${isSendActive ? 'text-[#0976da] font-bold' : 'hover:text-blue-600'}`}>Send (Bank on WhatsApp)</button>
+                  <button onClick={() => handleHeroNav('cards')} className="text-left py-1 hover:text-blue-600">Cards (Naira & USD)</button>
+                  <button onClick={() => handleHeroNav('savings')} className="text-left py-1 hover:text-blue-600">Non-Interest Savings</button>
+                  <button onClick={() => handleHeroNav('ajo')} className="text-left py-1 hover:text-blue-600">Ajo & Pay Circles</button>
+                  <button onClick={() => handleHeroNav('mall')} className="text-left py-1 hover:text-blue-600">Axoora Mall</button>
                   <button onClick={() => handleNav('help')} className="text-left py-1 hover:text-blue-600">Help & Support</button>
                   <button onClick={() => handleNav('about')} className="text-left py-1 hover:text-blue-600">About Us</button>
                 </>
