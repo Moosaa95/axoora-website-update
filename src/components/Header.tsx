@@ -48,6 +48,24 @@ export const Header: React.FC<HeaderProps> = ({
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
+  const handleProductNav = (anchor: string) => {
+    setMobileMenuOpen(false);
+    if (currentScreen === 'personal') {
+      const el = document.getElementById(anchor);
+      if (el) {
+        el.scrollIntoView({ behavior: 'smooth' });
+        return;
+      }
+    }
+    onNavigate('personal');
+    setTimeout(() => {
+      const el = document.getElementById(anchor);
+      if (el) {
+        el.scrollIntoView({ behavior: 'smooth' });
+      }
+    }, 250);
+  };
+
   const handleToggleMode = (mode: 'personal' | 'business') => {
     onHomeModeChange?.(mode);
     if (mode === 'business') {
@@ -90,35 +108,35 @@ export const Header: React.FC<HeaderProps> = ({
               <>
                 <button
                   type="button"
-                  onClick={() => handleNav('personal')}
+                  onClick={() => handleProductNav('send')}
                   className="hover:text-blue-600 dark:hover:text-white transition cursor-pointer"
                 >
                   Send
                 </button>
                 <button
                   type="button"
-                  onClick={() => handleNav('personal')}
+                  onClick={() => handleProductNav('cards')}
                   className="hover:text-blue-600 dark:hover:text-white transition cursor-pointer"
                 >
                   Cards
                 </button>
                 <button
                   type="button"
-                  onClick={() => handleNav('personal')}
+                  onClick={() => handleProductNav('savings')}
                   className="hover:text-blue-600 dark:hover:text-white transition cursor-pointer"
                 >
                   Savings
                 </button>
                 <button
                   type="button"
-                  onClick={() => handleNav('personal')}
+                  onClick={() => handleProductNav('ajo')}
                   className="hover:text-blue-600 dark:hover:text-white transition cursor-pointer"
                 >
                   Ajo
                 </button>
                 <button
                   type="button"
-                  onClick={() => handleNav('personal')}
+                  onClick={() => handleProductNav('mall')}
                   className="hover:text-blue-600 dark:hover:text-white transition cursor-pointer"
                 >
                   Mall
@@ -241,11 +259,11 @@ export const Header: React.FC<HeaderProps> = ({
             <div className="flex flex-col space-y-4 text-base font-medium text-[#161c22] dark:text-white mb-6">
               {!isBusiness ? (
                 <>
-                  <button onClick={() => handleNav('personal')} className="text-left py-1 hover:text-blue-600">Send Money</button>
-                  <button onClick={() => handleNav('personal')} className="text-left py-1 hover:text-blue-600">Cards (Naira & USD)</button>
-                  <button onClick={() => handleNav('personal')} className="text-left py-1 hover:text-blue-600">Non-Interest Savings</button>
-                  <button onClick={() => handleNav('personal')} className="text-left py-1 hover:text-blue-600">Ajo & Pay Circles</button>
-                  <button onClick={() => handleNav('personal')} className="text-left py-1 hover:text-blue-600">Axoora Mall</button>
+                  <button onClick={() => handleProductNav('send')} className="text-left py-1 hover:text-blue-600">Send Money</button>
+                  <button onClick={() => handleProductNav('cards')} className="text-left py-1 hover:text-blue-600">Cards (Naira & USD)</button>
+                  <button onClick={() => handleProductNav('savings')} className="text-left py-1 hover:text-blue-600">Non-Interest Savings</button>
+                  <button onClick={() => handleProductNav('ajo')} className="text-left py-1 hover:text-blue-600">Ajo & Pay Circles</button>
+                  <button onClick={() => handleProductNav('mall')} className="text-left py-1 hover:text-blue-600">Axoora Mall</button>
                   <button onClick={() => handleNav('help')} className="text-left py-1 hover:text-blue-600">Help & Support</button>
                   <button onClick={() => handleNav('about')} className="text-left py-1 hover:text-blue-600">About Us</button>
                 </>

@@ -21,6 +21,8 @@ import {
 } from 'lucide-react';
 import { ScreenType } from '../types';
 import { useTheme } from '../context/ThemeContext';
+import { WhatsAppHeroPhone } from './home/WhatsAppHeroPhone';
+import { StoreButtons } from './home/shared';
 
 interface PersonalProductViewProps {
   onNavigate?: (screen: ScreenType) => void;
@@ -53,79 +55,36 @@ export const PersonalProductView: React.FC<PersonalProductViewProps> = ({
       }`}
     >
       {/* ─── Hero Header: Send and Pay (Figma A2 · Send and Pay 3218:675) ─── */}
-      <section className="max-w-[1280px] mx-auto px-4 sm:px-8 lg:px-16 pt-12 pb-16">
-        <div className="bg-[#043e97] rounded-[28px] overflow-hidden p-8 sm:p-14 lg:p-16 text-white shadow-2xl grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-          <div className="lg:col-span-7">
-            <span className="text-xs font-bold uppercase tracking-wider text-blue-200 block mb-4">
-              Send and Pay
-            </span>
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight leading-[1.05] mb-6">
-              Bank on WhatsApp.
-            </h1>
-            <p className="text-lg sm:text-xl text-[#d6ebff] font-normal leading-relaxed max-w-lg mb-8">
-              The same account either way. Same limits, same PIN. Describe your transfer in natural words.
-            </p>
-
-            <div className="flex flex-wrap items-center gap-4">
-              <button
-                type="button"
-                onClick={onOpenDownloadApp}
-                className="bg-white text-[#161c22] hover:bg-slate-100 px-6 py-3.5 rounded-[10px] font-bold text-sm transition shadow-sm cursor-pointer"
-              >
-                Get the app
-              </button>
-              <button
-                type="button"
-                onClick={onOpenWhatsApp}
-                className="border-[1.5px] border-white text-white hover:bg-white/10 px-6 py-3.5 rounded-[10px] font-bold text-sm transition cursor-pointer"
-              >
-                Start on WhatsApp
-              </button>
-            </div>
-          </div>
-
-          {/* Right: Live WhatsApp Chat Simulation */}
-          <div className="lg:col-span-5 bg-[#0b141a] rounded-2xl p-5 shadow-2xl font-sans text-xs border border-slate-700 max-w-sm mx-auto w-full">
-            <div className="flex items-center gap-2.5 pb-3 border-b border-slate-800 text-white">
-              <div className="w-8 h-8 rounded-full bg-[#00a884] text-white flex items-center justify-center font-bold text-xs">
+      <section id="send" className="max-w-[1280px] mx-auto px-4 sm:px-8 lg:px-16 pt-8 pb-12">
+        <div className="bg-[#043e97] rounded-[28px] overflow-hidden p-8 sm:p-12 lg:p-16 text-white shadow-2xl grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
+          <div className="lg:col-span-7 flex flex-col justify-center">
+            <div className="flex items-center gap-2 mb-4">
+              <span className="text-[13px] font-bold text-[#d6ebff] tracking-wide">
+                Send and Pay
+              </span>
+              <div className="w-6 h-6 rounded-full bg-[#f25a38] text-white flex items-center justify-center font-bold text-[11px] shadow-xs">
                 A
               </div>
-              <div>
-                <span className="font-bold block text-sm">Axoora Verified Desk</span>
-                <span className="text-[10px] text-slate-400">Official Banking Assistant</span>
-              </div>
             </div>
 
-            <div className="py-4 space-y-3">
-              <div className="bg-[#202c33] text-slate-100 p-2.5 rounded-lg rounded-tl-none max-w-[85%]">
-                <span>Hi Adaeze. What do you want to do today?</span>
-                <span className="block text-[9px] text-slate-400 text-right mt-1">14:06</span>
-              </div>
+            <h1 className="text-4xl sm:text-5xl lg:text-[62px] font-bold tracking-tight leading-[1.04] mb-5 text-white!">
+              Bank on WhatsApp.
+            </h1>
 
-              <div className="bg-[#005c4b] text-white p-2.5 rounded-lg rounded-tr-none max-w-[85%] ml-auto">
-                <span>Send 25k to Chidinma</span>
-                <span className="block text-[9px] text-emerald-200 text-right mt-1">14:07</span>
-              </div>
+            <p className="text-lg sm:text-[20px] text-[#d6ebff] font-normal leading-[1.6] max-w-lg mb-8">
+              The same account either way. Same limits, same PIN.
+            </p>
 
-              <div className="bg-[#202c33] text-slate-100 p-2.5 rounded-lg rounded-tl-none max-w-[90%]">
-                <span className="font-bold text-emerald-400 block mb-1">CHIDINMA OKAFOR</span>
-                <span className="block text-slate-300">GTBank · 0123456789</span>
-                <span className="block text-slate-300">₦25,000.00 · fee ₦0.00</span>
-                <span className="block mt-1 font-semibold text-white">Reply YES to confirm transfer.</span>
-                <span className="block text-[9px] text-slate-400 text-right mt-1">14:07</span>
-              </div>
+            <StoreButtons
+              tone="onBlue"
+              onApp={onOpenDownloadApp ?? (() => {})}
+              onWhatsApp={onOpenWhatsApp}
+            />
+          </div>
 
-              <div className="bg-[#005c4b] text-white p-2.5 rounded-lg rounded-tr-none max-w-[40%] ml-auto text-center font-bold">
-                <span>YES</span>
-                <span className="block text-[9px] text-emerald-200 text-right mt-1">14:08</span>
-              </div>
-
-              <div className="bg-[#202c33] text-slate-100 p-2.5 rounded-lg rounded-tl-none max-w-[90%]">
-                <span className="text-emerald-400 font-bold block mb-1">✓ Done!</span>
-                <span>₦25,000.00 sent to CHIDINMA OKAFOR. Balance now ₦87,420.00.</span>
-                <span className="block text-[9px] text-slate-400 text-right mt-1">14:08</span>
-              </div>
-            </div>
+          {/* Right: Authentic Animated WhatsApp Phone (matching Image 5) */}
+          <div className="lg:col-span-5 flex items-center justify-center">
+            <WhatsAppHeroPhone />
           </div>
         </div>
       </section>
@@ -194,7 +153,7 @@ export const PersonalProductView: React.FC<PersonalProductViewProps> = ({
       </section>
 
       {/* ─── Cards Showcase (Figma A3 · Cards 3218:935) ─── */}
-      <section className="max-w-[1280px] mx-auto px-4 sm:px-8 lg:px-16 py-12">
+      <section id="cards" className="max-w-[1280px] mx-auto px-4 sm:px-8 lg:px-16 py-12">
         <div className="mb-8">
           <span className="text-xs font-bold uppercase tracking-wider text-blue-600 block mb-2">
             Multi-Currency Cards
@@ -269,7 +228,7 @@ export const PersonalProductView: React.FC<PersonalProductViewProps> = ({
       </section>
 
       {/* ─── Savings & Ajo Showcase (Figma A4 · Savings and Ajo 3222:1402) ─── */}
-      <section className="max-w-[1280px] mx-auto px-4 sm:px-8 lg:px-16 py-12">
+      <section id="savings" className="max-w-[1280px] mx-auto px-4 sm:px-8 lg:px-16 py-12">
         <div className="mb-8">
           <span className="text-xs font-bold uppercase tracking-wider text-emerald-600 block mb-2">
             Ethical Savings & Peer Thrift
@@ -305,7 +264,7 @@ export const PersonalProductView: React.FC<PersonalProductViewProps> = ({
           </div>
 
           {/* Ajo and Pay Circle */}
-          <div className="bg-white dark:bg-slate-900 border border-[#dde3ea] dark:border-slate-800 rounded-2xl p-8 shadow-xs">
+          <div id="ajo" className="bg-white dark:bg-slate-900 border border-[#dde3ea] dark:border-slate-800 rounded-2xl p-8 shadow-xs">
             <div className="w-10 h-10 rounded-xl bg-emerald-50 dark:bg-emerald-950 text-emerald-600 flex items-center justify-center mb-6">
               <Users className="w-5 h-5" />
             </div>
@@ -329,6 +288,27 @@ export const PersonalProductView: React.FC<PersonalProductViewProps> = ({
                 <span className="font-bold text-blue-600">₦5,000/wk</span>
               </div>
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ─── Mall Showcase (Figma A5 · Mall) ─── */}
+      <section id="mall" className="max-w-[1280px] mx-auto px-4 sm:px-8 lg:px-16 py-12">
+        <div className="bg-white dark:bg-slate-900 border border-[#dde3ea] dark:border-slate-800 rounded-2xl overflow-hidden grid grid-cols-1 lg:grid-cols-[623px_1fr] min-h-[280px]">
+          <div className="p-10 flex flex-col gap-4">
+            <Store className="w-8 h-8 text-[#0976da]" strokeWidth={1.5} />
+            <h3 className="text-[34px] leading-[1.06] tracking-[-0.85px] font-bold text-[#161c22] dark:text-white">Axoora Mall & Bills</h3>
+            <p className="text-[16px] leading-[1.6] text-[#4c5866] dark:text-slate-300">
+              Flights, electricity, cable TV and event tickets, paid directly from your wallet balance. Instant receipt and automated settlement.
+            </p>
+          </div>
+          <div
+            className="flex items-center justify-center text-center bg-[#f7f9fb] dark:bg-slate-800 min-h-[160px] p-6"
+            style={{ backgroundImage: 'repeating-linear-gradient(135deg, #eef1f5 0 10px, transparent 10px 20px)' }}
+          >
+            <span className="text-[13px] font-bold leading-[1.6] text-[#343e4a] max-w-[200px]">
+              Seamless utility checkout with zero hidden surcharges.
+            </span>
           </div>
         </div>
       </section>

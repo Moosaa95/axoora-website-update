@@ -3,81 +3,78 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
-  ArrowLeft,
   ArrowUpRight,
-  ShieldCheck,
-  Search,
-  ChevronRight,
-  Store,
-  Phone,
-  Wifi,
+  Plus,
+  RefreshCw,
   Zap,
-  Tv,
-  Droplet,
-  GraduationCap,
-  Landmark,
-  FileText,
+  Eye,
+  EyeOff,
+  Bell,
+  MessageCircle,
+  Check,
+  CheckCircle2,
+  Smartphone,
 } from 'lucide-react';
 import { PhoneFrame, PhoneStatusBar } from './shared';
 
-export type PersonalScreen = 'send' | 'pay' | 'save' | 'spend';
+export type DemoMode = 'app' | 'whatsapp';
 
 interface PersonalPhoneShowcaseProps {
-  activeScreen?: PersonalScreen;
-  onScreenChange?: (screen: PersonalScreen) => void;
   onOpenWhatsApp?: () => void;
   onOpenDownloadApp?: () => void;
 }
 
-const SCREENS: PersonalScreen[] = ['send', 'pay', 'save', 'spend'];
-
 export const PersonalPhoneShowcase: React.FC<PersonalPhoneShowcaseProps> = ({
-  activeScreen: controlledScreen,
-  onScreenChange,
+  onOpenWhatsApp,
+  onOpenDownloadApp,
 }) => {
-  const [internalScreen, setInternalScreen] = useState<PersonalScreen>('send');
-  const active = controlledScreen ?? internalScreen;
+  const [mode, setMode] = useState<DemoMode>('app');
+  const [hideBalance, setHideBalance] = useState(false);
+  const [transferComplete, setTransferComplete] = useState(false);
 
-  const setScreen = (s: PersonalScreen) => {
-    setInternalScreen(s);
-    onScreenChange?.(s);
-  };
-
-  // Auto-switch across the 4 screens every 4.8 seconds
+  // Auto-switch between "In the App" and "On WhatsApp" continuously every 5 seconds
   useEffect(() => {
     const timer = setInterval(() => {
-      setScreen(SCREENS[(SCREENS.indexOf(active) + 1) % SCREENS.length]);
-    }, 4800);
+      setMode((current) => (current === 'app' ? 'whatsapp' : 'app'));
+    }, 5200);
 
     return () => clearInterval(timer);
-  }, [active]);
+  }, []);
+
+  // Reset transfer toast simulation on app mode switch
+  useEffect(() => {
+    if (mode === 'app') {
+      setTransferComplete(false);
+      const t = setTimeout(() => setTransferComplete(true), 1500);
+      return () => clearTimeout(t);
+    }
+  }, [mode]);
 
   return (
     <div className="relative flex flex-col items-center select-none">
-      {/* ─── Mode Indicator Pills (Send · Pay · Save · Spend) ─── */}
+      {/* ─── Mode Indicator Pill (In the App vs On WhatsApp) ─── */}
       <div className="flex items-center gap-1.5 p-1 rounded-full bg-black/35 backdrop-blur-md border border-white/20 mb-3 shadow-lg z-20">
         {[
-          { key: 'send', label: 'Send.' },
-          { key: 'pay', label: 'Pay.' },
-          { key: 'save', label: 'Save.' },
-          { key: 'spend', label: 'Spend.' },
-        ].map(({ key, label }) => {
-          const isSelected = active === key;
+          { key: 'app', label: 'In the App', icon: Smartphone },
+          { key: 'whatsapp', label: 'On WhatsApp', icon: MessageCircle },
+        ].map(({ key, label, icon: Icon }) => {
+          const isActive = mode === key;
           return (
             <button
               key={key}
               type="button"
-              onClick={() => setScreen(key as PersonalScreen)}
-              className={`relative px-3.5 py-1.5 rounded-full text-[12px] font-bold tracking-tight transition-all cursor-pointer ${
-                isSelected
+              onClick={() => setMode(key as DemoMode)}
+              className={`relative px-3.5 py-1.5 rounded-full text-[12px] font-semibold flex items-center gap-1.5 transition-all cursor-pointer ${
+                isActive
                   ? 'text-white bg-[#0976da] shadow-sm'
-                  : 'text-white/70 hover:text-white hover:bg-white/10'
+                  : 'text-white/75 hover:text-white hover:bg-white/10'
               }`}
             >
+              <Icon className="w-3.5 h-3.5" />
               <span>{label}</span>
-              {isSelected && (
+              {isActive && (
                 <motion.div
-                  layoutId="activePillPersonalFour"
+                  layoutId="activePillPersonal"
                   className="absolute inset-0 rounded-full border border-white/35 pointer-events-none"
                   transition={{ type: 'spring', bounce: 0.2, duration: 0.5 }}
                 />
@@ -96,370 +93,221 @@ export const PersonalPhoneShowcase: React.FC<PersonalPhoneShowcaseProps> = ({
           </div>
 
           {/* Screen Content Carousel */}
-          <div className="flex-1 relative overflow-hidden px-[14px] pt-0.5 pb-2">
+          <div className="flex-1 relative overflow-hidden px-[13px] pt-1 pb-3">
             <AnimatePresence mode="wait">
-              {/* ═══════════════════════════════════════════════════════
-                  SCREEN 1: SEND ("Send to Chidinma")
-                  ═══════════════════════════════════════════════════════ */}
-              {active === 'send' && (
+              {/* ══════════════════════════════════════
+                  VIEW 1: IN THE APP (Send & Pay)
+                  ══════════════════════════════════════ */}
+              {mode === 'app' && (
                 <motion.div
-                  key="screen-send"
-                  initial={{ opacity: 0, x: 22 }}
+                  key="app-view"
+                  initial={{ opacity: 0, x: 24 }}
                   animate={{ opacity: 1, x: 0 }}
-                  exit={{ opacity: 0, x: -22 }}
-                  transition={{ duration: 0.28, ease: 'easeInOut' }}
+                  exit={{ opacity: 0, x: -24 }}
+                  transition={{ duration: 0.3, ease: 'easeInOut' }}
                   className="h-full flex flex-col justify-between"
                 >
                   <div>
-                    {/* Top navigation */}
-                    <div className="flex items-center gap-2 pt-0.5 pb-2">
-                      <div className="w-5 h-5 rounded-full flex items-center justify-center text-[#161c22]">
-                        <ArrowLeft className="w-3.5 h-3.5" />
+                    {/* Top user bar */}
+                    <div className="flex items-center gap-[8px] py-[3px]">
+                      <div className="w-[28px] h-[28px] rounded-full bg-[#043e97] text-white text-[11px] font-semibold flex items-center justify-center shadow-sm">
+                        AB
                       </div>
-                      <span className="text-[13.5px] font-bold text-[#161c22]">Send to Chidinma</span>
-                    </div>
-
-                    {/* Recipient Card */}
-                    <div className="flex items-center justify-between p-2.5 rounded-[12px] bg-[#f7f9fb] border border-[#edf1f7] mt-1">
-                      <div className="flex items-center gap-2.5">
-                        <div className="w-8 h-8 rounded-full bg-[#043e97] text-white font-bold text-[11px] flex items-center justify-center shadow-xs">
-                          CO
-                        </div>
-                        <div>
-                          <div className="text-[11px] font-bold text-[#161c22] uppercase tracking-wide">
-                            CHIDINMA OKAFOR
-                          </div>
-                          <div className="text-[9px] text-[#6c7a89]">GTBank · 0123456789</div>
-                        </div>
+                      <div className="flex-1 flex items-center gap-[6px]">
+                        <span className="text-[12.5px] font-semibold text-[#161c22]">Hi, Adaeze</span>
+                        <span className="px-[6px] py-[1.5px] rounded-full bg-[#eef4fb] text-[9px] font-bold text-[#0976da]">
+                          Tier 3
+                        </span>
                       </div>
-                      <div className="w-5 h-5 rounded-full bg-emerald-100 flex items-center justify-center text-emerald-700">
-                        <ShieldCheck className="w-3.5 h-3.5 stroke-[2.5]" />
+                      <div className="w-[28px] h-[28px] rounded-full bg-[#f2f5f9] flex items-center justify-center text-[#4c5866]">
+                        <Bell className="w-[13px] h-[13px]" />
                       </div>
                     </div>
 
-                    {/* Amount Block */}
-                    <div className="mt-4 flex flex-col items-center">
-                      <span className="text-[10px] text-[#6c7a89] font-medium">Amount</span>
-                      <div className="text-[32px] font-bold text-[#161c22] tracking-tight mt-0.5">
-                        ₦25,000<span className="text-[20px] font-normal text-[#8492a6]">.00</span>
+                    {/* Balance Display */}
+                    <div className="mt-3 flex flex-col items-center gap-[3px]">
+                      <div className="flex items-center gap-[8px]">
+                        {hideBalance ? (
+                          <span className="text-[30px] font-bold text-[#161c22]">₦••••••</span>
+                        ) : (
+                          <span className="text-[30px] font-bold text-[#161c22] tracking-tight">
+                            ₦{transferComplete ? '112,430' : '137,430'}
+                            <span className="text-[#8492a6] font-normal text-[22px]">.00</span>
+                          </span>
+                        )}
+                        <button
+                          type="button"
+                          aria-label="Toggle balance"
+                          onClick={() => setHideBalance(!hideBalance)}
+                          className="text-[#8492a6] hover:text-[#161c22] cursor-pointer"
+                        >
+                          {hideBalance ? <Eye className="w-4 h-4" /> : <EyeOff className="w-4 h-4" />}
+                        </button>
                       </div>
-                      {/* Available bar */}
-                      <div className="w-full max-w-[190px] h-1 bg-slate-200 rounded-full mt-2 overflow-hidden">
-                        <div className="w-[65%] h-full bg-[#0976da] rounded-full" />
-                      </div>
-                      <span className="text-[9.5px] text-[#6c7a89] mt-1.5 font-medium">
-                        ₦112,430.00 available
-                      </span>
+                      <span className="text-[10px] text-[#5c6877] font-medium">Available Balance</span>
                     </div>
 
-                    {/* Recent Amounts Pills */}
-                    <div className="mt-4">
-                      <span className="text-[9.5px] font-bold text-[#6c7a89]">Recent Amounts</span>
-                      <div className="flex gap-2 mt-1.5">
-                        {['₦5,000', '₦10,000', '₦25,000'].map((amt, idx) => (
+                    {/* 4 Action Buttons */}
+                    <div className="mt-3 flex justify-between px-3">
+                      {[
+                        { label: 'Send', Icon: ArrowUpRight, active: true },
+                        { label: 'Add Money', Icon: Plus, active: false },
+                        { label: 'Circles', Icon: RefreshCw, active: false },
+                        { label: 'Bills', Icon: Zap, active: false },
+                      ].map(({ label, Icon, active }) => (
+                        <div key={label} className="flex flex-col items-center gap-[5px]">
                           <div
-                            key={amt}
-                            className={`flex-1 py-1.5 rounded-[8px] text-[10.5px] font-bold text-center border ${
-                              idx === 2
-                                ? 'border-[#0976da] bg-[#ebf5fc] text-[#0976da]'
-                                : 'border-[#dde3ea] bg-white text-[#4c5866]'
+                            className={`w-[42px] h-[42px] rounded-full flex items-center justify-center transition-colors ${
+                              active
+                                ? 'bg-[#0976da] text-white shadow-sm ring-2 ring-[#0976da]/20'
+                                : 'bg-[#f2f5f9] text-[#0976da]'
                             }`}
                           >
-                            {amt}
+                            <Icon className="w-4 h-4" strokeWidth={2} />
                           </div>
-                        ))}
-                      </div>
+                          <span className="text-[9.5px] font-medium text-[#4c5866]">{label}</span>
+                        </div>
+                      ))}
                     </div>
 
-                    {/* Remark Field */}
-                    <div className="mt-3.5">
-                      <span className="text-[9.5px] font-bold text-[#6c7a89]">Remark (Optional)</span>
-                      <div className="mt-1 px-3 py-2 rounded-[8px] border border-[#dde3ea] text-[10.5px] text-[#161c22] bg-[#fbfcfe]">
-                        Rent for October
+                    {/* Dynamic Instant Payment Animation Toast */}
+                    <motion.div
+                      initial={{ y: 8, opacity: 0 }}
+                      animate={{ y: 0, opacity: 1 }}
+                      transition={{ delay: 0.2 }}
+                      className="mt-3 p-2.5 rounded-[12px] bg-emerald-50 border border-emerald-200/80 flex items-center gap-2.5 shadow-xs"
+                    >
+                      <div className="w-7 h-7 rounded-full bg-emerald-500 text-white flex items-center justify-center shrink-0">
+                        <Check className="w-4 h-4 stroke-[2.5]" />
                       </div>
-                    </div>
+                      <div className="flex-1 min-w-0">
+                        <div className="text-[10.5px] font-bold text-emerald-950 flex items-center justify-between">
+                          <span>Instant Transfer Sent</span>
+                          <span className="text-emerald-700 font-mono">−₦25,000</span>
+                        </div>
+                        <div className="text-[9px] text-emerald-700 truncate">To Tunde Adebayo · 0.4s settlement</div>
+                      </div>
+                    </motion.div>
                   </div>
 
-                  {/* Send Button */}
-                  <div className="pt-2">
-                    <div className="w-full py-2.5 rounded-[10px] bg-[#0976da] text-white font-bold text-[12px] text-center shadow-xs">
-                      Send ₦25,000.00
+                  {/* Recent Activity */}
+                  <div className="mt-2.5 flex flex-col">
+                    <div className="text-[11px] font-bold text-[#161c22] mb-1.5 flex items-center justify-between">
+                      <span>Recent Activity</span>
+                      <span className="text-[9.5px] text-[#0976da] font-semibold cursor-pointer">View All</span>
                     </div>
-                  </div>
-                </motion.div>
-              )}
 
-              {/* ═══════════════════════════════════════════════════════
-                  SCREEN 2: PAY ("Bills & More")
-                  ═══════════════════════════════════════════════════════ */}
-              {active === 'pay' && (
-                <motion.div
-                  key="screen-pay"
-                  initial={{ opacity: 0, x: 22 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  exit={{ opacity: 0, x: -22 }}
-                  transition={{ duration: 0.28, ease: 'easeInOut' }}
-                  className="h-full flex flex-col justify-between"
-                >
-                  <div>
-                    {/* Top navigation */}
-                    <div className="flex items-center gap-2 pt-0.5 pb-2">
-                      <div className="w-5 h-5 rounded-full flex items-center justify-center text-[#161c22]">
-                        <ArrowLeft className="w-3.5 h-3.5" />
+                    <div className="bg-[#f7f9fb] rounded-[10px] p-2.5 flex flex-col gap-2 border border-[#edf1f7]">
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-2">
+                          <div className="w-[26px] h-[26px] rounded-full bg-[#1e3a6b] text-white text-[8px] font-bold flex items-center justify-center">
+                            CO
+                          </div>
+                          <div>
+                            <div className="text-[10px] font-semibold text-[#161c22]">Chidinma Okafor</div>
+                            <div className="text-[8.5px] text-[#6c7a89]">Received · Today</div>
+                          </div>
+                        </div>
+                        <div className="text-[10px] font-bold text-[#065f41]">+ ₦25,000.00</div>
                       </div>
-                      <span className="text-[13.5px] font-bold text-[#161c22]">Bills & More</span>
-                    </div>
 
-                    {/* Search box */}
-                    <div className="mt-0.5 px-3 py-1.5 rounded-[8px] border border-[#dde3ea] flex items-center gap-2 text-[10px] text-[#8492a6] bg-white">
-                      <Search className="w-3.5 h-3.5 text-[#8492a6]" />
-                      <span>Search a biller</span>
-                    </div>
-
-                    {/* Saved Bills */}
-                    <div className="mt-3">
-                      <span className="text-[9.5px] font-bold text-[#6c7a89]">Saved Bills</span>
-                      <div className="mt-1.5 bg-[#f7f9fb] rounded-[10px] border border-[#edf1f7] divide-y divide-[#edf1f7]">
-                        {/* Ikeja Electric */}
-                        <div className="p-2 flex items-center justify-between">
-                          <div className="flex items-center gap-2">
-                            <div className="w-7 h-7 rounded-full bg-[#ffefe5] text-[#d9822b] font-bold text-[9px] flex items-center justify-center border border-[#fed7aa]">
-                              ie
-                            </div>
-                            <div>
-                              <div className="text-[10.5px] font-bold text-[#161c22]">Ikeja Electric</div>
-                              <div className="text-[8px] text-[#6c7a89]">Meter 45012338 · last ₦8,500.00</div>
-                            </div>
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-2">
+                          <div className="w-[26px] h-[26px] rounded-full bg-amber-500/10 text-amber-600 text-[8px] font-bold flex items-center justify-center">
+                            IE
                           </div>
-                          <ChevronRight className="w-3.5 h-3.5 text-[#8492a6]" />
+                          <div>
+                            <div className="text-[10px] font-semibold text-[#161c22]">Ikeja Electric</div>
+                            <div className="text-[8.5px] text-[#6c7a89]">Bills · 09:20</div>
+                          </div>
                         </div>
-
-                        {/* MTN */}
-                        <div className="p-2 flex items-center justify-between">
-                          <div className="flex items-center gap-2">
-                            <div className="w-7 h-7 rounded-full bg-[#ffcc00] text-black font-extrabold text-[8px] flex items-center justify-center">
-                              MTN
-                            </div>
-                            <div>
-                              <div className="text-[10.5px] font-bold text-[#161c22]">MTN · My Line</div>
-                              <div className="text-[8px] text-[#6c7a89]">0803 441 7201 · last ₦2,000.00</div>
-                            </div>
-                          </div>
-                          <ChevronRight className="w-3.5 h-3.5 text-[#8492a6]" />
-                        </div>
-
-                        {/* DStv */}
-                        <div className="p-2 flex items-center justify-between">
-                          <div className="flex items-center gap-2">
-                            <div className="w-7 h-7 rounded-full bg-[#00529b] text-white font-bold text-[7px] flex items-center justify-center">
-                              DStv
-                            </div>
-                            <div>
-                              <div className="text-[10.5px] font-bold text-[#161c22]">DStv</div>
-                              <div className="text-[8px] text-amber-700 font-medium">
-                                DStv is not responding right now
-                              </div>
-                            </div>
-                          </div>
-                          <ChevronRight className="w-3.5 h-3.5 text-[#8492a6]" />
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* Categories 3x3 */}
-                    <div className="mt-3">
-                      <span className="text-[9.5px] font-bold text-[#6c7a89]">Categories</span>
-                      <div className="grid grid-cols-3 gap-2 mt-1.5">
-                        {[
-                          { label: 'Mall', Icon: Store, color: 'text-[#0976da] bg-[#ebf5fc]' },
-                          { label: 'Airtime', Icon: Phone, color: 'text-[#0976da] bg-[#f2f5f9]' },
-                          { label: 'Data', Icon: Wifi, color: 'text-[#0976da] bg-[#f2f5f9]' },
-                          { label: 'Electricity', Icon: Zap, color: 'text-[#0976da] bg-[#f2f5f9]' },
-                          { label: 'TV', Icon: Tv, color: 'text-[#0976da] bg-[#f2f5f9]' },
-                          { label: 'Water', Icon: Droplet, color: 'text-[#0976da] bg-[#f2f5f9]' },
-                          { label: 'Education', Icon: GraduationCap, color: 'text-[#0976da] bg-[#f2f5f9]' },
-                          { label: 'Government', Icon: Landmark, color: 'text-[#0976da] bg-[#f2f5f9]' },
-                          { label: 'Insurance', Icon: ShieldCheck, color: 'text-[#0976da] bg-[#f2f5f9]' },
-                        ].map(({ label, Icon, color }) => (
-                          <div key={label} className="flex flex-col items-center gap-1">
-                            <div className={`w-8 h-8 rounded-full flex items-center justify-center ${color}`}>
-                              <Icon className="w-3.5 h-3.5 stroke-[1.8]" />
-                            </div>
-                            <span className="text-[8px] text-[#4c5866] font-medium">{label}</span>
-                          </div>
-                        ))}
+                        <div className="text-[10px] font-bold text-[#161c22]">− ₦8,500.00</div>
                       </div>
                     </div>
                   </div>
                 </motion.div>
               )}
 
-              {/* ═══════════════════════════════════════════════════════
-                  SCREEN 3: SAVE ("Flexible" Halal / Non-Interest Savings)
-                  ═══════════════════════════════════════════════════════ */}
-              {active === 'save' && (
+              {/* ══════════════════════════════════════
+                  VIEW 2: ON WHATSAPP (Conversational)
+                  ══════════════════════════════════════ */}
+              {mode === 'whatsapp' && (
                 <motion.div
-                  key="screen-save"
-                  initial={{ opacity: 0, x: 22 }}
+                  key="whatsapp-view"
+                  initial={{ opacity: 0, x: 24 }}
                   animate={{ opacity: 1, x: 0 }}
-                  exit={{ opacity: 0, x: -22 }}
-                  transition={{ duration: 0.28, ease: 'easeInOut' }}
+                  exit={{ opacity: 0, x: -24 }}
+                  transition={{ duration: 0.3, ease: 'easeInOut' }}
                   className="h-full flex flex-col justify-between"
                 >
-                  <div>
-                    {/* Top navigation */}
-                    <div className="flex items-center gap-2 pt-0.5 pb-1">
-                      <div className="w-5 h-5 rounded-full flex items-center justify-center text-[#161c22]">
-                        <ArrowLeft className="w-3.5 h-3.5" />
-                      </div>
-                      <span className="text-[13.5px] font-bold text-[#161c22]">Flexible</span>
+                  {/* WhatsApp Top Bar */}
+                  <div className="p-2 rounded-[10px] bg-[#075e54] text-white flex items-center gap-2 shadow-xs">
+                    <div className="w-[28px] h-[28px] rounded-full bg-[#25d366] text-white flex items-center justify-center font-bold text-[11px]">
+                      A
                     </div>
-
-                    {/* Balance */}
-                    <div className="mt-1 text-center">
-                      <div className="text-[28px] font-bold text-[#161c22] tracking-tight">
-                        ₦35,000<span className="text-[18px] font-normal text-[#8492a6]">.00</span>
+                    <div className="flex-1 min-w-0">
+                      <div className="text-[11px] font-bold leading-tight flex items-center gap-1">
+                        <span>Axoora AI</span>
+                        <CheckCircle2 className="w-3 h-3 text-[#25d366] fill-[#25d366]" />
                       </div>
-                      <div className="text-[9px] text-[#6c7a89] font-medium">Your balance · take it out anytime</div>
-                    </div>
-
-                    {/* Stats Card */}
-                    <div className="mt-2.5 p-2.5 rounded-[12px] bg-[#f7f9fb] border border-[#edf1f7] flex flex-col gap-2">
-                      <div className="flex items-center justify-between text-[10px]">
-                        <span className="text-[#6c7a89]">Profit Shared in August</span>
-                        <span className="font-bold text-[#161c22]">
-                          ₦2,000<span className="text-[#8492a6]">.00</span>
-                        </span>
-                      </div>
-                      <div className="flex items-center justify-between text-[10px]">
-                        <span className="text-[#6c7a89]">Since You Opened</span>
-                        <span className="font-bold text-[#161c22]">
-                          ₦6,400<span className="text-[#8492a6]">.00</span>
-                        </span>
-                      </div>
-                    </div>
-
-                    {/* Where the Profit Came From */}
-                    <div className="mt-2.5">
-                      <div className="flex items-center justify-between text-[9.5px] mb-1.5">
-                        <span className="font-bold text-[#161c22]">Where the Profit Came From</span>
-                        <span className="text-[#8492a6] text-[8px]">August 2026</span>
-                      </div>
-
-                      <div className="flex flex-col gap-2">
-                        {/* Sukuk */}
-                        <div>
-                          <div className="flex items-center justify-between text-[8.5px] mb-0.5">
-                            <span className="text-[#4c5866]">Sukuk - Government</span>
-                            <span className="font-bold text-[#161c22]">50% ₦1,000.00</span>
-                          </div>
-                          <div className="w-full h-1.5 rounded-full bg-slate-200 overflow-hidden">
-                            <div className="w-[50%] h-full bg-[#0976da] rounded-full" />
-                          </div>
-                        </div>
-
-                        {/* Halal Trade Finance */}
-                        <div>
-                          <div className="flex items-center justify-between text-[8.5px] mb-0.5">
-                            <span className="text-[#4c5866]">Halal Trade Finance</span>
-                            <span className="font-bold text-[#161c22]">30% ₦600.00</span>
-                          </div>
-                          <div className="w-full h-1.5 rounded-full bg-slate-200 overflow-hidden">
-                            <div className="w-[30%] h-full bg-[#0976da]/80 rounded-full" />
-                          </div>
-                        </div>
-
-                        {/* Commodity Murabaha */}
-                        <div>
-                          <div className="flex items-center justify-between text-[8.5px] mb-0.5">
-                            <span className="text-[#4c5866]">Commodity Murabaha</span>
-                            <span className="font-bold text-[#161c22]">20% ₦400.00</span>
-                          </div>
-                          <div className="w-full h-1.5 rounded-full bg-slate-200 overflow-hidden">
-                            <div className="w-[20%] h-full bg-[#0976da]/60 rounded-full" />
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* Past Statements */}
-                    <div className="mt-2.5 p-2 rounded-[8px] bg-white border border-[#dde3ea] flex items-center justify-between text-[9.5px] font-semibold text-[#161c22]">
-                      <div className="flex items-center gap-1.5">
-                        <FileText className="w-3.5 h-3.5 text-[#0976da]" />
-                        <span>Past Statements</span>
-                      </div>
-                      <ChevronRight className="w-3 h-3 text-[#8492a6]" />
+                      <div className="text-[8px] text-white/80">Official WhatsApp Banking</div>
                     </div>
                   </div>
 
-                  {/* Withdraw Button */}
-                  <div className="pt-2">
-                    <div className="w-full py-2 rounded-[8px] border border-[#0976da] text-[#0976da] font-bold text-[11px] text-center hover:bg-[#ebf5fc] transition-colors">
-                      Withdraw
-                    </div>
+                  {/* Chat Conversation */}
+                  <div className="flex-1 flex flex-col justify-center gap-2.5 py-2">
+                    {/* User bubble */}
+                    <motion.div
+                      initial={{ opacity: 0, y: 6 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      className="self-end max-w-[85%] bg-[#d9fdd3] text-[#111b21] p-2.5 rounded-[12px] rounded-tr-none text-[10px] shadow-xs"
+                    >
+                      Send ₦15,000 to Mum from my Naira account
+                    </motion.div>
+
+                    {/* Bot prompt */}
+                    <motion.div
+                      initial={{ opacity: 0, y: 6 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: 0.25 }}
+                      className="self-start max-w-[90%] bg-white text-[#111b21] p-2.5 rounded-[12px] rounded-tl-none text-[9.5px] shadow-xs border border-[#e2e8f0]"
+                    >
+                      <div className="font-semibold text-[#043e97] mb-0.5">Transfer Confirmation:</div>
+                      <div>Recipient: Zainab Balogun (Zenith)</div>
+                      <div>Amount: ₦15,000.00 · Fee: ₦0.00</div>
+                      <div className="text-[8.5px] text-slate-500 mt-1">Reply &apos;1&apos; with PIN to confirm.</div>
+                    </motion.div>
+
+                    {/* User PIN confirm */}
+                    <motion.div
+                      initial={{ opacity: 0, y: 6 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: 0.55 }}
+                      className="self-end bg-[#d9fdd3] text-[#111b21] px-3 py-1 rounded-[10px] rounded-tr-none text-[10px] shadow-xs font-mono"
+                    >
+                      ••••
+                    </motion.div>
+
+                    {/* Bot Success */}
+                    <motion.div
+                      initial={{ opacity: 0, scale: 0.96 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      transition={{ delay: 0.85 }}
+                      className="self-start max-w-[92%] bg-white text-[#111b21] p-2.5 rounded-[12px] rounded-tl-none text-[9.5px] shadow-xs border border-emerald-300"
+                    >
+                      <div className="flex items-center gap-1.5 text-emerald-700 font-bold mb-0.5">
+                        <CheckCircle2 className="w-3.5 h-3.5" />
+                        <span>Transfer Completed!</span>
+                      </div>
+                      <div className="text-[9px] text-slate-700">Receipt #AX-9481 generated. New balance: ₦97,430.00.</div>
+                    </motion.div>
                   </div>
-                </motion.div>
-              )}
 
-              {/* ═══════════════════════════════════════════════════════
-                  SCREEN 4: SPEND ("Cards" Naira & Dollar)
-                  ═══════════════════════════════════════════════════════ */}
-              {active === 'spend' && (
-                <motion.div
-                  key="screen-spend"
-                  initial={{ opacity: 0, x: 22 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  exit={{ opacity: 0, x: -22 }}
-                  transition={{ duration: 0.28, ease: 'easeInOut' }}
-                  className="h-full flex flex-col justify-between"
-                >
-                  <div>
-                    {/* Top navigation */}
-                    <div className="flex items-center gap-2 pt-0.5 pb-2">
-                      <div className="w-5 h-5 rounded-full flex items-center justify-center text-[#161c22]">
-                        <ArrowLeft className="w-3.5 h-3.5" />
-                      </div>
-                      <span className="text-[13.5px] font-bold text-[#161c22]">Cards</span>
-                    </div>
-
-                    {/* Card 1: Naira Card */}
-                    <div className="relative w-full h-[146px] rounded-[16px] bg-gradient-to-r from-[#043e97] to-[#0976da] text-white p-3.5 flex flex-col justify-between shadow-md overflow-hidden">
-                      <div className="flex items-center justify-between z-10">
-                        <span className="text-[12.5px] font-bold tracking-tight">axoora</span>
-                        <span className="px-2 py-0.5 rounded-[4px] bg-white text-[#043e97] font-bold text-[8.5px] shadow-xs">
-                          ₦ NGN
-                        </span>
-                      </div>
-
-                      <div className="text-[13px] font-mono tracking-widest z-10 font-bold">
-                        5061 •••• •••• 4417
-                      </div>
-
-                      <div className="flex items-end justify-between z-10">
-                        <span className="text-[9.5px] font-medium text-white/90">Adaeze N. Balogun</span>
-                        <span className="text-[12.5px] font-bold text-white tracking-tight">
-                          ₦112,430.00
-                        </span>
-                      </div>
-                    </div>
-
-                    {/* Card 2: Dollar Card */}
-                    <div className="mt-2.5 relative w-full h-[146px] rounded-[16px] bg-[#161c22] border border-[#2b3542] text-white p-3.5 flex flex-col justify-between shadow-md overflow-hidden">
-                      <div className="flex items-center justify-between z-10">
-                        <span className="text-[12.5px] font-bold tracking-tight">axoora</span>
-                        <span className="px-2 py-0.5 rounded-[4px] bg-[#f2f5f9] text-[#161c22] font-bold text-[8.5px] shadow-xs">
-                          $ USD
-                        </span>
-                      </div>
-
-                      <div className="text-[13px] font-mono tracking-widest z-10 text-slate-200 font-bold">
-                        4852 •••• •••• 9014
-                      </div>
-
-                      <div className="flex items-end justify-between z-10">
-                        <span className="text-[9.5px] font-medium text-slate-300">Adaeze N. Balogun</span>
-                        <span className="text-[12.5px] font-bold text-white tracking-tight">$ 248.10</span>
-                      </div>
+                  {/* WhatsApp input bar */}
+                  <div className="p-2 rounded-[8px] bg-[#f0f2f5] flex items-center justify-between text-[9.5px] text-[#667781]">
+                    <span>Type a banking command...</span>
+                    <div className="w-5 h-5 rounded-full bg-[#00a884] text-white flex items-center justify-center">
+                      <ArrowUpRight className="w-3 h-3" />
                     </div>
                   </div>
                 </motion.div>
@@ -467,14 +315,14 @@ export const PersonalPhoneShowcase: React.FC<PersonalPhoneShowcaseProps> = ({
             </AnimatePresence>
           </div>
 
-          {/* Bottom Progress Bar that tracks the 4.8s switch */}
+          {/* Bottom Progress Bar that fills up across the 5.2s interval */}
           <div className="px-4 pb-2.5">
             <div className="w-full h-1 rounded-full bg-slate-200 overflow-hidden">
               <motion.div
-                key={active}
+                key={mode}
                 initial={{ width: '0%' }}
                 animate={{ width: '100%' }}
-                transition={{ duration: 4.8, ease: 'linear' }}
+                transition={{ duration: 5.2, ease: 'linear' }}
                 className="h-full bg-[#0976da]"
               />
             </div>
