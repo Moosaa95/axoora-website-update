@@ -53,11 +53,9 @@ export const BusinessHome: React.FC<{ onOpenDownloadApp: () => void; onOpenWhats
 
     {/* ─── After it runs ─── */}
     <SectionWrap className="pt-16 lg:pt-[112px]">
-      <div className="grid grid-cols-1 lg:grid-cols-[596px_1fr] gap-12 lg:gap-[56px] items-center">
-        <div className="bg-[#ebf5ff] rounded-[20px] h-[450px] overflow-hidden flex items-end justify-center pt-6">
-          <div className="self-end mb-0">
-            <BatchReceiptPhoneShowcase />
-          </div>
+      <div className="grid grid-cols-1 lg:grid-cols-[560px_1fr] gap-12 lg:gap-[56px] items-center">
+        <div className="bg-[#ebf5ff] dark:bg-slate-800/60 rounded-[28px] p-6 sm:p-8 lg:p-10 flex items-center justify-center min-h-[580px] shadow-xs">
+          <BatchReceiptPhoneShowcase />
         </div>
 
         <div>

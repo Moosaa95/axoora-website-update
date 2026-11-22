@@ -6,19 +6,15 @@ import {
   ArrowLeft,
   ArrowUpRight,
   Check,
+  MoreHorizontal,
   AlertTriangle,
-  CheckCircle2,
-  ChevronRight,
-  FileSpreadsheet,
 } from 'lucide-react';
-import { PhoneFrame, PhoneStatusBar, Money } from './shared';
+import { PhoneFrame, PhoneStatusBar } from './shared';
 
 interface TransactionRecord {
   id: string;
-  rowLabel: string;
   recipient: string;
   amount: string;
-  decimals: string;
   status: 'completed' | 'flagged';
   statusText: string;
   rows: [string, string][];
@@ -27,10 +23,8 @@ interface TransactionRecord {
 const records: TransactionRecord[] = [
   {
     id: 'rec-1',
-    rowLabel: 'Row 1 of 48',
     recipient: 'Ikeja Electric',
-    amount: '8,500',
-    decimals: '.00',
+    amount: '8,500.00',
     status: 'completed',
     statusText: 'Completed',
     rows: [
@@ -40,43 +34,39 @@ const records: TransactionRecord[] = [
       ['Paid From', 'Axoora Wallet'],
       ['Date', '11 Sept 2026, 09:20'],
       ['Fee', '₦0.00'],
-      ['Settlement', 'Instant · 0.4s'],
+      ['Balance After', '₦103,930.00'],
     ],
   },
   {
     id: 'rec-2',
-    rowLabel: 'Row 2 of 48',
     recipient: 'Chidinma Okafor',
-    amount: '340,000',
-    decimals: '.00',
+    amount: '340,000.00',
     status: 'completed',
     statusText: 'Completed',
     rows: [
       ['To', 'Chidinma Okafor'],
       ['Account', 'GTBank · 0148921834'],
-      ['Role', 'Senior Designer'],
+      ['Name', 'CHIDINMA OKAFOR'],
       ['Paid From', 'Axoora Operating'],
       ['Date', '11 Sept 2026, 09:20'],
       ['Fee', '₦0.00'],
-      ['Settlement', 'Instant · 0.5s'],
+      ['Balance After', '₦620,000.00'],
     ],
   },
   {
     id: 'rec-3',
-    rowLabel: 'Row 3 of 48',
     recipient: 'Babatunde Adeleke',
-    amount: '45,000',
-    decimals: '.00',
+    amount: '45,000.00',
     status: 'flagged',
-    statusText: 'Flagged · Not Debited',
+    statusText: 'Failed · Not Debited',
     rows: [
       ['To', 'Babatunde Adeleke'],
-      ['Issue', 'Invalid Account No.'],
-      ['Batch Impact', 'Rest of batch sent'],
-      ['Wallet', '₦0 deducted'],
+      ['Account', 'Access · 0029184821'],
+      ['Issue', 'Account Number Unreachable'],
+      ['Paid From', 'Axoora Operating'],
       ['Date', '11 Sept 2026, 09:20'],
-      ['Resolution', 'Edit row & retry'],
-      ['Status', 'Protected by Pre-check'],
+      ['Fee', '₦0.00'],
+      ['Balance After', '₦620,000.00 (Untouched)'],
     ],
   },
 ];
@@ -84,7 +74,7 @@ const records: TransactionRecord[] = [
 export const BatchReceiptPhoneShowcase: React.FC = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
 
-  // Auto-switch across the 3 recipient records every 4.5 seconds
+  // Smooth automatic cycling between records every 4.5 seconds
   useEffect(() => {
     const timer = setInterval(() => {
       setCurrentIndex((prev) => (prev + 1) % records.length);
@@ -96,148 +86,133 @@ export const BatchReceiptPhoneShowcase: React.FC = () => {
   const active = records[currentIndex];
 
   return (
-    <div className="relative select-none flex flex-col items-center">
-      {/* Mini interactive Row Selector Pill on top of phone */}
-      <div className="flex items-center gap-1.5 p-1 rounded-full bg-black/30 backdrop-blur-md border border-white/20 mb-2.5 shadow-md z-20">
-        {records.map((rec, index) => {
-          const isSelected = index === currentIndex;
-          return (
+    <div className="relative select-none flex items-center justify-center">
+      {/* Phone Frame matching Image 1 */}
+      <PhoneFrame
+        width={310}
+        height={540}
+        radius={48}
+        className="shadow-[0_25px_60px_rgba(2,15,46,0.22)]"
+      >
+        <div className="h-full flex flex-col justify-between p-4.5 bg-white text-[#161c22] select-none font-sans">
+          {/* Top Status Bar: 9:41 & Cellular/Battery dots */}
+          <PhoneStatusBar />
+
+          {/* Top Navigation Row: Back Arrow on left, Horizontal 4 dots on right */}
+          <div className="flex items-center justify-between pt-1 pb-2">
             <button
-              key={rec.id}
               type="button"
-              onClick={() => setCurrentIndex(index)}
-              className={`relative px-2.5 py-1 rounded-full text-[10.5px] font-semibold flex items-center gap-1 transition-all cursor-pointer ${
-                isSelected
-                  ? 'text-white bg-[#0976da] shadow-xs'
-                  : 'text-white/70 hover:text-white hover:bg-white/10'
-              }`}
+              onClick={() => setCurrentIndex((prev) => (prev - 1 + records.length) % records.length)}
+              className="w-7 h-7 rounded-full flex items-center justify-center text-[#161c22] hover:bg-slate-100 transition cursor-pointer"
+              aria-label="Previous record"
             >
-              {rec.status === 'completed' ? (
-                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
-              ) : (
-                <span className="w-1.5 h-1.5 rounded-full bg-amber-400" />
-              )}
-              <span>{rec.rowLabel}</span>
-              {isSelected && (
-                <motion.div
-                  layoutId="activeReceiptPill"
-                  className="absolute inset-0 rounded-full border border-white/35 pointer-events-none"
-                  transition={{ type: 'spring', bounce: 0.2, duration: 0.5 }}
-                />
-              )}
+              <ArrowLeft className="w-4 h-4" />
             </button>
-          );
-        })}
-      </div>
-
-      {/* Phone Frame */}
-      <PhoneFrame width={285} height={392} radius={44} className="shadow-[0_20px_50px_rgba(2,15,46,0.25)]">
-        <div className="h-full flex flex-col justify-between px-[13px] pt-0.5 pb-2">
-          {/* Status bar */}
-          <PhoneStatusBar className="px-[2px]" />
-
-          {/* Top navigation row */}
-          <div className="flex items-center justify-between mt-1">
-            <div className="w-5 h-5 rounded-full hover:bg-slate-100 flex items-center justify-center text-[#4c5866]">
-              <ArrowLeft className="w-3 h-3" />
-            </div>
-            <div className="flex items-center gap-1 text-[8.5px] font-bold text-[#0976da] bg-[#eef5fc] px-2 py-0.5 rounded-full">
-              <FileSpreadsheet className="w-2.5 h-2.5" />
-              <span>payroll_nov.csv</span>
-            </div>
-            <span className="text-[8px] font-semibold text-[#8492a6] font-mono">{active.rowLabel}</span>
+            <button
+              type="button"
+              onClick={() => setCurrentIndex((prev) => (prev + 1) % records.length)}
+              className="w-7 h-7 rounded-full flex items-center justify-center text-[#161c22] hover:bg-slate-100 transition cursor-pointer"
+              aria-label="Next record"
+            >
+              <MoreHorizontal className="w-4 h-4 text-[#161c22]" />
+            </button>
           </div>
 
-          {/* Animated Record Content */}
-          <div className="flex-1 relative overflow-hidden mt-1 flex flex-col justify-between">
+          {/* Animated Receipt Content */}
+          <div className="flex-1 flex flex-col justify-between overflow-hidden pt-1">
             <AnimatePresence mode="wait">
               <motion.div
                 key={active.id}
-                initial={{ opacity: 0, y: 12, scale: 0.98 }}
-                animate={{ opacity: 1, y: 0, scale: 1 }}
-                exit={{ opacity: 0, y: -12, scale: 0.98 }}
-                transition={{ duration: 0.3 }}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -10 }}
+                transition={{ duration: 0.3, ease: 'easeOut' }}
                 className="flex-1 flex flex-col justify-between"
               >
-                {/* Header: Icon, Amount, and Badge */}
-                <div className="flex flex-col items-center">
+                <div>
+                  {/* Circular badge with ↗ */}
                   <div
-                    className={`w-[32px] h-[32px] rounded-full flex items-center justify-center ${
+                    className={`w-12 h-12 rounded-full flex items-center justify-center mx-auto shadow-xs ${
                       active.status === 'completed'
-                        ? 'bg-emerald-50 text-emerald-700 ring-4 ring-emerald-50/50'
-                        : 'bg-amber-50 text-amber-700 ring-4 ring-amber-50/50'
+                        ? 'bg-[#f1f3f5] text-[#161c22]'
+                        : 'bg-[#fef2f2] text-[#dc2626]'
                     }`}
                   >
                     {active.status === 'completed' ? (
-                      <ArrowUpRight className="w-3.5 h-3.5 stroke-[2.5]" />
+                      <ArrowUpRight className="w-5 h-5 stroke-[2.2]" />
                     ) : (
-                      <AlertTriangle className="w-3.5 h-3.5 stroke-[2.5]" />
+                      <AlertTriangle className="w-5 h-5 stroke-[2.2]" />
                     )}
                   </div>
 
-                  <div className="mt-1.5 flex items-baseline justify-center">
-                    <span className="text-[21px] font-bold text-[#161c22] tracking-tight">₦{active.amount}</span>
-                    <span className="text-[14px] text-[#4c5866] font-normal">{active.decimals}</span>
-                  </div>
+                  {/* Centered Amount */}
+                  <div className="text-center mt-3">
+                    <span className="text-[30px] font-bold text-[#161c22] tracking-tight block">
+                      ₦{active.amount}
+                    </span>
 
-                  {/* Status Pill Badge */}
-                  <span
-                    className={`mt-1 inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[7.5px] font-bold ${
-                      active.status === 'completed'
-                        ? 'bg-[#e3f6ec] text-[#065f41]'
-                        : 'bg-[#fef3c7] text-[#92400e]'
-                    }`}
-                  >
-                    {active.status === 'completed' ? (
-                      <Check className="w-2.5 h-2.5 stroke-[3]" />
-                    ) : (
-                      <span className="w-1.5 h-1.5 rounded-full bg-amber-600 animate-pulse" />
-                    )}
-                    {active.statusText}
-                  </span>
-                </div>
-
-                {/* Key-Value Breakdown Rows */}
-                <div className="mt-2.5 flex flex-col">
-                  {active.rows.map(([k, v], i) => (
-                    <div
-                      key={k}
-                      className="h-[25px] flex items-center justify-between border-b border-[#f0f3f6] text-[8px]"
-                    >
-                      <span className="text-[#6c7a89] font-medium">{k}</span>
+                    {/* Status Pill Badge: ✓ Completed */}
+                    <div className="mt-2 flex justify-center">
                       <span
-                        className={`font-semibold ${
-                          k === 'Issue'
-                            ? 'text-amber-800'
-                            : k === 'Settlement'
-                            ? 'text-emerald-700'
-                            : 'text-[#161c22]'
+                        className={`inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full text-[11px] font-semibold ${
+                          active.status === 'completed'
+                            ? 'bg-[#e6f4ea] text-[#137333]'
+                            : 'bg-[#fee2e2] text-[#991b1b]'
                         }`}
                       >
-                        {v}
+                        {active.status === 'completed' ? (
+                          <Check className="w-3 h-3 stroke-[3]" />
+                        ) : (
+                          <span className="w-1.5 h-1.5 rounded-full bg-red-600 animate-pulse" />
+                        )}
+                        <span>{active.statusText}</span>
                       </span>
                     </div>
+                  </div>
+
+                  {/* Detail Key-Value Rows */}
+                  <div className="mt-6 border-t border-[#edf1f7] divide-y divide-[#edf1f7] text-[11px]">
+                    {active.rows.map(([key, value]) => (
+                      <div
+                        key={key}
+                        className="py-2.5 flex items-center justify-between"
+                      >
+                        <span className="text-[#6c7a89] font-normal">{key}</span>
+                        <span
+                          className={`font-semibold tracking-tight ${
+                            key === 'Issue'
+                              ? 'text-red-600'
+                              : 'text-[#161c22]'
+                          }`}
+                        >
+                          {value}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Subtle switch indicator dots at bottom of receipt */}
+                <div className="flex items-center justify-center gap-1.5 pt-3 pb-1">
+                  {records.map((r, i) => (
+                    <button
+                      key={r.id}
+                      type="button"
+                      onClick={() => setCurrentIndex(i)}
+                      className={`h-1.5 rounded-full transition-all cursor-pointer ${
+                        currentIndex === i
+                          ? 'w-5 bg-[#0976da]'
+                          : 'w-1.5 bg-[#d0d7de] hover:bg-[#a8b3cf]'
+                      }`}
+                      aria-label={`Go to record ${i + 1}`}
+                    />
                   ))}
                 </div>
               </motion.div>
             </AnimatePresence>
-          </div>
-
-          {/* Bottom Progress Bar tracking the 4.5s switch interval */}
-          <div className="pt-2 px-1">
-            <div className="w-full h-1 rounded-full bg-slate-200 overflow-hidden">
-              <motion.div
-                key={active.id}
-                initial={{ width: '0%' }}
-                animate={{ width: '100%' }}
-                transition={{ duration: 4.5, ease: 'linear' }}
-                className="h-full bg-[#0976da]"
-              />
-            </div>
           </div>
         </div>
       </PhoneFrame>
     </div>
   );
 };
-

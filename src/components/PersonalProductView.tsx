@@ -71,9 +71,9 @@ export const PersonalProductView: React.FC<PersonalProductViewProps> = ({
               <span className="text-[13px] font-bold text-[#d6ebff] tracking-wide">
                 Send and Pay
               </span>
-              <div className="w-5 h-5 rounded-full bg-[#f25a38] text-white flex items-center justify-center font-bold text-[10px] shadow-xs">
+              {/* <div className="w-5 h-5 rounded-full bg-[#f25a38] text-white flex items-center justify-center font-bold text-[10px] shadow-xs">
                 A
-              </div>
+              </div> */}
             </div>
 
             <h1 className="text-[52px] sm:text-[72px] lg:text-[84px] font-bold leading-[0.96] tracking-[-0.04em] select-none text-white! flex flex-wrap items-baseline gap-x-3.5 sm:gap-x-4">
