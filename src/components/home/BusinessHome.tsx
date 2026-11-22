@@ -5,6 +5,7 @@ import { EyeOff, Search, ReceiptText, AlertTriangle, Fingerprint, ArrowLeft, Arr
 import { StoreButtons, PhoneFrame, PhoneStatusBar, Money, Card, SectionHeading, Eyebrow, SectionWrap, CheckBullet } from './shared';
 import { PhoneGroup, PhoneTx } from './phoneParts';
 import { BusinessPhoneShowcase } from './BusinessPhoneShowcase';
+import { BatchReceiptPhoneShowcase } from './BatchReceiptPhoneShowcase';
 
 /** Figma "Direction A · Business" home (BB1). Shared by the Home toggle and the /business screen. */
 export const BusinessHome: React.FC<{ onOpenDownloadApp: () => void; onOpenWhatsApp: () => void }> = ({
@@ -53,39 +54,9 @@ export const BusinessHome: React.FC<{ onOpenDownloadApp: () => void; onOpenWhats
     {/* ─── After it runs ─── */}
     <SectionWrap className="pt-16 lg:pt-[112px]">
       <div className="grid grid-cols-1 lg:grid-cols-[596px_1fr] gap-12 lg:gap-[56px] items-center">
-        <div className="bg-[#ebf5ff] rounded-[20px] h-[430px] overflow-hidden flex items-end justify-center">
-          <div className="self-end mb-0 mt-[48px]">
-            <PhoneFrame width={280} height={382} radius={44}>
-              <div className="px-[13px]">
-                <PhoneStatusBar className="px-[2px]" />
-                <ArrowLeft className="w-[11px] h-[11px] mt-[4px]" />
-                <div className="flex flex-col items-center">
-                  <div className="w-[32px] h-[32px] rounded-full bg-[#eef1f5] flex items-center justify-center">
-                    <ArrowUpRight className="w-[12px] h-[12px]" />
-                  </div>
-                  <Money amount="8,500" big={22} small={16} className="mt-2" />
-                  <span className="mt-2 inline-flex items-center gap-1 px-[7px] h-[15px] rounded-full bg-[#e3f6ec] text-[7px] font-semibold text-[#065f41]">
-                    <Check className="w-[7px] h-[7px]" strokeWidth={3} /> Completed
-                  </span>
-                </div>
-                <div className="mt-[18px]">
-                  {[
-                    ['To', 'Ikeja Electric'],
-                    ['Meter', '45012338'],
-                    ['Name', 'ADAEZE N BALOGUN'],
-                    ['Paid From', 'Axoora Wallet'],
-                    ['Date', '11 Sept 2026, 09:20'],
-                    ['Fee', '₦0.00'],
-                    ['Balance After', '₦103,930.00'],
-                  ].map(([k, v]) => (
-                    <div key={k} className="h-[32px] flex items-center justify-between border-b border-[#eef1f5] text-[8px]">
-                      <span className="text-[#4c5866]">{k}</span>
-                      <span className="font-semibold">{v}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </PhoneFrame>
+        <div className="bg-[#ebf5ff] rounded-[20px] h-[450px] overflow-hidden flex items-end justify-center pt-6">
+          <div className="self-end mb-0">
+            <BatchReceiptPhoneShowcase />
           </div>
         </div>
 
