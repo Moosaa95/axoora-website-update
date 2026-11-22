@@ -3,6 +3,8 @@ export type ScreenType =
   | 'personal'
   | 'send'
   | 'cards'
+  | 'savings'
+  | 'ajo'
   | 'business'
   | 'pos-agents'
   | 'security'
