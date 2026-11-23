@@ -2,6 +2,7 @@
 
 import React, { useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { AlertTriangle, AlertCircle, Info, X } from 'lucide-react';
 
 export interface ConfirmModalProps {
   isOpen: boolean;
@@ -40,24 +41,25 @@ export const ConfirmModal: React.FC<ConfirmModalProps> = ({
   }, [isOpen, isLoading, onCancel]);
 
   const iconMap = {
-    danger: { icon: 'warning', bg: 'bg-red-500/15 border-red-500/30', text: 'text-red-400' },
-    warning: { icon: 'error', bg: 'bg-amber-500/15 border-amber-500/30', text: 'text-amber-400' },
-    primary: { icon: 'info', bg: 'bg-[#0D95FE]/15 border-[#0D95FE]/30', text: 'text-[#0D95FE]' },
+    danger: { Icon: AlertCircle, bg: 'bg-red-500/15 border-red-500/30', text: 'text-red-400' },
+    warning: { Icon: AlertTriangle, bg: 'bg-amber-500/15 border-amber-500/30', text: 'text-amber-400' },
+    primary: { Icon: Info, bg: 'bg-[#043e97]/25 border-[#043e97]/40', text: 'text-[#53a8f5]' },
   };
 
   const buttonClassMap = {
-    danger: 'bg-red-500 hover:bg-red-600 text-white shadow-lg shadow-red-500/20',
-    warning: 'bg-amber-500 hover:bg-amber-400 text-slate-950 shadow-lg shadow-amber-500/20',
-    primary: 'bg-[#0D95FE] hover:bg-[#00DF8F] text-white hover:text-[#003825] shadow-lg shadow-[#0D95FE]/20',
+    danger: 'bg-red-600 hover:bg-red-700 text-white shadow-md',
+    warning: 'bg-amber-500 hover:bg-amber-600 text-slate-950 shadow-md',
+    primary: 'bg-[#043e97] hover:bg-[#0976da] text-white shadow-md',
   };
 
   const badge = iconMap[variant];
+  const BadgeIcon = badge.Icon;
 
   return (
     <AnimatePresence>
       {isOpen && (
         <div
-          className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/75 backdrop-blur-sm"
+          className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/75 backdrop-blur-sm font-['DM_Sans',sans-serif]"
           onClick={() => {
             if (!isLoading) onCancel();
           }}
@@ -71,20 +73,20 @@ export const ConfirmModal: React.FC<ConfirmModalProps> = ({
             role="dialog"
             aria-modal="true"
             aria-labelledby="confirm-modal-title"
-            className="w-full max-w-md rounded-2xl bg-[#071635] border border-[#1E3A6B] shadow-2xl overflow-hidden text-white"
+            className="w-full max-w-md rounded-2xl bg-[#071739] border border-[#162C5B] shadow-2xl overflow-hidden text-white"
           >
             <div className="p-6 flex items-start gap-4">
               <div
                 className={`w-11 h-11 rounded-xl border flex items-center justify-center shrink-0 ${badge.bg} ${badge.text}`}
               >
-                <span className="material-symbols-outlined text-[22px]">{badge.icon}</span>
+                <BadgeIcon className="w-5 h-5" />
               </div>
 
               <div className="flex-1 min-w-0">
                 <h3 id="confirm-modal-title" className="text-base font-bold text-white leading-snug">
                   {title}
                 </h3>
-                <p className="text-xs sm:text-sm text-[#A8BBD6] mt-1.5 leading-relaxed">{message}</p>
+                <p className="text-xs sm:text-sm text-[#8492a6] mt-1.5 leading-relaxed">{message}</p>
               </div>
 
               <button
@@ -94,11 +96,11 @@ export const ConfirmModal: React.FC<ConfirmModalProps> = ({
                 className="w-8 h-8 rounded-lg bg-white/5 hover:bg-white/10 text-slate-400 hover:text-white flex items-center justify-center transition-colors cursor-pointer shrink-0"
                 aria-label="Close modal"
               >
-                <span className="material-symbols-outlined text-[18px]">close</span>
+                <X className="w-4 h-4" />
               </button>
             </div>
 
-            <div className="px-6 py-4 bg-[#040E24] border-t border-[#14294F] flex items-center justify-end gap-3">
+            <div className="px-6 py-4 bg-[#020F2E] border-t border-[#0e214d] flex items-center justify-end gap-3">
               {!isAlertOnly && (
                 <button
                   type="button"
@@ -127,4 +129,3 @@ export const ConfirmModal: React.FC<ConfirmModalProps> = ({
     </AnimatePresence>
   );
 };
-

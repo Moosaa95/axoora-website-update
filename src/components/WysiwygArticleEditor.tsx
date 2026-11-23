@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useRef } from 'react';
+import { List, Quote, Code, Link2, Eye, Columns, Sparkles, FileText } from 'lucide-react';
 
 interface WysiwygArticleEditorProps {
   content: string;
@@ -85,11 +86,11 @@ export const WysiwygArticleEditor: React.FC<WysiwygArticleEditorProps> = ({
       // Bold **text**
       formatted = formatted.replace(/\*\*(.*?)\*\*/g, '<strong class="font-bold text-white">$1</strong>');
       // Italic *text*
-      formatted = formatted.replace(/\*(.*?)\*/g, '<em class="italic text-[#00DF8F]">$1</em>');
+      formatted = formatted.replace(/\*(.*?)\*/g, '<em class="italic text-[#53a8f5]">$1</em>');
       // Inline code `code`
-      formatted = formatted.replace(/`([^`]+)`/g, '<code class="px-1.5 py-0.5 rounded bg-[#0A1B3D] border border-[#14294F] text-[#0D95FE] font-mono text-xs">$1</code>');
+      formatted = formatted.replace(/`([^`]+)`/g, '<code class="px-1.5 py-0.5 rounded bg-[#020F2E] border border-[#162C5B] text-[#53a8f5] font-mono text-xs">$1</code>');
       // Links [text](url)
-      formatted = formatted.replace(/\[(.*?)\]\((.*?)\)/g, '<a href="$2" target="_blank" rel="noopener noreferrer" class="text-[#0D95FE] hover:underline font-semibold">$1</a>');
+      formatted = formatted.replace(/\[(.*?)\]\((.*?)\)/g, '<a href="$2" target="_blank" rel="noopener noreferrer" class="text-[#53a8f5] hover:underline font-semibold">$1</a>');
       return formatted;
     };
 
@@ -107,14 +108,14 @@ export const WysiwygArticleEditor: React.FC<WysiwygArticleEditorProps> = ({
       if (trimmed.startsWith('### ')) {
         elements.push(
           <h3 key={i} className="text-lg font-bold text-white mt-5 mb-2 flex items-center gap-2">
-            <span className="w-1.5 h-4 rounded-full bg-[#00DF8F]" />
+            <span className="w-1.5 h-4 rounded-full bg-[#0976da]" />
             <span dangerouslySetInnerHTML={{ __html: formatInline(trimmed.substring(4)) }} />
           </h3>
         );
       } else if (trimmed.startsWith('## ')) {
         elements.push(
-          <h2 key={i} className="text-xl font-extrabold text-[#F2F5F9] mt-6 mb-3 border-b border-[#14294F] pb-1.5 flex items-center gap-2">
-            <span className="w-2 h-5 rounded-full bg-[#0D95FE]" />
+          <h2 key={i} className="text-xl font-extrabold text-[#F2F5F9] mt-6 mb-3 border-b border-[#162C5B] pb-1.5 flex items-center gap-2">
+            <span className="w-2 h-5 rounded-full bg-[#043e97]" />
             <span dangerouslySetInnerHTML={{ __html: formatInline(trimmed.substring(3)) }} />
           </h2>
         );
@@ -128,18 +129,18 @@ export const WysiwygArticleEditor: React.FC<WysiwygArticleEditorProps> = ({
         elements.push(
           <blockquote
             key={i}
-            className="my-3 pl-4 border-l-2 border-[#00DF8F] bg-[#00DF8F]/5 py-2.5 pr-3 rounded-r-xl italic text-sm text-[#E2E8F0]"
+            className="my-3 pl-4 border-l-2 border-[#0976da] bg-[#043e97]/10 py-2.5 pr-3 rounded-r-xl italic text-sm text-[#CAD5E8]"
             dangerouslySetInnerHTML={{ __html: formatInline(trimmed.substring(2)) }}
           />
         );
       } else if (trimmed.startsWith('```')) {
         elements.push(
-          <div key={i} className="my-2 py-1 px-3 font-mono text-xs text-[#0D95FE] bg-[#020B1D] rounded border border-[#14294F]/60">
+          <div key={i} className="my-2 py-1 px-3 font-mono text-xs text-[#53a8f5] bg-[#020F2E] rounded border border-[#162C5B]">
             [Code Block]
           </div>
         );
       } else if (trimmed === '---') {
-        elements.push(<hr key={i} className="my-5 border-[#14294F]" />);
+        elements.push(<hr key={i} className="my-5 border-[#162C5B]" />);
       } else if (trimmed.length > 0) {
         elements.push(
           <p
@@ -157,15 +158,15 @@ export const WysiwygArticleEditor: React.FC<WysiwygArticleEditorProps> = ({
   };
 
   return (
-    <div className="flex flex-col gap-2 w-full">
+    <div className="flex flex-col gap-2 w-full font-sans">
       {/* Top Toolbar Header with View Switcher */}
-      <div className="flex items-center justify-between bg-[#0A1B3D] border border-[#14294F] rounded-t-xl px-3 py-2">
+      <div className="flex items-center justify-between bg-[#071739] border border-[#162C5B] rounded-t-xl px-3 py-2">
         {/* Formatting Buttons */}
         <div className="flex items-center gap-1 flex-wrap">
           <button
             type="button"
             onClick={() => insertFormatting('**', '**', 'bold text')}
-            className="px-2 py-1 rounded bg-[#020B1D] hover:bg-[#14294F] text-xs font-bold text-white border border-[#14294F] cursor-pointer"
+            className="px-2.5 py-1 rounded-lg bg-[#020F2E] hover:bg-[#162C5B] text-xs font-bold text-white border border-[#162C5B] cursor-pointer transition-colors"
             title="Bold (**text**)"
           >
             B
@@ -173,16 +174,16 @@ export const WysiwygArticleEditor: React.FC<WysiwygArticleEditorProps> = ({
           <button
             type="button"
             onClick={() => insertFormatting('*', '*', 'italic text')}
-            className="px-2 py-1 rounded bg-[#020B1D] hover:bg-[#14294F] text-xs italic text-white border border-[#14294F] cursor-pointer"
+            className="px-2.5 py-1 rounded-lg bg-[#020F2E] hover:bg-[#162C5B] text-xs italic text-white border border-[#162C5B] cursor-pointer transition-colors"
             title="Italic (*text*)"
           >
             I
           </button>
-          <div className="h-4 w-px bg-[#14294F] mx-0.5" />
+          <div className="h-4 w-px bg-[#162C5B] mx-0.5" />
           <button
             type="button"
             onClick={() => insertFormatting('## ', '', 'Section Heading')}
-            className="px-2 py-1 rounded bg-[#020B1D] hover:bg-[#14294F] text-xs font-bold text-[#0D95FE] border border-[#14294F] cursor-pointer"
+            className="px-2.5 py-1 rounded-lg bg-[#020F2E] hover:bg-[#162C5B] text-xs font-bold text-[#53a8f5] border border-[#162C5B] cursor-pointer transition-colors"
             title="Heading 2 (## Heading)"
           >
             H2
@@ -190,48 +191,48 @@ export const WysiwygArticleEditor: React.FC<WysiwygArticleEditorProps> = ({
           <button
             type="button"
             onClick={() => insertFormatting('### ', '', 'Sub-heading')}
-            className="px-2 py-1 rounded bg-[#020B1D] hover:bg-[#14294F] text-xs font-bold text-[#00DF8F] border border-[#14294F] cursor-pointer"
+            className="px-2.5 py-1 rounded-lg bg-[#020F2E] hover:bg-[#162C5B] text-xs font-bold text-[#93c5fd] border border-[#162C5B] cursor-pointer transition-colors"
             title="Heading 3 (### Sub-heading)"
           >
             H3
           </button>
-          <div className="h-4 w-px bg-[#14294F] mx-0.5" />
+          <div className="h-4 w-px bg-[#162C5B] mx-0.5" />
           <button
             type="button"
             onClick={() => insertFormatting('- ', '', 'Bullet item')}
-            className="px-2 py-1 rounded bg-[#020B1D] hover:bg-[#14294F] text-xs text-white border border-[#14294F] cursor-pointer flex items-center gap-1"
+            className="px-2.5 py-1 rounded-lg bg-[#020F2E] hover:bg-[#162C5B] text-xs text-white border border-[#162C5B] cursor-pointer flex items-center gap-1 transition-colors"
             title="Bullet list"
           >
-            <span className="material-symbols-outlined text-[14px]">format_list_bulleted</span>
+            <List className="w-3.5 h-3.5" />
           </button>
           <button
             type="button"
             onClick={() => insertFormatting('> ', '', 'Important quote or take-away')}
-            className="px-2 py-1 rounded bg-[#020B1D] hover:bg-[#14294F] text-xs text-white border border-[#14294F] cursor-pointer flex items-center gap-1"
+            className="px-2.5 py-1 rounded-lg bg-[#020F2E] hover:bg-[#162C5B] text-xs text-white border border-[#162C5B] cursor-pointer flex items-center gap-1 transition-colors"
             title="Quote (> blockquote)"
           >
-            <span className="material-symbols-outlined text-[14px]">format_quote</span>
+            <Quote className="w-3.5 h-3.5" />
           </button>
           <button
             type="button"
             onClick={() => insertFormatting('`', '`', 'code')}
-            className="px-2 py-1 rounded bg-[#020B1D] hover:bg-[#14294F] text-xs font-mono text-[#0D95FE] border border-[#14294F] cursor-pointer"
+            className="px-2.5 py-1 rounded-lg bg-[#020F2E] hover:bg-[#162C5B] text-xs font-mono text-[#53a8f5] border border-[#162C5B] cursor-pointer transition-colors flex items-center gap-1"
             title="Inline Code (`code`)"
           >
-            &lt;/&gt;
+            <Code className="w-3.5 h-3.5" />
           </button>
           <button
             type="button"
             onClick={() => insertFormatting('[', '](https://axoora.ai)', 'Link text')}
-            className="px-2 py-1 rounded bg-[#020B1D] hover:bg-[#14294F] text-xs text-[#0D95FE] border border-[#14294F] cursor-pointer flex items-center gap-0.5"
+            className="px-2.5 py-1 rounded-lg bg-[#020F2E] hover:bg-[#162C5B] text-xs text-[#53a8f5] border border-[#162C5B] cursor-pointer flex items-center gap-1 transition-colors"
             title="Insert Link"
           >
-            <span className="material-symbols-outlined text-[14px]">link</span>
+            <Link2 className="w-3.5 h-3.5" />
           </button>
           <button
             type="button"
             onClick={() => insertFormatting('\n---\n')}
-            className="px-2 py-1 rounded bg-[#020B1D] hover:bg-[#14294F] text-xs text-[#7B9CD2] border border-[#14294F] cursor-pointer"
+            className="px-2.5 py-1 rounded-lg bg-[#020F2E] hover:bg-[#162C5B] text-xs text-[#7B9CD2] border border-[#162C5B] cursor-pointer transition-colors"
             title="Horizontal Divider"
           >
             ―
@@ -239,13 +240,13 @@ export const WysiwygArticleEditor: React.FC<WysiwygArticleEditorProps> = ({
         </div>
 
         {/* View Mode Switcher */}
-        <div className="flex items-center gap-1 bg-[#020B1D] p-0.5 rounded-lg border border-[#14294F]">
+        <div className="flex items-center gap-1 bg-[#020F2E] p-1 rounded-lg border border-[#162C5B]">
           <button
             type="button"
             onClick={() => setActiveView('write')}
-            className={`px-2.5 py-1 rounded text-xs font-semibold cursor-pointer transition-colors ${
+            className={`px-3 py-1 rounded-md text-xs font-semibold cursor-pointer transition-all ${
               activeView === 'write'
-                ? 'bg-[#0D95FE] text-white shadow'
+                ? 'bg-[#043e97] text-white shadow'
                 : 'text-[#A8BBD6] hover:text-white'
             }`}
           >
@@ -254,26 +255,26 @@ export const WysiwygArticleEditor: React.FC<WysiwygArticleEditorProps> = ({
           <button
             type="button"
             onClick={() => setActiveView('preview')}
-            className={`px-2.5 py-1 rounded text-xs font-semibold cursor-pointer transition-colors flex items-center gap-1 ${
+            className={`px-3 py-1 rounded-md text-xs font-semibold cursor-pointer transition-all flex items-center gap-1.5 ${
               activeView === 'preview'
-                ? 'bg-[#00DF8F] text-[#003825] font-bold shadow'
+                ? 'bg-[#0976da] text-white font-bold shadow'
                 : 'text-[#A8BBD6] hover:text-white'
             }`}
           >
-            <span className="material-symbols-outlined text-[14px]">visibility</span>
+            <Eye className="w-3.5 h-3.5" />
             <span>Live Preview</span>
           </button>
           <button
             type="button"
             onClick={() => setActiveView('split')}
-            className={`hidden md:inline-flex px-2.5 py-1 rounded text-xs font-semibold cursor-pointer transition-colors items-center gap-1 ${
+            className={`hidden md:inline-flex px-3 py-1 rounded-md text-xs font-semibold cursor-pointer transition-all items-center gap-1.5 ${
               activeView === 'split'
-                ? 'bg-[#14294F] text-white border border-[#0D95FE]/40'
+                ? 'bg-[#162C5B] text-white border border-[#53a8f5]/40'
                 : 'text-[#A8BBD6] hover:text-white'
             }`}
             title="Side-by-side editing and live render"
           >
-            <span className="material-symbols-outlined text-[14px]">vertical_split</span>
+            <Columns className="w-3.5 h-3.5" />
             <span>Split</span>
           </button>
         </div>
@@ -287,12 +288,12 @@ export const WysiwygArticleEditor: React.FC<WysiwygArticleEditorProps> = ({
           value={content}
           onChange={(e) => onChange(e.target.value)}
           placeholder="Draft your full journal article body here using markdown (supports ## Headings, **bold**, lists, and quotes)..."
-          className="w-full px-4 py-3 rounded-b-xl bg-[#020B1D] border border-[#14294F] text-xs font-mono text-white leading-relaxed focus:outline-none focus:border-[#0D95FE] resize-y min-h-[220px]"
+          className="w-full px-4 py-3 rounded-b-xl bg-[#020F2E] border border-[#162C5B] text-xs font-mono text-white leading-relaxed focus:outline-none focus:border-[#53a8f5] resize-y min-h-[220px]"
         />
       )}
 
       {activeView === 'preview' && (
-        <div className="w-full p-5 rounded-b-xl bg-[#030E26] border border-[#14294F] min-h-[220px] max-h-[380px] overflow-y-auto">
+        <div className="w-full p-5 rounded-b-xl bg-[#020F2E] border border-[#162C5B] min-h-[220px] max-h-[380px] overflow-y-auto">
           {renderFormattedPreview(content)}
         </div>
       )}
@@ -305,11 +306,11 @@ export const WysiwygArticleEditor: React.FC<WysiwygArticleEditorProps> = ({
             value={content}
             onChange={(e) => onChange(e.target.value)}
             placeholder="Draft your article body here..."
-            className="w-full px-4 py-3 rounded-b-xl bg-[#020B1D] border border-[#14294F] text-xs font-mono text-white leading-relaxed focus:outline-none focus:border-[#0D95FE] resize-y min-h-[220px]"
+            className="w-full px-4 py-3 rounded-b-xl bg-[#020F2E] border border-[#162C5B] text-xs font-mono text-white leading-relaxed focus:outline-none focus:border-[#53a8f5] resize-y min-h-[220px]"
           />
-          <div className="w-full p-4 rounded-b-xl bg-[#030E26] border border-[#14294F] min-h-[220px] max-h-[340px] overflow-y-auto">
-            <div className="text-[10px] font-mono text-[#00DF8F] uppercase tracking-wider mb-2 font-bold flex items-center gap-1">
-              <span className="w-1.5 h-1.5 rounded-full bg-[#00DF8F] animate-pulse" />
+          <div className="w-full p-4 rounded-b-xl bg-[#071739] border border-[#162C5B] min-h-[220px] max-h-[340px] overflow-y-auto">
+            <div className="text-[10px] font-mono text-[#53a8f5] uppercase tracking-wider mb-2 font-bold flex items-center gap-1.5">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#10B981] animate-pulse" />
               <span>Real-Time Article Render</span>
             </div>
             {renderFormattedPreview(content)}
@@ -319,28 +320,27 @@ export const WysiwygArticleEditor: React.FC<WysiwygArticleEditorProps> = ({
 
       {/* Website Card Preview (What it looks like on live website) */}
       {title && (
-        <div className="mt-2 p-3.5 rounded-xl bg-[#020B1D]/90 border border-[#14294F] flex flex-col gap-2">
+        <div className="mt-2 p-4 rounded-xl bg-[#071739] border border-[#162C5B] flex flex-col gap-2">
           <div className="flex items-center justify-between text-[11px] font-mono text-[#7B9CD2]">
-            <span className="uppercase tracking-wider font-semibold text-[#0D95FE] flex items-center gap-1">
-              <span className="material-symbols-outlined text-[14px]">preview</span>
+            <span className="uppercase tracking-wider font-semibold text-[#53a8f5] flex items-center gap-1.5">
+              <FileText className="w-3.5 h-3.5" />
               <span>Website Card Render (WYSIWYG)</span>
             </span>
             <span>{date} • {readTime}</span>
           </div>
 
-          <div className="flex flex-col gap-1">
+          <div className="flex flex-col gap-1.5 mt-1">
             <div className="flex items-center gap-2">
-              <span className="px-2 py-0.5 rounded-full bg-[#0D95FE]/15 border border-[#0D95FE]/30 text-[#0D95FE] text-[10px] font-bold uppercase">
+              <span className="px-2.5 py-0.5 rounded-full bg-[#043e97]/20 border border-[#043e97]/40 text-[#53a8f5] text-[10px] font-bold uppercase tracking-wider">
                 {category}
               </span>
               <span className="text-xs text-[#A8BBD6]">By {author}</span>
             </div>
             <h4 className="text-sm font-bold text-white line-clamp-2">{title}</h4>
-            {summary && <p className="text-xs text-[#A8BBD6] line-clamp-2 mt-0.5">{summary}</p>}
+            {summary && <p className="text-xs text-[#A8BBD6] line-clamp-2 mt-0.5 leading-relaxed">{summary}</p>}
           </div>
         </div>
       )}
     </div>
   );
 };
-

@@ -2,18 +2,29 @@
 
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { AxooraLogo } from '../../../components/AxooraLogo';
 import { useRouter } from 'next/navigation';
+import {
+  ShieldCheck,
+  User,
+  Lock,
+  Eye,
+  EyeOff,
+  AlertCircle,
+  LogIn,
+  CheckCircle2,
+  Sparkles,
+} from 'lucide-react';
+import { AxooraLogo } from '../../../components/AxooraLogo';
 import { useAppDispatch, useAppSelector } from '../../../store';
 import { loginThunk, checkAuthThunk, clearAuthError } from '../../../store/slices/authSlice';
 
-// ─── Animated number ticker ───────────────────────────────────────────────────
+// ─── Animated Platform Stats Ticker ──────────────────────────────────────────
 
 const STATS = [
   { label: 'Waitlist Leads', value: '4.8K+' },
-  { label: 'POS Inquiries', value: '1.2K+' },
-  { label: 'Platform Uptime', value: '99.9%' },
-  { label: 'Active Merchants', value: '320+' },
+  { label: 'Bulk Batch Runs', value: '180+' },
+  { label: 'Platform Uptime', value: '99.98%' },
+  { label: 'Verified Merchants', value: '320+' },
 ];
 
 export function AdminLoginClient() {
@@ -66,40 +77,34 @@ export function AdminLoginClient() {
 
   if (checkingSession) {
     return (
-      <div className="min-h-screen bg-[#020B1D] flex items-center justify-center">
+      <div className="min-h-screen bg-[#020F2E] flex items-center justify-center font-['DM_Sans',sans-serif]">
         <div className="flex flex-col items-center gap-3">
-          <div className="w-8 h-8 border-2 border-[#0D95FE]/30 border-t-[#0D95FE] rounded-full animate-spin" />
-          <span className="text-xs text-[#7B9CD2] font-mono">Checking session…</span>
+          <div className="w-8 h-8 border-2 border-[#0976da]/30 border-t-[#0976da] rounded-full animate-spin" />
+          <span className="text-xs text-[#8492a6]">Verifying credentials…</span>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-[#020B1D] flex">
+    <div className="min-h-screen bg-[#020F2E] text-[#F2F5F9] flex font-['DM_Sans',sans-serif]">
       {/* ─── Left panel: branding + stats ─── */}
-      <div className="hidden lg:flex lg:w-[55%] relative flex-col justify-between p-12 overflow-hidden">
-        {/* Radial glow bg */}
+      <div className="hidden lg:flex lg:w-[55%] relative flex-col justify-between p-12 overflow-hidden bg-[#020F2E] border-r border-[#0e214d]">
+        {/* Ambient radial glow */}
         <div
-          className="absolute inset-0"
+          className="absolute inset-0 pointer-events-none"
           style={{
             background:
-              'radial-gradient(ellipse 70% 70% at 30% 40%, rgba(13,149,254,0.12) 0%, transparent 70%), radial-gradient(ellipse 50% 50% at 70% 70%, rgba(0,223,143,0.08) 0%, transparent 70%)',
-          }}
-        />
-        <div className="absolute inset-0 opacity-[0.04]"
-          style={{
-            backgroundImage: 'linear-gradient(rgba(13,149,254,0.5) 1px, transparent 1px), linear-gradient(90deg, rgba(13,149,254,0.5) 1px, transparent 1px)',
-            backgroundSize: '50px 50px',
+              'radial-gradient(ellipse 60% 60% at 30% 40%, rgba(4,62,151,0.2) 0%, transparent 70%)',
           }}
         />
 
         {/* Logo */}
         <div className="relative flex items-center gap-3">
-          <AxooraLogo />
-          <div className="h-4 w-px bg-[#14294F]" />
-          <span className="text-[11px] font-mono font-bold uppercase tracking-widest text-[#0D95FE] bg-[#0D95FE]/10 px-2.5 py-1 rounded-full border border-[#0D95FE]/30">
-            CMS Console v2.4
+          <AxooraLogo size="sm" theme="dark" />
+          <div className="h-4 w-px bg-[#162C5B]" />
+          <span className="text-[11px] font-bold tracking-wider text-[#53a8f5] bg-[#043e97]/25 px-2.5 py-1 rounded-full border border-[#043e97]/40">
+            Console v2.4
           </span>
         </div>
 
@@ -107,35 +112,33 @@ export function AdminLoginClient() {
         <div className="relative flex flex-col gap-6 max-w-lg">
           <div>
             <motion.p
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 15 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
-              className="text-[11px] font-mono text-[#0D95FE] uppercase font-bold tracking-widest mb-3"
+              transition={{ duration: 0.5 }}
+              className="text-[11px] text-[#53a8f5] uppercase font-bold tracking-wider mb-3 flex items-center gap-1.5"
             >
-              AXOORA FINANCIAL TECHNOLOGIES
+              <Sparkles className="w-3.5 h-3.5 text-yellow-300" />
+              Axoora Financial Technologies
             </motion.p>
             <motion.h1
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 15 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.1 }}
-              className="text-4xl xl:text-5xl font-black text-white tracking-tight leading-[1.1]"
+              transition={{ duration: 0.5, delay: 0.1 }}
+              className="text-4xl xl:text-5xl font-bold text-white tracking-tight leading-[1.08]"
             >
-              Fintech
+              Central Operating
               <br />
-              <span className="bg-gradient-to-r from-[#0D95FE] to-[#00DF8F] bg-clip-text text-transparent">
-                Operations
-              </span>
+              <span className="text-[#53a8f5]">Platform</span>
               <br />
-              Center
+              Console
             </motion.h1>
             <motion.p
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 15 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.2 }}
-              className="mt-4 text-[#7B9CD2] text-sm leading-relaxed max-w-sm"
+              transition={{ duration: 0.5, delay: 0.2 }}
+              className="mt-4 text-[#8492a6] text-sm leading-relaxed max-w-sm"
             >
-              Manage your content, team, waitlist leads, and platform
-              settings — all from a single secure console.
+              Control business cashflows, NIBSS batch payouts, customer cards, savings plans, and platform content from one secure console.
             </motion.p>
           </div>
 
@@ -145,13 +148,13 @@ export function AdminLoginClient() {
               {STATS.map((s, i) => (
                 <motion.div
                   key={s.label}
-                  initial={{ opacity: 0, scale: 0.9 }}
+                  initial={{ opacity: 0, scale: 0.95 }}
                   animate={{ opacity: 1, scale: 1 }}
-                  transition={{ delay: 0.3 + i * 0.1 }}
-                  className="p-3.5 rounded-2xl bg-[#05112A] border border-[#14294F] flex flex-col gap-1"
+                  transition={{ delay: 0.2 + i * 0.1 }}
+                  className="p-4 rounded-2xl bg-[#071739] border border-[#162C5B] flex flex-col gap-1 shadow-sm"
                 >
-                  <span className="text-[10px] font-mono text-[#7B9CD2] uppercase">{s.label}</span>
-                  <span className="text-xl font-black text-white">{s.value}</span>
+                  <span className="text-[10.5px] text-[#8492a6] uppercase font-bold">{s.label}</span>
+                  <span className="text-xl font-bold text-white">{s.value}</span>
                 </motion.div>
               ))}
             </div>
@@ -160,50 +163,50 @@ export function AdminLoginClient() {
             <AnimatePresence mode="wait">
               <motion.div
                 key={statIndex}
-                initial={{ opacity: 0, y: 8 }}
+                initial={{ opacity: 0, y: 6 }}
                 animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -8 }}
-                transition={{ duration: 0.35 }}
-                className="flex items-center gap-2 text-xs font-mono text-[#00DF8F] bg-[#00DF8F]/10 border border-[#00DF8F]/30 px-3 py-2 rounded-xl w-fit"
+                exit={{ opacity: 0, y: -6 }}
+                transition={{ duration: 0.25 }}
+                className="flex items-center gap-2 text-xs text-emerald-400 bg-emerald-500/10 border border-emerald-500/30 px-3 py-2 rounded-xl w-fit"
               >
-                <span className="w-1.5 h-1.5 rounded-full bg-[#00DF8F] animate-pulse" />
-                <span>LIVE — {STATS[statIndex].label}: {STATS[statIndex].value}</span>
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                <span>LIVE SYSTEM · {STATS[statIndex].label}: {STATS[statIndex].value}</span>
               </motion.div>
             </AnimatePresence>
           </div>
         </div>
 
-        {/* CBN compliance badge */}
-        <div className="relative flex items-center gap-3 text-xs text-[#7B9CD2]">
-          <span className="material-symbols-outlined text-[16px] text-[#00DF8F]">verified_user</span>
+        {/* Compliance badge */}
+        <div className="relative flex items-center gap-2 text-xs text-[#8492a6]">
+          <ShieldCheck className="w-4 h-4 text-emerald-400" />
           <span>CBN Licensed · NDIC Protected · 256-bit TLS Encrypted</span>
         </div>
       </div>
 
       {/* ─── Right panel: login form ─── */}
-      <div className="flex-1 flex flex-col items-center justify-center p-6 sm:p-10 bg-[#020B1D] lg:bg-[#030E26] lg:border-l lg:border-[#14294F]">
+      <div className="flex-1 flex flex-col items-center justify-center p-6 sm:p-10 bg-[#020F2E] lg:bg-[#041338]">
         {/* Mobile logo */}
         <div className="lg:hidden mb-8 flex items-center gap-3">
-          <AxooraLogo />
-          <span className="text-[11px] font-mono font-bold uppercase tracking-widest text-[#0D95FE] bg-[#0D95FE]/10 px-2 py-0.5 rounded-full border border-[#0D95FE]/30">
-            CMS Console
+          <AxooraLogo size="sm" theme="dark" />
+          <span className="text-[11px] font-bold uppercase tracking-wider text-[#53a8f5] bg-[#043e97]/20 px-2 py-0.5 rounded-full border border-[#043e97]/30">
+            Console
           </span>
         </div>
 
         <motion.div
-          initial={{ opacity: 0, y: 24 }}
+          initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-          className="w-full max-w-sm flex flex-col gap-8"
+          transition={{ duration: 0.4 }}
+          className="w-full max-w-sm flex flex-col gap-6"
         >
           {/* Header */}
-          <div className="flex flex-col gap-2">
-            <span className="text-[10px] font-mono uppercase tracking-widest text-[#0D95FE] font-bold">
-              SECURE ACCESS PORTAL
+          <div className="flex flex-col gap-1.5">
+            <span className="text-[11px] uppercase tracking-wider text-[#53a8f5] font-bold">
+              SECURE ACCESS
             </span>
-            <h2 className="text-2xl font-black text-white">Sign in to your workspace</h2>
-            <p className="text-xs text-[#7B9CD2] leading-relaxed">
-              Use your Axoora platform credentials to access the CMS.
+            <h2 className="text-2xl font-bold text-white">Sign in to console</h2>
+            <p className="text-xs text-[#8492a6] leading-relaxed">
+              Use your Axoora staff credentials to access the administrative dashboard.
             </p>
           </div>
 
@@ -211,13 +214,11 @@ export function AdminLoginClient() {
           <form onSubmit={handleSubmit} className="flex flex-col gap-4">
             {/* Username */}
             <div className="flex flex-col gap-1.5">
-              <label htmlFor="admin-username" className="text-xs font-semibold text-[#A8BBD6]">
+              <label htmlFor="admin-username" className="text-xs font-semibold text-[#8492a6]">
                 Username or Email
               </label>
               <div className="relative">
-                <span className="absolute left-3 top-1/2 -translate-y-1/2 material-symbols-outlined text-[18px] text-[#7B9CD2]">
-                  person
-                </span>
+                <User className="w-4 h-4 text-[#8492a6] absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
                 <input
                   id="admin-username"
                   type="text"
@@ -225,7 +226,7 @@ export function AdminLoginClient() {
                   value={username}
                   onChange={(e) => setUsername(e.target.value)}
                   placeholder="e.g. admin or admin@axoora.ai"
-                  className="w-full pl-10 pr-4 py-3 rounded-xl bg-[#05112A] border border-[#14294F] text-sm text-white placeholder-[#7B9CD2] focus:outline-none focus:border-[#0D95FE] transition-colors"
+                  className="w-full pl-10 pr-4 py-3 rounded-xl bg-[#071739] border border-[#162C5B] text-sm text-white placeholder-[#6c7a89] focus:outline-none focus:border-[#0976da] transition-colors"
                   disabled={loading}
                   required
                 />
@@ -234,13 +235,11 @@ export function AdminLoginClient() {
 
             {/* Password */}
             <div className="flex flex-col gap-1.5">
-              <label htmlFor="admin-password" className="text-xs font-semibold text-[#A8BBD6]">
+              <label htmlFor="admin-password" className="text-xs font-semibold text-[#8492a6]">
                 Password
               </label>
               <div className="relative">
-                <span className="absolute left-3 top-1/2 -translate-y-1/2 material-symbols-outlined text-[18px] text-[#7B9CD2]">
-                  lock
-                </span>
+                <Lock className="w-4 h-4 text-[#8492a6] absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
                 <input
                   id="admin-password"
                   type={showPass ? 'text' : 'password'}
@@ -248,19 +247,17 @@ export function AdminLoginClient() {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="••••••••••••"
-                  className="w-full pl-10 pr-12 py-3 rounded-xl bg-[#05112A] border border-[#14294F] text-sm text-white placeholder-[#7B9CD2] focus:outline-none focus:border-[#0D95FE] transition-colors"
+                  className="w-full pl-10 pr-12 py-3 rounded-xl bg-[#071739] border border-[#162C5B] text-sm text-white placeholder-[#6c7a89] focus:outline-none focus:border-[#0976da] transition-colors"
                   disabled={loading}
                   required
                 />
                 <button
                   type="button"
                   onClick={() => setShowPass((p) => !p)}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-[#7B9CD2] hover:text-[#A8BBD6] cursor-pointer"
+                  className="absolute right-3.5 top-1/2 -translate-y-1/2 text-[#8492a6] hover:text-white transition cursor-pointer"
                   tabIndex={-1}
                 >
-                  <span className="material-symbols-outlined text-[18px]">
-                    {showPass ? 'visibility_off' : 'visibility'}
-                  </span>
+                  {showPass ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                 </button>
               </div>
             </div>
@@ -274,8 +271,8 @@ export function AdminLoginClient() {
                   exit={{ opacity: 0, height: 0 }}
                   className="overflow-hidden"
                 >
-                  <div className="flex items-center gap-2 px-3 py-2.5 rounded-xl bg-[#EF4444]/10 border border-[#EF4444]/30 text-xs text-[#EF4444]">
-                    <span className="material-symbols-outlined text-[16px]">error</span>
+                  <div className="flex items-center gap-2 px-3.5 py-2.5 rounded-xl bg-red-500/10 border border-red-500/30 text-xs text-red-400">
+                    <AlertCircle className="w-4 h-4 shrink-0" />
                     <span>{error}</span>
                   </div>
                 </motion.div>
@@ -286,16 +283,16 @@ export function AdminLoginClient() {
             <button
               type="submit"
               disabled={loading || !username.trim() || !password}
-              className="mt-1 w-full py-3 bg-[#0D95FE] hover:bg-[#0C84E4] disabled:opacity-50 disabled:cursor-not-allowed text-[#00284D] font-bold text-sm rounded-xl shadow-lg shadow-[#0D95FE]/20 flex items-center justify-center gap-2 transition-all cursor-pointer"
+              className="mt-1 w-full py-3 bg-[#043e97] hover:bg-[#0976da] disabled:opacity-50 disabled:cursor-not-allowed text-white font-bold text-sm rounded-xl shadow-md flex items-center justify-center gap-2 transition-all cursor-pointer"
             >
               {loading ? (
                 <>
-                  <div className="w-4 h-4 border-2 border-[#00284D]/30 border-t-[#00284D] rounded-full animate-spin" />
+                  <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
                   <span>Signing in…</span>
                 </>
               ) : (
                 <>
-                  <span className="material-symbols-outlined text-[18px]">login</span>
+                  <LogIn className="w-4 h-4" />
                   <span>Sign in to Console</span>
                 </>
               )}
@@ -303,17 +300,14 @@ export function AdminLoginClient() {
           </form>
 
           {/* Footer note */}
-          <div className="flex flex-col gap-2">
-            <div className="h-px bg-[#14294F]" />
-            <p className="text-[10px] text-[#7B9CD2] text-center leading-relaxed">
+          <div className="flex flex-col gap-2 pt-2 border-t border-[#162C5B]">
+            <p className="text-[11px] text-[#8492a6] text-center leading-relaxed">
               This portal is restricted to authorised Axoora team members.
-              <br />
-              Unauthorised access attempts are logged and prosecutable under NDPR.
             </p>
-            <div className="flex items-center justify-center gap-3 text-[10px] text-[#7B9CD2] font-mono">
+            <div className="flex items-center justify-center gap-3 text-[10px] text-[#6c7a89]">
               <span>🔒 256-bit TLS</span>
               <span>·</span>
-              <span>Session-based Auth</span>
+              <span>Session Auth</span>
               <span>·</span>
               <span>RBAC Enforced</span>
             </div>

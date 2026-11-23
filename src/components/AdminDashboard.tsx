@@ -3,6 +3,32 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
+  LayoutDashboard,
+  Megaphone,
+  Smartphone,
+  Store,
+  Layers,
+  FileText,
+  Users,
+  HelpCircle,
+  MessageSquare,
+  ShieldCheck,
+  RefreshCw,
+  RotateCcw,
+  ExternalLink,
+  LogOut,
+  ArrowRight,
+  CheckCircle2,
+  Plus,
+  Building2,
+  CreditCard,
+  PiggyBank,
+  Send,
+  Lock,
+  Compass,
+  X,
+} from 'lucide-react';
+import {
   useCms,
   AdminMerchantItem,
   AdminProductItem,
@@ -191,77 +217,77 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onExitAdmin }) =
   const navItems: Array<{
     id: AdminTab;
     label: string;
-    icon: string;
+    icon: React.ComponentType<{ className?: string }>;
     badge: string | null;
     reflectsOn: string;
   }> = [
     {
       id: 'overview',
       label: 'Overview',
-      icon: 'space_dashboard',
+      icon: LayoutDashboard,
       badge: null,
-      reflectsOn: 'All live metrics & quick actions',
+      reflectsOn: 'Commercial metrics & website control',
     },
     {
       id: 'hero',
-      label: 'Hero & Banner',
-      icon: 'campaign',
+      label: 'Hero & Announcements',
+      icon: Megaphone,
       badge: hero.announcementActive ? 'Live' : 'Off',
-      reflectsOn: 'Home (/), Business (/business) & Personal (/personal)',
+      reflectsOn: 'Business (/business), Payouts (/payouts) & Personal',
     },
     {
       id: 'get-started',
       label: '4-Step Onboarding',
-      icon: 'route',
+      icon: Smartphone,
       badge: '4 Steps',
       reflectsOn: 'Interactive phone walkthrough on Home, Business & Personal',
     },
     {
       id: 'merchants',
       label: 'Merchant Stories',
-      icon: 'storefront',
+      icon: Store,
       badge: `${merchants.length}`,
       reflectsOn: 'Home, Business testimonials & Stories (/stories)',
     },
     {
       id: 'products',
-      label: 'Products & Fees',
-      icon: 'point_of_sale',
+      label: 'Products & Pricing',
+      icon: Layers,
       badge: `${products.length}`,
-      reflectsOn: 'Homepage Product Suite & Fee Schedule',
+      reflectsOn: 'Cards, Savings, Payouts & Fee Schedule',
     },
     {
       id: 'journal',
       label: 'Articles & Press',
-      icon: 'article',
+      icon: FileText,
       badge: `${articles.length}`,
       reflectsOn: 'Journal (/journal), Press (/press) & Blog Carousels',
     },
     {
       id: 'leads',
       label: 'Waitlist & Leads',
-      icon: 'contacts',
+      icon: Users,
       badge: `${leads.length}`,
       reflectsOn: 'Apply (/apply), Waitlist Modal & Track (/track)',
     },
     {
       id: 'faqs',
-      label: 'FAQs & Help',
-      icon: 'help_center',
+      label: 'FAQs & Help Desk',
+      icon: HelpCircle,
       badge: `${faqs.length}`,
-      reflectsOn: 'Help Desk (/help), Product Page Accordions & WhatsApp FAQs',
+      reflectsOn: 'Help Desk (/help), Resolution Desk & WhatsApp FAQs',
     },
     {
       id: 'chat',
       label: 'Live Chat Desk',
-      icon: 'support_agent',
+      icon: MessageSquare,
       badge: 'Live',
-      reflectsOn: 'Floating AI Concierge & Human Escalation Widget',
+      reflectsOn: 'AI Concierge & Human Escalation Widget',
     },
     {
       id: 'team',
-      label: 'Team & Access',
-      icon: 'manage_accounts',
+      label: 'Team & RBAC',
+      icon: ShieldCheck,
       badge: 'RBAC',
       reflectsOn: 'Admin Console roles & staff permissions',
     },
@@ -270,7 +296,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onExitAdmin }) =
   const activeNavMeta = navItems.find((n) => n.id === activeTab) || navItems[0];
 
   return (
-    <div className="min-h-screen bg-[#020B1D] text-[#F2F5F9] flex flex-col font-sans selection:bg-[#0D95FE]/30">
+    <div className="min-h-screen bg-[#020F2E] text-[#F2F5F9] flex flex-col font-['DM_Sans',sans-serif] selection:bg-[#043e97]/40">
       {/* Smooth Floating Toast */}
       <AnimatePresence>
         {toastMessage && (
@@ -279,9 +305,9 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onExitAdmin }) =
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: -16, scale: 0.96 }}
             transition={{ duration: 0.2 }}
-            className="fixed top-5 right-5 z-[90] bg-[#07193E] border border-[#00DF8F]/60 text-white px-4 py-3 rounded-2xl shadow-2xl flex items-center gap-3"
+            className="fixed top-5 right-5 z-[90] bg-[#071739] border border-emerald-500/50 text-white px-4 py-3 rounded-2xl shadow-2xl flex items-center gap-3"
           >
-            <span className="w-6 h-6 rounded-full bg-[#00DF8F]/20 text-[#00DF8F] flex items-center justify-center text-xs font-bold">
+            <span className="w-6 h-6 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center text-xs font-bold">
               ✓
             </span>
             <span className="text-xs sm:text-sm font-semibold">{toastMessage}</span>
@@ -290,15 +316,15 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onExitAdmin }) =
       </AnimatePresence>
 
       {/* Top Header Bar */}
-      <header className="sticky top-0 z-40 bg-[#020B1D]/95 backdrop-blur-md border-b border-[#14294F] px-4 lg:px-8 h-16 flex items-center justify-between gap-4">
+      <header className="sticky top-0 z-40 bg-[#020F2E]/95 backdrop-blur-md border-b border-[#0e214d] px-4 lg:px-8 h-16 flex items-center justify-between gap-4">
         <div className="flex items-center gap-3 min-w-0">
-          <AxooraLogo />
-          <div className="h-4 w-px bg-[#14294F] hidden sm:block" />
-          <span className="text-[11px] font-mono font-bold uppercase tracking-wider text-[#00DF8F] bg-[#00DF8F]/10 px-2.5 py-1 rounded-full border border-[#00DF8F]/25 flex items-center gap-1.5">
-            <span className="w-1.5 h-1.5 rounded-full bg-[#00DF8F] animate-pulse" />
-            <span>Live Admin</span>
+          <AxooraLogo size="sm" theme="dark" />
+          <div className="h-4 w-px bg-[#162C5B] hidden sm:block" />
+          <span className="text-[11px] font-bold text-[#53a8f5] bg-[#043e97]/25 px-2.5 py-1 rounded-full border border-[#043e97]/40 flex items-center gap-1.5">
+            <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+            <span>Admin Console</span>
           </span>
-          <span className="hidden lg:inline text-xs text-[#7B9CD2] truncate">
+          <span className="hidden lg:inline text-xs text-[#8492a6] truncate">
             {activeNavMeta.reflectsOn}
           </span>
         </div>
@@ -308,16 +334,14 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onExitAdmin }) =
             type="button"
             onClick={handleSyncAll}
             disabled={isSyncing}
-            className="px-3 py-1.5 rounded-xl bg-[#071635] hover:bg-[#0D214F] border border-[#14294F] text-xs font-semibold text-[#A8BBD6] hover:text-white flex items-center gap-1.5 transition-colors cursor-pointer disabled:opacity-50"
+            className="px-3 py-1.5 rounded-xl bg-[#071739] hover:bg-[#0c2356] border border-[#162C5B] text-xs font-semibold text-[#8492a6] hover:text-white flex items-center gap-1.5 transition-colors cursor-pointer disabled:opacity-50"
             title="Sync with Django Backend"
           >
-            <span
-              className={`material-symbols-outlined text-[16px] text-[#0D95FE] ${
+            <RefreshCw
+              className={`w-3.5 h-3.5 text-[#53a8f5] ${
                 isSyncing ? 'animate-spin' : ''
               }`}
-            >
-              sync
-            </span>
+            />
             <span className="hidden sm:inline">{isSyncing ? 'Syncing…' : 'Sync API'}</span>
           </button>
 
@@ -338,27 +362,28 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onExitAdmin }) =
                 },
               })
             }
-            className="px-3 py-1.5 text-xs font-semibold text-[#A8BBD6] hover:text-amber-400 border border-[#14294F] hover:border-amber-400/40 rounded-xl transition-colors cursor-pointer hidden md:inline-flex items-center gap-1"
+            className="px-3 py-1.5 text-xs font-semibold text-[#8492a6] hover:text-amber-300 border border-[#162C5B] hover:border-amber-400/40 rounded-xl transition-colors cursor-pointer hidden md:inline-flex items-center gap-1.5"
           >
-            <span className="material-symbols-outlined text-[15px]">restart_alt</span>
+            <RotateCcw className="w-3.5 h-3.5" />
             <span>Reset Defaults</span>
           </button>
 
           <button
             type="button"
             onClick={onExitAdmin}
-            className="px-4 py-2 bg-[#0D95FE] hover:bg-[#00DF8F] text-white hover:text-[#003825] font-bold text-xs rounded-xl shadow-lg shadow-[#0D95FE]/20 flex items-center gap-1.5 transition-all cursor-pointer"
+            className="px-4 py-2 bg-[#043e97] hover:bg-[#0976da] text-white font-bold text-xs rounded-xl shadow-md flex items-center gap-1.5 transition-all cursor-pointer"
           >
-            <span className="material-symbols-outlined text-[16px]">open_in_new</span>
+            <ExternalLink className="w-3.5 h-3.5" />
             <span>View Live Site</span>
           </button>
         </div>
       </header>
 
       {/* Mobile Horizontal Navigation Bar */}
-      <div className="lg:hidden bg-[#030E26] border-b border-[#14294F] px-3 py-2 flex items-center gap-1.5 overflow-x-auto no-scrollbar">
+      <div className="lg:hidden bg-[#020F2E] border-b border-[#0e214d] px-3 py-2 flex items-center gap-1.5 overflow-x-auto no-scrollbar">
         {navItems.map((tab) => {
           const isActive = activeTab === tab.id;
+          const IconComp = tab.icon;
           return (
             <button
               key={tab.id}
@@ -366,11 +391,11 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onExitAdmin }) =
               onClick={() => setActiveTab(tab.id)}
               className={`px-3 py-1.5 rounded-xl text-xs font-bold whitespace-nowrap flex items-center gap-1.5 transition-all cursor-pointer shrink-0 ${
                 isActive
-                  ? 'bg-[#0D95FE] text-white shadow-sm'
-                  : 'text-[#A8BBD6] hover:bg-[#0A1B3D] hover:text-white'
+                  ? 'bg-[#043e97] text-white shadow-sm'
+                  : 'text-[#8492a6] hover:bg-[#071739] hover:text-white'
               }`}
             >
-              <span className="material-symbols-outlined text-[16px]">{tab.icon}</span>
+              <IconComp className="w-3.5 h-3.5 shrink-0" />
               <span>{tab.label}</span>
             </button>
           );
@@ -380,10 +405,11 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onExitAdmin }) =
       {/* Main Workspace */}
       <div className="flex-1 flex overflow-hidden">
         {/* Desktop Sidebar */}
-        <aside className="hidden lg:flex w-64 bg-[#030E26] border-r border-[#14294F] flex-col justify-between shrink-0">
+        <aside className="hidden lg:flex w-64 bg-[#020F2E] border-r border-[#0e214d] flex-col justify-between shrink-0">
           <nav className="p-3 flex flex-col gap-1">
             {navItems.map((tab) => {
               const isActive = activeTab === tab.id;
+              const IconComp = tab.icon;
               return (
                 <button
                   key={tab.id}
@@ -391,20 +417,20 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onExitAdmin }) =
                   onClick={() => setActiveTab(tab.id)}
                   className={`w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs font-semibold transition-all cursor-pointer ${
                     isActive
-                      ? 'bg-[#0D95FE] text-white font-bold shadow-md shadow-[#0D95FE]/20'
-                      : 'text-[#A8BBD6] hover:bg-[#0A1B3D] hover:text-white'
+                      ? 'bg-[#043e97] text-white font-bold shadow-md shadow-[#043e97]/25'
+                      : 'text-[#8492a6] hover:bg-[#071739] hover:text-white'
                   }`}
                 >
                   <div className="flex items-center gap-2.5">
-                    <span className="material-symbols-outlined text-[18px]">{tab.icon}</span>
+                    <IconComp className="w-4 h-4 shrink-0" />
                     <span>{tab.label}</span>
                   </div>
                   {tab.badge && (
                     <span
-                      className={`text-[10px] font-mono px-2 py-0.5 rounded-full ${
+                      className={`text-[10px] px-2 py-0.5 rounded-full ${
                         isActive
                           ? 'bg-white/20 text-white font-bold'
-                          : 'bg-[#0A1B3D] text-[#7B9CD2] border border-[#14294F]'
+                          : 'bg-[#071739] text-[#8492a6] border border-[#162C5B]'
                       }`}
                     >
                       {tab.badge}
@@ -428,14 +454,14 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onExitAdmin }) =
                 .join('')
                 .toUpperCase() || 'SA';
             return (
-              <div className="p-3 m-3 rounded-2xl bg-[#05112A] border border-[#14294F] flex flex-col gap-2.5">
+              <div className="p-3 m-3 rounded-2xl bg-[#071739] border border-[#162C5B] flex flex-col gap-2.5">
                 <div className="flex items-center gap-2.5">
-                  <div className="w-8 h-8 rounded-xl bg-gradient-to-tr from-[#0D95FE] to-[#00DF8F] flex items-center justify-center font-bold text-xs text-[#00284D] shrink-0">
+                  <div className="w-8 h-8 rounded-xl bg-gradient-to-tr from-[#043e97] to-[#0976da] flex items-center justify-center font-bold text-xs text-white shrink-0">
                     {initials}
                   </div>
                   <div className="flex flex-col min-w-0">
                     <span className="text-xs font-bold text-white truncate">{displayName}</span>
-                    <span className="text-[10px] text-[#00DF8F] font-mono truncate">{roleName}</span>
+                    <span className="text-[10px] text-emerald-400 font-medium truncate">{roleName}</span>
                   </div>
                 </div>
                 <button
@@ -446,9 +472,9 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onExitAdmin }) =
                       .catch(() => {});
                     window.location.href = '/admin/login';
                   }}
-                  className="w-full py-1.5 rounded-xl text-[11px] font-semibold text-[#7B9CD2] hover:text-red-400 border border-[#14294F] hover:border-red-400/30 transition-colors cursor-pointer flex items-center justify-center gap-1.5"
+                  className="w-full py-1.5 rounded-xl text-[11px] font-semibold text-[#8492a6] hover:text-red-400 border border-[#162C5B] hover:border-red-400/30 transition-colors cursor-pointer flex items-center justify-center gap-1.5"
                 >
-                  <span className="material-symbols-outlined text-[14px]">logout</span>
+                  <LogOut className="w-3.5 h-3.5" />
                   <span>Sign Out</span>
                 </button>
               </div>
@@ -457,7 +483,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onExitAdmin }) =
         </aside>
 
         {/* Active Section Content */}
-        <main className="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8 bg-[#020B1D]">
+        <main className="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8 bg-[#020F2E]">
           <AnimatePresence mode="wait">
             <motion.div
               key={activeTab}
@@ -471,162 +497,333 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onExitAdmin }) =
               {/* 1. OVERVIEW */}
               {/* ========================================================= */}
               {activeTab === 'overview' && (
-                <div className="flex flex-col gap-6">
-                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-[#14294F]">
+                <div className="flex flex-col gap-8">
+                  {/* Header Title Block */}
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-[#0e214d]">
                     <div>
-                      <span className="text-xs font-mono text-[#00DF8F] uppercase font-bold">
-                        SIMPLE WEBSITE CONTROL CENTER
+                      <span className="text-xs font-bold tracking-wider text-[#53a8f5] uppercase block">
+                        Platform Administration &amp; Live Surfaces
                       </span>
-                      <h1 className="text-2xl font-black text-white mt-0.5">
-                        What would you like to update today?
+                      <h1 className="text-2xl sm:text-3xl font-bold text-white mt-1">
+                        Axoora Operating Dashboard
                       </h1>
+                      <p className="text-xs sm:text-sm text-[#8492a6] mt-1 max-w-2xl">
+                        Monitor commercial accounts, bulk NIBSS payouts, card issuance, savings profit-shares, and support funnels.
+                      </p>
                     </div>
                   </div>
 
-                  {/* Quick Action Cards */}
-                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                  {/* ─── LIVE WEBSITE SURFACES MATRIX (New feature) ─── */}
+                  <div>
+                    <div className="flex items-center justify-between mb-3">
+                      <span className="text-xs font-bold uppercase tracking-wider text-[#8492a6]">
+                        Live Website Surfaces &amp; Public Endpoints
+                      </span>
+                      <span className="text-[11px] text-[#53a8f5] font-medium">
+                        9 Live Routes Available
+                      </span>
+                    </div>
+
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+                      {[
+                        {
+                          title: 'Business Account',
+                          path: '/business',
+                          eyebrow: 'Commercial Account',
+                          desc: 'Real-time balance & scheduled cashflow timeline',
+                          icon: Building2,
+                          color: '#043e97',
+                        },
+                        {
+                          title: 'Bulk Payouts',
+                          path: '/payouts',
+                          eyebrow: 'Two Ways In',
+                          desc: 'Row-by-row NIBSS batch engine & CSV uploader',
+                          icon: Send,
+                          color: '#0976da',
+                        },
+                        {
+                          title: 'Cards Engine',
+                          path: '/cards',
+                          eyebrow: 'Naira & Dollar',
+                          desc: 'Physical & virtual cards with separate balances',
+                          icon: CreditCard,
+                          color: '#0f6b45',
+                        },
+                        {
+                          title: 'Savings & Ajo',
+                          path: '/savings',
+                          eyebrow: 'Non-Interest',
+                          desc: 'Fixed 12mo profit shares, Flexible & Ajo circles',
+                          icon: PiggyBank,
+                          color: '#b45309',
+                        },
+                        {
+                          title: 'Pricing & Runs',
+                          path: '/pricing',
+                          eyebrow: 'Fee Transparency',
+                          desc: 'What a run costs & per-recipient fee schedules',
+                          icon: Layers,
+                          color: '#043e97',
+                        },
+                        {
+                          title: 'Security & Trust',
+                          path: '/security',
+                          eyebrow: 'CBN & NDIC',
+                          desc: 'Transaction approval rules & deposit safety',
+                          icon: ShieldCheck,
+                          color: '#0976da',
+                        },
+                        {
+                          title: 'Help Desk',
+                          path: '/help',
+                          eyebrow: 'Need a Hand?',
+                          desc: 'Searchable resolution center & WhatsApp desk',
+                          icon: HelpCircle,
+                          color: '#0f6b45',
+                        },
+                        {
+                          title: 'Company & Team',
+                          path: '/about',
+                          eyebrow: 'Built in Lagos',
+                          desc: 'Executive team, headquarters, and mission',
+                          icon: Compass,
+                          color: '#b45309',
+                        },
+                      ].map((surface) => {
+                        const SurfaceIcon = surface.icon;
+                        return (
+                          <a
+                            key={surface.path}
+                            href={surface.path}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="p-4 rounded-2xl bg-[#071739] hover:bg-[#0c2356] border border-[#162C5B] hover:border-[#0976da]/60 transition-all flex flex-col justify-between group shadow-sm"
+                          >
+                            <div>
+                              <div className="flex items-center justify-between mb-2">
+                                <span className="text-[10px] font-bold uppercase tracking-wider text-[#53a8f5]">
+                                  {surface.eyebrow}
+                                </span>
+                                <ExternalLink className="w-3.5 h-3.5 text-[#8492a6] group-hover:text-white transition-colors" />
+                              </div>
+                              <h4 className="text-[14px] font-bold text-white group-hover:text-[#53a8f5] transition-colors flex items-center gap-1.5">
+                                <SurfaceIcon className="w-4 h-4 text-[#53a8f5]" />
+                                {surface.title}
+                              </h4>
+                              <p className="mt-1 text-[11.5px] text-[#8492a6] leading-relaxed">
+                                {surface.desc}
+                              </p>
+                            </div>
+                            <span className="mt-3 text-[10.5px] font-mono text-[#6c7a89]">
+                              {surface.path}
+                            </span>
+                          </a>
+                        );
+                      })}
+                    </div>
+                  </div>
+
+                  {/* ─── OPERATIONAL KPI SUMMARY CARDS ─── */}
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                     {[
                       {
-                        tab: 'hero' as AdminTab,
-                        icon: 'campaign',
-                        title: 'Hero & Top Banner',
-                        desc: 'Edit headlines, subheadlines, CTAs, and the top announcement bar across Home, Business & Personal.',
-                        stat: hero.announcementActive ? 'Banner Active' : 'Banner Hidden',
-                        color: '#0D95FE',
+                        title: 'Waitlist & Leads',
+                        value: `${leads.length}`,
+                        subtext: 'Applications submitted via /apply & modals',
+                        badge: 'Active Funnel',
+                        badgeColor: 'text-emerald-400 bg-emerald-500/10 border-emerald-500/20',
                       },
                       {
-                        tab: 'get-started' as AdminTab,
-                        icon: 'route',
-                        title: '4-Step Onboarding',
-                        desc: 'Customize the 4 interactive phone onboarding steps and customer quotes.',
-                        stat: '4 Interactive Steps',
-                        color: '#00DF8F',
+                        title: 'Payouts Batch Engine',
+                        value: 'NIBSS Ready',
+                        subtext: '18 recipient demo batch template live',
+                        badge: 'Connected',
+                        badgeColor: 'text-[#53a8f5] bg-[#043e97]/20 border-[#043e97]/30',
                       },
                       {
-                        tab: 'merchants' as AdminTab,
-                        icon: 'storefront',
-                        title: 'Merchant Stories',
-                        desc: 'Add or edit verified Nigerian merchant stories shown on Home, Business & /stories.',
-                        stat: `${merchants.length} Stories Live`,
-                        color: '#F2A93B',
+                        title: 'Product Catalog',
+                        value: `${products.length}`,
+                        subtext: 'Configured pricing, cards & POS tiers',
+                        badge: 'Published',
+                        badgeColor: 'text-[#53a8f5] bg-[#043e97]/20 border-[#043e97]/30',
                       },
                       {
-                        tab: 'products' as AdminTab,
-                        icon: 'point_of_sale',
-                        title: 'Products & POS Fees',
-                        desc: 'Manage Personal, Business, Apex POS, and Halal Capital cards & pricing.',
-                        stat: `${products.length} Products`,
-                        color: '#0D95FE',
+                        title: 'Knowledge Base',
+                        value: `${articles.length + faqs.length}`,
+                        subtext: `${articles.length} articles · ${faqs.length} FAQ answers`,
+                        badge: 'Synchronized',
+                        badgeColor: 'text-amber-400 bg-amber-500/10 border-amber-500/20',
                       },
-                      {
-                        tab: 'journal' as AdminTab,
-                        icon: 'article',
-                        title: 'Articles & Press',
-                        desc: 'Publish engineering notes, press releases, and guides to /journal and /press.',
-                        stat: `${articles.length} Published`,
-                        color: '#00DF8F',
-                      },
-                      {
-                        tab: 'leads' as AdminTab,
-                        icon: 'contacts',
-                        title: 'Waitlist & POS Leads',
-                        desc: 'Review applications from /apply, update approval status, and export CSV.',
-                        stat: `${leads.length} Total Leads`,
-                        color: '#A78BFA',
-                      },
-                      {
-                        tab: 'faqs' as AdminTab,
-                        icon: 'help_center',
-                        title: 'Resolution Desk FAQs',
-                        desc: 'Edit questions & answers for website accordion drawers across all products.',
-                        stat: `${faqs.length} FAQs Live`,
-                        color: '#38BDF8',
-                      },
-                    ].map((card) => (
-                      <button
-                        key={card.tab}
-                        type="button"
-                        onClick={() => setActiveTab(card.tab)}
-                        className="p-5 rounded-2xl bg-[#05112A] hover:bg-[#081A3E] border border-[#14294F] hover:border-[#0D95FE]/60 text-left flex flex-col justify-between gap-4 transition-all cursor-pointer group shadow-lg"
+                    ].map((kpi, idx) => (
+                      <div
+                        key={idx}
+                        className="p-5 rounded-2xl bg-[#071739] border border-[#162C5B] shadow-sm flex flex-col justify-between"
                       >
-                        <div className="flex flex-col gap-2.5">
-                          <div className="flex items-center justify-between">
-                            <div
-                              className="w-10 h-10 rounded-xl flex items-center justify-center"
-                              style={{ backgroundColor: `${card.color}20`, color: card.color }}
-                            >
-                              <span className="material-symbols-outlined text-[20px]">
-                                {card.icon}
-                              </span>
-                            </div>
-                            <span
-                              className="text-[11px] font-mono font-bold px-2.5 py-0.5 rounded-full border border-white/10"
-                              style={{ color: card.color }}
-                            >
-                              {card.stat}
-                            </span>
-                          </div>
-                          <h3 className="text-base font-bold text-white group-hover:text-[#0D95FE] transition-colors">
-                            {card.title}
-                          </h3>
-                          <p className="text-xs text-[#A8BBD6] leading-relaxed">{card.desc}</p>
-                        </div>
-
-                        <div className="text-xs font-bold text-[#0D95FE] flex items-center gap-1">
-                          <span>Manage {card.title}</span>
-                          <span className="material-symbols-outlined text-[15px] group-hover:translate-x-1 transition-transform">
-                            arrow_forward
+                        <div className="flex items-center justify-between mb-2">
+                          <span className="text-xs font-bold text-[#8492a6]">{kpi.title}</span>
+                          <span
+                            className={`text-[9.5px] font-bold px-2 py-0.5 rounded-full border ${kpi.badgeColor}`}
+                          >
+                            {kpi.badge}
                           </span>
                         </div>
-                      </button>
+                        <div className="text-2xl font-bold text-white tracking-tight">
+                          {kpi.value}
+                        </div>
+                        <p className="mt-1 text-[11px] text-[#8492a6]">{kpi.subtext}</p>
+                      </div>
                     ))}
                   </div>
 
-                  {/* Recent Waitlist Applications Preview */}
-                  <div className="p-5 rounded-2xl bg-[#05112A] border border-[#14294F] flex flex-col gap-4">
+                  {/* ─── QUICK ACTION MODULES ─── */}
+                  <div>
+                    <span className="text-xs font-bold uppercase tracking-wider text-[#8492a6] block mb-3">
+                      Content &amp; Configuration Modules
+                    </span>
+
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                      {[
+                        {
+                          tab: 'hero' as AdminTab,
+                          icon: Megaphone,
+                          title: 'Hero & Announcements',
+                          desc: 'Edit headlines, subheads, and the top announcement bar across Home, Business & Personal.',
+                          stat: hero.announcementActive ? 'Banner Active' : 'Banner Hidden',
+                          color: '#0976da',
+                        },
+                        {
+                          tab: 'get-started' as AdminTab,
+                          icon: Smartphone,
+                          title: '4-Step Onboarding',
+                          desc: 'Customize the 4 interactive phone onboarding steps and verified customer quotes.',
+                          stat: '4 Interactive Steps',
+                          color: '#0f6b45',
+                        },
+                        {
+                          tab: 'merchants' as AdminTab,
+                          icon: Store,
+                          title: 'Merchant Stories',
+                          desc: 'Add or edit verified Nigerian merchant stories shown on Home, Business & /stories.',
+                          stat: `${merchants.length} Stories Live`,
+                          color: '#b45309',
+                        },
+                        {
+                          tab: 'products' as AdminTab,
+                          icon: Layers,
+                          title: 'Products & Pricing',
+                          desc: 'Manage Personal, Business, Apex POS, and Halal Capital cards & fee structures.',
+                          stat: `${products.length} Products`,
+                          color: '#0976da',
+                        },
+                        {
+                          tab: 'journal' as AdminTab,
+                          icon: FileText,
+                          title: 'Articles & Press',
+                          desc: 'Publish engineering notes, press releases, and guides to /journal and /press.',
+                          stat: `${articles.length} Published`,
+                          color: '#0f6b45',
+                        },
+                        {
+                          tab: 'leads' as AdminTab,
+                          icon: Users,
+                          title: 'Waitlist & Leads',
+                          desc: 'Review applications from /apply, update approval status, and export CSV.',
+                          stat: `${leads.length} Total Leads`,
+                          color: '#a855f7',
+                        },
+                        {
+                          tab: 'faqs' as AdminTab,
+                          icon: HelpCircle,
+                          title: 'Resolution Desk FAQs',
+                          desc: 'Edit questions & answers for website accordion drawers across all products.',
+                          stat: `${faqs.length} FAQs Live`,
+                          color: '#0976da',
+                        },
+                      ].map((card) => {
+                        const CardIcon = card.icon;
+                        return (
+                          <button
+                            key={card.tab}
+                            type="button"
+                            onClick={() => setActiveTab(card.tab)}
+                            className="p-5 rounded-2xl bg-[#071739] hover:bg-[#0c2356] border border-[#162C5B] hover:border-[#0976da]/60 text-left flex flex-col justify-between gap-4 transition-all cursor-pointer group shadow-sm"
+                          >
+                            <div className="flex flex-col gap-2.5">
+                              <div className="flex items-center justify-between">
+                                <div
+                                  className="w-10 h-10 rounded-xl flex items-center justify-center bg-[#043e97]/20 text-[#53a8f5]"
+                                >
+                                  <CardIcon className="w-5 h-5" />
+                                </div>
+                                <span
+                                  className="text-[11px] font-bold px-2.5 py-0.5 rounded-full border border-white/10 text-[#53a8f5]"
+                                >
+                                  {card.stat}
+                                </span>
+                              </div>
+                              <h3 className="text-base font-bold text-white group-hover:text-[#53a8f5] transition-colors">
+                                {card.title}
+                              </h3>
+                              <p className="text-xs text-[#8492a6] leading-relaxed">{card.desc}</p>
+                            </div>
+
+                            <div className="text-xs font-bold text-[#53a8f5] flex items-center gap-1.5">
+                              <span>Configure Module</span>
+                              <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
+                            </div>
+                          </button>
+                        );
+                      })}
+                    </div>
+                  </div>
+
+                  {/* ─── RECENT WAITLIST ONBOARDING LEADS PREVIEW ─── */}
+                  <div className="p-6 rounded-2xl bg-[#071739] border border-[#162C5B] flex flex-col gap-4 shadow-sm">
                     <div className="flex items-center justify-between">
                       <div>
-                        <h3 className="text-sm font-bold text-white">Recent Onboarding Leads</h3>
-                        <p className="text-xs text-[#7B9CD2]">
-                          Synced with /apply, Waitlist Modal, and /track
+                        <h3 className="text-[15px] font-bold text-white">Recent Customer Applications</h3>
+                        <p className="text-xs text-[#8492a6]">
+                          Synced in real-time with /apply, Waitlist Modal, and customer database
                         </p>
                       </div>
                       <button
                         type="button"
                         onClick={() => setActiveTab('leads')}
-                        className="px-3 py-1.5 rounded-xl bg-[#0A1B3D] hover:bg-[#14294F] text-xs font-bold text-[#0D95FE] cursor-pointer transition-colors"
+                        className="px-3 py-1.5 rounded-xl bg-[#043e97]/20 hover:bg-[#043e97]/40 text-xs font-bold text-[#53a8f5] cursor-pointer transition-colors flex items-center gap-1"
                       >
-                        Open Full Table →
+                        <span>Open Full Table</span>
+                        <ArrowRight className="w-3 h-3" />
                       </button>
                     </div>
 
                     <div className="overflow-x-auto">
                       <table className="w-full text-left border-collapse text-xs">
                         <thead>
-                          <tr className="border-b border-[#14294F] text-[#7B9CD2] font-mono uppercase text-[10px]">
-                            <th className="py-2 px-3">Applicant</th>
-                            <th className="py-2 px-3">WhatsApp</th>
-                            <th className="py-2 px-3">Interest</th>
-                            <th className="py-2 px-3">Location</th>
-                            <th className="py-2 px-3">Status</th>
+                          <tr className="border-b border-[#162C5B] text-[#8492a6] uppercase text-[10.5px] font-bold">
+                            <th className="py-2.5 px-3">Applicant</th>
+                            <th className="py-2.5 px-3">WhatsApp</th>
+                            <th className="py-2.5 px-3">Interest</th>
+                            <th className="py-2.5 px-3">Location</th>
+                            <th className="py-2.5 px-3">Status</th>
                           </tr>
                         </thead>
-                        <tbody className="divide-y divide-[#14294F]/50">
+                        <tbody className="divide-y divide-[#162C5B]/60">
                           {leads.slice(0, 5).map((lead) => (
-                            <tr key={lead.id} className="hover:bg-[#0A1B3D]/40">
-                              <td className="py-2.5 px-3 font-semibold text-white">
+                            <tr key={lead.id} className="hover:bg-[#0c2356]/40 transition-colors">
+                              <td className="py-3 px-3 font-semibold text-white">
                                 {lead.fullName}
                               </td>
-                              <td className="py-2.5 px-3 font-mono text-[#A8BBD6]">
+                              <td className="py-3 px-3 font-mono text-[#8492a6]">
                                 {lead.whatsappNumber}
                               </td>
-                              <td className="py-2.5 px-3">
-                                <span className="px-2 py-0.5 rounded bg-[#0D95FE]/15 text-[#0D95FE] font-mono text-[10px] uppercase font-bold">
+                              <td className="py-3 px-3">
+                                <span className="px-2 py-0.5 rounded-full bg-[#043e97]/20 text-[#53a8f5] text-[10px] uppercase font-bold border border-[#043e97]/30">
                                   {lead.interest}
                                 </span>
                               </td>
-                              <td className="py-2.5 px-3 text-[#A8BBD6]">{lead.city || '—'}</td>
-                              <td className="py-2.5 px-3">
+                              <td className="py-3 px-3 text-[#8492a6]">{lead.city || '—'}</td>
+                              <td className="py-3 px-3">
                                 <select
                                   value={lead.status}
                                   onChange={(e) => {
@@ -635,7 +832,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onExitAdmin }) =
                                       `Updated ${lead.fullName} status to ${e.target.value}`
                                     );
                                   }}
-                                  className="px-2 py-1 rounded-lg bg-[#020B1D] border border-[#14294F] text-xs text-white font-semibold cursor-pointer"
+                                  className="px-2.5 py-1 rounded-lg bg-[#020F2E] border border-[#162C5B] text-xs text-white font-semibold cursor-pointer focus:outline-none focus:border-[#0976da]"
                                 >
                                   <option value="new">New</option>
                                   <option value="contacted">Contacted</option>
@@ -657,34 +854,34 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onExitAdmin }) =
               {/* ========================================================= */}
               {activeTab === 'hero' && (
                 <form onSubmit={handleSaveHero} className="flex flex-col gap-6">
-                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-[#14294F]">
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-[#162C5B]">
                     <div>
-                      <span className="text-xs font-mono text-[#00DF8F] uppercase font-bold">
-                        REFLECTS ON HOME (/), BUSINESS (/BUSINESS) &amp; PERSONAL (/PERSONAL)
+                      <span className="text-xs font-bold tracking-wider text-[#53a8f5] uppercase block">
+                        Reflects on Home (/), Business (/business) &amp; Personal
                       </span>
-                      <h1 className="text-2xl font-black text-white mt-0.5">
+                      <h1 className="text-2xl font-bold text-white tracking-tight mt-0.5">
                         Hero Headlines &amp; Announcement Bar
                       </h1>
                     </div>
                     <div className="flex items-center gap-2.5">
                       <button
                         type="submit"
-                        className="px-5 py-2.5 rounded-xl bg-[#00DF8F] hover:bg-[#0D95FE] text-[#003825] hover:text-white font-extrabold text-xs flex items-center gap-1.5 shadow-lg shadow-[#00DF8F]/20 transition-all cursor-pointer"
+                        className="px-5 py-2.5 rounded-xl bg-[#043e97] hover:bg-[#0976da] text-white font-bold text-xs flex items-center gap-1.5 shadow-md transition-all cursor-pointer"
                       >
-                        <span className="material-symbols-outlined text-[16px]">check_circle</span>
+                        <CheckCircle2 className="w-4 h-4" />
                         <span>Save &amp; Publish Hero</span>
                       </button>
                     </div>
                   </div>
 
                   {/* Top Announcement Ticker Card */}
-                  <div className="p-5 rounded-2xl bg-[#05112A] border border-[#14294F] flex flex-col gap-4">
+                  <div className="p-5 rounded-2xl bg-[#071739] border border-[#162C5B] flex flex-col gap-4">
                     <div className="flex items-center justify-between">
                       <div>
                         <h3 className="text-sm font-bold text-white">
                           Top Announcement Bar (Sitewide Header &amp; Home)
                         </h3>
-                        <p className="text-xs text-[#7B9CD2]">
+                        <p className="text-xs text-[#8492a6]">
                           Toggle visibility and edit the announcement message shown at the top of the site.
                         </p>
                       </div>
@@ -698,8 +895,8 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onExitAdmin }) =
                         }}
                         className={`px-3.5 py-1.5 rounded-full text-xs font-bold transition-all cursor-pointer ${
                           heroDraft.announcementActive
-                            ? 'bg-[#00DF8F] text-[#003825]'
-                            : 'bg-[#14294F] text-[#7B9CD2]'
+                            ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/30'
+                            : 'bg-[#020F2E] text-[#8492a6] border border-[#162C5B]'
                         }`}
                       >
                         {heroDraft.announcementActive ? '● Active on Site' : '○ Hidden'}
@@ -713,22 +910,22 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onExitAdmin }) =
                         setHeroDraft({ ...heroDraft, announcementTicker: e.target.value });
                         updateHero({ announcementTicker: e.target.value });
                       }}
-                      className="w-full px-4 py-2.5 rounded-xl bg-[#020B1D] border border-[#14294F] text-sm text-white focus:border-[#0D95FE] outline-none"
+                      className="w-full px-4 py-2.5 rounded-xl bg-[#020F2E] border border-[#162C5B] text-sm text-white focus:border-[#0976da] outline-none transition-colors"
                       placeholder="Announcement text..."
                     />
                   </div>
 
                   {/* Business & Personal Hero Headlines */}
                   <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
-                    <div className="p-5 rounded-2xl bg-[#05112A] border border-[#14294F] flex flex-col gap-4">
+                    <div className="p-5 rounded-2xl bg-[#071739] border border-[#162C5B] flex flex-col gap-4">
                       <div className="flex items-center justify-between">
-                        <span className="text-xs font-mono text-[#0D95FE] uppercase font-bold">
-                          BUSINESS &amp; POS HERO (/ &amp; /business)
+                        <span className="text-xs font-bold tracking-wider text-[#53a8f5] uppercase">
+                          Business &amp; POS Hero (/ &amp; /business)
                         </span>
                       </div>
 
                       <div className="flex flex-col gap-1.5">
-                        <label className="text-xs font-semibold text-[#A8BBD6]">
+                        <label className="text-xs font-medium text-[#8492a6]">
                           Main Headline
                         </label>
                         <input
@@ -738,12 +935,12 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onExitAdmin }) =
                             setHeroDraft({ ...heroDraft, headlineBusiness: e.target.value });
                             updateHero({ headlineBusiness: e.target.value });
                           }}
-                          className="w-full px-3.5 py-2.5 rounded-xl bg-[#020B1D] border border-[#14294F] text-sm font-bold text-white focus:border-[#0D95FE] outline-none"
+                          className="w-full px-3.5 py-2.5 rounded-xl bg-[#020F2E] border border-[#162C5B] text-sm font-semibold text-white focus:border-[#0976da] outline-none transition-colors"
                         />
                       </div>
 
                       <div className="flex flex-col gap-1.5">
-                        <label className="text-xs font-semibold text-[#A8BBD6]">
+                        <label className="text-xs font-medium text-[#8492a6]">
                           Subheadline Description
                         </label>
                         <textarea
@@ -753,20 +950,20 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onExitAdmin }) =
                             setHeroDraft({ ...heroDraft, subheadlineBusiness: e.target.value });
                             updateHero({ subheadlineBusiness: e.target.value });
                           }}
-                          className="w-full px-3.5 py-2.5 rounded-xl bg-[#020B1D] border border-[#14294F] text-xs text-[#A8BBD6] leading-relaxed focus:border-[#0D95FE] outline-none"
+                          className="w-full px-3.5 py-2.5 rounded-xl bg-[#020F2E] border border-[#162C5B] text-xs text-[#d1d5db] leading-relaxed focus:border-[#0976da] outline-none transition-colors"
                         />
                       </div>
                     </div>
 
-                    <div className="p-5 rounded-2xl bg-[#05112A] border border-[#14294F] flex flex-col gap-4">
+                    <div className="p-5 rounded-2xl bg-[#071739] border border-[#162C5B] flex flex-col gap-4">
                       <div className="flex items-center justify-between">
-                        <span className="text-xs font-mono text-[#00DF8F] uppercase font-bold">
-                          PERSONAL &amp; WHATSAPP HERO (/ &amp; /personal)
+                        <span className="text-xs font-bold tracking-wider text-[#53a8f5] uppercase">
+                          Personal &amp; WhatsApp Hero (/ &amp; /personal)
                         </span>
                       </div>
 
                       <div className="flex flex-col gap-1.5">
-                        <label className="text-xs font-semibold text-[#A8BBD6]">
+                        <label className="text-xs font-medium text-[#8492a6]">
                           Main Headline
                         </label>
                         <input
@@ -776,12 +973,12 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onExitAdmin }) =
                             setHeroDraft({ ...heroDraft, headlinePersonal: e.target.value });
                             updateHero({ headlinePersonal: e.target.value });
                           }}
-                          className="w-full px-3.5 py-2.5 rounded-xl bg-[#020B1D] border border-[#14294F] text-sm font-bold text-white focus:border-[#00DF8F] outline-none"
+                          className="w-full px-3.5 py-2.5 rounded-xl bg-[#020F2E] border border-[#162C5B] text-sm font-semibold text-white focus:border-[#0976da] outline-none transition-colors"
                         />
                       </div>
 
                       <div className="flex flex-col gap-1.5">
-                        <label className="text-xs font-semibold text-[#A8BBD6]">
+                        <label className="text-xs font-medium text-[#8492a6]">
                           Subheadline Description
                         </label>
                         <textarea
@@ -791,16 +988,16 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onExitAdmin }) =
                             setHeroDraft({ ...heroDraft, subheadlinePersonal: e.target.value });
                             updateHero({ subheadlinePersonal: e.target.value });
                           }}
-                          className="w-full px-3.5 py-2.5 rounded-xl bg-[#020B1D] border border-[#14294F] text-xs text-[#A8BBD6] leading-relaxed focus:border-[#00DF8F] outline-none"
+                          className="w-full px-3.5 py-2.5 rounded-xl bg-[#020F2E] border border-[#162C5B] text-xs text-[#d1d5db] leading-relaxed focus:border-[#0976da] outline-none transition-colors"
                         />
                       </div>
                     </div>
                   </div>
 
                   {/* CTA Buttons & Trust Line */}
-                  <div className="p-5 rounded-2xl bg-[#05112A] border border-[#14294F] grid grid-cols-1 md:grid-cols-3 gap-4">
+                  <div className="p-5 rounded-2xl bg-[#071739] border border-[#162C5B] grid grid-cols-1 md:grid-cols-3 gap-4">
                     <div className="flex flex-col gap-1.5">
-                      <label className="text-xs font-semibold text-[#A8BBD6]">
+                      <label className="text-xs font-medium text-[#8492a6]">
                         Primary CTA Button Text
                       </label>
                       <input
@@ -810,12 +1007,12 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onExitAdmin }) =
                           setHeroDraft({ ...heroDraft, ctaTextPrimary: e.target.value });
                           updateHero({ ctaTextPrimary: e.target.value });
                         }}
-                        className="w-full px-3.5 py-2 rounded-xl bg-[#020B1D] border border-[#14294F] text-xs text-white font-bold focus:border-[#0D95FE] outline-none"
+                        className="w-full px-3.5 py-2 rounded-xl bg-[#020F2E] border border-[#162C5B] text-xs text-white font-semibold focus:border-[#0976da] outline-none transition-colors"
                       />
                     </div>
 
                     <div className="flex flex-col gap-1.5">
-                      <label className="text-xs font-semibold text-[#A8BBD6]">
+                      <label className="text-xs font-medium text-[#8492a6]">
                         Secondary CTA Button Text
                       </label>
                       <input
@@ -825,12 +1022,12 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onExitAdmin }) =
                           setHeroDraft({ ...heroDraft, ctaTextSecondary: e.target.value });
                           updateHero({ ctaTextSecondary: e.target.value });
                         }}
-                        className="w-full px-3.5 py-2 rounded-xl bg-[#020B1D] border border-[#14294F] text-xs text-white font-bold focus:border-[#0D95FE] outline-none"
+                        className="w-full px-3.5 py-2 rounded-xl bg-[#020F2E] border border-[#162C5B] text-xs text-white font-semibold focus:border-[#0976da] outline-none transition-colors"
                       />
                     </div>
 
                     <div className="flex flex-col gap-1.5">
-                      <label className="text-xs font-semibold text-[#A8BBD6]">
+                      <label className="text-xs font-medium text-[#8492a6]">
                         Regulatory Trust Badge Line
                       </label>
                       <input
@@ -840,7 +1037,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onExitAdmin }) =
                           setHeroDraft({ ...heroDraft, trustLine: e.target.value });
                           updateHero({ trustLine: e.target.value });
                         }}
-                        className="w-full px-3.5 py-2 rounded-xl bg-[#020B1D] border border-[#14294F] text-xs text-[#00DF8F] font-mono focus:border-[#0D95FE] outline-none"
+                        className="w-full px-3.5 py-2 rounded-xl bg-[#020F2E] border border-[#162C5B] text-xs text-[#53a8f5] focus:border-[#0976da] outline-none transition-colors"
                       />
                     </div>
                   </div>
@@ -852,12 +1049,12 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onExitAdmin }) =
               {/* ========================================================= */}
               {activeTab === 'get-started' && (
                 <div className="flex flex-col gap-6">
-                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-[#14294F]">
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-[#162C5B]">
                     <div>
-                      <span className="text-xs font-mono text-[#00DF8F] uppercase font-bold">
-                        REFLECTS ON INTERACTIVE PHONE WALKTHROUGH (HOME, BUSINESS &amp; PERSONAL)
+                      <span className="text-xs font-bold tracking-wider text-[#53a8f5] uppercase block">
+                        Reflects on Interactive Walkthrough (Home, Business &amp; Personal)
                       </span>
-                      <h1 className="text-2xl font-black text-white mt-0.5">
+                      <h1 className="text-2xl font-bold text-white tracking-tight mt-0.5">
                         4-Step Onboarding Walkthrough
                       </h1>
                     </div>
@@ -879,14 +1076,14 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onExitAdmin }) =
                             },
                           })
                         }
-                        className="px-3.5 py-2 rounded-xl bg-[#05112A] border border-[#14294F] hover:border-amber-400/50 text-xs font-semibold text-[#A8BBD6] hover:text-amber-400 cursor-pointer transition-colors"
+                        className="px-3.5 py-2 rounded-xl bg-[#071739] border border-[#162C5B] hover:border-amber-400/50 text-xs font-semibold text-[#8492a6] hover:text-amber-400 cursor-pointer transition-colors"
                       >
                         Reset Steps
                       </button>
                       <button
                         type="button"
                         onClick={() => showToast(`Step 0${selectedStep.num} saved & live!`)}
-                        className="px-4 py-2 rounded-xl bg-[#00DF8F] text-[#003825] font-extrabold text-xs cursor-pointer shadow-lg"
+                        className="px-4 py-2 rounded-xl bg-[#043e97] hover:bg-[#0976da] text-white font-bold text-xs cursor-pointer shadow-md transition-all"
                       >
                         Save Step 0{selectedStep.num}
                       </button>
@@ -904,12 +1101,12 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onExitAdmin }) =
                           onClick={() => setSelectedStepNum(s.num)}
                           className={`p-3.5 rounded-2xl border text-left transition-all cursor-pointer ${
                             active
-                              ? 'bg-[#0A1B3D] border-[#0D95FE] shadow-lg'
-                              : 'bg-[#05112A] border-[#14294F] hover:border-[#0D95FE]/40'
+                              ? 'bg-[#043e97] border-[#0976da] shadow-lg shadow-[#043e97]/20 text-white'
+                              : 'bg-[#071739] border-[#162C5B] hover:border-[#043e97]/40'
                           }`}
                         >
-                          <span className="text-[10px] font-mono text-[#0D95FE] uppercase font-bold block">
-                            STEP 0{s.num}
+                          <span className={`text-[10px] uppercase font-bold block ${active ? 'text-white/80' : 'text-[#53a8f5]'}`}>
+                            Step 0{s.num}
                           </span>
                           <span className="text-xs font-bold text-white line-clamp-1 mt-0.5">
                             {s.title}
@@ -921,21 +1118,21 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onExitAdmin }) =
 
                   {selectedStep && (
                     <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-                      <div className="lg:col-span-7 p-5 rounded-2xl bg-[#05112A] border border-[#14294F] flex flex-col gap-4">
+                      <div className="lg:col-span-7 p-5 rounded-2xl bg-[#071739] border border-[#162C5B] flex flex-col gap-4">
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                           <div className="flex flex-col gap-1">
-                            <label className="text-xs text-[#A8BBD6]">Step Tagline</label>
+                            <label className="text-xs text-[#8492a6]">Step Tagline</label>
                             <input
                               type="text"
                               value={selectedStep.tag}
                               onChange={(e) =>
                                 updateStep(selectedStep.num, { tag: e.target.value })
                               }
-                              className="px-3.5 py-2 rounded-xl bg-[#020B1D] border border-[#14294F] text-xs text-[#0D95FE] font-mono"
+                              className="px-3.5 py-2 rounded-xl bg-[#020F2E] border border-[#162C5B] text-xs text-[#53a8f5]"
                             />
                           </div>
                           <div className="flex flex-col gap-1">
-                            <label className="text-xs text-[#A8BBD6]">Customer Photo</label>
+                            <label className="text-xs text-[#8492a6]">Customer Photo</label>
                             <select
                               value={selectedStep.user.photo}
                               onChange={(e) =>
@@ -943,7 +1140,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onExitAdmin }) =
                                   user: { ...selectedStep.user, photo: e.target.value },
                                 })
                               }
-                              className="px-3.5 py-2 rounded-xl bg-[#020B1D] border border-[#14294F] text-xs text-white"
+                              className="px-3.5 py-2 rounded-xl bg-[#020F2E] border border-[#162C5B] text-xs text-white"
                             >
                               {PRESET_MERCHANT_PHOTOS.map((p) => (
                                 <option key={p.url} value={p.url}>
@@ -955,32 +1152,32 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onExitAdmin }) =
                         </div>
 
                         <div className="flex flex-col gap-1">
-                          <label className="text-xs text-[#A8BBD6]">Step Headline</label>
+                          <label className="text-xs text-[#8492a6]">Step Headline</label>
                           <input
                             type="text"
                             value={selectedStep.title}
                             onChange={(e) =>
                               updateStep(selectedStep.num, { title: e.target.value })
                             }
-                            className="px-3.5 py-2.5 rounded-xl bg-[#020B1D] border border-[#14294F] text-sm font-bold text-white"
+                            className="px-3.5 py-2.5 rounded-xl bg-[#020F2E] border border-[#162C5B] text-sm font-bold text-white"
                           />
                         </div>
 
                         <div className="flex flex-col gap-1">
-                          <label className="text-xs text-[#A8BBD6]">Step Description</label>
+                          <label className="text-xs text-[#8492a6]">Step Description</label>
                           <textarea
                             rows={3}
                             value={selectedStep.desc}
                             onChange={(e) =>
                               updateStep(selectedStep.num, { desc: e.target.value })
                             }
-                            className="px-3.5 py-2.5 rounded-xl bg-[#020B1D] border border-[#14294F] text-xs text-[#A8BBD6] leading-relaxed"
+                            className="px-3.5 py-2.5 rounded-xl bg-[#020F2E] border border-[#162C5B] text-xs text-[#d1d5db] leading-relaxed"
                           />
                         </div>
 
-                        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-2 border-t border-[#14294F]">
+                        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-2 border-t border-[#162C5B]">
                           <div className="flex flex-col gap-1">
-                            <label className="text-xs text-[#A8BBD6]">Customer Name</label>
+                            <label className="text-xs text-[#8492a6]">Customer Name</label>
                             <input
                               type="text"
                               value={selectedStep.user.name}
@@ -989,11 +1186,11 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onExitAdmin }) =
                                   user: { ...selectedStep.user, name: e.target.value },
                                 })
                               }
-                              className="px-3 py-2 rounded-xl bg-[#020B1D] border border-[#14294F] text-xs text-white"
+                              className="px-3 py-2 rounded-xl bg-[#020F2E] border border-[#162C5B] text-xs text-white"
                             />
                           </div>
                           <div className="flex flex-col gap-1">
-                            <label className="text-xs text-[#A8BBD6]">Role / Business</label>
+                            <label className="text-xs text-[#8492a6]">Role / Business</label>
                             <input
                               type="text"
                               value={selectedStep.user.role}
@@ -1002,11 +1199,11 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onExitAdmin }) =
                                   user: { ...selectedStep.user, role: e.target.value },
                                 })
                               }
-                              className="px-3 py-2 rounded-xl bg-[#020B1D] border border-[#14294F] text-xs text-white"
+                              className="px-3 py-2 rounded-xl bg-[#020F2E] border border-[#162C5B] text-xs text-white"
                             />
                           </div>
                           <div className="flex flex-col gap-1">
-                            <label className="text-xs text-[#A8BBD6]">Location</label>
+                            <label className="text-xs text-[#8492a6]">Location</label>
                             <input
                               type="text"
                               value={selectedStep.user.location}
@@ -1015,13 +1212,13 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onExitAdmin }) =
                                   user: { ...selectedStep.user, location: e.target.value },
                                 })
                               }
-                              className="px-3 py-2 rounded-xl bg-[#020B1D] border border-[#14294F] text-xs text-white"
+                              className="px-3 py-2 rounded-xl bg-[#020F2E] border border-[#162C5B] text-xs text-white"
                             />
                           </div>
                         </div>
 
                         <div className="flex flex-col gap-1">
-                          <label className="text-xs text-[#A8BBD6]">Customer Quote</label>
+                          <label className="text-xs text-[#8492a6]">Customer Quote</label>
                           <input
                             type="text"
                             value={selectedStep.user.comment}
@@ -1030,25 +1227,25 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onExitAdmin }) =
                                 user: { ...selectedStep.user, comment: e.target.value },
                               })
                             }
-                            className="px-3.5 py-2 rounded-xl bg-[#020B1D] border border-[#14294F] text-xs text-[#00DF8F]"
+                            className="px-3.5 py-2 rounded-xl bg-[#020F2E] border border-[#162C5B] text-xs text-[#53a8f5]"
                           />
                         </div>
                       </div>
 
                       {/* Live Preview Card */}
-                      <div className="lg:col-span-5 p-5 rounded-2xl bg-[#05112A] border border-[#14294F] flex flex-col justify-between gap-4">
-                        <span className="text-[10px] font-mono text-[#00DF8F] uppercase font-bold">
-                          LIVE CARD PREVIEW
+                      <div className="lg:col-span-5 p-5 rounded-2xl bg-[#071739] border border-[#162C5B] flex flex-col justify-between gap-4">
+                        <span className="text-xs font-bold tracking-wider text-[#53a8f5] uppercase">
+                          Live Card Preview
                         </span>
-                        <div className="p-4 rounded-2xl bg-[#0A1B3D] border border-[#0D95FE] flex flex-col gap-3">
-                          <span className="text-[10px] font-mono text-[#0D95FE] uppercase font-bold">
+                        <div className="p-4 rounded-2xl bg-[#020F2E] border border-[#043e97] flex flex-col gap-3">
+                          <span className="text-[10px] font-bold tracking-wider text-[#53a8f5] uppercase">
                             {selectedStep.tag}
                           </span>
                           <h4 className="text-base font-bold text-white">{selectedStep.title}</h4>
-                          <p className="text-xs text-[#A8BBD6] leading-relaxed">
+                          <p className="text-xs text-[#8492a6] leading-relaxed">
                             {selectedStep.desc}
                           </p>
-                          <div className="p-2.5 rounded-xl bg-[#020B1D] border border-[#14294F] flex items-center gap-2.5">
+                          <div className="p-2.5 rounded-xl bg-[#071739] border border-[#162C5B] flex items-center gap-2.5">
                             <img
                               src={selectedStep.user.photo}
                               alt={selectedStep.user.name}
@@ -1057,17 +1254,17 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onExitAdmin }) =
                             <div className="min-w-0">
                               <div className="text-xs font-bold text-white truncate">
                                 {selectedStep.user.name}{' '}
-                                <span className="text-[#00DF8F] font-mono text-[10px]">
+                                <span className="text-emerald-400 text-[10px] font-medium">
                                   ({selectedStep.user.location})
                                 </span>
                               </div>
-                              <div className="text-[11px] text-[#A8BBD6] italic truncate">
+                              <div className="text-[11px] text-[#8492a6] italic truncate">
                                 "{selectedStep.user.comment}"
                               </div>
                             </div>
                           </div>
                         </div>
-                        <span className="text-[11px] text-[#7B9CD2]">
+                        <span className="text-[11px] text-[#8492a6]">
                           Changes reflect immediately on the sticky 4-step section across the site.
                         </span>
                       </div>
@@ -1081,12 +1278,12 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onExitAdmin }) =
               {/* ========================================================= */}
               {activeTab === 'merchants' && (
                 <div className="flex flex-col gap-6">
-                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-[#14294F]">
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-[#162C5B]">
                     <div>
-                      <span className="text-xs font-mono text-[#00DF8F] uppercase font-bold">
-                        REFLECTS ON HOME, BUSINESS TESTIMONIALS &amp; /STORIES
+                      <span className="text-xs font-bold tracking-wider text-[#53a8f5] uppercase block">
+                        Reflects on Home, Business Testimonials &amp; /stories
                       </span>
-                      <h1 className="text-2xl font-black text-white mt-0.5">
+                      <h1 className="text-2xl font-bold text-white tracking-tight mt-0.5">
                         Street Merchants &amp; Case Studies ({merchants.length})
                       </h1>
                     </div>
@@ -1103,14 +1300,14 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onExitAdmin }) =
                           quote: '',
                           statLabel: 'Weekly Volume',
                           statValue: '₦5.0M+',
-                          accentColor: '#00DF8F',
+                          accentColor: '#10B981',
                           badge: 'Verified Merchant',
                           featured: true,
                         });
                       }}
-                      className="px-4 py-2.5 bg-[#00DF8F] hover:bg-[#0D95FE] text-[#003825] hover:text-white font-extrabold text-xs rounded-xl flex items-center gap-1.5 cursor-pointer shadow-lg transition-all"
+                      className="px-4 py-2.5 bg-[#043e97] hover:bg-[#0976da] text-white font-bold text-xs rounded-xl flex items-center gap-1.5 cursor-pointer shadow-md transition-all"
                     >
-                      <span className="material-symbols-outlined text-[16px]">add</span>
+                      <Plus className="w-4 h-4" />
                       <span>Add Merchant Story</span>
                     </button>
                   </div>
@@ -1122,28 +1319,28 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onExitAdmin }) =
                     {merchants.map((m) => (
                       <div
                         key={m.id}
-                        className="p-5 rounded-2xl bg-[#05112A] border border-[#14294F] hover:border-[#0D95FE]/50 flex flex-col justify-between gap-4 transition-all"
+                        className="p-5 rounded-2xl bg-[#071739] border border-[#162C5B] hover:border-[#043e97] flex flex-col justify-between gap-4 transition-all"
                       >
                         <div className="flex items-start gap-4">
                           <img
                             src={m.image}
                             alt={m.name}
-                            className="w-16 h-16 rounded-2xl object-cover border border-[#14294F] shrink-0"
+                            className="w-16 h-16 rounded-2xl object-cover border border-[#162C5B] shrink-0"
                           />
                           <div className="flex-1 min-w-0">
                             <div className="flex items-center justify-between gap-2">
                               <span
-                                className="text-[10px] font-mono font-bold uppercase px-2 py-0.5 rounded bg-white/5"
+                                className="text-[10px] font-bold uppercase px-2 py-0.5 rounded bg-white/5"
                                 style={{ color: m.accentColor }}
                               >
                                 {m.badge}
                               </span>
-                              <span className="text-xs font-mono font-bold text-[#00DF8F]">
+                              <span className="text-xs font-semibold text-emerald-400">
                                 {m.statLabel}: {m.statValue}
                               </span>
                             </div>
                             <h3 className="text-base font-bold text-white mt-1">{m.name}</h3>
-                            <p className="text-xs text-[#7B9CD2]">
+                            <p className="text-xs text-[#8492a6]">
                               {m.role} · {m.location}
                             </p>
                           </div>
@@ -1197,12 +1394,12 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onExitAdmin }) =
               {/* ========================================================= */}
               {activeTab === 'products' && (
                 <div className="flex flex-col gap-6">
-                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-[#14294F]">
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-[#162C5B]">
                     <div>
-                      <span className="text-xs font-mono text-[#00DF8F] uppercase font-bold">
-                        REFLECTS ON HOMEPAGE PRODUCT SUITE &amp; FEE SCHEDULE
+                      <span className="text-xs font-bold tracking-wider text-[#53a8f5] uppercase block">
+                        Reflects on Product Suite (/cards, /savings, /business, /payouts) &amp; Fee Schedule
                       </span>
-                      <h1 className="text-2xl font-black text-white mt-0.5">
+                      <h1 className="text-2xl font-bold text-white tracking-tight mt-0.5">
                         Products &amp; POS Catalog ({products.length})
                       </h1>
                     </div>
@@ -1221,9 +1418,9 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onExitAdmin }) =
                           description: '',
                         });
                       }}
-                      className="px-4 py-2.5 bg-[#00DF8F] hover:bg-[#0D95FE] text-[#003825] hover:text-white font-extrabold text-xs rounded-xl flex items-center gap-1.5 cursor-pointer shadow-lg transition-all"
+                      className="px-4 py-2.5 bg-[#043e97] hover:bg-[#0976da] text-white font-bold text-xs rounded-xl flex items-center gap-1.5 cursor-pointer shadow-md transition-all"
                     >
-                      <span className="material-symbols-outlined text-[16px]">add</span>
+                      <Plus className="w-4 h-4" />
                       <span>Add Product</span>
                     </button>
                   </div>
@@ -1235,11 +1432,11 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onExitAdmin }) =
                     {products.map((prod) => (
                       <div
                         key={prod.id}
-                        className="p-5 rounded-2xl bg-[#05112A] border border-[#14294F] hover:border-[#0D95FE]/50 flex flex-col justify-between gap-4 transition-all"
+                        className="p-5 rounded-2xl bg-[#071739] border border-[#162C5B] hover:border-[#043e97] flex flex-col justify-between gap-4 transition-all"
                       >
                         <div className="flex flex-col gap-2">
                           <div className="flex items-center justify-between">
-                            <span className="px-2.5 py-0.5 rounded bg-[#0D95FE]/15 text-[#0D95FE] text-[10px] font-mono uppercase font-bold">
+                            <span className="px-2.5 py-0.5 rounded bg-[#043e97]/20 text-[#53a8f5] text-[10px] font-bold uppercase tracking-wider">
                               {prod.category}
                             </span>
                             <select
@@ -1248,7 +1445,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onExitAdmin }) =
                                 updateProduct(prod.id, { status: e.target.value as any });
                                 showToast(`Updated ${prod.name} status to ${e.target.value}`);
                               }}
-                              className="px-2.5 py-1 rounded-lg bg-[#020B1D] border border-[#14294F] text-[11px] font-mono font-bold text-[#00DF8F] cursor-pointer"
+                              className="px-2.5 py-1 rounded-lg bg-[#020F2E] border border-[#162C5B] text-[11px] font-semibold text-emerald-400 cursor-pointer"
                             >
                               <option value="active">● Active (Live)</option>
                               <option value="beta">◐ Pilot / Beta</option>
@@ -1257,14 +1454,14 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onExitAdmin }) =
                           </div>
 
                           <h3 className="text-lg font-bold text-white">{prod.name}</h3>
-                          <p className="text-xs font-semibold text-[#0D95FE]">{prod.headline}</p>
-                          <p className="text-xs text-[#A8BBD6] leading-relaxed">
+                          <p className="text-xs font-semibold text-[#53a8f5]">{prod.headline}</p>
+                          <p className="text-xs text-[#8492a6] leading-relaxed">
                             {prod.description}
                           </p>
                         </div>
 
-                        <div className="pt-3 border-t border-[#14294F] flex items-center justify-between gap-2">
-                          <div className="text-xs font-mono text-[#00DF8F] truncate">
+                        <div className="pt-3 border-t border-[#162C5B] flex items-center justify-between gap-2">
+                          <div className="text-xs font-semibold text-emerald-400 truncate">
                             {prod.feeStructure}
                           </div>
                           <div className="flex items-center gap-2 shrink-0">
@@ -1274,7 +1471,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onExitAdmin }) =
                                 setIsNewProduct(false);
                                 setEditingProduct(prod);
                               }}
-                              className="px-3 py-1.5 rounded-xl bg-[#0A1B3D] hover:bg-[#0D95FE] text-xs font-bold text-white cursor-pointer transition-colors"
+                              className="px-3 py-1.5 rounded-xl bg-[#043e97] hover:bg-[#0976da] text-xs font-bold text-white cursor-pointer transition-colors"
                             >
                               Edit
                             </button>
@@ -1312,12 +1509,12 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onExitAdmin }) =
               {/* ========================================================= */}
               {activeTab === 'journal' && (
                 <div className="flex flex-col gap-6">
-                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-[#14294F]">
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-[#162C5B]">
                     <div>
-                      <span className="text-xs font-mono text-[#00DF8F] uppercase font-bold">
-                        REFLECTS ON /JOURNAL, /PRESS &amp; BLOG CAROUSELS
+                      <span className="text-xs font-bold tracking-wider text-[#53a8f5] uppercase block">
+                        Reflects on /journal, /press &amp; Blog Carousels
                       </span>
-                      <h1 className="text-2xl font-black text-white mt-0.5">
+                      <h1 className="text-2xl font-bold text-white tracking-tight mt-0.5">
                         Articles, Press &amp; Guides ({articles.length})
                       </h1>
                     </div>
@@ -1339,9 +1536,9 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onExitAdmin }) =
                           author: 'Axoora Editorial Board',
                         });
                       }}
-                      className="px-4 py-2.5 bg-[#00DF8F] hover:bg-[#0D95FE] text-[#003825] hover:text-white font-extrabold text-xs rounded-xl flex items-center gap-1.5 cursor-pointer shadow-lg transition-all"
+                      className="px-4 py-2.5 bg-[#043e97] hover:bg-[#0976da] text-white font-bold text-xs rounded-xl flex items-center gap-1.5 cursor-pointer shadow-md transition-all"
                     >
-                      <span className="material-symbols-outlined text-[16px]">post_add</span>
+                      <Plus className="w-4 h-4" />
                       <span>Publish New Article</span>
                     </button>
                   </div>
@@ -1364,8 +1561,8 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onExitAdmin }) =
                           onClick={() => setArticleCategoryFilter(cat)}
                           className={`px-3 py-1.5 rounded-xl text-xs font-semibold transition-all cursor-pointer ${
                             articleCategoryFilter === cat
-                              ? 'bg-[#0D95FE] text-white font-bold'
-                              : 'bg-[#05112A] text-[#A8BBD6] border border-[#14294F] hover:text-white'
+                              ? 'bg-[#043e97] text-white font-bold shadow-sm'
+                              : 'bg-[#071739] text-[#8492a6] border border-[#162C5B] hover:text-white'
                           }`}
                         >
                           {cat === 'all' ? 'All Categories' : cat}
@@ -1378,7 +1575,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onExitAdmin }) =
                       value={articleSearch}
                       onChange={(e) => setArticleSearch(e.target.value)}
                       placeholder="Search articles..."
-                      className="px-3.5 py-2 rounded-xl bg-[#05112A] border border-[#14294F] text-xs text-white outline-none focus:border-[#0D95FE]"
+                      className="px-3.5 py-2 rounded-xl bg-[#071739] border border-[#162C5B] text-xs text-white outline-none focus:border-[#0976da]"
                     />
                   </div>
 
@@ -1400,27 +1597,27 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onExitAdmin }) =
                       .map((art) => (
                         <div
                           key={art.id}
-                          className="p-5 rounded-2xl bg-[#05112A] border border-[#14294F] hover:border-[#0D95FE]/50 flex flex-col justify-between gap-4 transition-all"
+                          className="p-5 rounded-2xl bg-[#071739] border border-[#162C5B] hover:border-[#043e97] flex flex-col justify-between gap-4 transition-all"
                         >
                           <div className="flex flex-col gap-2">
-                            <div className="flex items-center justify-between text-[11px] font-mono">
-                              <span className="px-2.5 py-0.5 rounded bg-[#0D95FE]/15 text-[#0D95FE] font-bold">
+                            <div className="flex items-center justify-between text-[11px]">
+                              <span className="px-2.5 py-0.5 rounded bg-[#043e97]/20 text-[#53a8f5] font-bold">
                                 {art.category}
                               </span>
-                              <span className="text-[#7B9CD2]">
+                              <span className="text-[#8492a6]">
                                 {art.date} · {art.readTime}
                               </span>
                             </div>
                             <h3 className="text-base font-bold text-white leading-snug">
                               {art.title}
                             </h3>
-                            <p className="text-xs text-[#A8BBD6] line-clamp-2 leading-relaxed">
+                            <p className="text-xs text-[#8492a6] line-clamp-2 leading-relaxed">
                               {art.summary}
                             </p>
                           </div>
 
-                          <div className="pt-3 border-t border-[#14294F] flex items-center justify-between">
-                            <span className="text-[11px] text-[#7B9CD2] truncate">
+                          <div className="pt-3 border-t border-[#162C5B] flex items-center justify-between">
+                            <span className="text-[11px] text-[#8492a6] truncate">
                               {art.author || 'Axoora Editorial Board'}
                             </span>
                             <div className="flex items-center gap-2">
@@ -1430,7 +1627,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onExitAdmin }) =
                                   setIsNewArticle(false);
                                   setEditingArticle(art);
                                 }}
-                                className="px-3 py-1.5 rounded-xl bg-[#0A1B3D] hover:bg-[#0D95FE] text-xs font-bold text-white cursor-pointer transition-colors"
+                                className="px-3 py-1.5 rounded-xl bg-[#043e97] hover:bg-[#0976da] text-xs font-bold text-white cursor-pointer transition-colors"
                               >
                                 Edit
                               </button>
@@ -1511,24 +1708,24 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onExitAdmin }) =
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.95 }}
               onClick={(e) => e.stopPropagation()}
-              className="w-full max-w-lg rounded-2xl bg-[#05112A] border border-[#1E3A6B] p-6 shadow-2xl flex flex-col gap-4 max-h-[90vh] overflow-y-auto"
+              className="w-full max-w-lg rounded-2xl bg-[#071739] border border-[#162C5B] p-6 shadow-2xl flex flex-col gap-4 max-h-[90vh] overflow-y-auto"
             >
-              <div className="flex items-center justify-between pb-3 border-b border-[#14294F]">
+              <div className="flex items-center justify-between pb-3 border-b border-[#162C5B]">
                 <h3 className="text-base font-bold text-white">
                   {isNewMerchant ? 'Add Merchant Story' : `Edit ${editingMerchant.name}`}
                 </h3>
                 <button
                   type="button"
                   onClick={() => setEditingMerchant(null)}
-                  className="text-[#7B9CD2] hover:text-white cursor-pointer"
+                  className="text-[#8492a6] hover:text-white p-1 rounded-lg hover:bg-[#162C5B] transition-colors cursor-pointer"
                 >
-                  ✕
+                  <X className="w-4 h-4" />
                 </button>
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div className="flex flex-col gap-1">
-                  <label className="text-xs text-[#A8BBD6]">Merchant Full Name *</label>
+                  <label className="text-xs text-[#8492a6]">Merchant Full Name *</label>
                   <input
                     type="text"
                     value={editingMerchant.name}
@@ -1536,11 +1733,11 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onExitAdmin }) =
                       setEditingMerchant({ ...editingMerchant, name: e.target.value })
                     }
                     placeholder="e.g. Alhaji Musa Danbaba"
-                    className="px-3 py-2 rounded-xl bg-[#020B1D] border border-[#14294F] text-xs text-white"
+                    className="px-3 py-2 rounded-xl bg-[#020F2E] border border-[#162C5B] text-xs text-white focus:border-[#0976da] outline-none"
                   />
                 </div>
                 <div className="flex flex-col gap-1">
-                  <label className="text-xs text-[#A8BBD6]">Business / Role *</label>
+                  <label className="text-xs text-[#8492a6]">Business / Role *</label>
                   <input
                     type="text"
                     value={editingMerchant.role}
@@ -1548,11 +1745,11 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onExitAdmin }) =
                       setEditingMerchant({ ...editingMerchant, role: e.target.value })
                     }
                     placeholder="e.g. Wholesale Grain Merchant"
-                    className="px-3 py-2 rounded-xl bg-[#020B1D] border border-[#14294F] text-xs text-white"
+                    className="px-3 py-2 rounded-xl bg-[#020F2E] border border-[#162C5B] text-xs text-white focus:border-[#0976da] outline-none"
                   />
                 </div>
                 <div className="flex flex-col gap-1">
-                  <label className="text-xs text-[#A8BBD6]">Market &amp; City</label>
+                  <label className="text-xs text-[#8492a6]">Market &amp; City</label>
                   <input
                     type="text"
                     value={editingMerchant.location}
@@ -1560,17 +1757,17 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onExitAdmin }) =
                       setEditingMerchant({ ...editingMerchant, location: e.target.value })
                     }
                     placeholder="e.g. Dawanau Market, Kano"
-                    className="px-3 py-2 rounded-xl bg-[#020B1D] border border-[#14294F] text-xs text-white"
+                    className="px-3 py-2 rounded-xl bg-[#020F2E] border border-[#162C5B] text-xs text-white focus:border-[#0976da] outline-none"
                   />
                 </div>
                 <div className="flex flex-col gap-1">
-                  <label className="text-xs text-[#A8BBD6]">Portrait Photo</label>
+                  <label className="text-xs text-[#8492a6]">Portrait Photo</label>
                   <select
                     value={editingMerchant.image}
                     onChange={(e) =>
                       setEditingMerchant({ ...editingMerchant, image: e.target.value })
                     }
-                    className="px-3 py-2 rounded-xl bg-[#020B1D] border border-[#14294F] text-xs text-white"
+                    className="px-3 py-2 rounded-xl bg-[#020F2E] border border-[#162C5B] text-xs text-white focus:border-[#0976da] outline-none"
                   >
                     {PRESET_MERCHANT_PHOTOS.map((p) => (
                       <option key={p.url} value={p.url}>
@@ -1580,59 +1777,59 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onExitAdmin }) =
                   </select>
                 </div>
                 <div className="flex flex-col gap-1">
-                  <label className="text-xs text-[#A8BBD6]">Badge Label</label>
+                  <label className="text-xs text-[#8492a6]">Badge Label</label>
                   <input
                     type="text"
                     value={editingMerchant.badge}
                     onChange={(e) =>
                       setEditingMerchant({ ...editingMerchant, badge: e.target.value })
                     }
-                    className="px-3 py-2 rounded-xl bg-[#020B1D] border border-[#14294F] text-xs text-white"
+                    className="px-3 py-2 rounded-xl bg-[#020F2E] border border-[#162C5B] text-xs text-white focus:border-[#0976da] outline-none"
                   />
                 </div>
                 <div className="grid grid-cols-2 gap-2">
                   <div className="flex flex-col gap-1">
-                    <label className="text-xs text-[#A8BBD6]">Metric Label</label>
+                    <label className="text-xs text-[#8492a6]">Metric Label</label>
                     <input
                       type="text"
                       value={editingMerchant.statLabel}
                       onChange={(e) =>
                         setEditingMerchant({ ...editingMerchant, statLabel: e.target.value })
                       }
-                      className="px-3 py-2 rounded-xl bg-[#020B1D] border border-[#14294F] text-xs text-white"
+                      className="px-3 py-2 rounded-xl bg-[#020F2E] border border-[#162C5B] text-xs text-white focus:border-[#0976da] outline-none"
                     />
                   </div>
                   <div className="flex flex-col gap-1">
-                    <label className="text-xs text-[#A8BBD6]">Metric Value</label>
+                    <label className="text-xs text-[#8492a6]">Metric Value</label>
                     <input
                       type="text"
                       value={editingMerchant.statValue}
                       onChange={(e) =>
                         setEditingMerchant({ ...editingMerchant, statValue: e.target.value })
                       }
-                      className="px-3 py-2 rounded-xl bg-[#020B1D] border border-[#14294F] text-xs text-[#00DF8F] font-mono"
+                      className="px-3 py-2 rounded-xl bg-[#020F2E] border border-[#162C5B] text-xs text-emerald-400 font-semibold focus:border-[#0976da] outline-none"
                     />
                   </div>
                 </div>
               </div>
 
               <div className="flex flex-col gap-1">
-                <label className="text-xs text-[#A8BBD6]">Direct Merchant Quote *</label>
+                <label className="text-xs text-[#8492a6]">Direct Merchant Quote *</label>
                 <textarea
                   rows={3}
                   value={editingMerchant.quote}
                   onChange={(e) =>
                     setEditingMerchant({ ...editingMerchant, quote: e.target.value })
                   }
-                  className="px-3 py-2 rounded-xl bg-[#020B1D] border border-[#14294F] text-xs text-white leading-relaxed"
+                  className="px-3 py-2 rounded-xl bg-[#020F2E] border border-[#162C5B] text-xs text-white leading-relaxed focus:border-[#0976da] outline-none"
                 />
               </div>
 
-              <div className="flex justify-end gap-2 pt-3 border-t border-[#14294F]">
+              <div className="flex justify-end gap-2 pt-3 border-t border-[#162C5B]">
                 <button
                   type="button"
                   onClick={() => setEditingMerchant(null)}
-                  className="px-4 py-2 rounded-xl text-xs text-[#A8BBD6] hover:bg-[#0A1B3D] cursor-pointer"
+                  className="px-4 py-2 rounded-xl text-xs text-[#8492a6] hover:bg-[#162C5B] transition-colors cursor-pointer"
                 >
                   Cancel
                 </button>
@@ -1659,7 +1856,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onExitAdmin }) =
                     }
                     setEditingMerchant(null);
                   }}
-                  className="px-5 py-2 rounded-xl bg-[#00DF8F] text-[#003825] font-extrabold text-xs cursor-pointer shadow-lg"
+                  className="px-5 py-2 rounded-xl bg-[#043e97] hover:bg-[#0976da] text-white font-bold text-xs cursor-pointer shadow-md transition-all"
                 >
                   {isNewMerchant ? 'Publish Story' : 'Save Changes'}
                 </button>
@@ -1683,35 +1880,35 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onExitAdmin }) =
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.95 }}
               onClick={(e) => e.stopPropagation()}
-              className="w-full max-w-lg rounded-2xl bg-[#05112A] border border-[#1E3A6B] p-6 shadow-2xl flex flex-col gap-4 max-h-[90vh] overflow-y-auto"
+              className="w-full max-w-lg rounded-2xl bg-[#071739] border border-[#162C5B] p-6 shadow-2xl flex flex-col gap-4 max-h-[90vh] overflow-y-auto"
             >
-              <div className="flex items-center justify-between pb-3 border-b border-[#14294F]">
+              <div className="flex items-center justify-between pb-3 border-b border-[#162C5B]">
                 <h3 className="text-base font-bold text-white">
                   {isNewProduct ? 'Add New Product' : `Edit ${editingProduct.name}`}
                 </h3>
                 <button
                   type="button"
                   onClick={() => setEditingProduct(null)}
-                  className="text-[#7B9CD2] hover:text-white cursor-pointer"
+                  className="text-[#8492a6] hover:text-white p-1 rounded-lg hover:bg-[#162C5B] transition-colors cursor-pointer"
                 >
-                  ✕
+                  <X className="w-4 h-4" />
                 </button>
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div className="flex flex-col gap-1">
-                  <label className="text-xs text-[#A8BBD6]">Product Name *</label>
+                  <label className="text-xs text-[#8492a6]">Product Name *</label>
                   <input
                     type="text"
                     value={editingProduct.name}
                     onChange={(e) =>
                       setEditingProduct({ ...editingProduct, name: e.target.value })
                     }
-                    className="px-3 py-2 rounded-xl bg-[#020B1D] border border-[#14294F] text-xs text-white"
+                    className="px-3 py-2 rounded-xl bg-[#020F2E] border border-[#162C5B] text-xs text-white focus:border-[#0976da] outline-none"
                   />
                 </div>
                 <div className="flex flex-col gap-1">
-                  <label className="text-xs text-[#A8BBD6]">Category</label>
+                  <label className="text-xs text-[#8492a6]">Category</label>
                   <select
                     value={editingProduct.category}
                     onChange={(e) =>
@@ -1720,27 +1917,27 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onExitAdmin }) =
                         category: e.target.value as AdminProductItem['category'],
                       })
                     }
-                    className="px-3 py-2 rounded-xl bg-[#020B1D] border border-[#14294F] text-xs text-white"
+                    className="px-3 py-2 rounded-xl bg-[#020F2E] border border-[#162C5B] text-xs text-white focus:border-[#0976da] outline-none"
                   >
-                    <option value="personal">Personal</option>
-                    <option value="business">Business</option>
-                    <option value="pos">POS Hardware</option>
-                    <option value="capital">Halal Capital</option>
+                    <option value="personal">Personal (/personal, /cards, /savings)</option>
+                    <option value="business">Commercial Business (/business)</option>
+                    <option value="pos">Bulk Clearing &amp; Payouts (/payouts)</option>
+                    <option value="capital">Apex POS Hardware</option>
                   </select>
                 </div>
                 <div className="flex flex-col gap-1">
-                  <label className="text-xs text-[#A8BBD6]">Fee Structure</label>
+                  <label className="text-xs text-[#8492a6]">Fee Structure</label>
                   <input
                     type="text"
                     value={editingProduct.feeStructure}
                     onChange={(e) =>
                       setEditingProduct({ ...editingProduct, feeStructure: e.target.value })
                     }
-                    className="px-3 py-2 rounded-xl bg-[#020B1D] border border-[#14294F] text-xs text-[#00DF8F] font-mono"
+                    className="px-3 py-2 rounded-xl bg-[#020F2E] border border-[#162C5B] text-xs text-emerald-400 font-semibold focus:border-[#0976da] outline-none"
                   />
                 </div>
                 <div className="flex flex-col gap-1">
-                  <label className="text-xs text-[#A8BBD6]">Availability Status</label>
+                  <label className="text-xs text-[#8492a6]">Availability Status</label>
                   <select
                     value={editingProduct.status}
                     onChange={(e) =>
@@ -1749,7 +1946,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onExitAdmin }) =
                         status: e.target.value as AdminProductItem['status'],
                       })
                     }
-                    className="px-3 py-2 rounded-xl bg-[#020B1D] border border-[#14294F] text-xs text-white"
+                    className="px-3 py-2 rounded-xl bg-[#020F2E] border border-[#162C5B] text-xs text-white focus:border-[#0976da] outline-none"
                   >
                     <option value="active">Active (Live)</option>
                     <option value="beta">Pilot / Beta</option>
@@ -1759,46 +1956,46 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onExitAdmin }) =
               </div>
 
               <div className="flex flex-col gap-1">
-                <label className="text-xs text-[#A8BBD6]">One-Line Headline *</label>
+                <label className="text-xs text-[#8492a6]">One-Line Headline *</label>
                 <input
                   type="text"
                   value={editingProduct.headline}
                   onChange={(e) =>
                     setEditingProduct({ ...editingProduct, headline: e.target.value })
                   }
-                  className="px-3 py-2 rounded-xl bg-[#020B1D] border border-[#14294F] text-xs text-white"
+                  className="px-3 py-2 rounded-xl bg-[#020F2E] border border-[#162C5B] text-xs text-white focus:border-[#0976da] outline-none"
                 />
               </div>
 
               <div className="flex flex-col gap-1">
-                <label className="text-xs text-[#A8BBD6]">Key Highlight Badge</label>
+                <label className="text-xs text-[#8492a6]">Key Highlight Badge</label>
                 <input
                   type="text"
                   value={editingProduct.highlight}
                   onChange={(e) =>
                     setEditingProduct({ ...editingProduct, highlight: e.target.value })
                   }
-                  className="px-3 py-2 rounded-xl bg-[#020B1D] border border-[#14294F] text-xs text-white"
+                  className="px-3 py-2 rounded-xl bg-[#020F2E] border border-[#162C5B] text-xs text-white focus:border-[#0976da] outline-none"
                 />
               </div>
 
               <div className="flex flex-col gap-1">
-                <label className="text-xs text-[#A8BBD6]">Full Description</label>
+                <label className="text-xs text-[#8492a6]">Full Description</label>
                 <textarea
                   rows={3}
                   value={editingProduct.description}
                   onChange={(e) =>
                     setEditingProduct({ ...editingProduct, description: e.target.value })
                   }
-                  className="px-3 py-2 rounded-xl bg-[#020B1D] border border-[#14294F] text-xs text-white leading-relaxed"
+                  className="px-3 py-2 rounded-xl bg-[#020F2E] border border-[#162C5B] text-xs text-white leading-relaxed focus:border-[#0976da] outline-none"
                 />
               </div>
 
-              <div className="flex justify-end gap-2 pt-3 border-t border-[#14294F]">
+              <div className="flex justify-end gap-2 pt-3 border-t border-[#162C5B]">
                 <button
                   type="button"
                   onClick={() => setEditingProduct(null)}
-                  className="px-4 py-2 rounded-xl text-xs text-[#A8BBD6] hover:bg-[#0A1B3D] cursor-pointer"
+                  className="px-4 py-2 rounded-xl text-xs text-[#8492a6] hover:bg-[#162C5B] transition-colors cursor-pointer"
                 >
                   Cancel
                 </button>
@@ -1825,7 +2022,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onExitAdmin }) =
                     }
                     setEditingProduct(null);
                   }}
-                  className="px-5 py-2 rounded-xl bg-[#00DF8F] text-[#003825] font-extrabold text-xs cursor-pointer shadow-lg"
+                  className="px-5 py-2 rounded-xl bg-[#043e97] hover:bg-[#0976da] text-white font-bold text-xs cursor-pointer shadow-md transition-all"
                 >
                   {isNewProduct ? 'Add Product' : 'Save Product'}
                 </button>
@@ -1849,23 +2046,23 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onExitAdmin }) =
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.95 }}
               onClick={(e) => e.stopPropagation()}
-              className="w-full max-w-4xl rounded-2xl bg-[#05112A] border border-[#1E3A6B] p-6 shadow-2xl flex flex-col gap-4 max-h-[90vh] overflow-y-auto"
+              className="w-full max-w-4xl rounded-2xl bg-[#071739] border border-[#162C5B] p-6 shadow-2xl flex flex-col gap-4 max-h-[90vh] overflow-y-auto"
             >
-              <div className="flex items-center justify-between pb-3 border-b border-[#14294F]">
+              <div className="flex items-center justify-between pb-3 border-b border-[#162C5B]">
                 <h3 className="text-base font-bold text-white">
                   {isNewArticle ? 'Publish New Article / Press Release' : 'Edit Article'}
                 </h3>
                 <button
                   type="button"
                   onClick={() => setEditingArticle(null)}
-                  className="text-[#7B9CD2] hover:text-white cursor-pointer"
+                  className="text-[#8492a6] hover:text-white p-1 rounded-lg hover:bg-[#162C5B] transition-colors cursor-pointer"
                 >
-                  ✕
+                  <X className="w-4 h-4" />
                 </button>
               </div>
 
               <div className="flex flex-col gap-1">
-                <label className="text-xs text-[#A8BBD6]">Article Headline *</label>
+                <label className="text-xs text-[#8492a6]">Article Headline *</label>
                 <input
                   type="text"
                   value={editingArticle.title}
@@ -1873,19 +2070,19 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onExitAdmin }) =
                     setEditingArticle({ ...editingArticle, title: e.target.value })
                   }
                   placeholder="e.g. How Axoora Achieves Sub-2s NIBSS Failover"
-                  className="px-3.5 py-2.5 rounded-xl bg-[#020B1D] border border-[#14294F] text-sm font-bold text-white"
+                  className="px-3.5 py-2.5 rounded-xl bg-[#020F2E] border border-[#162C5B] text-sm font-bold text-white focus:border-[#0976da] outline-none"
                 />
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                 <div className="flex flex-col gap-1">
-                  <label className="text-xs text-[#A8BBD6]">Category</label>
+                  <label className="text-xs text-[#8492a6]">Category</label>
                   <select
                     value={editingArticle.category}
                     onChange={(e) =>
                       setEditingArticle({ ...editingArticle, category: e.target.value })
                     }
-                    className="px-3 py-2 rounded-xl bg-[#020B1D] border border-[#14294F] text-xs text-white"
+                    className="px-3 py-2 rounded-xl bg-[#020F2E] border border-[#162C5B] text-xs text-white focus:border-[#0976da] outline-none"
                   >
                     <option value="Engineering">Engineering</option>
                     <option value="Product">Product</option>
@@ -1896,45 +2093,45 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onExitAdmin }) =
                   </select>
                 </div>
                 <div className="flex flex-col gap-1">
-                  <label className="text-xs text-[#A8BBD6]">Author</label>
+                  <label className="text-xs text-[#8492a6]">Author</label>
                   <input
                     type="text"
                     value={editingArticle.author || ''}
                     onChange={(e) =>
                       setEditingArticle({ ...editingArticle, author: e.target.value })
                     }
-                    className="px-3 py-2 rounded-xl bg-[#020B1D] border border-[#14294F] text-xs text-white"
+                    className="px-3 py-2 rounded-xl bg-[#020F2E] border border-[#162C5B] text-xs text-white focus:border-[#0976da] outline-none"
                   />
                 </div>
                 <div className="flex flex-col gap-1">
-                  <label className="text-xs text-[#A8BBD6]">Read Time</label>
+                  <label className="text-xs text-[#8492a6]">Read Time</label>
                   <input
                     type="text"
                     value={editingArticle.readTime}
                     onChange={(e) =>
                       setEditingArticle({ ...editingArticle, readTime: e.target.value })
                     }
-                    className="px-3 py-2 rounded-xl bg-[#020B1D] border border-[#14294F] text-xs text-white font-mono"
+                    className="px-3 py-2 rounded-xl bg-[#020F2E] border border-[#162C5B] text-xs text-white focus:border-[#0976da] outline-none"
                   />
                 </div>
               </div>
 
               <div className="flex flex-col gap-1">
-                <label className="text-xs text-[#A8BBD6]">Executive Summary *</label>
+                <label className="text-xs text-[#8492a6]">Executive Summary *</label>
                 <textarea
                   rows={2}
                   value={editingArticle.summary}
                   onChange={(e) =>
                     setEditingArticle({ ...editingArticle, summary: e.target.value })
                   }
-                  className="px-3.5 py-2 rounded-xl bg-[#020B1D] border border-[#14294F] text-xs text-white leading-relaxed"
+                  className="px-3.5 py-2 rounded-xl bg-[#020F2E] border border-[#162C5B] text-xs text-white leading-relaxed focus:border-[#0976da] outline-none"
                 />
               </div>
 
               <div className="flex flex-col gap-1.5">
-                <label className="text-xs text-[#A8BBD6] flex items-center justify-between">
+                <label className="text-xs text-[#8492a6] flex items-center justify-between">
                   <span>Full Article Body (What You See Is What You Get)</span>
-                  <span className="text-[11px] text-[#00DF8F] font-mono">Toolbar &bull; Live Preview &bull; Split View</span>
+                  <span className="text-[11px] text-[#53a8f5] font-medium">Toolbar &bull; Live Preview &bull; Split View</span>
                 </label>
                 <WysiwygArticleEditor
                   content={editingArticle.content || ''}
@@ -1948,11 +2145,11 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onExitAdmin }) =
                 />
               </div>
 
-              <div className="flex justify-end gap-2 pt-3 border-t border-[#14294F]">
+              <div className="flex justify-end gap-2 pt-3 border-t border-[#162C5B]">
                 <button
                   type="button"
                   onClick={() => setEditingArticle(null)}
-                  className="px-4 py-2 rounded-xl text-xs text-[#A8BBD6] hover:bg-[#0A1B3D] cursor-pointer"
+                  className="px-4 py-2 rounded-xl text-xs text-[#8492a6] hover:bg-[#162C5B] transition-colors cursor-pointer"
                 >
                   Cancel
                 </button>
@@ -2015,7 +2212,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onExitAdmin }) =
                       setEditingArticle(null);
                     }
                   }}
-                  className="px-5 py-2 rounded-xl bg-[#00DF8F] text-[#003825] font-extrabold text-xs cursor-pointer shadow-lg disabled:opacity-50"
+                  className="px-5 py-2 rounded-xl bg-[#043e97] hover:bg-[#0976da] text-white font-bold text-xs cursor-pointer shadow-md transition-all disabled:opacity-50"
                 >
                   {isSavingArticle
                     ? 'Saving…'

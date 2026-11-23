@@ -2,6 +2,23 @@
 
 import React, { useState, useEffect, useCallback, useRef, useMemo } from 'react';
 import {
+  MessageSquare,
+  Ticket,
+  RefreshCw,
+  CheckCircle2,
+  AlertCircle,
+  Headphones,
+  CheckCheck,
+  BadgeCheck,
+  Send,
+  ExternalLink,
+  X,
+  Search,
+  Trash2,
+  Check,
+  RotateCcw,
+} from 'lucide-react';
+import {
   getChatSessions,
   sendAgentReply,
   updateChatSession,
@@ -202,15 +219,15 @@ export const LiveChatAdminTab: React.FC<LiveChatAdminTabProps> = ({ onShowToast 
         );
       case 'human_active':
         return (
-          <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-[#00DF8F]/20 text-[#00DF8F] border border-[#00DF8F]/30">
-            <span className="w-1.5 h-1.5 rounded-full bg-[#00DF8F]" />
+          <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-[#043e97]/20 text-[#53a8f5] border border-[#162C5B]">
+            <span className="w-1.5 h-1.5 rounded-full bg-[#53a8f5] animate-pulse" />
             Officer Live
           </span>
         );
       case 'resolved':
         return (
           <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
-            <span className="material-symbols-outlined text-[11px]">check_circle</span>
+            <CheckCircle2 className="w-3 h-3 text-emerald-400" />
             Resolved
           </span>
         );
@@ -222,7 +239,7 @@ export const LiveChatAdminTab: React.FC<LiveChatAdminTabProps> = ({ onShowToast 
         );
       default:
         return (
-          <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-[#0D95FE]/20 text-[#0D95FE] border border-[#0D95FE]/30">
+          <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-[#043e97]/20 text-[#53a8f5] border border-[#162C5B]">
             AI Active
           </span>
         );
@@ -272,32 +289,32 @@ export const LiveChatAdminTab: React.FC<LiveChatAdminTabProps> = ({ onShowToast 
   return (
     <div className="space-y-6">
       {/* Top Header & Navigation View Switcher */}
-      <div className="p-5 rounded-2xl bg-[#0A1B3D] border border-[#14294F] flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
+      <div className="p-5 rounded-2xl bg-[#071739] border border-[#162C5B] flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
         <div>
           <div className="flex items-center gap-2.5">
-            <h2 className="text-lg font-bold text-white">Live Support &amp; Ticket Tracking Desk</h2>
+            <h2 className="text-lg font-bold text-white tracking-tight">Live Support &amp; Ticket Tracking Desk</h2>
             {escalatedCount > 0 && (
               <span className="px-2.5 py-0.5 rounded-full text-xs font-bold bg-amber-500/20 text-amber-300 border border-amber-500/30 animate-pulse">
                 {escalatedCount} Escalated Waiting
               </span>
             )}
           </div>
-          <p className="text-xs text-[#A8BBD6] mt-0.5">
+          <p className="text-xs text-[#8492a6] mt-0.5">
             Live concierge chat with customer auto-disconnect protection and verified ticket resolution tracking.
           </p>
         </div>
 
         {/* View Toggle Tabs */}
-        <div className="flex items-center gap-2 bg-[#020F2E] p-1.5 rounded-xl border border-[#14294F]">
+        <div className="flex items-center gap-2 bg-[#020F2E] p-1.5 rounded-xl border border-[#162C5B]">
           <button
             onClick={() => setViewMode('chat')}
             className={`px-3.5 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-2 cursor-pointer ${
               viewMode === 'chat'
-                ? 'bg-[#00DF8F] text-[#00284D] shadow-sm'
-                : 'text-[#A8BBD6] hover:text-white'
+                ? 'bg-[#043e97] text-white shadow-sm'
+                : 'text-[#8492a6] hover:text-white'
             }`}
           >
-            <span className="material-symbols-outlined text-[16px]">chat</span>
+            <MessageSquare className="w-3.5 h-3.5" />
             <span>Live Chat Inbox</span>
             <span className="text-[10px] px-1.5 py-0.2 rounded-full bg-black/20">
               {sessions.length}
@@ -308,11 +325,11 @@ export const LiveChatAdminTab: React.FC<LiveChatAdminTabProps> = ({ onShowToast 
             onClick={() => setViewMode('tickets')}
             className={`px-3.5 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-2 cursor-pointer ${
               viewMode === 'tickets'
-                ? 'bg-[#00DF8F] text-[#00284D] shadow-sm'
-                : 'text-[#A8BBD6] hover:text-white'
+                ? 'bg-[#043e97] text-white shadow-sm'
+                : 'text-[#8492a6] hover:text-white'
             }`}
           >
-            <span className="material-symbols-outlined text-[16px]">confirmation_number</span>
+            <Ticket className="w-3.5 h-3.5" />
             <span>Ticket Resolution Tracker</span>
             <span className="text-[10px] px-1.5 py-0.2 rounded-full bg-black/20">
               {ticketList.length}
@@ -342,8 +359,8 @@ export const LiveChatAdminTab: React.FC<LiveChatAdminTabProps> = ({ onShowToast 
                   onClick={() => setStatusFilter(tab.id)}
                   className={`px-3 py-1.5 rounded-xl text-xs font-semibold transition-all cursor-pointer border ${
                     statusFilter === tab.id
-                      ? 'bg-[#0D95FE] text-[#00284D] border-[#0D95FE] font-bold'
-                      : 'bg-[#020F2E] text-[#A8BBD6] border-[#14294F] hover:text-white'
+                      ? 'bg-[#043e97] text-white border-[#0976da] font-bold shadow-sm'
+                      : 'bg-[#071739] text-[#8492a6] border-[#162C5B] hover:text-white'
                   }`}
                 >
                   {tab.label}
@@ -353,9 +370,9 @@ export const LiveChatAdminTab: React.FC<LiveChatAdminTabProps> = ({ onShowToast 
 
             <button
               onClick={() => loadSessions(false)}
-              className="px-3 py-1.5 rounded-xl bg-[#020F2E] hover:bg-[#14294F] text-[#A8BBD6] hover:text-white border border-[#14294F] text-xs font-semibold flex items-center gap-1.5 cursor-pointer"
+              className="px-3 py-1.5 rounded-xl bg-[#071739] hover:bg-[#162C5B] text-[#8492a6] hover:text-white border border-[#162C5B] text-xs font-semibold flex items-center gap-1.5 cursor-pointer transition-colors"
             >
-              <span className="material-symbols-outlined text-[15px]">refresh</span>
+              <RefreshCw className="w-3.5 h-3.5" />
               <span>Refresh</span>
             </button>
           </div>
@@ -363,24 +380,27 @@ export const LiveChatAdminTab: React.FC<LiveChatAdminTabProps> = ({ onShowToast 
           {/* Split Pane */}
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 min-h-[600px]">
             {/* Left Inbox List */}
-            <div className="lg:col-span-5 rounded-2xl bg-[#0A1B3D] border border-[#14294F] flex flex-col overflow-hidden">
-              <div className="p-3.5 border-b border-[#14294F] bg-[#020F2E]/60">
-                <input
-                  type="text"
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  placeholder="Search customer name, phone, ticket #AX or reason..."
-                  className="w-full bg-[#020F2E] border border-[#14294F] focus:border-[#0D95FE] rounded-xl px-3.5 py-2 text-xs text-white placeholder-[#7B9CD2] outline-none"
-                />
+            <div className="lg:col-span-5 rounded-2xl bg-[#071739] border border-[#162C5B] flex flex-col overflow-hidden">
+              <div className="p-3.5 border-b border-[#162C5B] bg-[#020F2E]/60">
+                <div className="relative">
+                  <Search className="w-4 h-4 absolute left-3 top-2.5 text-[#8492a6]" />
+                  <input
+                    type="text"
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    placeholder="Search customer name, phone, ticket #AX or reason..."
+                    className="w-full bg-[#020F2E] border border-[#162C5B] focus:border-[#0976da] rounded-xl pl-9 pr-3 py-2 text-xs text-white placeholder-[#8492a6] outline-none"
+                  />
+                </div>
               </div>
 
-              <div className="flex-1 overflow-y-auto divide-y divide-[#14294F] max-h-[540px]">
+              <div className="flex-1 overflow-y-auto divide-y divide-[#162C5B] max-h-[540px]">
                 {loading && sessions.length === 0 ? (
                   <AdminChatInboxSkeleton count={5} />
                 ) : sessions.length === 0 ? (
                   <div className="p-8 text-center space-y-2">
                     <p className="text-sm font-semibold text-white">No conversations found</p>
-                    <p className="text-xs text-[#7B9CD2]">
+                    <p className="text-xs text-[#8492a6]">
                       Active customer chats will appear here automatically.
                     </p>
                   </div>
@@ -394,13 +414,13 @@ export const LiveChatAdminTab: React.FC<LiveChatAdminTabProps> = ({ onShowToast 
                         onClick={() => setSelectedId(s.session_id)}
                         className={`w-full text-left p-4 transition-colors cursor-pointer flex flex-col gap-1.5 ${
                           isSelected
-                            ? 'bg-[#14294F]/90 border-l-4 border-l-[#00DF8F]'
+                            ? 'bg-[#043e97]/20 border-l-4 border-l-[#0976da]'
                             : 'hover:bg-[#020F2E]/60'
                         }`}
                       >
                         <div className="flex items-center justify-between gap-2">
                           <div className="flex items-center gap-2 min-w-0">
-                            <span className="font-mono text-xs font-bold text-[#00DF8F]">
+                            <span className="text-xs font-bold text-[#53a8f5]">
                               #{s.ticket_code}
                             </span>
                             <span className="text-xs font-bold text-white truncate">
@@ -411,16 +431,16 @@ export const LiveChatAdminTab: React.FC<LiveChatAdminTabProps> = ({ onShowToast 
                         </div>
 
                         {s.customer_phone && (
-                          <div className="text-[11px] text-[#0D95FE] font-mono">
+                          <div className="text-[11px] text-[#53a8f5] font-mono">
                             📞 {s.customer_phone}
                           </div>
                         )}
 
-                        <p className="text-xs text-[#A8BBD6] line-clamp-1">
+                        <p className="text-xs text-[#8492a6] line-clamp-1">
                           {s.issue_summary || s.escalation_reason || lastMsg?.text || 'Chat started'}
                         </p>
 
-                        <div className="flex items-center justify-between text-[10px] text-[#7B9CD2] font-mono pt-0.5">
+                        <div className="flex items-center justify-between text-[10px] text-[#8492a6] pt-0.5">
                           <span>{s.messages.length} msgs</span>
                           {s.resolved_by_name ? (
                             <span className="text-emerald-400">
@@ -438,24 +458,22 @@ export const LiveChatAdminTab: React.FC<LiveChatAdminTabProps> = ({ onShowToast 
             </div>
 
             {/* Right Chat Transcript & Officer Composer */}
-            <div className="lg:col-span-7 rounded-2xl bg-[#0A1B3D] border border-[#14294F] flex flex-col overflow-hidden">
+            <div className="lg:col-span-7 rounded-2xl bg-[#071739] border border-[#162C5B] flex flex-col overflow-hidden">
               {!activeSession ? (
                 <div className="flex-1 flex flex-col items-center justify-center p-10 text-center">
-                  <span className="material-symbols-outlined text-4xl text-[#7B9CD2] mb-2">
-                    forum
-                  </span>
+                  <MessageSquare className="w-10 h-10 text-[#8492a6]/40 mb-2" />
                   <h3 className="text-sm font-bold text-white">Select a Conversation</h3>
-                  <p className="text-xs text-[#7B9CD2] max-w-sm mt-1">
+                  <p className="text-xs text-[#8492a6] max-w-sm mt-1">
                     Choose a conversation on the left to inspect the transcript, speak directly with the customer, or resolve the ticket.
                   </p>
                 </div>
               ) : (
                 <>
                   {/* Session Header */}
-                  <div className="p-4 bg-[#020F2E] border-b border-[#14294F] flex flex-wrap items-center justify-between gap-3">
+                  <div className="p-4 bg-[#020F2E] border-b border-[#162C5B] flex flex-wrap items-center justify-between gap-3">
                     <div>
                       <div className="flex items-center gap-2">
-                        <span className="font-mono text-xs font-bold text-[#00DF8F]">
+                        <span className="text-xs font-bold text-[#53a8f5]">
                           #{activeSession.ticket_code}
                         </span>
                         <h3 className="text-sm font-bold text-white">
@@ -463,9 +481,9 @@ export const LiveChatAdminTab: React.FC<LiveChatAdminTabProps> = ({ onShowToast 
                         </h3>
                         {statusBadge(activeSession.status)}
                       </div>
-                      <div className="flex flex-wrap items-center gap-3 text-xs text-[#7B9CD2] mt-0.5">
+                      <div className="flex flex-wrap items-center gap-3 text-xs text-[#8492a6] mt-0.5">
                         {activeSession.customer_phone && (
-                          <span className="font-mono text-[#0D95FE]">
+                          <span className="text-[#53a8f5]">
                             📞 {activeSession.customer_phone}
                           </span>
                         )}
@@ -484,7 +502,7 @@ export const LiveChatAdminTab: React.FC<LiveChatAdminTabProps> = ({ onShowToast 
                       {activeSession.status === 'human_active' && (
                         <button
                           onClick={() => handleReturnToAi(activeSession)}
-                          className="px-2.5 py-1.5 rounded-xl bg-[#14294F] hover:bg-[#0D95FE] text-[#A8BBD6] hover:text-[#00284D] text-xs font-semibold transition-colors cursor-pointer"
+                          className="px-2.5 py-1.5 rounded-xl bg-[#071739] hover:bg-[#162C5B] text-[#8492a6] hover:text-white text-xs font-semibold transition-colors cursor-pointer border border-[#162C5B]"
                         >
                           Return to AI
                         </button>
@@ -493,15 +511,15 @@ export const LiveChatAdminTab: React.FC<LiveChatAdminTabProps> = ({ onShowToast 
                       {activeSession.status !== 'resolved' ? (
                         <button
                           onClick={() => handleOpenResolveModal(activeSession)}
-                          className="px-3 py-1.5 rounded-xl bg-[#00DF8F]/20 hover:bg-[#00DF8F] text-[#00DF8F] hover:text-[#003825] border border-[#00DF8F]/30 text-xs font-bold transition-all cursor-pointer flex items-center gap-1"
+                          className="px-3 py-1.5 rounded-xl bg-[#043e97] hover:bg-[#0976da] text-white text-xs font-bold transition-all cursor-pointer flex items-center gap-1 shadow-sm"
                         >
-                          <span className="material-symbols-outlined text-[14px]">check</span>
+                          <Check className="w-3.5 h-3.5" />
                           <span>Resolve Ticket</span>
                         </button>
                       ) : (
                         <button
                           onClick={() => handleReopenTicket(activeSession)}
-                          className="px-3 py-1.5 rounded-xl bg-[#0D95FE]/20 hover:bg-[#0D95FE] text-[#0D95FE] hover:text-[#00284D] border border-[#0D95FE]/30 text-xs font-semibold transition-all cursor-pointer"
+                          className="px-3 py-1.5 rounded-xl bg-[#071739] hover:bg-[#162C5B] text-[#53a8f5] border border-[#162C5B] text-xs font-semibold transition-all cursor-pointer"
                         >
                           Reopen Ticket
                         </button>
@@ -520,9 +538,7 @@ export const LiveChatAdminTab: React.FC<LiveChatAdminTabProps> = ({ onShowToast 
                   {/* Resolution Notes Banner (if already resolved) */}
                   {activeSession.status === 'resolved' && (
                     <div className="px-4 py-2.5 bg-emerald-950/40 border-b border-emerald-500/20 flex items-start gap-2 text-xs text-emerald-200">
-                      <span className="material-symbols-outlined text-[16px] text-emerald-400 shrink-0 mt-0.5">
-                        task_alt
-                      </span>
+                      <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
                       <div className="flex-1">
                         <span className="font-bold text-white">
                           Resolved by {activeSession.resolved_by_name || 'Staff'}:
@@ -533,9 +549,9 @@ export const LiveChatAdminTab: React.FC<LiveChatAdminTabProps> = ({ onShowToast 
                   )}
 
                   {/* Transcript Messages */}
-                  <div className="flex-1 overflow-y-auto p-4 space-y-3 max-h-[390px] bg-[#061229]">
+                  <div className="flex-1 overflow-y-auto p-4 space-y-3 max-h-[390px] bg-[#020F2E]">
                     {activeSession.messages.length === 0 ? (
-                      <p className="text-center text-xs text-[#7B9CD2] py-8">
+                      <p className="text-center text-xs text-[#8492a6] py-8">
                         No messages recorded in this session yet.
                       </p>
                     ) : (
@@ -547,7 +563,7 @@ export const LiveChatAdminTab: React.FC<LiveChatAdminTabProps> = ({ onShowToast 
                           }`}
                         >
                           <div className="flex items-center gap-1.5 mb-1 px-1">
-                            <span className="text-[10px] font-bold uppercase tracking-wider text-[#7B9CD2]">
+                            <span className="text-[10px] font-bold uppercase tracking-wider text-[#8492a6]">
                               {m.sender === 'user'
                                 ? activeSession.customer_name || 'Customer'
                                 : m.sender === 'agent'
@@ -556,19 +572,19 @@ export const LiveChatAdminTab: React.FC<LiveChatAdminTabProps> = ({ onShowToast 
                                 ? '⚡ System'
                                 : '🤖 Axoora AI'}
                             </span>
-                            <span className="text-[10px] font-mono text-[#7B9CD2]">
+                            <span className="text-[10px] text-[#8492a6]">
                               {m.time}
                             </span>
                           </div>
                           <div
                             className={`max-w-[85%] rounded-2xl px-3.5 py-2.5 text-xs leading-relaxed whitespace-pre-line ${
                               m.sender === 'user'
-                                ? 'bg-[#14294F] text-white rounded-tl-none border border-[#1E3A6B]'
+                                ? 'bg-[#071739] text-white rounded-tl-none border border-[#162C5B]'
                                 : m.sender === 'agent'
-                                ? 'bg-[#00DF8F] text-[#003825] font-medium rounded-tr-none shadow-sm'
+                                ? 'bg-[#043e97] text-white font-medium rounded-tr-none shadow-sm'
                                 : m.sender === 'system'
                                 ? 'bg-amber-500/15 border border-amber-500/30 text-amber-200 rounded-tr-none'
-                                : 'bg-[#0A1B3D] border border-[#0D95FE]/30 text-[#F2F5F9] rounded-tr-none'
+                                : 'bg-[#071739] border border-[#162C5B] text-[#F2F5F9] rounded-tr-none'
                             }`}
                           >
                             {m.text}
@@ -582,32 +598,29 @@ export const LiveChatAdminTab: React.FC<LiveChatAdminTabProps> = ({ onShowToast 
                   {/* Officer Live Reply Composer with Authentic Identity Lock */}
                   <form
                     onSubmit={handleSendOfficerReply}
-                    className="p-3.5 bg-[#020F2E] border-t border-[#14294F] space-y-2.5"
+                    className="p-3.5 bg-[#020F2E] border-t border-[#162C5B] space-y-2.5"
                   >
                     {/* Locked Authentic Officer Identity Badge */}
                     <div className="flex items-center justify-between gap-2 flex-wrap">
                       <div className="flex items-center gap-2">
-                        <span className="text-[11px] text-[#7B9CD2] font-semibold">
+                        <span className="text-[11px] text-[#8492a6] font-semibold">
                           Replying as:
                         </span>
-                        <div className="flex items-center gap-1.5 px-3 py-1 rounded-lg bg-[#00DF8F]/15 border border-[#00DF8F]/30 text-[#00DF8F] text-xs font-bold shadow-2xs">
-                          <span className="w-1.5 h-1.5 rounded-full bg-[#00DF8F] animate-pulse" />
+                        <div className="flex items-center gap-1.5 px-3 py-1 rounded-lg bg-[#043e97]/20 border border-[#162C5B] text-[#53a8f5] text-xs font-bold shadow-2xs">
+                          <span className="w-1.5 h-1.5 rounded-full bg-[#53a8f5] animate-pulse" />
                           <span>{actualAgentName}</span>
                           {currentUser?.role?.name && (
                             <span className="text-[10px] text-emerald-300 font-normal">
                               ({currentUser.role.name})
                             </span>
                           )}
-                          <span
-                            className="material-symbols-outlined text-[14px] text-[#00DF8F]"
-                            title="Authenticated staff identity verified"
-                          >
-                            verified
+                          <span title="Authenticated staff identity verified" className="inline-flex">
+                            <BadgeCheck className="w-3.5 h-3.5 text-emerald-400" />
                           </span>
                         </div>
                       </div>
 
-                      <span className="text-[10px] text-[#7B9CD2] font-mono">
+                      <span className="text-[10px] text-[#8492a6]">
                         Identity permanently recorded on ticket transcript
                       </span>
                     </div>
@@ -620,22 +633,22 @@ export const LiveChatAdminTab: React.FC<LiveChatAdminTabProps> = ({ onShowToast 
                         placeholder={`Reply to ${
                           activeSession.customer_name || 'customer'
                         } (#${activeSession.ticket_code})...`}
-                        className="flex-1 bg-[#0A1B3D] border border-[#14294F] focus:border-[#00DF8F] rounded-xl px-3.5 py-2.5 text-xs text-white placeholder-[#7B9CD2] outline-none"
+                        className="flex-1 bg-[#071739] border border-[#162C5B] focus:border-[#0976da] rounded-xl px-3.5 py-2.5 text-xs text-white placeholder-[#8492a6] outline-none"
                       />
                       <button
                         type="submit"
                         disabled={sendingReply || !replyText.trim()}
-                        className="px-4 py-2.5 rounded-xl bg-[#00DF8F] hover:bg-[#00BD7A] text-[#003825] font-extrabold text-xs flex items-center gap-1.5 transition-transform hover:scale-102 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed shadow-md"
+                        className="px-4 py-2.5 rounded-xl bg-[#043e97] hover:bg-[#0976da] text-white font-bold text-xs flex items-center gap-1.5 transition-all cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed shadow-md"
                       >
                         {sendingReply ? (
                           <>
-                            <span className="w-3.5 h-3.5 border-2 border-[#003825] border-t-transparent rounded-full animate-spin" />
+                            <span className="w-3.5 h-3.5 border-2 border-white border-t-transparent rounded-full animate-spin" />
                             <span>Sending...</span>
                           </>
                         ) : (
                           <>
                             <span>Send Reply</span>
-                            <span className="material-symbols-outlined text-[14px]">send</span>
+                            <Send className="w-3.5 h-3.5" />
                           </>
                         )}
                       </button>
@@ -653,56 +666,54 @@ export const LiveChatAdminTab: React.FC<LiveChatAdminTabProps> = ({ onShowToast 
         <div className="space-y-5">
           {/* Top 4 KPI Metrics */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            <div className="p-4 rounded-2xl bg-[#0A1B3D] border border-[#14294F] flex items-center justify-between">
+            <div className="p-4 rounded-2xl bg-[#071739] border border-[#162C5B] flex items-center justify-between">
               <div>
-                <span className="text-xs text-[#7B9CD2] font-medium">Total Tickets Raised</span>
-                <h4 className="text-xl font-extrabold text-white mt-1">{ticketList.length}</h4>
+                <span className="text-xs text-[#8492a6] font-medium">Total Tickets Raised</span>
+                <h4 className="text-xl font-bold text-white mt-1">{ticketList.length}</h4>
               </div>
-              <div className="w-10 h-10 rounded-xl bg-[#0D95FE]/20 text-[#0D95FE] flex items-center justify-center">
-                <span className="material-symbols-outlined text-[20px]">
-                  confirmation_number
-                </span>
+              <div className="w-10 h-10 rounded-xl bg-[#043e97]/20 text-[#53a8f5] flex items-center justify-center border border-[#162C5B]">
+                <Ticket className="w-5 h-5 text-[#53a8f5]" />
               </div>
             </div>
 
-            <div className="p-4 rounded-2xl bg-[#0A1B3D] border border-[#14294F] flex items-center justify-between">
+            <div className="p-4 rounded-2xl bg-[#071739] border border-[#162C5B] flex items-center justify-between">
               <div>
                 <span className="text-xs text-amber-300 font-medium">Needs Attention (Escalated)</span>
-                <h4 className="text-xl font-extrabold text-amber-300 mt-1">{escalatedCount}</h4>
+                <h4 className="text-xl font-bold text-amber-300 mt-1">{escalatedCount}</h4>
               </div>
-              <div className="w-10 h-10 rounded-xl bg-amber-500/20 text-amber-300 flex items-center justify-center">
-                <span className="material-symbols-outlined text-[20px]">warning</span>
+              <div className="w-10 h-10 rounded-xl bg-amber-500/20 text-amber-300 flex items-center justify-center border border-amber-500/30">
+                <AlertCircle className="w-5 h-5 text-amber-300" />
               </div>
             </div>
 
-            <div className="p-4 rounded-2xl bg-[#0A1B3D] border border-[#14294F] flex items-center justify-between">
+            <div className="p-4 rounded-2xl bg-[#071739] border border-[#162C5B] flex items-center justify-between">
               <div>
-                <span className="text-xs text-[#00DF8F] font-medium">Officer In Progress</span>
-                <h4 className="text-xl font-extrabold text-[#00DF8F] mt-1">{activeHumanCount}</h4>
+                <span className="text-xs text-[#53a8f5] font-medium">Officer In Progress</span>
+                <h4 className="text-xl font-bold text-[#53a8f5] mt-1">{activeHumanCount}</h4>
               </div>
-              <div className="w-10 h-10 rounded-xl bg-[#00DF8F]/20 text-[#00DF8F] flex items-center justify-center">
-                <span className="material-symbols-outlined text-[20px]">support_agent</span>
+              <div className="w-10 h-10 rounded-xl bg-[#043e97]/20 text-[#53a8f5] flex items-center justify-center border border-[#162C5B]">
+                <Headphones className="w-5 h-5 text-[#53a8f5]" />
               </div>
             </div>
 
-            <div className="p-4 rounded-2xl bg-[#0A1B3D] border border-[#14294F] flex items-center justify-between">
+            <div className="p-4 rounded-2xl bg-[#071739] border border-[#162C5B] flex items-center justify-between">
               <div>
                 <span className="text-xs text-emerald-400 font-medium">Resolved Tickets</span>
-                <h4 className="text-xl font-extrabold text-emerald-400 mt-1">
+                <h4 className="text-xl font-bold text-emerald-400 mt-1">
                   {resolvedCount}{' '}
                   <span className="text-xs font-normal text-emerald-300/80">
                     ({ticketList.length ? Math.round((resolvedCount / ticketList.length) * 100) : 100}%)
                   </span>
                 </h4>
               </div>
-              <div className="w-10 h-10 rounded-xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center">
-                <span className="material-symbols-outlined text-[20px]">task_alt</span>
+              <div className="w-10 h-10 rounded-xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center border border-emerald-500/30">
+                <CheckCircle2 className="w-5 h-5 text-emerald-400" />
               </div>
             </div>
           </div>
 
           {/* Ticket Filter & Search Bar */}
-          <div className="p-4 rounded-2xl bg-[#0A1B3D] border border-[#14294F] flex flex-col md:flex-row md:items-center justify-between gap-3">
+          <div className="p-4 rounded-2xl bg-[#071739] border border-[#162C5B] flex flex-col md:flex-row md:items-center justify-between gap-3">
             <div className="flex items-center gap-1.5 flex-wrap">
               {[
                 { id: 'all', label: 'All Tickets' },
@@ -717,8 +728,8 @@ export const LiveChatAdminTab: React.FC<LiveChatAdminTabProps> = ({ onShowToast 
                   onClick={() => setTicketStatusFilter(tab.id)}
                   className={`px-3 py-1.5 rounded-xl text-xs font-semibold transition-all cursor-pointer border ${
                     ticketStatusFilter === tab.id
-                      ? 'bg-[#00DF8F] text-[#00284D] border-[#00DF8F] font-bold'
-                      : 'bg-[#020F2E] text-[#A8BBD6] border-[#14294F] hover:text-white'
+                      ? 'bg-[#043e97] text-white border-[#0976da] font-bold shadow-sm'
+                      : 'bg-[#020F2E] text-[#8492a6] border-[#162C5B] hover:text-white'
                   }`}
                 >
                   {tab.label}
@@ -727,20 +738,18 @@ export const LiveChatAdminTab: React.FC<LiveChatAdminTabProps> = ({ onShowToast 
             </div>
 
             <div className="relative w-full md:w-80">
-              <span className="material-symbols-outlined text-[18px] absolute left-3 top-1/2 -translate-y-1/2 text-[#7B9CD2]">
-                search
-              </span>
+              <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-[#8492a6]" />
               <input
                 type="text"
                 value={ticketSearchQuery}
                 onChange={(e) => setTicketSearchQuery(e.target.value)}
                 placeholder="Search ticket #AX, customer, or officer..."
-                className="w-full pl-9 pr-8 py-2 bg-[#020F2E] border border-[#14294F] focus:border-[#00DF8F] rounded-xl text-xs text-white placeholder-[#7B9CD2] outline-none"
+                className="w-full pl-9 pr-8 py-2 bg-[#020F2E] border border-[#162C5B] focus:border-[#0976da] rounded-xl text-xs text-white placeholder-[#8492a6] outline-none"
               />
               {ticketSearchQuery && (
                 <button
                   onClick={() => setTicketSearchQuery('')}
-                  className="absolute right-2.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-white text-xs"
+                  className="absolute right-2.5 top-1/2 -translate-y-1/2 text-[#8492a6] hover:text-white text-xs cursor-pointer"
                 >
                   ✕
                 </button>
@@ -749,10 +758,10 @@ export const LiveChatAdminTab: React.FC<LiveChatAdminTabProps> = ({ onShowToast 
           </div>
 
           {/* Tickets Tracking Table */}
-          <div className="rounded-2xl bg-[#0A1B3D] border border-[#14294F] overflow-hidden shadow-lg">
+          <div className="rounded-2xl bg-[#071739] border border-[#162C5B] overflow-hidden shadow-lg">
             <div className="overflow-x-auto">
               <table className="w-full text-left text-xs">
-                <thead className="bg-[#020F2E] text-[#7B9CD2] uppercase font-mono tracking-wider border-b border-[#14294F]">
+                <thead className="bg-[#020F2E] text-[#8492a6] uppercase tracking-wider border-b border-[#162C5B]">
                   <tr>
                     <th className="px-4 py-3.5">Ticket Code</th>
                     <th className="px-4 py-3.5">Customer</th>
@@ -763,27 +772,25 @@ export const LiveChatAdminTab: React.FC<LiveChatAdminTabProps> = ({ onShowToast 
                     <th className="px-4 py-3.5 text-right">Actions</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-[#14294F] text-[#F2F5F9]">
+                <tbody className="divide-y divide-[#162C5B] text-[#F2F5F9]">
                   {filteredTickets.length === 0 ? (
                     <tr>
-                      <td colSpan={7} className="px-6 py-10 text-center text-xs text-[#7B9CD2]">
+                      <td colSpan={7} className="px-6 py-10 text-center text-xs text-[#8492a6]">
                         No tickets match the selected filters or search query.
                       </td>
                     </tr>
                   ) : (
                     filteredTickets.map((t) => (
-                      <tr key={t.session_id} className="hover:bg-[#14294F]/40 transition-colors">
+                      <tr key={t.session_id} className="hover:bg-[#162C5B]/40 transition-colors">
                         {/* Ticket Code */}
-                        <td className="px-4 py-3 font-mono font-bold text-[#00DF8F] whitespace-nowrap">
+                        <td className="px-4 py-3 font-semibold text-[#53a8f5] whitespace-nowrap">
                           <button
                             onClick={() => handleJumpToChat(t.session_id)}
                             className="hover:underline cursor-pointer flex items-center gap-1"
                             title="Open chat transcript"
                           >
                             <span>#{t.ticket_code}</span>
-                            <span className="material-symbols-outlined text-[13px] opacity-70">
-                              open_in_new
-                            </span>
+                            <ExternalLink className="w-3 h-3 opacity-70" />
                           </button>
                         </td>
 
@@ -792,14 +799,14 @@ export const LiveChatAdminTab: React.FC<LiveChatAdminTabProps> = ({ onShowToast 
                           <div className="font-semibold text-white">
                             {t.customer_name || 'Website Customer'}
                           </div>
-                          <div className="text-[11px] text-[#0D95FE] font-mono">
+                          <div className="text-[11px] text-[#53a8f5]">
                             {t.customer_phone || t.customer_email || 'Direct Chat'}
                           </div>
                         </td>
 
                         {/* Issue */}
                         <td className="px-4 py-3 max-w-xs">
-                          <div className="line-clamp-2 text-xs text-[#A8BBD6]">
+                          <div className="line-clamp-2 text-xs text-[#8492a6]">
                             {t.issue_summary || t.escalation_reason || 'Inquiry escalated to live officer'}
                           </div>
                         </td>
@@ -815,10 +822,10 @@ export const LiveChatAdminTab: React.FC<LiveChatAdminTabProps> = ({ onShowToast 
                             <div className="flex items-center gap-1.5 text-xs text-emerald-400 font-semibold">
                               <span className="w-2 h-2 rounded-full bg-emerald-400" />
                               <span>{t.resolved_by_name}</span>
-                              <span className="material-symbols-outlined text-[13px]">verified</span>
+                              <BadgeCheck className="w-3.5 h-3.5 text-emerald-400" />
                             </div>
                           ) : (
-                            <span className="text-[11px] text-[#7B9CD2] italic">
+                            <span className="text-[11px] text-[#8492a6] italic">
                               — Pending Resolution
                             </span>
                           )}
@@ -831,7 +838,7 @@ export const LiveChatAdminTab: React.FC<LiveChatAdminTabProps> = ({ onShowToast 
                               {t.resolution_notes}
                             </div>
                           ) : (
-                            <span className="text-[11px] text-[#7B9CD2]">—</span>
+                            <span className="text-[11px] text-[#8492a6]">—</span>
                           )}
                         </td>
 
@@ -840,7 +847,7 @@ export const LiveChatAdminTab: React.FC<LiveChatAdminTabProps> = ({ onShowToast 
                           <div className="flex items-center justify-end gap-1.5">
                             <button
                               onClick={() => handleJumpToChat(t.session_id)}
-                              className="px-2.5 py-1.5 rounded-lg bg-[#0D95FE]/20 hover:bg-[#0D95FE] text-[#0D95FE] hover:text-[#00284D] font-semibold text-xs transition-colors cursor-pointer"
+                              className="px-2.5 py-1.5 rounded-lg bg-[#043e97]/20 hover:bg-[#043e97] text-[#53a8f5] hover:text-white font-semibold text-xs transition-colors cursor-pointer"
                               title="Open chat transcript"
                             >
                               Chat
@@ -849,7 +856,7 @@ export const LiveChatAdminTab: React.FC<LiveChatAdminTabProps> = ({ onShowToast 
                             {t.status !== 'resolved' ? (
                               <button
                                 onClick={() => handleOpenResolveModal(t)}
-                                className="px-2.5 py-1.5 rounded-lg bg-[#00DF8F]/20 hover:bg-[#00DF8F] text-[#00DF8F] hover:text-[#003825] font-semibold text-xs transition-colors cursor-pointer"
+                                className="px-2.5 py-1.5 rounded-lg bg-emerald-500/20 hover:bg-emerald-500 text-emerald-300 hover:text-white font-semibold text-xs transition-colors cursor-pointer"
                               >
                                 ✓ Resolve
                               </button>
@@ -878,51 +885,47 @@ export const LiveChatAdminTab: React.FC<LiveChatAdminTabProps> = ({ onShowToast 
       {/* =================================================================== */}
       {resolvingTicket && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm">
-          <div className="w-full max-w-md rounded-2xl bg-[#0A1B3D] border border-[#14294F] shadow-2xl overflow-hidden flex flex-col text-left">
-            <div className="p-4 bg-[#020F2E] border-b border-[#14294F] flex items-center justify-between">
+          <div className="w-full max-w-md rounded-2xl bg-[#071739] border border-[#162C5B] shadow-2xl overflow-hidden flex flex-col text-left">
+            <div className="p-4 bg-[#020F2E] border-b border-[#162C5B] flex items-center justify-between">
               <div className="flex items-center gap-2">
-                <span className="material-symbols-outlined text-[20px] text-[#00DF8F]">
-                  task_alt
-                </span>
+                <CheckCircle2 className="w-5 h-5 text-emerald-400" />
                 <h3 className="font-bold text-sm text-white">
                   Resolve Ticket #{resolvingTicket.ticket_code}
                 </h3>
               </div>
               <button
                 onClick={() => setResolvingTicket(null)}
-                className="text-slate-400 hover:text-white cursor-pointer"
+                className="text-[#8492a6] hover:text-white p-1 rounded-lg hover:bg-[#162C5B] transition-colors cursor-pointer"
               >
-                ✕
+                <X className="w-4 h-4" />
               </button>
             </div>
 
             <div className="p-5 space-y-4">
               <div>
-                <span className="text-[11px] text-[#7B9CD2] font-semibold block">Customer:</span>
+                <span className="text-[11px] text-[#8492a6] font-semibold block">Customer:</span>
                 <span className="text-sm font-bold text-white">
                   {resolvingTicket.customer_name || 'Website Visitor'}
                 </span>
                 {resolvingTicket.customer_phone && (
-                  <span className="text-xs text-[#0D95FE] font-mono ml-2">
+                  <span className="text-xs text-[#53a8f5] ml-2">
                     ({resolvingTicket.customer_phone})
                   </span>
                 )}
               </div>
 
               {/* Locked Resolving Officer Identity */}
-              <div className="p-3 rounded-xl bg-[#020F2E] border border-[#14294F] flex items-center justify-between">
+              <div className="p-3 rounded-xl bg-[#020F2E] border border-[#162C5B] flex items-center justify-between">
                 <div>
-                  <span className="text-[10px] text-[#7B9CD2] font-semibold block uppercase">
+                  <span className="text-[10px] text-[#8492a6] font-semibold block uppercase">
                     Resolving Officer (Authentic ID)
                   </span>
                   <div className="flex items-center gap-1.5 mt-0.5">
                     <span className="font-bold text-xs text-white">{actualAgentName}</span>
-                    <span className="material-symbols-outlined text-[13px] text-emerald-400">
-                      verified
-                    </span>
+                    <BadgeCheck className="w-3.5 h-3.5 text-emerald-400" />
                   </div>
                 </div>
-                <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300">
+                <span className="text-[10px] px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300">
                   Verified Staff
                 </span>
               </div>
@@ -937,7 +940,7 @@ export const LiveChatAdminTab: React.FC<LiveChatAdminTabProps> = ({ onShowToast 
                   onChange={(e) => setResolutionNotes(e.target.value)}
                   rows={3}
                   placeholder="Explain how this issue was resolved (e.g., 'Reversed transaction via NIP rails and informed customer')..."
-                  className="w-full bg-[#020F2E] border border-[#14294F] focus:border-[#00DF8F] rounded-xl p-3 text-xs text-white placeholder-[#7B9CD2] outline-none resize-none"
+                  className="w-full bg-[#020F2E] border border-[#162C5B] focus:border-[#0976da] rounded-xl p-3 text-xs text-white placeholder-[#8492a6] outline-none resize-none"
                 />
 
                 {/* Quick note templates */}
@@ -953,7 +956,7 @@ export const LiveChatAdminTab: React.FC<LiveChatAdminTabProps> = ({ onShowToast 
                       key={chip}
                       type="button"
                       onClick={() => setResolutionNotes(chip)}
-                      className="px-2 py-0.5 rounded-lg bg-[#14294F] hover:bg-[#1C3A6F] text-[#A8BBD6] hover:text-white text-[10px] font-medium transition-colors cursor-pointer"
+                      className="px-2 py-0.5 rounded-lg bg-[#020F2E] hover:bg-[#162C5B] text-[#8492a6] hover:text-white text-[10px] font-medium transition-colors cursor-pointer border border-[#162C5B]"
                     >
                       + {chip}
                     </button>
@@ -962,7 +965,7 @@ export const LiveChatAdminTab: React.FC<LiveChatAdminTabProps> = ({ onShowToast 
               </div>
             </div>
 
-            <div className="p-4 bg-[#020F2E] border-t border-[#14294F] flex items-center justify-end gap-2">
+            <div className="p-4 bg-[#020F2E] border-t border-[#162C5B] flex items-center justify-end gap-2">
               <button
                 type="button"
                 onClick={() => setResolvingTicket(null)}
@@ -974,7 +977,7 @@ export const LiveChatAdminTab: React.FC<LiveChatAdminTabProps> = ({ onShowToast 
                 type="button"
                 onClick={handleConfirmResolveTicket}
                 disabled={isSubmittingResolve}
-                className="px-4 py-2 rounded-xl bg-[#00DF8F] hover:bg-[#00BD7A] text-[#003825] font-extrabold text-xs flex items-center gap-1.5 cursor-pointer disabled:opacity-50"
+                className="px-4 py-2 rounded-xl bg-[#043e97] hover:bg-[#0976da] text-white font-bold text-xs flex items-center gap-1.5 cursor-pointer disabled:opacity-50 transition-colors shadow-md"
               >
                 {isSubmittingResolve ? 'Saving...' : 'Confirm & Mark Resolved'}
               </button>

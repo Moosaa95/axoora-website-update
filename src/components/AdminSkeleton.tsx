@@ -4,7 +4,7 @@ import React from 'react';
 
 export const SkeletonBlock: React.FC<{ className?: string }> = ({ className = '' }) => (
   <div
-    className={`animate-pulse rounded-xl bg-gradient-to-r from-[#0A1B3D] via-[#14294F] to-[#0A1B3D] ${className}`}
+    className={`animate-pulse rounded-xl bg-gradient-to-r from-[#071739] via-[#162C5B] to-[#071739] ${className}`}
   />
 );
 
@@ -12,9 +12,9 @@ export const SkeletonBlock: React.FC<{ className?: string }> = ({ className = ''
  * Full-page Admin Shell Skeleton shown during initial authentication & bootstrap verification.
  */
 export const AdminShellSkeleton: React.FC = () => (
-  <div className="min-h-screen bg-[#020B1D] text-[#F2F5F9] flex flex-col">
+  <div className="min-h-screen bg-[#020F2E] text-[#F2F5F9] flex flex-col font-['DM_Sans',sans-serif]">
     {/* Top Bar Skeleton */}
-    <header className="h-16 bg-[#04112B] border-b border-[#14294F] px-6 flex items-center justify-between">
+    <header className="h-16 bg-[#020F2E] border-b border-[#0e214d] px-6 flex items-center justify-between">
       <div className="flex items-center gap-3">
         <SkeletonBlock className="w-28 h-7" />
         <SkeletonBlock className="w-24 h-5 rounded-full" />
@@ -27,14 +27,14 @@ export const AdminShellSkeleton: React.FC = () => (
 
     <div className="flex-1 flex">
       {/* Sidebar Skeleton */}
-      <aside className="hidden lg:flex w-64 bg-[#04112B] border-r border-[#14294F] p-4 flex-col gap-2.5">
+      <aside className="hidden lg:flex w-64 bg-[#020F2E] border-r border-[#0e214d] p-4 flex-col gap-2.5">
         {Array.from({ length: 8 }).map((_, i) => (
           <SkeletonBlock key={i} className="w-full h-11 rounded-xl" />
         ))}
       </aside>
 
       {/* Main Content Area Skeleton */}
-      <main className="flex-1 p-6 lg:p-8 space-y-6 max-w-7xl mx-auto w-full">
+      <main className="flex-1 p-6 lg:p-8 space-y-6 max-w-7xl mx-auto w-full bg-[#020F2E]">
         <div className="flex items-center justify-between">
           <div className="space-y-2">
             <SkeletonBlock className="w-48 h-7" />
@@ -48,7 +48,7 @@ export const AdminShellSkeleton: React.FC = () => (
           {Array.from({ length: 4 }).map((_, i) => (
             <div
               key={i}
-              className="p-5 rounded-2xl bg-[#05112A] border border-[#14294F] space-y-3"
+              className="p-5 rounded-2xl bg-[#071739] border border-[#162C5B] space-y-3"
             >
               <div className="flex items-center justify-between">
                 <SkeletonBlock className="w-24 h-3.5" />
