@@ -214,3 +214,4 @@ export const PricingProductView: React.FC = () => {
     </div>
   );
 };
+
