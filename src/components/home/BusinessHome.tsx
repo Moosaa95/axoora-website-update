@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import { motion } from 'framer-motion';
 import {
   ReceiptText,
   AlertTriangle,
@@ -35,31 +36,62 @@ export const BusinessHome: React.FC<BusinessHomeProps> = ({
       <SectionWrap className="pt-2 lg:px-6">
         <div className="bg-[#043e97] rounded-[28px] overflow-hidden px-6 sm:px-12 lg:px-16 pt-12 sm:pt-14 lg:pt-0 text-white grid grid-cols-1 lg:grid-cols-[minmax(0,557px)_1fr] gap-10 lg:min-h-[580px] shadow-[0_20px_50px_rgba(2,15,46,0.1)]">
           {/* Left Column: Copy & Store Buttons */}
-          <div className="flex flex-col justify-center lg:pt-[52px] lg:pb-[48px]">
-            <span className="text-[13px] font-bold leading-[17px] tracking-[0.04em] text-[#d6ebff] block">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, ease: 'easeOut' }}
+            className="flex flex-col justify-center lg:pt-[52px] lg:pb-[48px]"
+          >
+            <motion.span
+              initial={{ opacity: 0, x: -10 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.4, delay: 0.1 }}
+              className="text-[13px] font-bold leading-[17px] tracking-[0.04em] text-[#d6ebff] block"
+            >
               Business
-            </span>
+            </motion.span>
 
-            <h1 className="mt-[20px] text-[44px] sm:text-[56px] lg:text-[64px] leading-[1.04] tracking-[-0.04em] font-bold text-white!">
+            <motion.h1
+              initial={{ opacity: 0, y: 15 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.2 }}
+              className="mt-[20px] text-[44px] sm:text-[56px] lg:text-[64px] leading-[1.04] tracking-[-0.04em] font-bold text-white!"
+            >
               Pay Everyone at Once. From One File.
-            </h1>
+            </motion.h1>
 
-            <p className="mt-5 text-[18px] leading-[1.6] text-[#d6ebff] max-w-[540px]">
+            <motion.p
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.3 }}
+              className="mt-5 text-[18px] leading-[1.6] text-[#d6ebff] max-w-[540px]"
+            >
               Upload a list, fix the rows that fail, and send the rest. On the account you already have.
-            </p>
+            </motion.p>
 
-            <StoreButtons
-              tone="onBlueAlt"
-              onApp={onOpenDownloadApp}
-              onWhatsApp={onOpenWhatsApp}
-              className="mt-[30px]"
-            />
-          </div>
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.4 }}
+            >
+              <StoreButtons
+                tone="onBlueAlt"
+                onApp={onOpenDownloadApp}
+                onWhatsApp={onOpenWhatsApp}
+                className="mt-[30px]"
+              />
+            </motion.div>
+          </motion.div>
 
           {/* Right Column: Business Account Cashflow Mockup */}
-          <div className="flex items-end justify-center pt-4 lg:pt-[50px] lg:ml-3">
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95, y: 20 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.2, ease: 'easeOut' }}
+            className="flex items-end justify-center pt-4 lg:pt-[50px] lg:ml-3"
+          >
             <BusinessOverviewPhone />
-          </div>
+          </motion.div>
         </div>
       </SectionWrap>
 

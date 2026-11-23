@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect } from 'react';
-import { FeesProductView } from '../../components/FeesProductView';
+import { PricingProductView } from '../../components/PricingProductView';
 import { useNavigation } from '../../context/NavigationContext';
 
 export default function PricingClient() {
@@ -11,5 +11,5 @@ export default function PricingClient() {
     setHomeMode('business');
   }, [setHomeMode]);
 
-  return <FeesProductView />;
+  return <PricingProductView />;
 }

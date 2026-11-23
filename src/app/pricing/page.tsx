@@ -3,35 +3,36 @@ import PricingClient from './PricingClient';
 import { SITE_URL, getBreadcrumbSchema } from '../../lib/seo';
 
 export const metadata: Metadata = {
-  title: 'Pricing & Transparent Fees — Axoora Business',
+  title: 'Pricing — What a Run Costs · Axoora Business',
   description:
-    'Clear, upfront fees for business and personal banking. See exactly what transfers, cards, and accounts cost before you confirm.',
+    'Bulk transfers are priced per recipient, not per batch. The structure is set. Transparent bulk clearing with no charges you cannot see.',
   keywords: [
     'Axoora pricing',
-    'banking fees Nigeria',
-    'transfer charges Nigeria',
-    'commercial banking fees',
-    'business transfer rates',
+    'bulk transfer pricing Nigeria',
+    'payroll cost per recipient',
+    'commercial batch pricing',
+    'business transfer charges',
   ],
   alternates: {
     canonical: `${SITE_URL}/pricing`,
   },
   openGraph: {
-    title: 'Axoora Pricing & Fees',
+    title: 'Axoora Business Pricing — What a Run Costs',
     description:
-      'Clear, upfront fees for business and personal banking. No hidden charges.',
+      'Bulk transfers are priced per recipient, not per batch. Transparent commercial clearing.',
     url: `${SITE_URL}/pricing`,
   },
   twitter: {
-    title: 'Axoora Pricing & Fees',
-    description: 'Clear, upfront fees for business and personal banking.',
+    title: 'Axoora Business Pricing — What a Run Costs',
+    description: 'Bulk transfers are priced per recipient, not per batch.',
   },
 };
 
 export default function PricingPage() {
   const breadcrumbSchema = getBreadcrumbSchema([
     { name: 'Home', url: '/' },
-    { name: 'Pricing & Payouts', url: '/pricing' },
+    { name: 'Business', url: '/business' },
+    { name: 'Pricing', url: '/pricing' },
   ]);
 
   return (

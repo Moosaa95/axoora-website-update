@@ -13,6 +13,7 @@ import { PosProductView } from './components/PosProductView';
 import { SecurityView } from './components/SecurityView';
 import { FeesProductView } from './components/FeesProductView';
 import { PayoutsProductView } from './components/PayoutsProductView';
+import { PricingProductView } from './components/PricingProductView';
 import { GovernanceView } from './components/GovernanceView';
 import { AboutView } from './components/AboutView';
 import { ImpactView } from './components/ImpactView';
@@ -153,7 +154,7 @@ export default function App() {
 
         {currentScreen === 'payouts' && <PayoutsProductView />}
 
-        {currentScreen === 'pricing' && <FeesProductView />}
+        {currentScreen === 'pricing' && <PricingProductView />}
 
         {currentScreen === 'pos-agents' && (
           <PosProductView
