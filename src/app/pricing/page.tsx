@@ -3,28 +3,28 @@ import PricingClient from './PricingClient';
 import { SITE_URL, getBreadcrumbSchema } from '../../lib/seo';
 
 export const metadata: Metadata = {
-  title: 'Pricing & Bulk Payouts — Axoora Business',
+  title: 'Pricing & Transparent Fees — Axoora Business',
   description:
-    'Two ways in, one run out. Type rows yourself or upload a CSV. Transparent bulk payment clearing and pricing for Nigerian businesses.',
+    'Clear, upfront fees for business and personal banking. See exactly what transfers, cards, and accounts cost before you confirm.',
   keywords: [
-    'Axoora business pricing',
-    'bulk payouts Nigeria',
-    'payroll CSV upload',
-    'commercial banking fees Nigeria',
+    'Axoora pricing',
+    'banking fees Nigeria',
+    'transfer charges Nigeria',
+    'commercial banking fees',
     'business transfer rates',
   ],
   alternates: {
     canonical: `${SITE_URL}/pricing`,
   },
   openGraph: {
-    title: 'Axoora Business Pricing & Payouts',
+    title: 'Axoora Pricing & Fees',
     description:
-      'Two ways in, one run out. Type rows yourself or bring a CSV. Transparent batch clearing.',
+      'Clear, upfront fees for business and personal banking. No hidden charges.',
     url: `${SITE_URL}/pricing`,
   },
   twitter: {
-    title: 'Axoora Business Pricing & Payouts',
-    description: 'Two ways in, one run out. Batch clearing and pricing.',
+    title: 'Axoora Pricing & Fees',
+    description: 'Clear, upfront fees for business and personal banking.',
   },
 };
 

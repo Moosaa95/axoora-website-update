@@ -12,6 +12,7 @@ import { BusinessProductView } from './components/BusinessProductView';
 import { PosProductView } from './components/PosProductView';
 import { SecurityView } from './components/SecurityView';
 import { FeesProductView } from './components/FeesProductView';
+import { PayoutsProductView } from './components/PayoutsProductView';
 import { GovernanceView } from './components/GovernanceView';
 import { AboutView } from './components/AboutView';
 import { ImpactView } from './components/ImpactView';
@@ -141,15 +142,18 @@ export default function App() {
           />
         )}
 
-        {(currentScreen === 'business' || currentScreen === 'pricing') && (
+        {currentScreen === 'business' && (
           <BusinessProductView
             onNavigate={handleNavigate}
             onOpenWaitlist={handleOpenWaitlist}
             onOpenWhatsApp={() => setWhatsappModalOpen(true)}
-            businessHeroNav={currentScreen === 'pricing' ? 'pricing' : businessHeroNav}
-            onBusinessHeroNavChange={setBusinessHeroNav}
+            onOpenDownloadApp={() => setDownloadModalOpen(true)}
           />
         )}
+
+        {currentScreen === 'payouts' && <PayoutsProductView />}
+
+        {currentScreen === 'pricing' && <FeesProductView />}
 
         {currentScreen === 'pos-agents' && (
           <PosProductView

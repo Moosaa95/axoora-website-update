@@ -1,13 +1,10 @@
 'use client';
 
-import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import React from 'react';
 import {
   ReceiptText,
   AlertTriangle,
   Fingerprint,
-  Briefcase,
-  SendHorizontal,
 } from 'lucide-react';
 import {
   StoreButtons,
@@ -19,97 +16,37 @@ import {
 } from './shared';
 import { BatchReceiptPhoneShowcase } from './BatchReceiptPhoneShowcase';
 import { BusinessOverviewPhone } from './BusinessOverviewPhone';
-import { PayoutsPhone } from './PayoutsPhone';
 
-export type BusinessHeroVariant = 'business' | 'payouts' | 'pricing';
+export type BusinessHeroVariant = 'business' | 'pricing' | 'payouts';
 
 interface BusinessHomeProps {
   onOpenDownloadApp: () => void;
   onOpenWhatsApp: () => void;
-  heroMode?: BusinessHeroVariant;
-  onHeroModeChange?: (mode: BusinessHeroVariant) => void;
 }
 
 /** Figma "Direction A · Business" home (BB1). Shared by the Home toggle and the /business screen. */
 export const BusinessHome: React.FC<BusinessHomeProps> = ({
   onOpenDownloadApp,
   onOpenWhatsApp,
-  heroMode,
-  onHeroModeChange,
 }) => {
-  const [internalHero, setInternalHero] = useState<BusinessHeroVariant>('business');
-  const activeHero = heroMode ?? internalHero;
-
-  const handleHeroSwitch = (mode: BusinessHeroVariant) => {
-    setInternalHero(mode);
-    onHeroModeChange?.(mode);
-  };
-
-  const isPayoutsOrPricing = activeHero === 'payouts' || activeHero === 'pricing';
-  const kicker = activeHero === 'pricing' ? 'Pricing' : isPayoutsOrPricing ? 'Payouts' : 'Business';
-  const title = isPayoutsOrPricing
-    ? 'Two Ways In. One Run Out.'
-    : 'Pay Everyone at Once. From One File.';
-  const subtitle = isPayoutsOrPricing
-    ? 'Type the rows yourself, or bring a CSV. Either way the batch is checked before it moves.'
-    : 'Upload a list, fix the rows that fail, and send the rest. On the account you already have.';
-
   return (
     <>
-      {/* ─── Hero Section with Dynamic Switching between Business & Payouts/Pricing ─── */}
+      {/* ─── Hero Section: Strictly Business ─── */}
       <SectionWrap className="pt-2 lg:px-6">
         <div className="bg-[#043e97] rounded-[28px] overflow-hidden px-6 sm:px-12 lg:px-16 pt-12 sm:pt-14 lg:pt-0 text-white grid grid-cols-1 lg:grid-cols-[minmax(0,557px)_1fr] gap-10 lg:min-h-[580px] shadow-[0_20px_50px_rgba(2,15,46,0.1)]">
           {/* Left Column: Copy & Store Buttons */}
           <div className="flex flex-col justify-center lg:pt-[52px] lg:pb-[48px]">
-            {/* Pill Selector for Switching Hero States */}
-            <div className="flex items-center gap-1.5 p-1 rounded-full bg-black/25 backdrop-blur-md border border-white/20 w-fit mb-5 shadow-sm">
-              <button
-                type="button"
-                onClick={() => handleHeroSwitch('business')}
-                className={`px-3.5 py-1.5 rounded-full text-[12px] font-semibold flex items-center gap-1.5 transition cursor-pointer ${
-                  !isPayoutsOrPricing
-                    ? 'bg-white text-[#043e97] shadow-sm'
-                    : 'text-white/80 hover:text-white hover:bg-white/10'
-                }`}
-              >
-                <Briefcase className="w-3.5 h-3.5" />
-                <span>Business Account</span>
-              </button>
-              <button
-                type="button"
-                onClick={() => handleHeroSwitch('payouts')}
-                className={`px-3.5 py-1.5 rounded-full text-[12px] font-semibold flex items-center gap-1.5 transition cursor-pointer ${
-                  isPayoutsOrPricing
-                    ? 'bg-white text-[#043e97] shadow-sm'
-                    : 'text-white/80 hover:text-white hover:bg-white/10'
-                }`}
-              >
-                <SendHorizontal className="w-3.5 h-3.5" />
-                <span>Payouts & Pricing</span>
-              </button>
-            </div>
+            <span className="text-[13px] font-bold leading-[17px] tracking-[0.04em] text-[#d6ebff] block">
+              Business
+            </span>
 
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={activeHero}
-                initial={{ opacity: 0, y: 12 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -12 }}
-                transition={{ duration: 0.25, ease: 'easeInOut' }}
-              >
-                <span className="text-[13px] font-bold leading-[17px] tracking-[0.04em] text-[#d6ebff] block">
-                  {kicker}
-                </span>
+            <h1 className="mt-[20px] text-[44px] sm:text-[56px] lg:text-[64px] leading-[1.04] tracking-[-0.04em] font-bold text-white!">
+              Pay Everyone at Once. From One File.
+            </h1>
 
-                <h1 className="mt-[20px] text-[44px] sm:text-[56px] lg:text-[62px] leading-[1.04] tracking-[-0.04em] font-bold text-white!">
-                  {title}
-                </h1>
-
-                <p className="mt-5 text-[18px] leading-[1.6] text-[#d6ebff] max-w-[540px]">
-                  {subtitle}
-                </p>
-              </motion.div>
-            </AnimatePresence>
+            <p className="mt-5 text-[18px] leading-[1.6] text-[#d6ebff] max-w-[540px]">
+              Upload a list, fix the rows that fail, and send the rest. On the account you already have.
+            </p>
 
             <StoreButtons
               tone="onBlueAlt"
@@ -119,31 +56,9 @@ export const BusinessHome: React.FC<BusinessHomeProps> = ({
             />
           </div>
 
-          {/* Right Column: Interactive Phone Mockup */}
+          {/* Right Column: Business Account Cashflow Mockup */}
           <div className="flex items-end justify-center pt-4 lg:pt-[50px] lg:ml-3">
-            <AnimatePresence mode="wait">
-              {isPayoutsOrPricing ? (
-                <motion.div
-                  key="payouts-phone"
-                  initial={{ opacity: 0, scale: 0.96 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  exit={{ opacity: 0, scale: 0.96 }}
-                  transition={{ duration: 0.3 }}
-                >
-                  <PayoutsPhone />
-                </motion.div>
-              ) : (
-                <motion.div
-                  key="business-phone"
-                  initial={{ opacity: 0, scale: 0.96 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  exit={{ opacity: 0, scale: 0.96 }}
-                  transition={{ duration: 0.3 }}
-                >
-                  <BusinessOverviewPhone />
-                </motion.div>
-              )}
-            </AnimatePresence>
+            <BusinessOverviewPhone />
           </div>
         </div>
       </SectionWrap>

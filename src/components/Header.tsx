@@ -190,12 +190,9 @@ export const Header: React.FC<HeaderProps> = ({
               <>
                 <button
                   type="button"
-                  onClick={() => {
-                    onBusinessHeroNavChange?.('payouts');
-                    handleNav('business');
-                  }}
+                  onClick={() => handleNav('payouts')}
                   className={`transition cursor-pointer relative py-1 ${
-                    isBusiness && businessHeroNav === 'payouts'
+                    currentScreen === 'payouts'
                       ? 'font-bold text-[#0976da] dark:text-[#53a8f5]'
                       : 'hover:text-blue-600 dark:hover:text-white'
                   }`}
@@ -204,12 +201,9 @@ export const Header: React.FC<HeaderProps> = ({
                 </button>
                 <button
                   type="button"
-                  onClick={() => {
-                    onBusinessHeroNavChange?.('pricing');
-                    handleNav('business');
-                  }}
+                  onClick={() => handleNav('pricing')}
                   className={`transition cursor-pointer relative py-1 ${
-                    isBusiness && businessHeroNav === 'pricing'
+                    currentScreen === 'pricing'
                       ? 'font-bold text-[#0976da] dark:text-[#53a8f5]'
                       : 'hover:text-blue-600 dark:hover:text-white'
                   }`}
@@ -319,8 +313,8 @@ export const Header: React.FC<HeaderProps> = ({
                 </>
               ) : (
                 <>
-                  <button onClick={() => handleNav('business')} className="text-left py-1 hover:text-blue-600">Bulk Payouts</button>
-                  <button onClick={() => handleNav('business')} className="text-left py-1 hover:text-blue-600">Commercial Pricing</button>
+                  <button onClick={() => handleNav('payouts')} className="text-left py-1 hover:text-blue-600">Bulk Payouts</button>
+                  <button onClick={() => handleNav('pricing')} className="text-left py-1 hover:text-blue-600">Commercial Pricing</button>
                   <button onClick={() => handleNav('help')} className="text-left py-1 hover:text-blue-600">Business Help Desk</button>
                   <button onClick={() => handleNav('about')} className="text-left py-1 hover:text-blue-600">About Axoora</button>
                 </>

@@ -9,6 +9,7 @@ export type ScreenType =
   | 'fees'
   | 'pricing'
   | 'business'
+  | 'payouts'
   | 'pos-agents'
   | 'security'
   | 'governance'

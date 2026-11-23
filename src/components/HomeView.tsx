@@ -254,8 +254,6 @@ export const HomeView: React.FC<HomeViewProps> = ({
             <BusinessHome
               onOpenDownloadApp={onOpenDownloadApp}
               onOpenWhatsApp={onOpenWhatsApp}
-              heroMode={businessHeroNav}
-              onHeroModeChange={onBusinessHeroNavChange}
             />
           </motion.div>
         )}

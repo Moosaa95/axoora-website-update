@@ -3,23 +3,19 @@
 import React from 'react';
 import { ScreenType } from '../types';
 import { useTheme } from '../context/ThemeContext';
-import { BusinessHome, BusinessHeroVariant } from './home/BusinessHome';
+import { BusinessHome } from './home/BusinessHome';
 
 interface BusinessProductViewProps {
   onNavigate?: (screen: ScreenType) => void;
   onOpenWaitlist: (interest?: 'personal' | 'business' | 'pos-agent' | 'aggregator') => void;
   onOpenWhatsApp: () => void;
   onOpenDownloadApp?: () => void;
-  businessHeroNav?: BusinessHeroVariant;
-  onBusinessHeroNavChange?: (hero: BusinessHeroVariant) => void;
 }
 
 export const BusinessProductView: React.FC<BusinessProductViewProps> = ({
   onOpenWaitlist,
   onOpenWhatsApp,
   onOpenDownloadApp,
-  businessHeroNav,
-  onBusinessHeroNavChange,
 }) => {
   const { theme } = useTheme();
   const isLight = theme === 'light';
@@ -33,8 +29,6 @@ export const BusinessProductView: React.FC<BusinessProductViewProps> = ({
       <BusinessHome
         onOpenDownloadApp={onOpenDownloadApp ?? (() => onOpenWaitlist('business'))}
         onOpenWhatsApp={onOpenWhatsApp}
-        heroMode={businessHeroNav}
-        onHeroModeChange={onBusinessHeroNavChange}
       />
     </div>
   );
