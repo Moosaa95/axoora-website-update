@@ -50,14 +50,7 @@ export const Footer: React.FC<FooterProps> = ({
               </button>
               <button
                 type="button"
-                onClick={() => handleNav('personal')}
-                className="text-left hover:text-blue-600 dark:hover:text-white transition cursor-pointer"
-              >
-                Savings
-              </button>
-              <button
-                type="button"
-                onClick={() => handleNav('personal')}
+                onClick={() => handleNav('cards')}
                 className="text-left hover:text-blue-600 dark:hover:text-white transition cursor-pointer"
               >
                 Cards
@@ -71,10 +64,17 @@ export const Footer: React.FC<FooterProps> = ({
               </button>
               <button
                 type="button"
-                onClick={() => handleNav('personal')}
+                onClick={() => handleNav('business')}
                 className="text-left hover:text-blue-600 dark:hover:text-white transition cursor-pointer"
               >
-                Axoora Mall
+                Axoora Business
+              </button>
+              <button
+                type="button"
+                onClick={() => handleNav('pricing')}
+                className="text-left hover:text-blue-600 dark:hover:text-white transition cursor-pointer"
+              >
+                Pricing &amp; Payouts
               </button>
             </div>
           </div>
