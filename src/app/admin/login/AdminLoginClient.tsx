@@ -80,7 +80,7 @@ export function AdminLoginClient() {
       <div className="min-h-screen bg-[#020F2E] flex items-center justify-center font-['DM_Sans',sans-serif]">
         <div className="flex flex-col items-center gap-3">
           <div className="w-8 h-8 border-2 border-[#0976da]/30 border-t-[#0976da] rounded-full animate-spin" />
-          <span className="text-xs text-[#8492a6]">Verifying credentials…</span>
+          <span className="text-xs text-slate-300">Verifying credentials…</span>
         </div>
       </div>
     );
@@ -136,7 +136,7 @@ export function AdminLoginClient() {
               initial={{ opacity: 0, y: 15 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.2 }}
-              className="mt-4 text-[#8492a6] text-sm leading-relaxed max-w-sm"
+              className="mt-4 text-slate-300 text-sm leading-relaxed max-w-sm"
             >
               Control business cashflows, NIBSS batch payouts, customer cards, savings plans, and platform content from one secure console.
             </motion.p>
@@ -151,9 +151,9 @@ export function AdminLoginClient() {
                   initial={{ opacity: 0, scale: 0.95 }}
                   animate={{ opacity: 1, scale: 1 }}
                   transition={{ delay: 0.2 + i * 0.1 }}
-                  className="p-4 rounded-2xl bg-[#071739] border border-[#162C5B] flex flex-col gap-1 shadow-sm"
+                  className="p-4 rounded-2xl bg-[#071739] border border-[#1E3A70] flex flex-col gap-1 shadow-sm"
                 >
-                  <span className="text-[10.5px] text-[#8492a6] uppercase font-bold">{s.label}</span>
+                  <span className="text-[10.5px] text-slate-300 uppercase font-bold">{s.label}</span>
                   <span className="text-xl font-bold text-white">{s.value}</span>
                 </motion.div>
               ))}
@@ -177,7 +177,7 @@ export function AdminLoginClient() {
         </div>
 
         {/* Compliance badge */}
-        <div className="relative flex items-center gap-2 text-xs text-[#8492a6]">
+        <div className="relative flex items-center gap-2 text-xs text-slate-300">
           <ShieldCheck className="w-4 h-4 text-emerald-400" />
           <span>CBN Licensed · NDIC Protected · 256-bit TLS Encrypted</span>
         </div>
@@ -205,7 +205,7 @@ export function AdminLoginClient() {
               SECURE ACCESS
             </span>
             <h2 className="text-2xl font-bold text-white">Sign in to console</h2>
-            <p className="text-xs text-[#8492a6] leading-relaxed">
+            <p className="text-xs text-slate-300 leading-relaxed">
               Use your Axoora staff credentials to access the administrative dashboard.
             </p>
           </div>
@@ -214,11 +214,11 @@ export function AdminLoginClient() {
           <form onSubmit={handleSubmit} className="flex flex-col gap-4">
             {/* Username */}
             <div className="flex flex-col gap-1.5">
-              <label htmlFor="admin-username" className="text-xs font-semibold text-[#8492a6]">
+              <label htmlFor="admin-username" className="text-xs font-semibold text-slate-300">
                 Username or Email
               </label>
               <div className="relative">
-                <User className="w-4 h-4 text-[#8492a6] absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
+                <User className="w-4 h-4 text-slate-300 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
                 <input
                   id="admin-username"
                   type="text"
@@ -226,7 +226,7 @@ export function AdminLoginClient() {
                   value={username}
                   onChange={(e) => setUsername(e.target.value)}
                   placeholder="e.g. admin or admin@axoora.ai"
-                  className="w-full pl-10 pr-4 py-3 rounded-xl bg-[#071739] border border-[#162C5B] text-sm text-white placeholder-[#6c7a89] focus:outline-none focus:border-[#0976da] transition-colors"
+                  className="w-full pl-10 pr-4 py-3 rounded-xl bg-[#071739] border border-[#1E3A70] text-sm text-white placeholder-[#6c7a89] focus:outline-none focus:border-[#0976da] transition-colors"
                   disabled={loading}
                   required
                 />
@@ -235,11 +235,11 @@ export function AdminLoginClient() {
 
             {/* Password */}
             <div className="flex flex-col gap-1.5">
-              <label htmlFor="admin-password" className="text-xs font-semibold text-[#8492a6]">
+              <label htmlFor="admin-password" className="text-xs font-semibold text-slate-300">
                 Password
               </label>
               <div className="relative">
-                <Lock className="w-4 h-4 text-[#8492a6] absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
+                <Lock className="w-4 h-4 text-slate-300 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
                 <input
                   id="admin-password"
                   type={showPass ? 'text' : 'password'}
@@ -247,14 +247,14 @@ export function AdminLoginClient() {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="••••••••••••"
-                  className="w-full pl-10 pr-12 py-3 rounded-xl bg-[#071739] border border-[#162C5B] text-sm text-white placeholder-[#6c7a89] focus:outline-none focus:border-[#0976da] transition-colors"
+                  className="w-full pl-10 pr-12 py-3 rounded-xl bg-[#071739] border border-[#1E3A70] text-sm text-white placeholder-[#6c7a89] focus:outline-none focus:border-[#0976da] transition-colors"
                   disabled={loading}
                   required
                 />
                 <button
                   type="button"
                   onClick={() => setShowPass((p) => !p)}
-                  className="absolute right-3.5 top-1/2 -translate-y-1/2 text-[#8492a6] hover:text-white transition cursor-pointer"
+                  className="absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-300 hover:text-white transition cursor-pointer"
                   tabIndex={-1}
                 >
                   {showPass ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
@@ -300,8 +300,8 @@ export function AdminLoginClient() {
           </form>
 
           {/* Footer note */}
-          <div className="flex flex-col gap-2 pt-2 border-t border-[#162C5B]">
-            <p className="text-[11px] text-[#8492a6] text-center leading-relaxed">
+          <div className="flex flex-col gap-2 pt-2 border-t border-[#1E3A70]">
+            <p className="text-[11px] text-slate-300 text-center leading-relaxed">
               This portal is restricted to authorised Axoora team members.
             </p>
             <div className="flex items-center justify-center gap-3 text-[10px] text-[#6c7a89]">

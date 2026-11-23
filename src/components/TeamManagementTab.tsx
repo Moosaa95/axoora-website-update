@@ -69,7 +69,7 @@ function StatusBadge({ status, hasAccepted }: { status: string; hasAccepted?: bo
   const cfg: Record<string, { bg: string; text: string; label: string; dot: string }> = {
     active: { bg: 'bg-emerald-500/15', text: 'text-emerald-400', label: 'Active', dot: 'bg-emerald-400' },
     invited: { bg: 'bg-amber-500/15', text: 'text-amber-400', label: 'Invite Pending', dot: 'bg-amber-400' },
-    inactive: { bg: 'bg-[#162C5B]', text: 'text-[#7B9CD2]', label: 'Inactive', dot: 'bg-[#7B9CD2]' },
+    inactive: { bg: 'bg-[#162C5B]', text: 'text-slate-300', label: 'Inactive', dot: 'bg-[#7B9CD2]' },
     suspended: { bg: 'bg-rose-500/15', text: 'text-rose-400', label: 'Suspended', dot: 'bg-rose-400' },
   };
   const c = isPending ? cfg.invited : (cfg[status] || cfg.inactive);
@@ -112,12 +112,12 @@ const DEPT_COLOURS: Record<string, string> = {
 function EmptyState({ icon: Icon, title, description }: { icon: React.ElementType; title: string; description: string }) {
   return (
     <div className="flex flex-col items-center gap-3 py-16 text-center">
-      <div className="w-12 h-12 rounded-2xl bg-[#071739] border border-[#162C5B] flex items-center justify-center text-[#7B9CD2]">
+      <div className="w-12 h-12 rounded-2xl bg-[#071739] border border-[#1E3A70] flex items-center justify-center text-slate-300">
         <Icon className="w-6 h-6" />
       </div>
       <div>
         <p className="text-sm font-bold text-white">{title}</p>
-        <p className="text-xs text-[#7B9CD2] mt-1 max-w-xs">{description}</p>
+        <p className="text-xs text-slate-300 mt-1 max-w-xs">{description}</p>
       </div>
     </div>
   );
@@ -213,10 +213,10 @@ function RoleDrawer({ role, isNew, allPermissions, onClose, onSaved, onShowToast
           animate={{ x: 0 }}
           exit={{ x: '100%' }}
           transition={{ type: 'spring', stiffness: 400, damping: 38 }}
-          className="w-full max-w-lg h-full bg-[#020F2E] border-l border-[#162C5B] flex flex-col overflow-hidden"
+          className="w-full max-w-lg h-full bg-[#020F2E] border-l border-[#1E3A70] flex flex-col overflow-hidden"
         >
           {/* Header */}
-          <div className="px-6 py-4 border-b border-[#162C5B] flex items-center justify-between shrink-0 bg-[#071739]/50">
+          <div className="px-6 py-4 border-b border-[#1E3A70] flex items-center justify-between shrink-0 bg-[#071739]/50">
             <div>
               <p className="text-[10px] font-mono text-[#53a8f5] uppercase font-bold tracking-wider">
                 {isNew ? 'CREATE NEW ROLE' : 'EDIT ROLE'}
@@ -227,7 +227,7 @@ function RoleDrawer({ role, isNew, allPermissions, onClose, onSaved, onShowToast
             </div>
             <button
               onClick={onClose}
-              className="p-2 rounded-xl hover:bg-[#162C5B] text-[#7B9CD2] hover:text-white transition-colors cursor-pointer"
+              className="p-2 rounded-xl hover:bg-[#162C5B] text-slate-300 hover:text-white transition-colors cursor-pointer"
             >
               <X className="w-5 h-5" />
             </button>
@@ -244,7 +244,7 @@ function RoleDrawer({ role, isNew, allPermissions, onClose, onSaved, onShowToast
                 onChange={(e) => setName(e.target.value)}
                 placeholder="e.g. Content Editor"
                 disabled={role?.is_system}
-                className="w-full px-3.5 py-2.5 rounded-xl bg-[#071739] border border-[#162C5B] text-sm text-white placeholder-[#7B9CD2] focus:outline-none focus:border-[#53a8f5] transition-colors disabled:opacity-50"
+                className="w-full px-3.5 py-2.5 rounded-xl bg-[#071739] border border-[#1E3A70] text-sm text-white placeholder-[#7B9CD2] focus:outline-none focus:border-[#53a8f5] transition-colors disabled:opacity-50"
               />
               {role?.is_system && (
                 <p className="text-[10px] text-amber-400 font-mono flex items-center gap-1.5 mt-1">
@@ -262,7 +262,7 @@ function RoleDrawer({ role, isNew, allPermissions, onClose, onSaved, onShowToast
                 onChange={(e) => setDescription(e.target.value)}
                 placeholder="What does this role do?"
                 rows={2}
-                className="w-full px-3.5 py-2.5 rounded-xl bg-[#071739] border border-[#162C5B] text-sm text-white placeholder-[#7B9CD2] focus:outline-none focus:border-[#53a8f5] transition-colors resize-none"
+                className="w-full px-3.5 py-2.5 rounded-xl bg-[#071739] border border-[#1E3A70] text-sm text-white placeholder-[#7B9CD2] focus:outline-none focus:border-[#53a8f5] transition-colors resize-none"
               />
             </div>
 
@@ -297,7 +297,7 @@ function RoleDrawer({ role, isNew, allPermissions, onClose, onSaved, onShowToast
                 <div className="flex flex-col gap-4">
                   {allPermissions.map((group) => (
                     <div key={group.group} className="flex flex-col gap-2">
-                      <p className="text-[10px] font-mono text-[#53a8f5] uppercase tracking-wider font-bold border-b border-[#162C5B] pb-1">
+                      <p className="text-[10px] font-mono text-[#53a8f5] uppercase tracking-wider font-bold border-b border-[#1E3A70] pb-1">
                         {group.group}
                       </p>
                       <div className="flex flex-col gap-1.5">
@@ -310,7 +310,7 @@ function RoleDrawer({ role, isNew, allPermissions, onClose, onSaved, onShowToast
                               className={`mt-0.5 w-4 h-4 rounded border flex items-center justify-center shrink-0 transition-all ${
                                 selectedPerms.has(perm.id)
                                   ? 'bg-[#043e97] border-[#0976da]'
-                                  : 'border-[#162C5B] bg-[#071739] group-hover:border-[#53a8f5]/50'
+                                  : 'border-[#1E3A70] bg-[#071739] group-hover:border-[#53a8f5]/50'
                               }`}
                               onClick={() => togglePerm(perm.id)}
                             >
@@ -322,7 +322,7 @@ function RoleDrawer({ role, isNew, allPermissions, onClose, onSaved, onShowToast
                               <span className="text-xs font-semibold text-white group-hover:text-[#53a8f5] transition-colors">
                                 {perm.label}
                               </span>
-                              <span className="text-[10px] text-[#7B9CD2]">{perm.description}</span>
+                              <span className="text-[10px] text-slate-300">{perm.description}</span>
                             </div>
                           </label>
                         ))}
@@ -343,10 +343,10 @@ function RoleDrawer({ role, isNew, allPermissions, onClose, onSaved, onShowToast
           </div>
 
           {/* Footer */}
-          <div className="px-6 py-4 border-t border-[#162C5B] flex items-center gap-3 shrink-0 bg-[#071739]/50">
+          <div className="px-6 py-4 border-t border-[#1E3A70] flex items-center gap-3 shrink-0 bg-[#071739]/50">
             <button
               onClick={onClose}
-              className="px-4 py-2.5 rounded-xl text-xs font-semibold text-[#A8BBD6] border border-[#162C5B] hover:bg-[#162C5B] transition-all cursor-pointer"
+              className="px-4 py-2.5 rounded-xl text-xs font-semibold text-[#A8BBD6] border border-[#1E3A70] hover:bg-[#162C5B] transition-all cursor-pointer"
             >
               Cancel
             </button>
@@ -419,7 +419,7 @@ function CredentialsModal({
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
           exit={{ opacity: 0, scale: 0.95 }}
-          className="w-full max-w-md bg-[#071739] border border-[#162C5B] rounded-2xl p-6 shadow-2xl flex flex-col gap-4 text-left"
+          className="w-full max-w-md bg-[#071739] border border-[#1E3A70] rounded-2xl p-6 shadow-2xl flex flex-col gap-4 text-left"
         >
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-xl bg-emerald-500/15 border border-emerald-500/30 text-emerald-400 flex items-center justify-center shrink-0">
@@ -427,27 +427,27 @@ function CredentialsModal({
             </div>
             <div>
               <h3 className="text-base font-bold text-white">{title}</h3>
-              <p className="text-xs text-[#7B9CD2]">{subtitle}</p>
+              <p className="text-xs text-slate-300">{subtitle}</p>
             </div>
           </div>
 
-          <div className="p-4 rounded-xl bg-[#020F2E] border border-[#162C5B] flex flex-col gap-2.5 font-mono text-xs">
-            <div className="flex items-center justify-between text-[#7B9CD2]">
+          <div className="p-4 rounded-xl bg-[#020F2E] border border-[#1E3A70] flex flex-col gap-2.5 font-mono text-xs">
+            <div className="flex items-center justify-between text-slate-300">
               <span>Team Member:</span>
               <span className="text-white font-sans font-bold">{memberName}</span>
             </div>
-            <div className="flex items-center justify-between text-[#7B9CD2]">
+            <div className="flex items-center justify-between text-slate-300">
               <span>Login Email:</span>
               <span className="text-[#53a8f5]">{email}</span>
             </div>
             {password && (
-              <div className="flex items-center justify-between pt-2 border-t border-[#162C5B]">
-                <span className="text-[#7B9CD2]">Temporary Password:</span>
+              <div className="flex items-center justify-between pt-2 border-t border-[#1E3A70]">
+                <span className="text-slate-300">Temporary Password:</span>
                 <div className="flex items-center gap-2">
                   <span className="text-emerald-400 font-bold tracking-wider">{password}</span>
                   <button
                     onClick={handleCopy}
-                    className="p-1.5 rounded-lg bg-[#071739] border border-[#162C5B] hover:bg-[#162C5B] text-[#7B9CD2] hover:text-white transition-all cursor-pointer"
+                    className="p-1.5 rounded-lg bg-[#071739] border border-[#1E3A70] hover:bg-[#162C5B] text-slate-300 hover:text-white transition-all cursor-pointer"
                     title="Copy password"
                   >
                     {copied ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5" />}
@@ -589,10 +589,10 @@ function MemberDrawer({ member, isNew, roles, allPermissions, onClose, onSaved, 
           animate={{ x: 0 }}
           exit={{ x: '100%' }}
           transition={{ type: 'spring', stiffness: 400, damping: 38 }}
-          className="w-full max-w-lg h-full bg-[#020F2E] border-l border-[#162C5B] flex flex-col overflow-hidden"
+          className="w-full max-w-lg h-full bg-[#020F2E] border-l border-[#1E3A70] flex flex-col overflow-hidden"
         >
           {/* Header */}
-          <div className="px-6 py-4 border-b border-[#162C5B] flex items-center justify-between shrink-0 bg-[#071739]/50">
+          <div className="px-6 py-4 border-b border-[#1E3A70] flex items-center justify-between shrink-0 bg-[#071739]/50">
             <div className="flex items-center gap-3">
               {!isNew && member && <Avatar name={member.full_name} />}
               <div>
@@ -606,14 +606,14 @@ function MemberDrawer({ member, isNew, roles, allPermissions, onClose, onSaved, 
             </div>
             <button
               onClick={onClose}
-              className="p-2 rounded-xl hover:bg-[#162C5B] text-[#7B9CD2] hover:text-white transition-colors cursor-pointer"
+              className="p-2 rounded-xl hover:bg-[#162C5B] text-slate-300 hover:text-white transition-colors cursor-pointer"
             >
               <X className="w-5 h-5" />
             </button>
           </div>
 
           {/* Sub-tabs */}
-          <div className="px-6 pt-3 pb-0 border-b border-[#162C5B] flex gap-1 shrink-0 bg-[#071739]/30">
+          <div className="px-6 pt-3 pb-0 border-b border-[#1E3A70] flex gap-1 shrink-0 bg-[#071739]/30">
             {(['details', 'permissions'] as const).map((tab) => (
               <button
                 key={tab}
@@ -621,7 +621,7 @@ function MemberDrawer({ member, isNew, roles, allPermissions, onClose, onSaved, 
                 className={`px-4 py-2 text-xs font-semibold rounded-t-xl border-b-2 -mb-px transition-all cursor-pointer capitalize ${
                   activeSection === tab
                     ? 'border-[#0976da] text-[#53a8f5] bg-[#043e97]/15'
-                    : 'border-transparent text-[#7B9CD2] hover:text-[#A8BBD6]'
+                    : 'border-transparent text-slate-300 hover:text-[#A8BBD6]'
                 }`}
               >
                 {tab === 'details' ? 'Details & Role' : 'Extra Permissions'}
@@ -641,7 +641,7 @@ function MemberDrawer({ member, isNew, roles, allPermissions, onClose, onSaved, 
                     value={fullName}
                     onChange={(e) => setFullName(e.target.value)}
                     placeholder="e.g. Aisha Balogun"
-                    className="w-full px-3.5 py-2.5 rounded-xl bg-[#071739] border border-[#162C5B] text-sm text-white placeholder-[#7B9CD2] focus:outline-none focus:border-[#53a8f5] transition-colors"
+                    className="w-full px-3.5 py-2.5 rounded-xl bg-[#071739] border border-[#1E3A70] text-sm text-white placeholder-[#7B9CD2] focus:outline-none focus:border-[#53a8f5] transition-colors"
                   />
                 </div>
 
@@ -654,7 +654,7 @@ function MemberDrawer({ member, isNew, roles, allPermissions, onClose, onSaved, 
                     onChange={(e) => setEmail(e.target.value)}
                     placeholder="aisha@axoora.ai"
                     disabled={!isNew}
-                    className="w-full px-3.5 py-2.5 rounded-xl bg-[#071739] border border-[#162C5B] text-sm text-white placeholder-[#7B9CD2] focus:outline-none focus:border-[#53a8f5] transition-colors disabled:opacity-60"
+                    className="w-full px-3.5 py-2.5 rounded-xl bg-[#071739] border border-[#1E3A70] text-sm text-white placeholder-[#7B9CD2] focus:outline-none focus:border-[#53a8f5] transition-colors disabled:opacity-60"
                   />
                 </div>
 
@@ -666,7 +666,7 @@ function MemberDrawer({ member, isNew, roles, allPermissions, onClose, onSaved, 
                     value={jobTitle}
                     onChange={(e) => setJobTitle(e.target.value)}
                     placeholder="e.g. Content Manager"
-                    className="w-full px-3.5 py-2.5 rounded-xl bg-[#071739] border border-[#162C5B] text-sm text-white placeholder-[#7B9CD2] focus:outline-none focus:border-[#53a8f5] transition-colors"
+                    className="w-full px-3.5 py-2.5 rounded-xl bg-[#071739] border border-[#1E3A70] text-sm text-white placeholder-[#7B9CD2] focus:outline-none focus:border-[#53a8f5] transition-colors"
                   />
                 </div>
 
@@ -679,7 +679,7 @@ function MemberDrawer({ member, isNew, roles, allPermissions, onClose, onSaved, 
                       value={phone}
                       onChange={(e) => setPhone(e.target.value)}
                       placeholder="+234 ..."
-                      className="w-full px-3.5 py-2.5 rounded-xl bg-[#071739] border border-[#162C5B] text-sm text-white placeholder-[#7B9CD2] focus:outline-none focus:border-[#53a8f5] transition-colors"
+                      className="w-full px-3.5 py-2.5 rounded-xl bg-[#071739] border border-[#1E3A70] text-sm text-white placeholder-[#7B9CD2] focus:outline-none focus:border-[#53a8f5] transition-colors"
                     />
                   </div>
                   <div className="flex flex-col gap-1.5">
@@ -687,7 +687,7 @@ function MemberDrawer({ member, isNew, roles, allPermissions, onClose, onSaved, 
                     <select
                       value={department}
                       onChange={(e) => setDepartment(e.target.value)}
-                      className="w-full px-3.5 py-2.5 rounded-xl bg-[#071739] border border-[#162C5B] text-sm text-white focus:outline-none focus:border-[#53a8f5] transition-colors cursor-pointer"
+                      className="w-full px-3.5 py-2.5 rounded-xl bg-[#071739] border border-[#1E3A70] text-sm text-white focus:outline-none focus:border-[#53a8f5] transition-colors cursor-pointer"
                     >
                       {DEPARTMENTS.map((d) => (
                         <option key={d.value} value={d.value}>{d.label}</option>
@@ -702,7 +702,7 @@ function MemberDrawer({ member, isNew, roles, allPermissions, onClose, onSaved, 
                   <select
                     value={roleId}
                     onChange={(e) => setRoleId(e.target.value)}
-                    className="w-full px-3.5 py-2.5 rounded-xl bg-[#071739] border border-[#162C5B] text-sm text-white focus:outline-none focus:border-[#53a8f5] transition-colors cursor-pointer"
+                    className="w-full px-3.5 py-2.5 rounded-xl bg-[#071739] border border-[#1E3A70] text-sm text-white focus:outline-none focus:border-[#53a8f5] transition-colors cursor-pointer"
                   >
                     <option value="">— No Role —</option>
                     {roles.map((r) => (
@@ -727,8 +727,8 @@ function MemberDrawer({ member, isNew, roles, allPermissions, onClose, onSaved, 
                                 ? 'bg-emerald-500/20 border-emerald-500/40 text-emerald-400'
                                 : s === 'suspended'
                                   ? 'bg-rose-500/20 border-rose-500/40 text-rose-400'
-                                  : 'bg-[#162C5B] border-[#7B9CD2]/30 text-[#7B9CD2]'
-                              : 'bg-[#071739] border-[#162C5B] text-[#7B9CD2] hover:border-[#7B9CD2]/40'
+                                  : 'bg-[#162C5B] border-[#7B9CD2]/30 text-slate-300'
+                              : 'bg-[#071739] border-[#1E3A70] text-slate-300 hover:border-[#7B9CD2]/40'
                           }`}
                         >
                           {s}
@@ -767,23 +767,23 @@ function MemberDrawer({ member, isNew, roles, allPermissions, onClose, onSaved, 
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
                       placeholder={isNew ? 'Leave blank to auto-generate & email' : 'Leave blank to keep current'}
-                      className="w-full pl-3.5 pr-10 py-2.5 rounded-xl bg-[#071739] border border-[#162C5B] text-sm text-white placeholder-[#7B9CD2] focus:outline-none focus:border-[#53a8f5] transition-colors font-mono"
+                      className="w-full pl-3.5 pr-10 py-2.5 rounded-xl bg-[#071739] border border-[#1E3A70] text-sm text-white placeholder-[#7B9CD2] focus:outline-none focus:border-[#53a8f5] transition-colors font-mono"
                     />
                     <button
                       type="button"
                       onClick={() => setShowPass((p) => !p)}
-                      className="absolute right-3 top-1/2 -translate-y-1/2 text-[#7B9CD2] hover:text-white cursor-pointer"
+                      className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-300 hover:text-white cursor-pointer"
                     >
                       {showPass ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                     </button>
                   </div>
                   {isNew ? (
-                    <p className="text-[11px] text-[#7B9CD2] flex items-center gap-1.5 mt-0.5">
+                    <p className="text-[11px] text-slate-300 flex items-center gap-1.5 mt-0.5">
                       <Mail className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
                       <span>A secure password will be auto-generated and emailed to the member.</span>
                     </p>
                   ) : (
-                    <p className="text-[10px] text-[#7B9CD2]">Leave blank to preserve member&apos;s existing password.</p>
+                    <p className="text-[10px] text-slate-300">Leave blank to preserve member&apos;s existing password.</p>
                   )}
                 </div>
               </>
@@ -799,7 +799,7 @@ function MemberDrawer({ member, isNew, roles, allPermissions, onClose, onSaved, 
                 </div>
                 {allPermissions.map((group) => (
                   <div key={group.group} className="flex flex-col gap-2">
-                    <p className="text-[10px] font-mono text-[#53a8f5] uppercase tracking-wider font-bold border-b border-[#162C5B] pb-1">
+                    <p className="text-[10px] font-mono text-[#53a8f5] uppercase tracking-wider font-bold border-b border-[#1E3A70] pb-1">
                       {group.group}
                     </p>
                     {group.permissions.map((perm) => (
@@ -808,7 +808,7 @@ function MemberDrawer({ member, isNew, roles, allPermissions, onClose, onSaved, 
                           className={`mt-0.5 w-4 h-4 rounded border flex items-center justify-center shrink-0 transition-all ${
                             customPerms.has(perm.id)
                               ? 'bg-emerald-500 border-emerald-500'
-                              : 'border-[#162C5B] bg-[#071739] group-hover:border-emerald-500/40'
+                              : 'border-[#1E3A70] bg-[#071739] group-hover:border-emerald-500/40'
                           }`}
                           onClick={() => toggleCustomPerm(perm.id)}
                         >
@@ -818,7 +818,7 @@ function MemberDrawer({ member, isNew, roles, allPermissions, onClose, onSaved, 
                         </div>
                         <div>
                           <span className="text-xs font-semibold text-white">{perm.label}</span>
-                          <p className="text-[10px] text-[#7B9CD2]">{perm.description}</p>
+                          <p className="text-[10px] text-slate-300">{perm.description}</p>
                         </div>
                       </label>
                     ))}
@@ -837,10 +837,10 @@ function MemberDrawer({ member, isNew, roles, allPermissions, onClose, onSaved, 
           </div>
 
           {/* Footer */}
-          <div className="px-6 py-4 border-t border-[#162C5B] flex items-center gap-3 shrink-0 bg-[#071739]/50">
+          <div className="px-6 py-4 border-t border-[#1E3A70] flex items-center gap-3 shrink-0 bg-[#071739]/50">
             <button
               onClick={onClose}
-              className="px-4 py-2.5 rounded-xl text-xs font-semibold text-[#A8BBD6] border border-[#162C5B] hover:bg-[#162C5B] transition-all cursor-pointer"
+              className="px-4 py-2.5 rounded-xl text-xs font-semibold text-[#A8BBD6] border border-[#1E3A70] hover:bg-[#162C5B] transition-all cursor-pointer"
             >
               Cancel
             </button>
@@ -1036,7 +1036,7 @@ export function TeamManagementTab({ onShowToast }: TeamManagementTabProps) {
   return (
     <div className="max-w-6xl mx-auto flex flex-col gap-6 font-sans">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-[#162C5B] pb-4">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-[#1E3A70] pb-4">
         <div>
           <span className="text-xs font-mono text-[#53a8f5] uppercase font-bold tracking-wider">RBAC ACCESS CONTROL</span>
           <h1 className="text-2xl font-bold text-white tracking-tight mt-0.5">Team &amp; Roles</h1>
@@ -1063,7 +1063,7 @@ export function TeamManagementTab({ onShowToast }: TeamManagementTabProps) {
       </div>
 
       {/* Sub-tab toggle */}
-      <div className="flex gap-1.5 bg-[#071739] rounded-2xl p-1.5 w-fit border border-[#162C5B]">
+      <div className="flex gap-1.5 bg-[#071739] rounded-2xl p-1.5 w-fit border border-[#1E3A70]">
         {([
           { id: 'members', label: 'Team Members', icon: Users, count: members.length },
           { id: 'roles', label: 'Roles & Permissions', icon: ShieldCheck, count: roles.length },
@@ -1076,12 +1076,12 @@ export function TeamManagementTab({ onShowToast }: TeamManagementTabProps) {
               className={`flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-semibold transition-all cursor-pointer ${
                 subTab === t.id
                   ? 'bg-[#043e97] text-white shadow-sm'
-                  : 'text-[#7B9CD2] hover:text-[#A8BBD6]'
+                  : 'text-slate-300 hover:text-[#A8BBD6]'
               }`}
             >
               <IconComponent className="w-4 h-4" />
               <span>{t.label}</span>
-              <span className="px-2 py-0.5 bg-[#020F2E] text-[#93c5fd] rounded-full text-[10px] font-mono border border-[#162C5B]">
+              <span className="px-2 py-0.5 bg-[#020F2E] text-[#93c5fd] rounded-full text-[10px] font-mono border border-[#1E3A70]">
                 {t.count}
               </span>
             </button>
@@ -1095,19 +1095,19 @@ export function TeamManagementTab({ onShowToast }: TeamManagementTabProps) {
           {/* Filters */}
           <div className="flex flex-col sm:flex-row gap-3">
             <div className="relative flex-1">
-              <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-[#7B9CD2]" />
+              <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-300" />
               <input
                 type="text"
                 value={memberSearch}
                 onChange={(e) => setMemberSearch(e.target.value)}
                 placeholder="Search by name, email, job title…"
-                className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-[#071739] border border-[#162C5B] text-sm text-white placeholder-[#7B9CD2] focus:outline-none focus:border-[#53a8f5] transition-colors"
+                className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-[#071739] border border-[#1E3A70] text-sm text-white placeholder-[#7B9CD2] focus:outline-none focus:border-[#53a8f5] transition-colors"
               />
             </div>
             <select
               value={memberStatusFilter}
               onChange={(e) => setMemberStatusFilter(e.target.value)}
-              className="px-4 py-2.5 rounded-xl bg-[#071739] border border-[#162C5B] text-sm text-white focus:outline-none focus:border-[#53a8f5] transition-colors cursor-pointer"
+              className="px-4 py-2.5 rounded-xl bg-[#071739] border border-[#1E3A70] text-sm text-white focus:outline-none focus:border-[#53a8f5] transition-colors cursor-pointer"
             >
               <option value="">All Statuses</option>
               <option value="active">Active</option>
@@ -1132,7 +1132,7 @@ export function TeamManagementTab({ onShowToast }: TeamManagementTabProps) {
                   key={m.id}
                   initial={{ opacity: 0, y: 8 }}
                   animate={{ opacity: 1, y: 0 }}
-                  className="p-4 rounded-2xl bg-[#071739] border border-[#162C5B] flex flex-col sm:flex-row sm:items-center justify-between gap-4 hover:border-[#53a8f5]/40 transition-colors"
+                  className="p-4 rounded-2xl bg-[#071739] border border-[#1E3A70] flex flex-col sm:flex-row sm:items-center justify-between gap-4 hover:border-[#53a8f5]/40 transition-colors"
                 >
                   <div className="flex items-center gap-3.5 flex-1 min-w-0">
                     <Avatar name={m.full_name} />
@@ -1141,13 +1141,13 @@ export function TeamManagementTab({ onShowToast }: TeamManagementTabProps) {
                         <span className="text-sm font-bold text-white truncate">{m.full_name}</span>
                         <StatusBadge status={m.status} hasAccepted={m.has_accepted} />
                       </div>
-                      <span className="text-[11px] text-[#7B9CD2]">{m.email}</span>
+                      <span className="text-[11px] text-slate-300">{m.email}</span>
                       <div className="flex items-center gap-2 flex-wrap mt-0.5">
-                        <span className={`text-[10px] font-mono font-bold capitalize ${DEPT_COLOURS[m.department] || 'text-[#7B9CD2]'}`}>
+                        <span className={`text-[10px] font-mono font-bold capitalize ${DEPT_COLOURS[m.department] || 'text-slate-300'}`}>
                           {m.department.replace('_', ' ')}
                         </span>
                         {m.job_title && (
-                          <span className="text-[10px] text-[#7B9CD2]">· {m.job_title}</span>
+                          <span className="text-[10px] text-slate-300">· {m.job_title}</span>
                         )}
                         {m.role && (
                           <span className="px-2 py-0.5 rounded-full bg-[#043e97]/20 border border-[#043e97]/40 text-[#53a8f5] text-[10px] font-mono">
@@ -1172,7 +1172,7 @@ export function TeamManagementTab({ onShowToast }: TeamManagementTabProps) {
 
                     <button
                       onClick={() => handleResetPassword(m)}
-                      className="px-2.5 py-1.5 rounded-xl bg-[#020F2E] text-xs text-[#A8BBD6] hover:text-white border border-[#162C5B] hover:border-[#53a8f5]/40 cursor-pointer transition-all flex items-center gap-1.5"
+                      className="px-2.5 py-1.5 rounded-xl bg-[#020F2E] text-xs text-[#A8BBD6] hover:text-white border border-[#1E3A70] hover:border-[#53a8f5]/40 cursor-pointer transition-all flex items-center gap-1.5"
                       title="Reset member password and dispatch credentials"
                     >
                       <RotateCcw className="w-3.5 h-3.5" />
@@ -1181,14 +1181,14 @@ export function TeamManagementTab({ onShowToast }: TeamManagementTabProps) {
 
                     <button
                       onClick={() => setMemberDrawer({ open: true, member: m, isNew: false })}
-                      className="px-3 py-1.5 rounded-xl bg-[#020F2E] text-xs text-[#53a8f5] border border-[#162C5B] hover:border-[#53a8f5]/40 cursor-pointer transition-all flex items-center gap-1"
+                      className="px-3 py-1.5 rounded-xl bg-[#020F2E] text-xs text-[#53a8f5] border border-[#1E3A70] hover:border-[#53a8f5]/40 cursor-pointer transition-all flex items-center gap-1"
                     >
                       <Edit3 className="w-3.5 h-3.5" />
                       <span>Edit</span>
                     </button>
                     <button
                       onClick={() => handleDeleteMember(m)}
-                      className="p-1.5 rounded-xl text-[#7B9CD2] hover:text-rose-400 hover:bg-rose-500/10 cursor-pointer transition-all"
+                      className="p-1.5 rounded-xl text-slate-300 hover:text-rose-400 hover:bg-rose-500/10 cursor-pointer transition-all"
                       title="Remove member"
                     >
                       <Trash2 className="w-4 h-4" />
@@ -1219,7 +1219,7 @@ export function TeamManagementTab({ onShowToast }: TeamManagementTabProps) {
                   key={role.id}
                   initial={{ opacity: 0, scale: 0.97 }}
                   animate={{ opacity: 1, scale: 1 }}
-                  className="p-5 rounded-2xl bg-[#071739] border border-[#162C5B] flex flex-col gap-4 hover:border-[#53a8f5]/40 transition-colors"
+                  className="p-5 rounded-2xl bg-[#071739] border border-[#1E3A70] flex flex-col gap-4 hover:border-[#53a8f5]/40 transition-colors"
                 >
                   {/* Role header */}
                   <div className="flex items-start justify-between gap-2">
@@ -1238,13 +1238,13 @@ export function TeamManagementTab({ onShowToast }: TeamManagementTabProps) {
                         )}
                       </div>
                       {role.description && (
-                        <p className="text-xs text-[#7B9CD2] leading-relaxed">{role.description}</p>
+                        <p className="text-xs text-slate-300 leading-relaxed">{role.description}</p>
                       )}
                     </div>
                     <div className="flex items-center gap-1.5 shrink-0">
                       <button
                         onClick={() => setRoleDrawer({ open: true, role, isNew: false })}
-                        className="p-1.5 rounded-xl text-[#7B9CD2] hover:text-[#53a8f5] hover:bg-[#043e97]/20 cursor-pointer transition-all"
+                        className="p-1.5 rounded-xl text-slate-300 hover:text-[#53a8f5] hover:bg-[#043e97]/20 cursor-pointer transition-all"
                         title="Edit role"
                       >
                         <Edit3 className="w-4 h-4" />
@@ -1252,7 +1252,7 @@ export function TeamManagementTab({ onShowToast }: TeamManagementTabProps) {
                       {!role.is_system && (
                         <button
                           onClick={() => handleDeleteRole(role)}
-                          className="p-1.5 rounded-xl text-[#7B9CD2] hover:text-rose-400 hover:bg-rose-500/10 cursor-pointer transition-all"
+                          className="p-1.5 rounded-xl text-slate-300 hover:text-rose-400 hover:bg-rose-500/10 cursor-pointer transition-all"
                           title="Delete role"
                         >
                           <Trash2 className="w-4 h-4" />
@@ -1263,11 +1263,11 @@ export function TeamManagementTab({ onShowToast }: TeamManagementTabProps) {
 
                   {/* Stats row */}
                   <div className="flex items-center gap-4 text-xs">
-                    <div className="flex items-center gap-1.5 text-[#7B9CD2]">
+                    <div className="flex items-center gap-1.5 text-slate-300">
                       <Users className="w-3.5 h-3.5" />
                       <span>{role.member_count} member{role.member_count !== 1 ? 's' : ''}</span>
                     </div>
-                    <div className="flex items-center gap-1.5 text-[#7B9CD2]">
+                    <div className="flex items-center gap-1.5 text-slate-300">
                       <Key className="w-3.5 h-3.5" />
                       {role.permissions.includes('*') ? (
                         <span className="text-amber-400 font-mono font-semibold">Full Access (*)</span>
@@ -1286,7 +1286,7 @@ export function TeamManagementTab({ onShowToast }: TeamManagementTabProps) {
                         </span>
                       ))}
                       {role.permissions.length > 5 && (
-                        <span className="px-2 py-0.5 rounded-full bg-[#162C5B] text-[#7B9CD2] text-[9px] font-mono">
+                        <span className="px-2 py-0.5 rounded-full bg-[#162C5B] text-slate-300 text-[9px] font-mono">
                           +{role.permissions.length - 5} more
                         </span>
                       )}

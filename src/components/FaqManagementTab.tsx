@@ -136,22 +136,22 @@ export const FaqManagementTab: React.FC<FaqManagementTabProps> = ({
   return (
     <div className="flex flex-col gap-6">
       {/* Header & Stats Banner */}
-      <div className="bg-[#071739] border border-[#162C5B] rounded-2xl p-6 flex flex-col md:flex-row md:items-center justify-between gap-4">
+      <div className="bg-[#071739] border border-[#1E3A70] rounded-2xl p-6 flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div className="flex flex-col gap-1">
           <div className="flex items-center gap-2">
-            <div className="w-8 h-8 rounded-xl bg-[#043e97]/20 text-[#53a8f5] flex items-center justify-center border border-[#162C5B]">
+            <div className="w-8 h-8 rounded-xl bg-[#043e97]/20 text-[#53a8f5] flex items-center justify-center border border-[#1E3A70]">
               <HelpCircle className="w-4 h-4 text-[#53a8f5]" />
             </div>
             <h2 className="text-xl font-bold text-white tracking-tight">Resolution Desk &amp; Website FAQs</h2>
           </div>
-          <p className="text-xs text-[#8492a6]">
+          <p className="text-xs text-slate-300">
             Configure questions, answers, and categories that populate customer accordion drawers across Business, Personal, POS and Help desk.
           </p>
         </div>
 
         <div className="flex items-center gap-3">
-          <div className="flex items-center gap-2 bg-[#020F2E] px-3 py-1.5 rounded-xl border border-[#162C5B] text-xs">
-            <span className="text-[#8492a6]">Active:</span>
+          <div className="flex items-center gap-2 bg-[#020F2E] px-3 py-1.5 rounded-xl border border-[#1E3A70] text-xs">
+            <span className="text-slate-300">Active:</span>
             <span className="text-emerald-400 font-bold">{activeCount} / {faqs.length}</span>
           </div>
 
@@ -180,7 +180,7 @@ export const FaqManagementTab: React.FC<FaqManagementTabProps> = ({
                 className={`px-3 py-1.5 rounded-xl text-xs font-semibold whitespace-nowrap cursor-pointer transition-colors ${
                   isSelected
                     ? 'bg-[#043e97] text-white font-bold shadow-sm'
-                    : 'bg-[#071739] text-[#8492a6] hover:text-white border border-[#162C5B]'
+                    : 'bg-[#071739] text-slate-300 hover:text-white border border-[#1E3A70]'
                 }`}
               >
                 {cat}
@@ -191,13 +191,13 @@ export const FaqManagementTab: React.FC<FaqManagementTabProps> = ({
 
         {/* Search Input */}
         <div className="relative min-w-[240px]">
-          <Search className="w-4 h-4 absolute left-3 top-2.5 text-[#8492a6]" />
+          <Search className="w-4 h-4 absolute left-3 top-2.5 text-slate-300" />
           <input
             type="text"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder="Search FAQs by keywords..."
-            className="w-full pl-9 pr-3 py-2 bg-[#071739] border border-[#162C5B] rounded-xl text-xs text-white placeholder-[#8492a6] focus:outline-none focus:border-[#0976da]"
+            className="w-full pl-9 pr-3 py-2 bg-[#071739] border border-[#1E3A70] rounded-xl text-xs text-white placeholder-[#8492a6] focus:outline-none focus:border-[#0976da]"
           />
         </div>
       </div>
@@ -205,10 +205,10 @@ export const FaqManagementTab: React.FC<FaqManagementTabProps> = ({
       {/* FAQs List */}
       <div className="flex flex-col gap-3">
         {filteredFaqs.length === 0 ? (
-          <div className="p-12 text-center rounded-2xl bg-[#071739] border border-[#162C5B] flex flex-col items-center gap-3">
-            <HelpCircle className="w-10 h-10 text-[#8492a6]/40" />
+          <div className="p-12 text-center rounded-2xl bg-[#071739] border border-[#1E3A70] flex flex-col items-center gap-3">
+            <HelpCircle className="w-10 h-10 text-slate-300/40" />
             <p className="text-sm font-bold text-white">No FAQ items match your filter</p>
-            <p className="text-xs text-[#8492a6]">Click &quot;Add New FAQ&quot; or switch category.</p>
+            <p className="text-xs text-slate-300">Click &quot;Add New FAQ&quot; or switch category.</p>
           </div>
         ) : (
           filteredFaqs.map((faq, index) => {
@@ -220,19 +220,19 @@ export const FaqManagementTab: React.FC<FaqManagementTabProps> = ({
               <div
                 key={faqId}
                 className={`bg-[#071739] border rounded-2xl transition-colors ${
-                  isActive ? 'border-[#162C5B]' : 'border-[#162C5B]/40 opacity-70'
+                  isActive ? 'border-[#1E3A70]' : 'border-[#1E3A70]/40 opacity-70'
                 }`}
               >
                 {/* FAQ Header Row */}
                 <div className="p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                   <div className="flex items-start sm:items-center gap-3 flex-1">
-                    <span className="text-[11px] text-[#8492a6] px-2 py-0.5 rounded bg-[#020F2E] border border-[#162C5B] shrink-0 font-medium">
+                    <span className="text-[11px] text-slate-300 px-2 py-0.5 rounded bg-[#020F2E] border border-[#1E3A70] shrink-0 font-medium">
                       #{faq.order || index + 1}
                     </span>
 
                     <div className="flex flex-col gap-1 flex-1">
                       <div className="flex items-center gap-2 flex-wrap">
-                        <span className="px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-[#043e97]/20 border border-[#162C5B] text-[#53a8f5]">
+                        <span className="px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-[#043e97]/20 border border-[#1E3A70] text-[#53a8f5]">
                           {faq.category}
                         </span>
 
@@ -254,7 +254,7 @@ export const FaqManagementTab: React.FC<FaqManagementTabProps> = ({
                     <button
                       type="button"
                       onClick={() => setExpandedFaqId(isExpanded ? null : faqId)}
-                      className="px-2.5 py-1.5 rounded-xl bg-[#020F2E] hover:bg-[#162C5B] text-xs text-[#8492a6] hover:text-white border border-[#162C5B] cursor-pointer flex items-center gap-1 transition-colors"
+                      className="px-2.5 py-1.5 rounded-xl bg-[#020F2E] hover:bg-[#162C5B] text-xs text-slate-300 hover:text-white border border-[#1E3A70] cursor-pointer flex items-center gap-1 transition-colors"
                       title={isExpanded ? 'Collapse answer preview' : 'Expand answer preview'}
                     >
                       {isExpanded ? (
@@ -286,7 +286,7 @@ export const FaqManagementTab: React.FC<FaqManagementTabProps> = ({
                     <button
                       type="button"
                       onClick={() => handleOpenEditModal(faq)}
-                      className="px-2.5 py-1.5 rounded-xl bg-[#043e97]/20 hover:bg-[#043e97]/40 text-xs font-semibold text-[#53a8f5] border border-[#162C5B] cursor-pointer flex items-center gap-1 transition-colors"
+                      className="px-2.5 py-1.5 rounded-xl bg-[#043e97]/20 hover:bg-[#043e97]/40 text-xs font-semibold text-[#53a8f5] border border-[#1E3A70] cursor-pointer flex items-center gap-1 transition-colors"
                       title="Edit FAQ"
                     >
                       <Edit3 className="w-3.5 h-3.5" />
@@ -311,7 +311,7 @@ export const FaqManagementTab: React.FC<FaqManagementTabProps> = ({
                       initial={{ height: 0, opacity: 0 }}
                       animate={{ height: 'auto', opacity: 1 }}
                       exit={{ height: 0, opacity: 0 }}
-                      className="border-t border-[#162C5B] px-4 py-3 bg-[#020F2E]/60 rounded-b-2xl overflow-hidden"
+                      className="border-t border-[#1E3A70] px-4 py-3 bg-[#020F2E]/60 rounded-b-2xl overflow-hidden"
                     >
                       <div className="flex items-start gap-2">
                         <CornerDownRight className="w-4 h-4 text-emerald-400 mt-0.5 shrink-0" />
@@ -342,9 +342,9 @@ export const FaqManagementTab: React.FC<FaqManagementTabProps> = ({
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.95 }}
               onClick={(e) => e.stopPropagation()}
-              className="w-full max-w-xl rounded-2xl bg-[#071739] border border-[#162C5B] p-6 shadow-2xl flex flex-col gap-4 max-h-[90vh] overflow-y-auto"
+              className="w-full max-w-xl rounded-2xl bg-[#071739] border border-[#1E3A70] p-6 shadow-2xl flex flex-col gap-4 max-h-[90vh] overflow-y-auto"
             >
-              <div className="flex items-center justify-between pb-3 border-b border-[#162C5B]">
+              <div className="flex items-center justify-between pb-3 border-b border-[#1E3A70]">
                 <div className="flex items-center gap-2">
                   <HelpCircle className="w-4 h-4 text-[#53a8f5]" />
                   <h3 className="text-base font-bold text-white">
@@ -354,7 +354,7 @@ export const FaqManagementTab: React.FC<FaqManagementTabProps> = ({
                 <button
                   type="button"
                   onClick={() => setEditingFaq(null)}
-                  className="text-[#8492a6] hover:text-white p-1 rounded-lg hover:bg-[#162C5B] transition-colors cursor-pointer"
+                  className="text-slate-300 hover:text-white p-1 rounded-lg hover:bg-[#162C5B] transition-colors cursor-pointer"
                 >
                   <X className="w-4 h-4" />
                 </button>
@@ -362,7 +362,7 @@ export const FaqManagementTab: React.FC<FaqManagementTabProps> = ({
 
               {/* Question */}
               <div className="flex flex-col gap-1">
-                <label className="text-xs text-[#8492a6]">Question *</label>
+                <label className="text-xs text-slate-300">Question *</label>
                 <input
                   type="text"
                   value={editingFaq.question}
@@ -370,20 +370,20 @@ export const FaqManagementTab: React.FC<FaqManagementTabProps> = ({
                     setEditingFaq({ ...editingFaq, question: e.target.value })
                   }
                   placeholder="e.g. How fast do money transfers settle across Nigerian banks?"
-                  className="px-3.5 py-2.5 rounded-xl bg-[#020F2E] border border-[#162C5B] text-sm font-semibold text-white focus:outline-none focus:border-[#0976da]"
+                  className="px-3.5 py-2.5 rounded-xl bg-[#020F2E] border border-[#1E3A70] text-sm font-semibold text-white focus:outline-none focus:border-[#0976da]"
                 />
               </div>
 
               {/* Category & Order */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div className="flex flex-col gap-1">
-                  <label className="text-xs text-[#8492a6]">Category</label>
+                  <label className="text-xs text-slate-300">Category</label>
                   <select
                     value={editingFaq.category}
                     onChange={(e) =>
                       setEditingFaq({ ...editingFaq, category: e.target.value as any })
                     }
-                    className="px-3 py-2 rounded-xl bg-[#020F2E] border border-[#162C5B] text-xs text-white focus:border-[#0976da]"
+                    className="px-3 py-2 rounded-xl bg-[#020F2E] border border-[#1E3A70] text-xs text-white focus:border-[#0976da]"
                   >
                     <option value="General">General</option>
                     <option value="Business & Payouts">Business & Payouts</option>
@@ -395,21 +395,21 @@ export const FaqManagementTab: React.FC<FaqManagementTabProps> = ({
                 </div>
 
                 <div className="flex flex-col gap-1">
-                  <label className="text-xs text-[#8492a6]">Display Priority (Order Weight)</label>
+                  <label className="text-xs text-slate-300">Display Priority (Order Weight)</label>
                   <input
                     type="number"
                     value={editingFaq.order ?? 0}
                     onChange={(e) =>
                       setEditingFaq({ ...editingFaq, order: parseInt(e.target.value, 10) || 0 })
                     }
-                    className="px-3 py-2 rounded-xl bg-[#020F2E] border border-[#162C5B] text-xs text-white focus:border-[#0976da]"
+                    className="px-3 py-2 rounded-xl bg-[#020F2E] border border-[#1E3A70] text-xs text-white focus:border-[#0976da]"
                   />
                 </div>
               </div>
 
               {/* Answer */}
               <div className="flex flex-col gap-1">
-                <label className="text-xs text-[#8492a6]">Answer Content *</label>
+                <label className="text-xs text-slate-300">Answer Content *</label>
                 <textarea
                   rows={4}
                   value={editingFaq.answer}
@@ -417,7 +417,7 @@ export const FaqManagementTab: React.FC<FaqManagementTabProps> = ({
                     setEditingFaq({ ...editingFaq, answer: e.target.value })
                   }
                   placeholder="Clear, authoritative explanation written for Nigerian business and consumer customers..."
-                  className="px-3.5 py-2.5 rounded-xl bg-[#020F2E] border border-[#162C5B] text-xs text-white leading-relaxed focus:outline-none focus:border-[#0976da]"
+                  className="px-3.5 py-2.5 rounded-xl bg-[#020F2E] border border-[#1E3A70] text-xs text-white leading-relaxed focus:outline-none focus:border-[#0976da]"
                 />
               </div>
 
@@ -430,7 +430,7 @@ export const FaqManagementTab: React.FC<FaqManagementTabProps> = ({
                   onChange={(e) =>
                     setEditingFaq({ ...editingFaq, isActive: e.target.checked })
                   }
-                  className="rounded border-[#162C5B] text-[#043e97] focus:ring-[#043e97] cursor-pointer"
+                  className="rounded border-[#1E3A70] text-[#043e97] focus:ring-[#043e97] cursor-pointer"
                 />
                 <label htmlFor="faq-active-check" className="text-xs text-white cursor-pointer select-none">
                   Published and actively displayed on website accordions
@@ -439,7 +439,7 @@ export const FaqManagementTab: React.FC<FaqManagementTabProps> = ({
 
               {/* Live Accordion Preview inside modal */}
               {editingFaq.question && (
-                <div className="p-3 rounded-xl bg-[#020F2E] border border-[#162C5B] flex flex-col gap-1.5 mt-1">
+                <div className="p-3 rounded-xl bg-[#020F2E] border border-[#1E3A70] flex flex-col gap-1.5 mt-1">
                   <div className="text-[10px] text-emerald-400 uppercase tracking-wider font-bold">
                     WYSIWYG Accordion Preview
                   </div>
@@ -448,7 +448,7 @@ export const FaqManagementTab: React.FC<FaqManagementTabProps> = ({
                     <ChevronDown className="w-3.5 h-3.5 text-[#53a8f5]" />
                   </div>
                   {editingFaq.answer && (
-                    <div className="text-[11px] text-[#CAD5E8] leading-relaxed pt-1 border-t border-[#162C5B]/60">
+                    <div className="text-[11px] text-[#CAD5E8] leading-relaxed pt-1 border-t border-[#1E3A70]/60">
                       {editingFaq.answer}
                     </div>
                   )}
@@ -456,11 +456,11 @@ export const FaqManagementTab: React.FC<FaqManagementTabProps> = ({
               )}
 
               {/* Modal Buttons */}
-              <div className="flex justify-end gap-2 pt-3 border-t border-[#162C5B]">
+              <div className="flex justify-end gap-2 pt-3 border-t border-[#1E3A70]">
                 <button
                   type="button"
                   onClick={() => setEditingFaq(null)}
-                  className="px-4 py-2 rounded-xl text-xs text-[#8492a6] hover:bg-[#162C5B] transition-colors cursor-pointer"
+                  className="px-4 py-2 rounded-xl text-xs text-slate-300 hover:bg-[#162C5B] transition-colors cursor-pointer"
                 >
                   Cancel
                 </button>
@@ -490,7 +490,7 @@ export const FaqManagementTab: React.FC<FaqManagementTabProps> = ({
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.95 }}
               onClick={(e) => e.stopPropagation()}
-              className="w-full max-w-md rounded-2xl bg-[#071739] border border-[#162C5B] p-6 shadow-2xl flex flex-col gap-4"
+              className="w-full max-w-md rounded-2xl bg-[#071739] border border-[#1E3A70] p-6 shadow-2xl flex flex-col gap-4"
             >
               <div className="flex items-center gap-3">
                 <div className="w-10 h-10 rounded-full bg-red-500/20 text-red-400 flex items-center justify-center shrink-0">
@@ -498,21 +498,21 @@ export const FaqManagementTab: React.FC<FaqManagementTabProps> = ({
                 </div>
                 <div className="flex flex-col">
                   <h3 className="text-base font-bold text-white">Delete FAQ Item?</h3>
-                  <p className="text-xs text-[#8492a6] mt-0.5">
+                  <p className="text-xs text-slate-300 mt-0.5">
                     This will permanently remove this question from all website accordions.
                   </p>
                 </div>
               </div>
 
-              <div className="p-3 rounded-xl bg-[#020F2E] border border-[#162C5B] text-xs font-semibold text-white">
+              <div className="p-3 rounded-xl bg-[#020F2E] border border-[#1E3A70] text-xs font-semibold text-white">
                 &quot;{faqToDelete.question}&quot;
               </div>
 
-              <div className="flex justify-end gap-2 pt-2 border-t border-[#162C5B]">
+              <div className="flex justify-end gap-2 pt-2 border-t border-[#1E3A70]">
                 <button
                   type="button"
                   onClick={() => setFaqToDelete(null)}
-                  className="px-4 py-2 rounded-xl text-xs text-[#8492a6] hover:bg-[#162C5B] transition-colors cursor-pointer"
+                  className="px-4 py-2 rounded-xl text-xs text-slate-300 hover:bg-[#162C5B] transition-colors cursor-pointer"
                 >
                   Cancel
                 </button>

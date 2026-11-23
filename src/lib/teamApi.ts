@@ -254,7 +254,7 @@ const CONTENT_API = `${getApiBase()}/api/v1/content`;
 const WAITLIST_API = `${getApiBase()}/api/v1/waitlist`;
 
 export interface HeroConfigApi {
-  id: string;
+  id?: string;
   headline_business: string;
   subheadline_business: string;
   headline_personal: string;
@@ -265,6 +265,14 @@ export interface HeroConfigApi {
   cta_text_secondary: string;
   trust_line: string;
   onboarding_steps?: unknown[];
+  page_heroes?: Record<string, {
+    tag: string;
+    headline: string;
+    subheadline: string;
+    cta_primary?: string;
+    cta_secondary?: string;
+    route?: string;
+  }>;
   updated_at?: string;
 }
 

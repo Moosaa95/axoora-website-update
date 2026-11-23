@@ -86,7 +86,7 @@ export const ConfirmModal: React.FC<ConfirmModalProps> = ({
                 <h3 id="confirm-modal-title" className="text-base font-bold text-white leading-snug">
                   {title}
                 </h3>
-                <p className="text-xs sm:text-sm text-[#8492a6] mt-1.5 leading-relaxed">{message}</p>
+                <p className="text-xs sm:text-sm text-slate-200 mt-1.5 leading-relaxed">{message}</p>
               </div>
 
               <button

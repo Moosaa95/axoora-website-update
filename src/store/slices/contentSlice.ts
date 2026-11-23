@@ -28,18 +28,110 @@ export interface ContentState {
 }
 
 const DEFAULT_HERO: AdminHeroConfig = {
-  headlineBusiness: 'Money, simplified for the street.',
+  headlineBusiness: 'The Business Account Built for the Way Nigeria Trades.',
   subheadlineBusiness:
-    'One dedicated Nigerian account for your personal money, one for your store, and a dual-SIM Apex POS that settles transfers in 0 seconds.',
-  headlinePersonal: 'Your AI financial concierge.',
+    'Separate store funds from personal cash, assign staff sub-accounts with strict spending limits, and clear POS payments into your balance with zero network lag.',
+  headlinePersonal: 'Your Everyday Money, Finally In One Place.',
   subheadlinePersonal:
-    'Bank safely on WhatsApp, split group contributions with Paycircle, and keep your savings halal with zero interest and zero hidden charges.',
+    'One account for your daily spending, another for your savings, a physical and virtual card that actually works, and group contributions that track themselves.',
   announcementTicker:
     '⚡ CBN Approved Dual-SIM Apex POS Batch 2 Now Dispatching Nationwide. Instant Settlement Enabled.',
   announcementActive: true,
-  ctaTextPrimary: 'Request Smart POS & Setup',
-  ctaTextSecondary: 'Open on App / WhatsApp',
+  ctaTextPrimary: 'Get the app',
+  ctaTextSecondary: 'Start on WhatsApp',
   trustLine: COMPANY_INFO.trustLine,
+  pageHeroes: {
+    personal: {
+      tag: 'Personal',
+      headline: 'Your Everyday Money, Finally In One Place.',
+      subheadline:
+        'One account for your daily spending, another for your savings, a physical and virtual card that actually works, and group contributions that track themselves.',
+      cta_primary: 'Get the app',
+      cta_secondary: 'Start on WhatsApp',
+      route: '/personal',
+    },
+    business: {
+      tag: 'Business',
+      headline: 'The Business Account Built for the Way Nigeria Trades.',
+      subheadline:
+        'Separate store funds from personal cash, assign staff sub-accounts with strict spending limits, and clear POS payments into your balance with zero network lag.',
+      cta_primary: 'Open Business Account',
+      cta_secondary: 'Start on WhatsApp',
+      route: '/business',
+    },
+    payouts: {
+      tag: 'Business',
+      headline: 'Pay Everyone at Once. From One File.',
+      subheadline:
+        'Upload a list, fix the rows that fail, and send the rest. On the account you already have.',
+      cta_primary: 'Get the app',
+      cta_secondary: 'Start on WhatsApp',
+      route: '/payouts',
+    },
+    cards: {
+      tag: 'Cards',
+      headline: 'The Card That Actually Works When You Need It.',
+      subheadline:
+        'A physical card for Lagos traffic and POS withdrawals, virtual naira for local subscriptions, and dollar cards that never decline on Spotify, Apple, or AWS.',
+      cta_primary: 'Request Card',
+      cta_secondary: 'Start on WhatsApp',
+      route: '/cards',
+    },
+    savings: {
+      tag: 'Savings',
+      headline: 'Save With Purpose. Earn Without Surprises.',
+      subheadline:
+        'Lock funds away for up to 14% p.a., run digital thrift circles with friends, and grow your emergency buffer without hidden account maintenance fees.',
+      cta_primary: 'Start Saving Today',
+      cta_secondary: 'Start on WhatsApp',
+      route: '/savings',
+    },
+    pricing: {
+      tag: 'Pricing',
+      headline: 'What a Run Costs.',
+      subheadline:
+        'Bulk transfers are priced per recipient, not per batch. The figures are not set yet.',
+      cta_primary: 'Get the app',
+      cta_secondary: 'Start on WhatsApp',
+      route: '/pricing',
+    },
+    security: {
+      tag: 'Security',
+      headline: 'You Always Know Where Your Money Is.',
+      subheadline:
+        'Every payment is approved by you. Every failure says whether you were charged.',
+      cta_primary: 'Get the app',
+      cta_secondary: 'Start on WhatsApp',
+      route: '/security',
+    },
+    fees: {
+      tag: 'Fees',
+      headline: "What You Pay. What You Don't.",
+      subheadline:
+        'No hidden maintenance, no mysterious SMS alert charges, and zero surprise debits. Every fee is stated in plain numbers before you confirm.',
+      cta_primary: 'View Fee Breakdown',
+      cta_secondary: 'Start on WhatsApp',
+      route: '/fees',
+    },
+    help: {
+      tag: 'Help',
+      headline: 'Need a Hand?',
+      subheadline:
+        'Search for the thing you are stuck on, or start a chat in the app.',
+      cta_primary: 'Live Chat',
+      cta_secondary: 'WhatsApp Support',
+      route: '/help',
+    },
+    about: {
+      tag: 'About',
+      headline: 'Built from Lagos. For the Way Africans Move Money.',
+      subheadline:
+        "Axoora was created because moving money in Africa shouldn't feel like a daily battle with network timeouts, hidden deductions, and unresponsive support queues.",
+      cta_primary: 'Read Our Mission',
+      cta_secondary: 'Join the Team',
+      route: '/about',
+    },
+  },
 };
 
 export const DEFAULT_STEPS: AdminStepItem[] = [
@@ -311,6 +403,7 @@ export const fetchBackendCmsThunk = createAsyncThunk<
         ctaTextPrimary: h.cta_text_primary,
         ctaTextSecondary: h.cta_text_secondary,
         trustLine: h.trust_line,
+        pageHeroes: (h.page_heroes as any) || DEFAULT_HERO.pageHeroes,
       };
       if (
         Array.isArray(h.onboarding_steps) &&

@@ -27,11 +27,20 @@ import {
   Lock,
   Compass,
   X,
+  Wallet,
+  Tag,
+  Percent,
+  Info,
+  Sparkles,
+  Eye,
+  Check,
 } from 'lucide-react';
 import {
   useCms,
   AdminMerchantItem,
   AdminProductItem,
+  PageHeroItem,
+  AdminHeroConfig,
 } from '../context/CmsContext';
 import { AxooraLogo } from './AxooraLogo';
 import { WaitlistDataTable } from './WaitlistDataTable';
@@ -73,6 +82,19 @@ const PRESET_MERCHANT_PHOTOS = [
   { label: 'Bilkisu (Kano)', url: '/merchants/bilkisu.jpg' },
   { label: 'Tunde (Lekki)', url: '/merchants/tunde.jpg' },
   { label: 'Amina (Ikeja)', url: '/merchants/shopper.jpg' },
+];
+
+export const PAGE_HERO_TABS = [
+  { id: 'personal', label: 'Personal Banking', route: '/personal', tag: 'Personal', icon: Smartphone },
+  { id: 'business', label: 'Commercial Business', route: '/business', tag: 'Business', icon: Building2 },
+  { id: 'payouts', label: 'Bulk Batch Payouts', route: '/payouts', tag: 'Business', icon: Send },
+  { id: 'cards', label: 'Cards & Virtual FX', route: '/cards', tag: 'Cards', icon: CreditCard },
+  { id: 'savings', label: 'Savings & Ajo', route: '/savings', tag: 'Savings', icon: Wallet },
+  { id: 'pricing', label: 'Pricing Table', route: '/pricing', tag: 'Pricing', icon: Tag },
+  { id: 'security', label: 'Security & Trust', route: '/security', tag: 'Security', icon: ShieldCheck },
+  { id: 'fees', label: 'Fee Schedule', route: '/fees', tag: 'Fees', icon: Percent },
+  { id: 'help', label: 'Help & Knowledge', route: '/help', tag: 'Help', icon: HelpCircle },
+  { id: 'about', label: 'About & Mission', route: '/about', tag: 'About', icon: Info },
 ];
 
 export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onExitAdmin }) => {
@@ -168,6 +190,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onExitAdmin }) =
 
   // Hero draft state for smooth editing + instant live sync
   const [heroDraft, setHeroDraft] = useState(hero);
+  const [selectedHeroPage, setSelectedHeroPage] = useState<string>('personal');
   useEffect(() => {
     setHeroDraft(hero);
   }, [hero]);
@@ -324,7 +347,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onExitAdmin }) =
             <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
             <span>Admin Console</span>
           </span>
-          <span className="hidden lg:inline text-xs text-[#8492a6] truncate">
+          <span className="hidden lg:inline text-xs text-slate-300 truncate">
             {activeNavMeta.reflectsOn}
           </span>
         </div>
@@ -334,7 +357,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onExitAdmin }) =
             type="button"
             onClick={handleSyncAll}
             disabled={isSyncing}
-            className="px-3 py-1.5 rounded-xl bg-[#071739] hover:bg-[#0c2356] border border-[#162C5B] text-xs font-semibold text-[#8492a6] hover:text-white flex items-center gap-1.5 transition-colors cursor-pointer disabled:opacity-50"
+            className="px-3 py-1.5 rounded-xl bg-[#071739] hover:bg-[#0c2356] border border-[#1E3A70] text-xs font-semibold text-slate-300 hover:text-white flex items-center gap-1.5 transition-colors cursor-pointer disabled:opacity-50"
             title="Sync with Django Backend"
           >
             <RefreshCw
@@ -362,7 +385,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onExitAdmin }) =
                 },
               })
             }
-            className="px-3 py-1.5 text-xs font-semibold text-[#8492a6] hover:text-amber-300 border border-[#162C5B] hover:border-amber-400/40 rounded-xl transition-colors cursor-pointer hidden md:inline-flex items-center gap-1.5"
+            className="px-3 py-1.5 text-xs font-semibold text-slate-300 hover:text-amber-300 border border-[#1E3A70] hover:border-amber-400/40 rounded-xl transition-colors cursor-pointer hidden md:inline-flex items-center gap-1.5"
           >
             <RotateCcw className="w-3.5 h-3.5" />
             <span>Reset Defaults</span>
@@ -392,7 +415,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onExitAdmin }) =
               className={`px-3 py-1.5 rounded-xl text-xs font-bold whitespace-nowrap flex items-center gap-1.5 transition-all cursor-pointer shrink-0 ${
                 isActive
                   ? 'bg-[#043e97] text-white shadow-sm'
-                  : 'text-[#8492a6] hover:bg-[#071739] hover:text-white'
+                  : 'text-slate-300 hover:bg-[#071739] hover:text-white'
               }`}
             >
               <IconComp className="w-3.5 h-3.5 shrink-0" />
@@ -418,7 +441,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onExitAdmin }) =
                   className={`w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs font-semibold transition-all cursor-pointer ${
                     isActive
                       ? 'bg-[#043e97] text-white font-bold shadow-md shadow-[#043e97]/25'
-                      : 'text-[#8492a6] hover:bg-[#071739] hover:text-white'
+                      : 'text-slate-300 hover:bg-[#071739] hover:text-white'
                   }`}
                 >
                   <div className="flex items-center gap-2.5">
@@ -430,7 +453,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onExitAdmin }) =
                       className={`text-[10px] px-2 py-0.5 rounded-full ${
                         isActive
                           ? 'bg-white/20 text-white font-bold'
-                          : 'bg-[#071739] text-[#8492a6] border border-[#162C5B]'
+                          : 'bg-[#071739] text-slate-300 border border-[#1E3A70]'
                       }`}
                     >
                       {tab.badge}
@@ -454,7 +477,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onExitAdmin }) =
                 .join('')
                 .toUpperCase() || 'SA';
             return (
-              <div className="p-3 m-3 rounded-2xl bg-[#071739] border border-[#162C5B] flex flex-col gap-2.5">
+              <div className="p-3 m-3 rounded-2xl bg-[#071739] border border-[#1E3A70] flex flex-col gap-2.5">
                 <div className="flex items-center gap-2.5">
                   <div className="w-8 h-8 rounded-xl bg-gradient-to-tr from-[#043e97] to-[#0976da] flex items-center justify-center font-bold text-xs text-white shrink-0">
                     {initials}
@@ -472,7 +495,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onExitAdmin }) =
                       .catch(() => {});
                     window.location.href = '/admin/login';
                   }}
-                  className="w-full py-1.5 rounded-xl text-[11px] font-semibold text-[#8492a6] hover:text-red-400 border border-[#162C5B] hover:border-red-400/30 transition-colors cursor-pointer flex items-center justify-center gap-1.5"
+                  className="w-full py-1.5 rounded-xl text-[11px] font-semibold text-slate-300 hover:text-red-400 border border-[#1E3A70] hover:border-red-400/30 transition-colors cursor-pointer flex items-center justify-center gap-1.5"
                 >
                   <LogOut className="w-3.5 h-3.5" />
                   <span>Sign Out</span>
@@ -507,7 +530,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onExitAdmin }) =
                       <h1 className="text-2xl sm:text-3xl font-bold text-white mt-1">
                         Axoora Operating Dashboard
                       </h1>
-                      <p className="text-xs sm:text-sm text-[#8492a6] mt-1 max-w-2xl">
+                      <p className="text-xs sm:text-sm text-slate-300 mt-1 max-w-2xl">
                         Monitor commercial accounts, bulk NIBSS payouts, card issuance, savings profit-shares, and support funnels.
                       </p>
                     </div>
@@ -516,7 +539,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onExitAdmin }) =
                   {/* ─── LIVE WEBSITE SURFACES MATRIX (New feature) ─── */}
                   <div>
                     <div className="flex items-center justify-between mb-3">
-                      <span className="text-xs font-bold uppercase tracking-wider text-[#8492a6]">
+                      <span className="text-xs font-bold uppercase tracking-wider text-slate-300">
                         Live Website Surfaces &amp; Public Endpoints
                       </span>
                       <span className="text-[11px] text-[#53a8f5] font-medium">
@@ -598,20 +621,20 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onExitAdmin }) =
                             href={surface.path}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="p-4 rounded-2xl bg-[#071739] hover:bg-[#0c2356] border border-[#162C5B] hover:border-[#0976da]/60 transition-all flex flex-col justify-between group shadow-sm"
+                            className="p-4 rounded-2xl bg-[#071739] hover:bg-[#0c2356] border border-[#1E3A70] hover:border-[#0976da]/60 transition-all flex flex-col justify-between group shadow-sm"
                           >
                             <div>
                               <div className="flex items-center justify-between mb-2">
                                 <span className="text-[10px] font-bold uppercase tracking-wider text-[#53a8f5]">
                                   {surface.eyebrow}
                                 </span>
-                                <ExternalLink className="w-3.5 h-3.5 text-[#8492a6] group-hover:text-white transition-colors" />
+                                <ExternalLink className="w-3.5 h-3.5 text-slate-300 group-hover:text-white transition-colors" />
                               </div>
                               <h4 className="text-[14px] font-bold text-white group-hover:text-[#53a8f5] transition-colors flex items-center gap-1.5">
                                 <SurfaceIcon className="w-4 h-4 text-[#53a8f5]" />
                                 {surface.title}
                               </h4>
-                              <p className="mt-1 text-[11.5px] text-[#8492a6] leading-relaxed">
+                              <p className="mt-1 text-[11.5px] text-slate-300 leading-relaxed">
                                 {surface.desc}
                               </p>
                             </div>
@@ -658,10 +681,10 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onExitAdmin }) =
                     ].map((kpi, idx) => (
                       <div
                         key={idx}
-                        className="p-5 rounded-2xl bg-[#071739] border border-[#162C5B] shadow-sm flex flex-col justify-between"
+                        className="p-5 rounded-2xl bg-[#071739] border border-[#1E3A70] shadow-sm flex flex-col justify-between"
                       >
                         <div className="flex items-center justify-between mb-2">
-                          <span className="text-xs font-bold text-[#8492a6]">{kpi.title}</span>
+                          <span className="text-xs font-bold text-slate-300">{kpi.title}</span>
                           <span
                             className={`text-[9.5px] font-bold px-2 py-0.5 rounded-full border ${kpi.badgeColor}`}
                           >
@@ -671,14 +694,14 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onExitAdmin }) =
                         <div className="text-2xl font-bold text-white tracking-tight">
                           {kpi.value}
                         </div>
-                        <p className="mt-1 text-[11px] text-[#8492a6]">{kpi.subtext}</p>
+                        <p className="mt-1 text-[11px] text-slate-300">{kpi.subtext}</p>
                       </div>
                     ))}
                   </div>
 
                   {/* ─── QUICK ACTION MODULES ─── */}
                   <div>
-                    <span className="text-xs font-bold uppercase tracking-wider text-[#8492a6] block mb-3">
+                    <span className="text-xs font-bold uppercase tracking-wider text-slate-300 block mb-3">
                       Content &amp; Configuration Modules
                     </span>
 
@@ -747,7 +770,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onExitAdmin }) =
                             key={card.tab}
                             type="button"
                             onClick={() => setActiveTab(card.tab)}
-                            className="p-5 rounded-2xl bg-[#071739] hover:bg-[#0c2356] border border-[#162C5B] hover:border-[#0976da]/60 text-left flex flex-col justify-between gap-4 transition-all cursor-pointer group shadow-sm"
+                            className="p-5 rounded-2xl bg-[#071739] hover:bg-[#0c2356] border border-[#1E3A70] hover:border-[#0976da]/60 text-left flex flex-col justify-between gap-4 transition-all cursor-pointer group shadow-sm"
                           >
                             <div className="flex flex-col gap-2.5">
                               <div className="flex items-center justify-between">
@@ -765,7 +788,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onExitAdmin }) =
                               <h3 className="text-base font-bold text-white group-hover:text-[#53a8f5] transition-colors">
                                 {card.title}
                               </h3>
-                              <p className="text-xs text-[#8492a6] leading-relaxed">{card.desc}</p>
+                              <p className="text-xs text-slate-300 leading-relaxed">{card.desc}</p>
                             </div>
 
                             <div className="text-xs font-bold text-[#53a8f5] flex items-center gap-1.5">
@@ -779,11 +802,11 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onExitAdmin }) =
                   </div>
 
                   {/* ─── RECENT WAITLIST ONBOARDING LEADS PREVIEW ─── */}
-                  <div className="p-6 rounded-2xl bg-[#071739] border border-[#162C5B] flex flex-col gap-4 shadow-sm">
+                  <div className="p-6 rounded-2xl bg-[#071739] border border-[#1E3A70] flex flex-col gap-4 shadow-sm">
                     <div className="flex items-center justify-between">
                       <div>
                         <h3 className="text-[15px] font-bold text-white">Recent Customer Applications</h3>
-                        <p className="text-xs text-[#8492a6]">
+                        <p className="text-xs text-slate-300">
                           Synced in real-time with /apply, Waitlist Modal, and customer database
                         </p>
                       </div>
@@ -800,7 +823,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onExitAdmin }) =
                     <div className="overflow-x-auto">
                       <table className="w-full text-left border-collapse text-xs">
                         <thead>
-                          <tr className="border-b border-[#162C5B] text-[#8492a6] uppercase text-[10.5px] font-bold">
+                          <tr className="border-b border-[#1E3A70] text-slate-300 uppercase text-[10.5px] font-bold">
                             <th className="py-2.5 px-3">Applicant</th>
                             <th className="py-2.5 px-3">WhatsApp</th>
                             <th className="py-2.5 px-3">Interest</th>
@@ -814,7 +837,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onExitAdmin }) =
                               <td className="py-3 px-3 font-semibold text-white">
                                 {lead.fullName}
                               </td>
-                              <td className="py-3 px-3 font-mono text-[#8492a6]">
+                              <td className="py-3 px-3 font-mono text-slate-300">
                                 {lead.whatsappNumber}
                               </td>
                               <td className="py-3 px-3">
@@ -822,7 +845,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onExitAdmin }) =
                                   {lead.interest}
                                 </span>
                               </td>
-                              <td className="py-3 px-3 text-[#8492a6]">{lead.city || '—'}</td>
+                              <td className="py-3 px-3 text-slate-300">{lead.city || '—'}</td>
                               <td className="py-3 px-3">
                                 <select
                                   value={lead.status}
@@ -832,7 +855,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onExitAdmin }) =
                                       `Updated ${lead.fullName} status to ${e.target.value}`
                                     );
                                   }}
-                                  className="px-2.5 py-1 rounded-lg bg-[#020F2E] border border-[#162C5B] text-xs text-white font-semibold cursor-pointer focus:outline-none focus:border-[#0976da]"
+                                  className="px-2.5 py-1 rounded-lg bg-[#020F2E] border border-[#1E3A70] text-xs text-white font-semibold cursor-pointer focus:outline-none focus:border-[#0976da]"
                                 >
                                   <option value="new">New</option>
                                   <option value="contacted">Contacted</option>
@@ -852,183 +875,276 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onExitAdmin }) =
               {/* ========================================================= */}
               {/* 2. HERO & ANNOUNCEMENTS */}
               {/* ========================================================= */}
-              {activeTab === 'hero' && (
-                <form onSubmit={handleSaveHero} className="flex flex-col gap-6">
-                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-[#162C5B]">
-                    <div>
-                      <span className="text-xs font-bold tracking-wider text-[#53a8f5] uppercase block">
-                        Reflects on Home (/), Business (/business) &amp; Personal
-                      </span>
-                      <h1 className="text-2xl font-bold text-white tracking-tight mt-0.5">
-                        Hero Headlines &amp; Announcement Bar
-                      </h1>
-                    </div>
-                    <div className="flex items-center gap-2.5">
-                      <button
-                        type="submit"
-                        className="px-5 py-2.5 rounded-xl bg-[#043e97] hover:bg-[#0976da] text-white font-bold text-xs flex items-center gap-1.5 shadow-md transition-all cursor-pointer"
-                      >
-                        <CheckCircle2 className="w-4 h-4" />
-                        <span>Save &amp; Publish Hero</span>
-                      </button>
-                    </div>
-                  </div>
+              {activeTab === 'hero' && (() => {
+                const activeHeroMeta = PAGE_HERO_TABS.find((t) => t.id === selectedHeroPage) || PAGE_HERO_TABS[0];
+                const currentPageHero = (heroDraft.pageHeroes && heroDraft.pageHeroes[selectedHeroPage]) || {
+                  tag: activeHeroMeta.tag,
+                  headline: selectedHeroPage === 'business' ? heroDraft.headlineBusiness : selectedHeroPage === 'personal' ? heroDraft.headlinePersonal : '',
+                  subheadline: selectedHeroPage === 'business' ? heroDraft.subheadlineBusiness : selectedHeroPage === 'personal' ? heroDraft.subheadlinePersonal : '',
+                  cta_primary: heroDraft.ctaTextPrimary || 'Get the app',
+                  cta_secondary: heroDraft.ctaTextSecondary || 'Start on WhatsApp',
+                  route: activeHeroMeta.route,
+                };
 
-                  {/* Top Announcement Ticker Card */}
-                  <div className="p-5 rounded-2xl bg-[#071739] border border-[#162C5B] flex flex-col gap-4">
-                    <div className="flex items-center justify-between">
+                const updateCurrentPageHero = (patch: Partial<PageHeroItem>) => {
+                  const updatedPage: PageHeroItem = {
+                    ...currentPageHero,
+                    ...patch,
+                  };
+                  const updatedPageHeroes = {
+                    ...(heroDraft.pageHeroes || {}),
+                    [selectedHeroPage]: updatedPage,
+                  };
+                  const updatedDraft: AdminHeroConfig = {
+                    ...heroDraft,
+                    pageHeroes: updatedPageHeroes,
+                    ...(selectedHeroPage === 'business' && patch.headline ? { headlineBusiness: patch.headline } : {}),
+                    ...(selectedHeroPage === 'business' && patch.subheadline ? { subheadlineBusiness: patch.subheadline } : {}),
+                    ...(selectedHeroPage === 'personal' && patch.headline ? { headlinePersonal: patch.headline } : {}),
+                    ...(selectedHeroPage === 'personal' && patch.subheadline ? { subheadlinePersonal: patch.subheadline } : {}),
+                  };
+                  setHeroDraft(updatedDraft);
+                  updateHero(updatedDraft);
+                };
+
+                return (
+                  <form onSubmit={handleSaveHero} className="flex flex-col gap-6">
+                    {/* Header */}
+                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-[#1E3A70]">
                       <div>
-                        <h3 className="text-sm font-bold text-white">
-                          Top Announcement Bar (Sitewide Header &amp; Home)
-                        </h3>
-                        <p className="text-xs text-[#8492a6]">
-                          Toggle visibility and edit the announcement message shown at the top of the site.
+                        <span className="text-xs font-bold tracking-wider text-[#53a8f5] uppercase block">
+                          Multi-Page Website Heroes &amp; Announcements
+                        </span>
+                        <h1 className="text-2xl font-extrabold text-white tracking-tight mt-0.5">
+                          Page Heroes Studio
+                        </h1>
+                        <p className="text-xs text-slate-300 mt-1">
+                          Configure live hero headlines, badges, descriptions, and action buttons for every navigation bar page.
                         </p>
                       </div>
-                      <button
-                        type="button"
-                        onClick={() => {
-                          const next = !heroDraft.announcementActive;
-                          setHeroDraft({ ...heroDraft, announcementActive: next });
-                          updateHero({ announcementActive: next });
-                          showToast(next ? 'Announcement banner enabled!' : 'Announcement banner hidden.');
-                        }}
-                        className={`px-3.5 py-1.5 rounded-full text-xs font-bold transition-all cursor-pointer ${
-                          heroDraft.announcementActive
-                            ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/30'
-                            : 'bg-[#020F2E] text-[#8492a6] border border-[#162C5B]'
-                        }`}
-                      >
-                        {heroDraft.announcementActive ? '● Active on Site' : '○ Hidden'}
-                      </button>
+                      <div className="flex items-center gap-2.5">
+                        <button
+                          type="submit"
+                          className="px-5 py-2.5 rounded-xl bg-[#043e97] hover:bg-[#0976da] text-white font-bold text-xs flex items-center gap-2 shadow-lg transition-all cursor-pointer"
+                        >
+                          <CheckCircle2 className="w-4 h-4 text-emerald-400" />
+                          <span>Publish All Hero Updates</span>
+                        </button>
+                      </div>
                     </div>
 
-                    <input
-                      type="text"
-                      value={heroDraft.announcementTicker}
-                      onChange={(e) => {
-                        setHeroDraft({ ...heroDraft, announcementTicker: e.target.value });
-                        updateHero({ announcementTicker: e.target.value });
-                      }}
-                      className="w-full px-4 py-2.5 rounded-xl bg-[#020F2E] border border-[#162C5B] text-sm text-white focus:border-[#0976da] outline-none transition-colors"
-                      placeholder="Announcement text..."
-                    />
-                  </div>
-
-                  {/* Business & Personal Hero Headlines */}
-                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
-                    <div className="p-5 rounded-2xl bg-[#071739] border border-[#162C5B] flex flex-col gap-4">
+                    {/* Top Sitewide Announcement Ticker Card */}
+                    <div className="p-5 rounded-2xl bg-[#071739] border border-[#1E3A70] flex flex-col gap-4">
                       <div className="flex items-center justify-between">
-                        <span className="text-xs font-bold tracking-wider text-[#53a8f5] uppercase">
-                          Business &amp; POS Hero (/ &amp; /business)
-                        </span>
-                      </div>
-
-                      <div className="flex flex-col gap-1.5">
-                        <label className="text-xs font-medium text-[#8492a6]">
-                          Main Headline
-                        </label>
-                        <input
-                          type="text"
-                          value={heroDraft.headlineBusiness}
-                          onChange={(e) => {
-                            setHeroDraft({ ...heroDraft, headlineBusiness: e.target.value });
-                            updateHero({ headlineBusiness: e.target.value });
+                        <div>
+                          <h3 className="text-sm font-bold text-white flex items-center gap-2">
+                            <Megaphone className="w-4 h-4 text-[#53a8f5]" />
+                            <span>Top Sitewide Announcement Banner</span>
+                          </h3>
+                          <p className="text-xs text-slate-300 mt-0.5">
+                            Broadcast message pinned at the very top of all website pages.
+                          </p>
+                        </div>
+                        <button
+                          type="button"
+                          onClick={() => {
+                            const next = !heroDraft.announcementActive;
+                            setHeroDraft({ ...heroDraft, announcementActive: next });
+                            updateHero({ announcementActive: next });
+                            showToast(next ? 'Announcement banner enabled!' : 'Announcement banner hidden.');
                           }}
-                          className="w-full px-3.5 py-2.5 rounded-xl bg-[#020F2E] border border-[#162C5B] text-sm font-semibold text-white focus:border-[#0976da] outline-none transition-colors"
-                        />
+                          className={`px-3.5 py-1.5 rounded-full text-xs font-bold transition-all cursor-pointer ${
+                            heroDraft.announcementActive
+                              ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/40'
+                              : 'bg-[#020F2E] text-slate-400 border border-[#1E3A70]'
+                          }`}
+                        >
+                          {heroDraft.announcementActive ? '● Active Sitewide' : '○ Hidden'}
+                        </button>
                       </div>
 
-                      <div className="flex flex-col gap-1.5">
-                        <label className="text-xs font-medium text-[#8492a6]">
-                          Subheadline Description
-                        </label>
-                        <textarea
-                          rows={3}
-                          value={heroDraft.subheadlineBusiness}
-                          onChange={(e) => {
-                            setHeroDraft({ ...heroDraft, subheadlineBusiness: e.target.value });
-                            updateHero({ subheadlineBusiness: e.target.value });
-                          }}
-                          className="w-full px-3.5 py-2.5 rounded-xl bg-[#020F2E] border border-[#162C5B] text-xs text-[#d1d5db] leading-relaxed focus:border-[#0976da] outline-none transition-colors"
-                        />
-                      </div>
-                    </div>
-
-                    <div className="p-5 rounded-2xl bg-[#071739] border border-[#162C5B] flex flex-col gap-4">
-                      <div className="flex items-center justify-between">
-                        <span className="text-xs font-bold tracking-wider text-[#53a8f5] uppercase">
-                          Personal &amp; WhatsApp Hero (/ &amp; /personal)
-                        </span>
-                      </div>
-
-                      <div className="flex flex-col gap-1.5">
-                        <label className="text-xs font-medium text-[#8492a6]">
-                          Main Headline
-                        </label>
-                        <input
-                          type="text"
-                          value={heroDraft.headlinePersonal}
-                          onChange={(e) => {
-                            setHeroDraft({ ...heroDraft, headlinePersonal: e.target.value });
-                            updateHero({ headlinePersonal: e.target.value });
-                          }}
-                          className="w-full px-3.5 py-2.5 rounded-xl bg-[#020F2E] border border-[#162C5B] text-sm font-semibold text-white focus:border-[#0976da] outline-none transition-colors"
-                        />
-                      </div>
-
-                      <div className="flex flex-col gap-1.5">
-                        <label className="text-xs font-medium text-[#8492a6]">
-                          Subheadline Description
-                        </label>
-                        <textarea
-                          rows={3}
-                          value={heroDraft.subheadlinePersonal}
-                          onChange={(e) => {
-                            setHeroDraft({ ...heroDraft, subheadlinePersonal: e.target.value });
-                            updateHero({ subheadlinePersonal: e.target.value });
-                          }}
-                          className="w-full px-3.5 py-2.5 rounded-xl bg-[#020F2E] border border-[#162C5B] text-xs text-[#d1d5db] leading-relaxed focus:border-[#0976da] outline-none transition-colors"
-                        />
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* CTA Buttons & Trust Line */}
-                  <div className="p-5 rounded-2xl bg-[#071739] border border-[#162C5B] grid grid-cols-1 md:grid-cols-3 gap-4">
-                    <div className="flex flex-col gap-1.5">
-                      <label className="text-xs font-medium text-[#8492a6]">
-                        Primary CTA Button Text
-                      </label>
                       <input
                         type="text"
-                        value={heroDraft.ctaTextPrimary}
+                        value={heroDraft.announcementTicker}
                         onChange={(e) => {
-                          setHeroDraft({ ...heroDraft, ctaTextPrimary: e.target.value });
-                          updateHero({ ctaTextPrimary: e.target.value });
+                          setHeroDraft({ ...heroDraft, announcementTicker: e.target.value });
+                          updateHero({ announcementTicker: e.target.value });
                         }}
-                        className="w-full px-3.5 py-2 rounded-xl bg-[#020F2E] border border-[#162C5B] text-xs text-white font-semibold focus:border-[#0976da] outline-none transition-colors"
+                        className="w-full px-4 py-2.5 rounded-xl bg-[#020F2E] border border-[#1E3A70] text-sm text-white font-medium focus:border-[#53a8f5] outline-none transition-colors"
+                        placeholder="e.g. ⚡ CBN Approved Dual-SIM Apex POS Batch 2 Now Dispatching Nationwide. Instant Settlement Enabled."
                       />
                     </div>
 
-                    <div className="flex flex-col gap-1.5">
-                      <label className="text-xs font-medium text-[#8492a6]">
-                        Secondary CTA Button Text
+                    {/* Navbar Pages Selection Pills */}
+                    <div className="flex flex-col gap-2">
+                      <label className="text-xs font-bold text-slate-200 uppercase tracking-wider">
+                        Select Website Page to Edit Hero:
                       </label>
-                      <input
-                        type="text"
-                        value={heroDraft.ctaTextSecondary}
-                        onChange={(e) => {
-                          setHeroDraft({ ...heroDraft, ctaTextSecondary: e.target.value });
-                          updateHero({ ctaTextSecondary: e.target.value });
-                        }}
-                        className="w-full px-3.5 py-2 rounded-xl bg-[#020F2E] border border-[#162C5B] text-xs text-white font-semibold focus:border-[#0976da] outline-none transition-colors"
-                      />
+                      <div className="grid grid-cols-2 sm:grid-cols-5 gap-2 bg-[#020F2E] p-2 rounded-2xl border border-[#1E3A70]">
+                        {PAGE_HERO_TABS.map((tab) => {
+                          const IconComp = tab.icon;
+                          const isSelected = selectedHeroPage === tab.id;
+                          return (
+                            <button
+                              key={tab.id}
+                              type="button"
+                              onClick={() => setSelectedHeroPage(tab.id)}
+                              className={`flex items-center gap-2 px-3 py-2.5 rounded-xl text-xs font-bold transition-all cursor-pointer ${
+                                isSelected
+                                  ? 'bg-[#043e97] text-white shadow-md border border-[#53a8f5]/40'
+                                  : 'text-slate-300 hover:text-white hover:bg-[#071739] border border-transparent'
+                              }`}
+                            >
+                              <IconComp className="w-3.5 h-3.5 shrink-0 text-[#93c5fd]" />
+                              <span className="truncate">{tab.label}</span>
+                            </button>
+                          );
+                        })}
+                      </div>
                     </div>
 
-                    <div className="flex flex-col gap-1.5">
-                      <label className="text-xs font-medium text-[#8492a6]">
-                        Regulatory Trust Badge Line
+                    {/* Hero Editor & WYSIWYG Live Mockup Grid */}
+                    <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+                      {/* Left: Inputs */}
+                      <div className="lg:col-span-7 p-6 rounded-2xl bg-[#071739] border border-[#1E3A70] flex flex-col gap-4">
+                        <div className="flex items-center justify-between pb-3 border-b border-[#1E3A70]">
+                          <div className="flex items-center gap-2">
+                            <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse" />
+                            <h3 className="text-sm font-bold text-white">
+                              {activeHeroMeta.label} Hero Settings
+                            </h3>
+                          </div>
+                          <a
+                            href={activeHeroMeta.route}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-xs text-[#53a8f5] hover:text-white flex items-center gap-1 font-semibold hover:underline"
+                          >
+                            <span>Open {activeHeroMeta.route}</span>
+                            <ExternalLink className="w-3.5 h-3.5" />
+                          </a>
+                        </div>
+
+                        {/* Tag/Category Pill */}
+                        <div className="flex flex-col gap-1.5">
+                          <label className="text-xs font-bold text-slate-200">
+                            Category Pill / Badge Text
+                          </label>
+                          <input
+                            type="text"
+                            value={currentPageHero.tag}
+                            onChange={(e) => updateCurrentPageHero({ tag: e.target.value })}
+                            className="w-full px-3.5 py-2.5 rounded-xl bg-[#020F2E] border border-[#1E3A70] text-sm text-white font-semibold focus:border-[#53a8f5] outline-none transition-colors"
+                            placeholder="e.g. Business, Personal, Cards, Security..."
+                          />
+                        </div>
+
+                        {/* Main Headline */}
+                        <div className="flex flex-col gap-1.5">
+                          <label className="text-xs font-bold text-slate-200">
+                            Main Headline
+                          </label>
+                          <input
+                            type="text"
+                            value={currentPageHero.headline}
+                            onChange={(e) => updateCurrentPageHero({ headline: e.target.value })}
+                            className="w-full px-3.5 py-2.5 rounded-xl bg-[#020F2E] border border-[#1E3A70] text-sm text-white font-bold focus:border-[#53a8f5] outline-none transition-colors"
+                            placeholder="Page headline..."
+                          />
+                        </div>
+
+                        {/* Subheadline */}
+                        <div className="flex flex-col gap-1.5">
+                          <label className="text-xs font-bold text-slate-200">
+                            Subheadline Description
+                          </label>
+                          <textarea
+                            rows={3}
+                            value={currentPageHero.subheadline}
+                            onChange={(e) => updateCurrentPageHero({ subheadline: e.target.value })}
+                            className="w-full px-3.5 py-2.5 rounded-xl bg-[#020F2E] border border-[#1E3A70] text-xs text-slate-200 leading-relaxed focus:border-[#53a8f5] outline-none transition-colors resize-none"
+                            placeholder="Subheadline copy..."
+                          />
+                        </div>
+
+                        {/* CTAs */}
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
+                          <div className="flex flex-col gap-1.5">
+                            <label className="text-xs font-bold text-slate-200">
+                              Primary CTA Button Text
+                            </label>
+                            <input
+                              type="text"
+                              value={currentPageHero.cta_primary || 'Get the app'}
+                              onChange={(e) => updateCurrentPageHero({ cta_primary: e.target.value })}
+                              className="w-full px-3.5 py-2 rounded-xl bg-[#020F2E] border border-[#1E3A70] text-xs text-white font-semibold focus:border-[#53a8f5] outline-none transition-colors"
+                            />
+                          </div>
+                          <div className="flex flex-col gap-1.5">
+                            <label className="text-xs font-bold text-slate-200">
+                              Secondary CTA Button Text
+                            </label>
+                            <input
+                              type="text"
+                              value={currentPageHero.cta_secondary || 'Start on WhatsApp'}
+                              onChange={(e) => updateCurrentPageHero({ cta_secondary: e.target.value })}
+                              className="w-full px-3.5 py-2 rounded-xl bg-[#020F2E] border border-[#1E3A70] text-xs text-white font-semibold focus:border-[#53a8f5] outline-none transition-colors"
+                            />
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Right: WYSIWYG Real-time Preview */}
+                      <div className="lg:col-span-5 p-6 rounded-2xl bg-[#071739] border border-[#1E3A70] flex flex-col justify-between gap-4">
+                        <div>
+                          <div className="flex items-center justify-between pb-3 border-b border-[#1E3A70] mb-4">
+                            <div className="flex items-center gap-1.5 text-xs font-bold text-[#53a8f5] uppercase tracking-wider">
+                              <Eye className="w-4 h-4" />
+                              <span>Live Website Mockup Render</span>
+                            </div>
+                            <span className="text-[11px] font-mono text-slate-300">
+                              {activeHeroMeta.route}
+                            </span>
+                          </div>
+
+                          {/* Hero Render Preview Card */}
+                          <div className="w-full rounded-2xl bg-[#043e97] p-6 text-white shadow-xl relative overflow-hidden flex flex-col gap-4">
+                            <div className="w-fit px-2.5 py-0.5 rounded-full bg-white/15 text-white text-[10px] font-bold tracking-wider uppercase backdrop-blur-sm">
+                              {currentPageHero.tag || activeHeroMeta.tag}
+                            </div>
+                            <div>
+                              <h2 className="text-xl sm:text-2xl font-black leading-tight tracking-tight text-white">
+                                {currentPageHero.headline || 'Your Headline Here'}
+                              </h2>
+                              <p className="mt-2 text-xs text-blue-100 leading-relaxed font-normal">
+                                {currentPageHero.subheadline || 'Subheadline description appears here on the website.'}
+                              </p>
+                            </div>
+                            <div className="flex items-center gap-2 pt-2 flex-wrap">
+                              <div className="px-3 py-1.5 rounded-xl bg-white text-[#043e97] text-xs font-bold shadow-sm flex items-center gap-1">
+                                <span>{currentPageHero.cta_primary || 'Get the app'}</span>
+                              </div>
+                              <div className="px-3 py-1.5 rounded-xl border border-white/40 text-white text-xs font-bold flex items-center gap-1">
+                                <span>{currentPageHero.cta_secondary || 'Start on WhatsApp'}</span>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div className="p-3.5 rounded-xl bg-[#020F2E] border border-[#1E3A70] flex items-center justify-between text-xs text-slate-300">
+                          <span className="flex items-center gap-1.5">
+                            <Check className="w-4 h-4 text-emerald-400" />
+                            <span>Synchronized with Backend API</span>
+                          </span>
+                          <span className="font-mono text-[10.5px] text-[#53a8f5]">JSONField Verified</span>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Regulatory Trust Line */}
+                    <div className="p-5 rounded-2xl bg-[#071739] border border-[#1E3A70] flex flex-col gap-2">
+                      <label className="text-xs font-bold text-slate-200">
+                        Sitewide Regulatory Trust Badge Line
                       </label>
                       <input
                         type="text"
@@ -1037,19 +1153,19 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onExitAdmin }) =
                           setHeroDraft({ ...heroDraft, trustLine: e.target.value });
                           updateHero({ trustLine: e.target.value });
                         }}
-                        className="w-full px-3.5 py-2 rounded-xl bg-[#020F2E] border border-[#162C5B] text-xs text-[#53a8f5] focus:border-[#0976da] outline-none transition-colors"
+                        className="w-full px-3.5 py-2.5 rounded-xl bg-[#020F2E] border border-[#1E3A70] text-xs text-[#93c5fd] font-semibold focus:border-[#53a8f5] outline-none transition-colors"
                       />
                     </div>
-                  </div>
-                </form>
-              )}
+                  </form>
+                );
+              })()}
 
               {/* ========================================================= */}
               {/* 3. 4-STEP ONBOARDING */}
               {/* ========================================================= */}
               {activeTab === 'get-started' && (
                 <div className="flex flex-col gap-6">
-                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-[#162C5B]">
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-[#1E3A70]">
                     <div>
                       <span className="text-xs font-bold tracking-wider text-[#53a8f5] uppercase block">
                         Reflects on Interactive Walkthrough (Home, Business &amp; Personal)
@@ -1076,7 +1192,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onExitAdmin }) =
                             },
                           })
                         }
-                        className="px-3.5 py-2 rounded-xl bg-[#071739] border border-[#162C5B] hover:border-amber-400/50 text-xs font-semibold text-[#8492a6] hover:text-amber-400 cursor-pointer transition-colors"
+                        className="px-3.5 py-2 rounded-xl bg-[#071739] border border-[#1E3A70] hover:border-amber-400/50 text-xs font-semibold text-slate-300 hover:text-amber-400 cursor-pointer transition-colors"
                       >
                         Reset Steps
                       </button>
@@ -1102,7 +1218,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onExitAdmin }) =
                           className={`p-3.5 rounded-2xl border text-left transition-all cursor-pointer ${
                             active
                               ? 'bg-[#043e97] border-[#0976da] shadow-lg shadow-[#043e97]/20 text-white'
-                              : 'bg-[#071739] border-[#162C5B] hover:border-[#043e97]/40'
+                              : 'bg-[#071739] border-[#1E3A70] hover:border-[#043e97]/40'
                           }`}
                         >
                           <span className={`text-[10px] uppercase font-bold block ${active ? 'text-white/80' : 'text-[#53a8f5]'}`}>
@@ -1118,21 +1234,21 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onExitAdmin }) =
 
                   {selectedStep && (
                     <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-                      <div className="lg:col-span-7 p-5 rounded-2xl bg-[#071739] border border-[#162C5B] flex flex-col gap-4">
+                      <div className="lg:col-span-7 p-5 rounded-2xl bg-[#071739] border border-[#1E3A70] flex flex-col gap-4">
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                           <div className="flex flex-col gap-1">
-                            <label className="text-xs text-[#8492a6]">Step Tagline</label>
+                            <label className="text-xs text-slate-300">Step Tagline</label>
                             <input
                               type="text"
                               value={selectedStep.tag}
                               onChange={(e) =>
                                 updateStep(selectedStep.num, { tag: e.target.value })
                               }
-                              className="px-3.5 py-2 rounded-xl bg-[#020F2E] border border-[#162C5B] text-xs text-[#53a8f5]"
+                              className="px-3.5 py-2 rounded-xl bg-[#020F2E] border border-[#1E3A70] text-xs text-[#53a8f5]"
                             />
                           </div>
                           <div className="flex flex-col gap-1">
-                            <label className="text-xs text-[#8492a6]">Customer Photo</label>
+                            <label className="text-xs text-slate-300">Customer Photo</label>
                             <select
                               value={selectedStep.user.photo}
                               onChange={(e) =>
@@ -1140,7 +1256,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onExitAdmin }) =
                                   user: { ...selectedStep.user, photo: e.target.value },
                                 })
                               }
-                              className="px-3.5 py-2 rounded-xl bg-[#020F2E] border border-[#162C5B] text-xs text-white"
+                              className="px-3.5 py-2 rounded-xl bg-[#020F2E] border border-[#1E3A70] text-xs text-white"
                             >
                               {PRESET_MERCHANT_PHOTOS.map((p) => (
                                 <option key={p.url} value={p.url}>
@@ -1152,32 +1268,32 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onExitAdmin }) =
                         </div>
 
                         <div className="flex flex-col gap-1">
-                          <label className="text-xs text-[#8492a6]">Step Headline</label>
+                          <label className="text-xs text-slate-300">Step Headline</label>
                           <input
                             type="text"
                             value={selectedStep.title}
                             onChange={(e) =>
                               updateStep(selectedStep.num, { title: e.target.value })
                             }
-                            className="px-3.5 py-2.5 rounded-xl bg-[#020F2E] border border-[#162C5B] text-sm font-bold text-white"
+                            className="px-3.5 py-2.5 rounded-xl bg-[#020F2E] border border-[#1E3A70] text-sm font-bold text-white"
                           />
                         </div>
 
                         <div className="flex flex-col gap-1">
-                          <label className="text-xs text-[#8492a6]">Step Description</label>
+                          <label className="text-xs text-slate-300">Step Description</label>
                           <textarea
                             rows={3}
                             value={selectedStep.desc}
                             onChange={(e) =>
                               updateStep(selectedStep.num, { desc: e.target.value })
                             }
-                            className="px-3.5 py-2.5 rounded-xl bg-[#020F2E] border border-[#162C5B] text-xs text-[#d1d5db] leading-relaxed"
+                            className="px-3.5 py-2.5 rounded-xl bg-[#020F2E] border border-[#1E3A70] text-xs text-[#d1d5db] leading-relaxed"
                           />
                         </div>
 
-                        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-2 border-t border-[#162C5B]">
+                        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-2 border-t border-[#1E3A70]">
                           <div className="flex flex-col gap-1">
-                            <label className="text-xs text-[#8492a6]">Customer Name</label>
+                            <label className="text-xs text-slate-300">Customer Name</label>
                             <input
                               type="text"
                               value={selectedStep.user.name}
@@ -1186,11 +1302,11 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onExitAdmin }) =
                                   user: { ...selectedStep.user, name: e.target.value },
                                 })
                               }
-                              className="px-3 py-2 rounded-xl bg-[#020F2E] border border-[#162C5B] text-xs text-white"
+                              className="px-3 py-2 rounded-xl bg-[#020F2E] border border-[#1E3A70] text-xs text-white"
                             />
                           </div>
                           <div className="flex flex-col gap-1">
-                            <label className="text-xs text-[#8492a6]">Role / Business</label>
+                            <label className="text-xs text-slate-300">Role / Business</label>
                             <input
                               type="text"
                               value={selectedStep.user.role}
@@ -1199,11 +1315,11 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onExitAdmin }) =
                                   user: { ...selectedStep.user, role: e.target.value },
                                 })
                               }
-                              className="px-3 py-2 rounded-xl bg-[#020F2E] border border-[#162C5B] text-xs text-white"
+                              className="px-3 py-2 rounded-xl bg-[#020F2E] border border-[#1E3A70] text-xs text-white"
                             />
                           </div>
                           <div className="flex flex-col gap-1">
-                            <label className="text-xs text-[#8492a6]">Location</label>
+                            <label className="text-xs text-slate-300">Location</label>
                             <input
                               type="text"
                               value={selectedStep.user.location}
@@ -1212,13 +1328,13 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onExitAdmin }) =
                                   user: { ...selectedStep.user, location: e.target.value },
                                 })
                               }
-                              className="px-3 py-2 rounded-xl bg-[#020F2E] border border-[#162C5B] text-xs text-white"
+                              className="px-3 py-2 rounded-xl bg-[#020F2E] border border-[#1E3A70] text-xs text-white"
                             />
                           </div>
                         </div>
 
                         <div className="flex flex-col gap-1">
-                          <label className="text-xs text-[#8492a6]">Customer Quote</label>
+                          <label className="text-xs text-slate-300">Customer Quote</label>
                           <input
                             type="text"
                             value={selectedStep.user.comment}
@@ -1227,13 +1343,13 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onExitAdmin }) =
                                 user: { ...selectedStep.user, comment: e.target.value },
                               })
                             }
-                            className="px-3.5 py-2 rounded-xl bg-[#020F2E] border border-[#162C5B] text-xs text-[#53a8f5]"
+                            className="px-3.5 py-2 rounded-xl bg-[#020F2E] border border-[#1E3A70] text-xs text-[#53a8f5]"
                           />
                         </div>
                       </div>
 
                       {/* Live Preview Card */}
-                      <div className="lg:col-span-5 p-5 rounded-2xl bg-[#071739] border border-[#162C5B] flex flex-col justify-between gap-4">
+                      <div className="lg:col-span-5 p-5 rounded-2xl bg-[#071739] border border-[#1E3A70] flex flex-col justify-between gap-4">
                         <span className="text-xs font-bold tracking-wider text-[#53a8f5] uppercase">
                           Live Card Preview
                         </span>
@@ -1242,10 +1358,10 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onExitAdmin }) =
                             {selectedStep.tag}
                           </span>
                           <h4 className="text-base font-bold text-white">{selectedStep.title}</h4>
-                          <p className="text-xs text-[#8492a6] leading-relaxed">
+                          <p className="text-xs text-slate-300 leading-relaxed">
                             {selectedStep.desc}
                           </p>
-                          <div className="p-2.5 rounded-xl bg-[#071739] border border-[#162C5B] flex items-center gap-2.5">
+                          <div className="p-2.5 rounded-xl bg-[#071739] border border-[#1E3A70] flex items-center gap-2.5">
                             <img
                               src={selectedStep.user.photo}
                               alt={selectedStep.user.name}
@@ -1258,13 +1374,13 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onExitAdmin }) =
                                   ({selectedStep.user.location})
                                 </span>
                               </div>
-                              <div className="text-[11px] text-[#8492a6] italic truncate">
+                              <div className="text-[11px] text-slate-300 italic truncate">
                                 "{selectedStep.user.comment}"
                               </div>
                             </div>
                           </div>
                         </div>
-                        <span className="text-[11px] text-[#8492a6]">
+                        <span className="text-[11px] text-slate-300">
                           Changes reflect immediately on the sticky 4-step section across the site.
                         </span>
                       </div>
@@ -1278,7 +1394,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onExitAdmin }) =
               {/* ========================================================= */}
               {activeTab === 'merchants' && (
                 <div className="flex flex-col gap-6">
-                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-[#162C5B]">
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-[#1E3A70]">
                     <div>
                       <span className="text-xs font-bold tracking-wider text-[#53a8f5] uppercase block">
                         Reflects on Home, Business Testimonials &amp; /stories
@@ -1319,13 +1435,13 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onExitAdmin }) =
                     {merchants.map((m) => (
                       <div
                         key={m.id}
-                        className="p-5 rounded-2xl bg-[#071739] border border-[#162C5B] hover:border-[#043e97] flex flex-col justify-between gap-4 transition-all"
+                        className="p-5 rounded-2xl bg-[#071739] border border-[#1E3A70] hover:border-[#043e97] flex flex-col justify-between gap-4 transition-all"
                       >
                         <div className="flex items-start gap-4">
                           <img
                             src={m.image}
                             alt={m.name}
-                            className="w-16 h-16 rounded-2xl object-cover border border-[#162C5B] shrink-0"
+                            className="w-16 h-16 rounded-2xl object-cover border border-[#1E3A70] shrink-0"
                           />
                           <div className="flex-1 min-w-0">
                             <div className="flex items-center justify-between gap-2">
@@ -1340,7 +1456,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onExitAdmin }) =
                               </span>
                             </div>
                             <h3 className="text-base font-bold text-white mt-1">{m.name}</h3>
-                            <p className="text-xs text-[#8492a6]">
+                            <p className="text-xs text-slate-300">
                               {m.role} · {m.location}
                             </p>
                           </div>
@@ -1394,7 +1510,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onExitAdmin }) =
               {/* ========================================================= */}
               {activeTab === 'products' && (
                 <div className="flex flex-col gap-6">
-                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-[#162C5B]">
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-[#1E3A70]">
                     <div>
                       <span className="text-xs font-bold tracking-wider text-[#53a8f5] uppercase block">
                         Reflects on Product Suite (/cards, /savings, /business, /payouts) &amp; Fee Schedule
@@ -1432,7 +1548,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onExitAdmin }) =
                     {products.map((prod) => (
                       <div
                         key={prod.id}
-                        className="p-5 rounded-2xl bg-[#071739] border border-[#162C5B] hover:border-[#043e97] flex flex-col justify-between gap-4 transition-all"
+                        className="p-5 rounded-2xl bg-[#071739] border border-[#1E3A70] hover:border-[#043e97] flex flex-col justify-between gap-4 transition-all"
                       >
                         <div className="flex flex-col gap-2">
                           <div className="flex items-center justify-between">
@@ -1445,7 +1561,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onExitAdmin }) =
                                 updateProduct(prod.id, { status: e.target.value as any });
                                 showToast(`Updated ${prod.name} status to ${e.target.value}`);
                               }}
-                              className="px-2.5 py-1 rounded-lg bg-[#020F2E] border border-[#162C5B] text-[11px] font-semibold text-emerald-400 cursor-pointer"
+                              className="px-2.5 py-1 rounded-lg bg-[#020F2E] border border-[#1E3A70] text-[11px] font-semibold text-emerald-400 cursor-pointer"
                             >
                               <option value="active">● Active (Live)</option>
                               <option value="beta">◐ Pilot / Beta</option>
@@ -1455,12 +1571,12 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onExitAdmin }) =
 
                           <h3 className="text-lg font-bold text-white">{prod.name}</h3>
                           <p className="text-xs font-semibold text-[#53a8f5]">{prod.headline}</p>
-                          <p className="text-xs text-[#8492a6] leading-relaxed">
+                          <p className="text-xs text-slate-300 leading-relaxed">
                             {prod.description}
                           </p>
                         </div>
 
-                        <div className="pt-3 border-t border-[#162C5B] flex items-center justify-between gap-2">
+                        <div className="pt-3 border-t border-[#1E3A70] flex items-center justify-between gap-2">
                           <div className="text-xs font-semibold text-emerald-400 truncate">
                             {prod.feeStructure}
                           </div>
@@ -1509,7 +1625,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onExitAdmin }) =
               {/* ========================================================= */}
               {activeTab === 'journal' && (
                 <div className="flex flex-col gap-6">
-                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-[#162C5B]">
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-[#1E3A70]">
                     <div>
                       <span className="text-xs font-bold tracking-wider text-[#53a8f5] uppercase block">
                         Reflects on /journal, /press &amp; Blog Carousels
@@ -1562,7 +1678,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onExitAdmin }) =
                           className={`px-3 py-1.5 rounded-xl text-xs font-semibold transition-all cursor-pointer ${
                             articleCategoryFilter === cat
                               ? 'bg-[#043e97] text-white font-bold shadow-sm'
-                              : 'bg-[#071739] text-[#8492a6] border border-[#162C5B] hover:text-white'
+                              : 'bg-[#071739] text-slate-300 border border-[#1E3A70] hover:text-white'
                           }`}
                         >
                           {cat === 'all' ? 'All Categories' : cat}
@@ -1575,7 +1691,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onExitAdmin }) =
                       value={articleSearch}
                       onChange={(e) => setArticleSearch(e.target.value)}
                       placeholder="Search articles..."
-                      className="px-3.5 py-2 rounded-xl bg-[#071739] border border-[#162C5B] text-xs text-white outline-none focus:border-[#0976da]"
+                      className="px-3.5 py-2 rounded-xl bg-[#071739] border border-[#1E3A70] text-xs text-white outline-none focus:border-[#0976da]"
                     />
                   </div>
 
@@ -1597,27 +1713,27 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onExitAdmin }) =
                       .map((art) => (
                         <div
                           key={art.id}
-                          className="p-5 rounded-2xl bg-[#071739] border border-[#162C5B] hover:border-[#043e97] flex flex-col justify-between gap-4 transition-all"
+                          className="p-5 rounded-2xl bg-[#071739] border border-[#1E3A70] hover:border-[#043e97] flex flex-col justify-between gap-4 transition-all"
                         >
                           <div className="flex flex-col gap-2">
                             <div className="flex items-center justify-between text-[11px]">
                               <span className="px-2.5 py-0.5 rounded bg-[#043e97]/20 text-[#53a8f5] font-bold">
                                 {art.category}
                               </span>
-                              <span className="text-[#8492a6]">
+                              <span className="text-slate-300">
                                 {art.date} · {art.readTime}
                               </span>
                             </div>
                             <h3 className="text-base font-bold text-white leading-snug">
                               {art.title}
                             </h3>
-                            <p className="text-xs text-[#8492a6] line-clamp-2 leading-relaxed">
+                            <p className="text-xs text-slate-300 line-clamp-2 leading-relaxed">
                               {art.summary}
                             </p>
                           </div>
 
-                          <div className="pt-3 border-t border-[#162C5B] flex items-center justify-between">
-                            <span className="text-[11px] text-[#8492a6] truncate">
+                          <div className="pt-3 border-t border-[#1E3A70] flex items-center justify-between">
+                            <span className="text-[11px] text-slate-300 truncate">
                               {art.author || 'Axoora Editorial Board'}
                             </span>
                             <div className="flex items-center gap-2">
@@ -1708,16 +1824,16 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onExitAdmin }) =
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.95 }}
               onClick={(e) => e.stopPropagation()}
-              className="w-full max-w-lg rounded-2xl bg-[#071739] border border-[#162C5B] p-6 shadow-2xl flex flex-col gap-4 max-h-[90vh] overflow-y-auto"
+              className="w-full max-w-lg rounded-2xl bg-[#071739] border border-[#1E3A70] p-6 shadow-2xl flex flex-col gap-4 max-h-[90vh] overflow-y-auto"
             >
-              <div className="flex items-center justify-between pb-3 border-b border-[#162C5B]">
+              <div className="flex items-center justify-between pb-3 border-b border-[#1E3A70]">
                 <h3 className="text-base font-bold text-white">
                   {isNewMerchant ? 'Add Merchant Story' : `Edit ${editingMerchant.name}`}
                 </h3>
                 <button
                   type="button"
                   onClick={() => setEditingMerchant(null)}
-                  className="text-[#8492a6] hover:text-white p-1 rounded-lg hover:bg-[#162C5B] transition-colors cursor-pointer"
+                  className="text-slate-300 hover:text-white p-1 rounded-lg hover:bg-[#162C5B] transition-colors cursor-pointer"
                 >
                   <X className="w-4 h-4" />
                 </button>
@@ -1725,7 +1841,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onExitAdmin }) =
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div className="flex flex-col gap-1">
-                  <label className="text-xs text-[#8492a6]">Merchant Full Name *</label>
+                  <label className="text-xs text-slate-300">Merchant Full Name *</label>
                   <input
                     type="text"
                     value={editingMerchant.name}
@@ -1733,11 +1849,11 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onExitAdmin }) =
                       setEditingMerchant({ ...editingMerchant, name: e.target.value })
                     }
                     placeholder="e.g. Alhaji Musa Danbaba"
-                    className="px-3 py-2 rounded-xl bg-[#020F2E] border border-[#162C5B] text-xs text-white focus:border-[#0976da] outline-none"
+                    className="px-3 py-2 rounded-xl bg-[#020F2E] border border-[#1E3A70] text-xs text-white focus:border-[#0976da] outline-none"
                   />
                 </div>
                 <div className="flex flex-col gap-1">
-                  <label className="text-xs text-[#8492a6]">Business / Role *</label>
+                  <label className="text-xs text-slate-300">Business / Role *</label>
                   <input
                     type="text"
                     value={editingMerchant.role}
@@ -1745,11 +1861,11 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onExitAdmin }) =
                       setEditingMerchant({ ...editingMerchant, role: e.target.value })
                     }
                     placeholder="e.g. Wholesale Grain Merchant"
-                    className="px-3 py-2 rounded-xl bg-[#020F2E] border border-[#162C5B] text-xs text-white focus:border-[#0976da] outline-none"
+                    className="px-3 py-2 rounded-xl bg-[#020F2E] border border-[#1E3A70] text-xs text-white focus:border-[#0976da] outline-none"
                   />
                 </div>
                 <div className="flex flex-col gap-1">
-                  <label className="text-xs text-[#8492a6]">Market &amp; City</label>
+                  <label className="text-xs text-slate-300">Market &amp; City</label>
                   <input
                     type="text"
                     value={editingMerchant.location}
@@ -1757,17 +1873,17 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onExitAdmin }) =
                       setEditingMerchant({ ...editingMerchant, location: e.target.value })
                     }
                     placeholder="e.g. Dawanau Market, Kano"
-                    className="px-3 py-2 rounded-xl bg-[#020F2E] border border-[#162C5B] text-xs text-white focus:border-[#0976da] outline-none"
+                    className="px-3 py-2 rounded-xl bg-[#020F2E] border border-[#1E3A70] text-xs text-white focus:border-[#0976da] outline-none"
                   />
                 </div>
                 <div className="flex flex-col gap-1">
-                  <label className="text-xs text-[#8492a6]">Portrait Photo</label>
+                  <label className="text-xs text-slate-300">Portrait Photo</label>
                   <select
                     value={editingMerchant.image}
                     onChange={(e) =>
                       setEditingMerchant({ ...editingMerchant, image: e.target.value })
                     }
-                    className="px-3 py-2 rounded-xl bg-[#020F2E] border border-[#162C5B] text-xs text-white focus:border-[#0976da] outline-none"
+                    className="px-3 py-2 rounded-xl bg-[#020F2E] border border-[#1E3A70] text-xs text-white focus:border-[#0976da] outline-none"
                   >
                     {PRESET_MERCHANT_PHOTOS.map((p) => (
                       <option key={p.url} value={p.url}>
@@ -1777,59 +1893,59 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onExitAdmin }) =
                   </select>
                 </div>
                 <div className="flex flex-col gap-1">
-                  <label className="text-xs text-[#8492a6]">Badge Label</label>
+                  <label className="text-xs text-slate-300">Badge Label</label>
                   <input
                     type="text"
                     value={editingMerchant.badge}
                     onChange={(e) =>
                       setEditingMerchant({ ...editingMerchant, badge: e.target.value })
                     }
-                    className="px-3 py-2 rounded-xl bg-[#020F2E] border border-[#162C5B] text-xs text-white focus:border-[#0976da] outline-none"
+                    className="px-3 py-2 rounded-xl bg-[#020F2E] border border-[#1E3A70] text-xs text-white focus:border-[#0976da] outline-none"
                   />
                 </div>
                 <div className="grid grid-cols-2 gap-2">
                   <div className="flex flex-col gap-1">
-                    <label className="text-xs text-[#8492a6]">Metric Label</label>
+                    <label className="text-xs text-slate-300">Metric Label</label>
                     <input
                       type="text"
                       value={editingMerchant.statLabel}
                       onChange={(e) =>
                         setEditingMerchant({ ...editingMerchant, statLabel: e.target.value })
                       }
-                      className="px-3 py-2 rounded-xl bg-[#020F2E] border border-[#162C5B] text-xs text-white focus:border-[#0976da] outline-none"
+                      className="px-3 py-2 rounded-xl bg-[#020F2E] border border-[#1E3A70] text-xs text-white focus:border-[#0976da] outline-none"
                     />
                   </div>
                   <div className="flex flex-col gap-1">
-                    <label className="text-xs text-[#8492a6]">Metric Value</label>
+                    <label className="text-xs text-slate-300">Metric Value</label>
                     <input
                       type="text"
                       value={editingMerchant.statValue}
                       onChange={(e) =>
                         setEditingMerchant({ ...editingMerchant, statValue: e.target.value })
                       }
-                      className="px-3 py-2 rounded-xl bg-[#020F2E] border border-[#162C5B] text-xs text-emerald-400 font-semibold focus:border-[#0976da] outline-none"
+                      className="px-3 py-2 rounded-xl bg-[#020F2E] border border-[#1E3A70] text-xs text-emerald-400 font-semibold focus:border-[#0976da] outline-none"
                     />
                   </div>
                 </div>
               </div>
 
               <div className="flex flex-col gap-1">
-                <label className="text-xs text-[#8492a6]">Direct Merchant Quote *</label>
+                <label className="text-xs text-slate-300">Direct Merchant Quote *</label>
                 <textarea
                   rows={3}
                   value={editingMerchant.quote}
                   onChange={(e) =>
                     setEditingMerchant({ ...editingMerchant, quote: e.target.value })
                   }
-                  className="px-3 py-2 rounded-xl bg-[#020F2E] border border-[#162C5B] text-xs text-white leading-relaxed focus:border-[#0976da] outline-none"
+                  className="px-3 py-2 rounded-xl bg-[#020F2E] border border-[#1E3A70] text-xs text-white leading-relaxed focus:border-[#0976da] outline-none"
                 />
               </div>
 
-              <div className="flex justify-end gap-2 pt-3 border-t border-[#162C5B]">
+              <div className="flex justify-end gap-2 pt-3 border-t border-[#1E3A70]">
                 <button
                   type="button"
                   onClick={() => setEditingMerchant(null)}
-                  className="px-4 py-2 rounded-xl text-xs text-[#8492a6] hover:bg-[#162C5B] transition-colors cursor-pointer"
+                  className="px-4 py-2 rounded-xl text-xs text-slate-300 hover:bg-[#162C5B] transition-colors cursor-pointer"
                 >
                   Cancel
                 </button>
@@ -1880,16 +1996,16 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onExitAdmin }) =
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.95 }}
               onClick={(e) => e.stopPropagation()}
-              className="w-full max-w-lg rounded-2xl bg-[#071739] border border-[#162C5B] p-6 shadow-2xl flex flex-col gap-4 max-h-[90vh] overflow-y-auto"
+              className="w-full max-w-lg rounded-2xl bg-[#071739] border border-[#1E3A70] p-6 shadow-2xl flex flex-col gap-4 max-h-[90vh] overflow-y-auto"
             >
-              <div className="flex items-center justify-between pb-3 border-b border-[#162C5B]">
+              <div className="flex items-center justify-between pb-3 border-b border-[#1E3A70]">
                 <h3 className="text-base font-bold text-white">
                   {isNewProduct ? 'Add New Product' : `Edit ${editingProduct.name}`}
                 </h3>
                 <button
                   type="button"
                   onClick={() => setEditingProduct(null)}
-                  className="text-[#8492a6] hover:text-white p-1 rounded-lg hover:bg-[#162C5B] transition-colors cursor-pointer"
+                  className="text-slate-300 hover:text-white p-1 rounded-lg hover:bg-[#162C5B] transition-colors cursor-pointer"
                 >
                   <X className="w-4 h-4" />
                 </button>
@@ -1897,18 +2013,18 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onExitAdmin }) =
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div className="flex flex-col gap-1">
-                  <label className="text-xs text-[#8492a6]">Product Name *</label>
+                  <label className="text-xs text-slate-300">Product Name *</label>
                   <input
                     type="text"
                     value={editingProduct.name}
                     onChange={(e) =>
                       setEditingProduct({ ...editingProduct, name: e.target.value })
                     }
-                    className="px-3 py-2 rounded-xl bg-[#020F2E] border border-[#162C5B] text-xs text-white focus:border-[#0976da] outline-none"
+                    className="px-3 py-2 rounded-xl bg-[#020F2E] border border-[#1E3A70] text-xs text-white focus:border-[#0976da] outline-none"
                   />
                 </div>
                 <div className="flex flex-col gap-1">
-                  <label className="text-xs text-[#8492a6]">Category</label>
+                  <label className="text-xs text-slate-300">Category</label>
                   <select
                     value={editingProduct.category}
                     onChange={(e) =>
@@ -1917,7 +2033,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onExitAdmin }) =
                         category: e.target.value as AdminProductItem['category'],
                       })
                     }
-                    className="px-3 py-2 rounded-xl bg-[#020F2E] border border-[#162C5B] text-xs text-white focus:border-[#0976da] outline-none"
+                    className="px-3 py-2 rounded-xl bg-[#020F2E] border border-[#1E3A70] text-xs text-white focus:border-[#0976da] outline-none"
                   >
                     <option value="personal">Personal (/personal, /cards, /savings)</option>
                     <option value="business">Commercial Business (/business)</option>
@@ -1926,18 +2042,18 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onExitAdmin }) =
                   </select>
                 </div>
                 <div className="flex flex-col gap-1">
-                  <label className="text-xs text-[#8492a6]">Fee Structure</label>
+                  <label className="text-xs text-slate-300">Fee Structure</label>
                   <input
                     type="text"
                     value={editingProduct.feeStructure}
                     onChange={(e) =>
                       setEditingProduct({ ...editingProduct, feeStructure: e.target.value })
                     }
-                    className="px-3 py-2 rounded-xl bg-[#020F2E] border border-[#162C5B] text-xs text-emerald-400 font-semibold focus:border-[#0976da] outline-none"
+                    className="px-3 py-2 rounded-xl bg-[#020F2E] border border-[#1E3A70] text-xs text-emerald-400 font-semibold focus:border-[#0976da] outline-none"
                   />
                 </div>
                 <div className="flex flex-col gap-1">
-                  <label className="text-xs text-[#8492a6]">Availability Status</label>
+                  <label className="text-xs text-slate-300">Availability Status</label>
                   <select
                     value={editingProduct.status}
                     onChange={(e) =>
@@ -1946,7 +2062,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onExitAdmin }) =
                         status: e.target.value as AdminProductItem['status'],
                       })
                     }
-                    className="px-3 py-2 rounded-xl bg-[#020F2E] border border-[#162C5B] text-xs text-white focus:border-[#0976da] outline-none"
+                    className="px-3 py-2 rounded-xl bg-[#020F2E] border border-[#1E3A70] text-xs text-white focus:border-[#0976da] outline-none"
                   >
                     <option value="active">Active (Live)</option>
                     <option value="beta">Pilot / Beta</option>
@@ -1956,46 +2072,46 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onExitAdmin }) =
               </div>
 
               <div className="flex flex-col gap-1">
-                <label className="text-xs text-[#8492a6]">One-Line Headline *</label>
+                <label className="text-xs text-slate-300">One-Line Headline *</label>
                 <input
                   type="text"
                   value={editingProduct.headline}
                   onChange={(e) =>
                     setEditingProduct({ ...editingProduct, headline: e.target.value })
                   }
-                  className="px-3 py-2 rounded-xl bg-[#020F2E] border border-[#162C5B] text-xs text-white focus:border-[#0976da] outline-none"
+                  className="px-3 py-2 rounded-xl bg-[#020F2E] border border-[#1E3A70] text-xs text-white focus:border-[#0976da] outline-none"
                 />
               </div>
 
               <div className="flex flex-col gap-1">
-                <label className="text-xs text-[#8492a6]">Key Highlight Badge</label>
+                <label className="text-xs text-slate-300">Key Highlight Badge</label>
                 <input
                   type="text"
                   value={editingProduct.highlight}
                   onChange={(e) =>
                     setEditingProduct({ ...editingProduct, highlight: e.target.value })
                   }
-                  className="px-3 py-2 rounded-xl bg-[#020F2E] border border-[#162C5B] text-xs text-white focus:border-[#0976da] outline-none"
+                  className="px-3 py-2 rounded-xl bg-[#020F2E] border border-[#1E3A70] text-xs text-white focus:border-[#0976da] outline-none"
                 />
               </div>
 
               <div className="flex flex-col gap-1">
-                <label className="text-xs text-[#8492a6]">Full Description</label>
+                <label className="text-xs text-slate-300">Full Description</label>
                 <textarea
                   rows={3}
                   value={editingProduct.description}
                   onChange={(e) =>
                     setEditingProduct({ ...editingProduct, description: e.target.value })
                   }
-                  className="px-3 py-2 rounded-xl bg-[#020F2E] border border-[#162C5B] text-xs text-white leading-relaxed focus:border-[#0976da] outline-none"
+                  className="px-3 py-2 rounded-xl bg-[#020F2E] border border-[#1E3A70] text-xs text-white leading-relaxed focus:border-[#0976da] outline-none"
                 />
               </div>
 
-              <div className="flex justify-end gap-2 pt-3 border-t border-[#162C5B]">
+              <div className="flex justify-end gap-2 pt-3 border-t border-[#1E3A70]">
                 <button
                   type="button"
                   onClick={() => setEditingProduct(null)}
-                  className="px-4 py-2 rounded-xl text-xs text-[#8492a6] hover:bg-[#162C5B] transition-colors cursor-pointer"
+                  className="px-4 py-2 rounded-xl text-xs text-slate-300 hover:bg-[#162C5B] transition-colors cursor-pointer"
                 >
                   Cancel
                 </button>
@@ -2046,23 +2162,23 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onExitAdmin }) =
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.95 }}
               onClick={(e) => e.stopPropagation()}
-              className="w-full max-w-4xl rounded-2xl bg-[#071739] border border-[#162C5B] p-6 shadow-2xl flex flex-col gap-4 max-h-[90vh] overflow-y-auto"
+              className="w-full max-w-4xl rounded-2xl bg-[#071739] border border-[#1E3A70] p-6 shadow-2xl flex flex-col gap-4 max-h-[90vh] overflow-y-auto"
             >
-              <div className="flex items-center justify-between pb-3 border-b border-[#162C5B]">
+              <div className="flex items-center justify-between pb-3 border-b border-[#1E3A70]">
                 <h3 className="text-base font-bold text-white">
                   {isNewArticle ? 'Publish New Article / Press Release' : 'Edit Article'}
                 </h3>
                 <button
                   type="button"
                   onClick={() => setEditingArticle(null)}
-                  className="text-[#8492a6] hover:text-white p-1 rounded-lg hover:bg-[#162C5B] transition-colors cursor-pointer"
+                  className="text-slate-300 hover:text-white p-1 rounded-lg hover:bg-[#162C5B] transition-colors cursor-pointer"
                 >
                   <X className="w-4 h-4" />
                 </button>
               </div>
 
               <div className="flex flex-col gap-1">
-                <label className="text-xs text-[#8492a6]">Article Headline *</label>
+                <label className="text-xs text-slate-300">Article Headline *</label>
                 <input
                   type="text"
                   value={editingArticle.title}
@@ -2070,19 +2186,19 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onExitAdmin }) =
                     setEditingArticle({ ...editingArticle, title: e.target.value })
                   }
                   placeholder="e.g. How Axoora Achieves Sub-2s NIBSS Failover"
-                  className="px-3.5 py-2.5 rounded-xl bg-[#020F2E] border border-[#162C5B] text-sm font-bold text-white focus:border-[#0976da] outline-none"
+                  className="px-3.5 py-2.5 rounded-xl bg-[#020F2E] border border-[#1E3A70] text-sm font-bold text-white focus:border-[#0976da] outline-none"
                 />
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                 <div className="flex flex-col gap-1">
-                  <label className="text-xs text-[#8492a6]">Category</label>
+                  <label className="text-xs text-slate-300">Category</label>
                   <select
                     value={editingArticle.category}
                     onChange={(e) =>
                       setEditingArticle({ ...editingArticle, category: e.target.value })
                     }
-                    className="px-3 py-2 rounded-xl bg-[#020F2E] border border-[#162C5B] text-xs text-white focus:border-[#0976da] outline-none"
+                    className="px-3 py-2 rounded-xl bg-[#020F2E] border border-[#1E3A70] text-xs text-white focus:border-[#0976da] outline-none"
                   >
                     <option value="Engineering">Engineering</option>
                     <option value="Product">Product</option>
@@ -2093,43 +2209,43 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onExitAdmin }) =
                   </select>
                 </div>
                 <div className="flex flex-col gap-1">
-                  <label className="text-xs text-[#8492a6]">Author</label>
+                  <label className="text-xs text-slate-300">Author</label>
                   <input
                     type="text"
                     value={editingArticle.author || ''}
                     onChange={(e) =>
                       setEditingArticle({ ...editingArticle, author: e.target.value })
                     }
-                    className="px-3 py-2 rounded-xl bg-[#020F2E] border border-[#162C5B] text-xs text-white focus:border-[#0976da] outline-none"
+                    className="px-3 py-2 rounded-xl bg-[#020F2E] border border-[#1E3A70] text-xs text-white focus:border-[#0976da] outline-none"
                   />
                 </div>
                 <div className="flex flex-col gap-1">
-                  <label className="text-xs text-[#8492a6]">Read Time</label>
+                  <label className="text-xs text-slate-300">Read Time</label>
                   <input
                     type="text"
                     value={editingArticle.readTime}
                     onChange={(e) =>
                       setEditingArticle({ ...editingArticle, readTime: e.target.value })
                     }
-                    className="px-3 py-2 rounded-xl bg-[#020F2E] border border-[#162C5B] text-xs text-white focus:border-[#0976da] outline-none"
+                    className="px-3 py-2 rounded-xl bg-[#020F2E] border border-[#1E3A70] text-xs text-white focus:border-[#0976da] outline-none"
                   />
                 </div>
               </div>
 
               <div className="flex flex-col gap-1">
-                <label className="text-xs text-[#8492a6]">Executive Summary *</label>
+                <label className="text-xs text-slate-300">Executive Summary *</label>
                 <textarea
                   rows={2}
                   value={editingArticle.summary}
                   onChange={(e) =>
                     setEditingArticle({ ...editingArticle, summary: e.target.value })
                   }
-                  className="px-3.5 py-2 rounded-xl bg-[#020F2E] border border-[#162C5B] text-xs text-white leading-relaxed focus:border-[#0976da] outline-none"
+                  className="px-3.5 py-2 rounded-xl bg-[#020F2E] border border-[#1E3A70] text-xs text-white leading-relaxed focus:border-[#0976da] outline-none"
                 />
               </div>
 
               <div className="flex flex-col gap-1.5">
-                <label className="text-xs text-[#8492a6] flex items-center justify-between">
+                <label className="text-xs text-slate-300 flex items-center justify-between">
                   <span>Full Article Body (What You See Is What You Get)</span>
                   <span className="text-[11px] text-[#53a8f5] font-medium">Toolbar &bull; Live Preview &bull; Split View</span>
                 </label>
@@ -2145,11 +2261,11 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onExitAdmin }) =
                 />
               </div>
 
-              <div className="flex justify-end gap-2 pt-3 border-t border-[#162C5B]">
+              <div className="flex justify-end gap-2 pt-3 border-t border-[#1E3A70]">
                 <button
                   type="button"
                   onClick={() => setEditingArticle(null)}
-                  className="px-4 py-2 rounded-xl text-xs text-[#8492a6] hover:bg-[#162C5B] transition-colors cursor-pointer"
+                  className="px-4 py-2 rounded-xl text-xs text-slate-300 hover:bg-[#162C5B] transition-colors cursor-pointer"
                 >
                   Cancel
                 </button>

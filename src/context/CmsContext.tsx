@@ -60,6 +60,15 @@ export interface AdminMerchantItem {
   featured: boolean;
 }
 
+export interface PageHeroItem {
+  tag: string;
+  headline: string;
+  subheadline: string;
+  cta_primary?: string;
+  cta_secondary?: string;
+  route?: string;
+}
+
 export interface AdminHeroConfig {
   headlineBusiness: string;
   subheadlineBusiness: string;
@@ -70,6 +79,7 @@ export interface AdminHeroConfig {
   ctaTextPrimary: string;
   ctaTextSecondary: string;
   trustLine: string;
+  pageHeroes?: Record<string, PageHeroItem>;
 }
 
 export interface AdminLeadItem {
@@ -150,6 +160,7 @@ export const CmsProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         cta_text_primary: merged.ctaTextPrimary,
         cta_text_secondary: merged.ctaTextSecondary,
         trust_line: merged.trustLine,
+        page_heroes: merged.pageHeroes as any,
       })
       .catch(() => {});
   };

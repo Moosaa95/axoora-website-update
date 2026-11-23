@@ -317,20 +317,20 @@ export const WaitlistDataTable: React.FC<WaitlistDataTableProps> = ({ onShowToas
   return (
     <div className="flex flex-col gap-5 w-full">
       {/* Top Header & Quick Counters */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-[#162C5B] pb-4">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-[#1E3A70] pb-4">
         <div>
           <div className="flex items-center gap-2">
             <span className="text-xs font-bold tracking-wider text-[#53a8f5] uppercase block">
               Axoora Real-Time CRM // Data Table
             </span>
-            <span className="px-2 py-0.5 rounded-full bg-[#043e97]/20 border border-[#162C5B] text-[#53a8f5] text-[10px] font-bold">
+            <span className="px-2 py-0.5 rounded-full bg-[#043e97]/20 border border-[#1E3A70] text-[#53a8f5] text-[10px] font-bold">
               {leads.length} Registered
             </span>
           </div>
           <h2 className="text-xl sm:text-2xl font-bold text-white tracking-tight mt-1">
             Waitlist Registrations &amp; Hardware Requests
           </h2>
-          <p className="text-xs text-[#8492a6] mt-0.5">
+          <p className="text-xs text-slate-300 mt-0.5">
             Real-time feed of merchants and consumers requesting personal accounts, dedicated NUBANs, and dual-SIM Apex POS terminals.
           </p>
         </div>
@@ -346,7 +346,7 @@ export const WaitlistDataTable: React.FC<WaitlistDataTableProps> = ({ onShowToas
 
           <button
             onClick={exportCsv}
-            className="px-3.5 py-2 rounded-xl bg-[#071739] hover:bg-[#0A1B3D] border border-[#162C5B] text-[#F2F5F9] font-semibold text-xs flex items-center gap-1.5 transition-all cursor-pointer"
+            className="px-3.5 py-2 rounded-xl bg-[#071739] hover:bg-[#0A1B3D] border border-[#1E3A70] text-[#F2F5F9] font-semibold text-xs flex items-center gap-1.5 transition-all cursor-pointer"
             title="Download CSV file for spreadsheet tools"
           >
             <Download className="w-3.5 h-3.5 text-emerald-400" />
@@ -368,12 +368,12 @@ export const WaitlistDataTable: React.FC<WaitlistDataTableProps> = ({ onShowToas
           className={`p-4 rounded-2xl border transition-all cursor-pointer flex flex-col justify-between gap-3 ${
             interestFilter === 'all'
               ? 'bg-[#071739] border-[#0976da] shadow-lg shadow-[#043e97]/15'
-              : 'bg-[#071739]/60 border-[#162C5B] hover:border-[#53a8f5]/60'
+              : 'bg-[#071739]/60 border-[#1E3A70] hover:border-[#53a8f5]/60'
           }`}
         >
           <div className="flex items-center justify-between">
-            <span className="text-xs uppercase font-bold text-[#8492a6]">Total Waitlist</span>
-            <div className="w-8 h-8 rounded-xl bg-[#043e97]/20 text-[#53a8f5] flex items-center justify-center border border-[#162C5B]">
+            <span className="text-xs uppercase font-bold text-slate-300">Total Waitlist</span>
+            <div className="w-8 h-8 rounded-xl bg-[#043e97]/20 text-[#53a8f5] flex items-center justify-center border border-[#1E3A70]">
               <Users className="w-4 h-4 text-[#53a8f5]" />
             </div>
           </div>
@@ -385,11 +385,11 @@ export const WaitlistDataTable: React.FC<WaitlistDataTableProps> = ({ onShowToas
             </div>
           </div>
 
-          <div className="w-full bg-[#020F2E] h-1.5 rounded-full overflow-hidden border border-[#162C5B]">
+          <div className="w-full bg-[#020F2E] h-1.5 rounded-full overflow-hidden border border-[#1E3A70]">
             <div className="bg-[#043e97] h-full rounded-full w-full" />
           </div>
 
-          <div className="text-[10px] text-[#8492a6] flex items-center justify-between">
+          <div className="text-[10px] text-slate-300 flex items-center justify-between">
             <span>Click to view all</span>
             <span>All Channels</span>
           </div>
@@ -404,7 +404,7 @@ export const WaitlistDataTable: React.FC<WaitlistDataTableProps> = ({ onShowToas
           className={`p-4 rounded-2xl border transition-all cursor-pointer flex flex-col justify-between gap-3 ${
             interestFilter === 'personal'
               ? 'bg-[#071739] border-[#0976da] shadow-lg shadow-[#043e97]/15'
-              : 'bg-[#071739]/60 border-[#162C5B] hover:border-[#53a8f5]/50'
+              : 'bg-[#071739]/60 border-[#1E3A70] hover:border-[#53a8f5]/50'
           }`}
         >
           <div className="flex items-center justify-between">
@@ -421,14 +421,14 @@ export const WaitlistDataTable: React.FC<WaitlistDataTableProps> = ({ onShowToas
             </div>
           </div>
 
-          <div className="w-full bg-[#020F2E] h-1.5 rounded-full overflow-hidden border border-[#162C5B]">
+          <div className="w-full bg-[#020F2E] h-1.5 rounded-full overflow-hidden border border-[#1E3A70]">
             <div
               className="bg-emerald-500 h-full rounded-full transition-all duration-500"
               style={{ width: `${stats.personal.pct}%` }}
             />
           </div>
 
-          <div className="text-[10px] text-[#8492a6] flex items-center justify-between">
+          <div className="text-[10px] text-slate-300 flex items-center justify-between">
             <span>{interestFilter === 'personal' ? '● Filtering active' : 'Filter by Personal'}</span>
             <span>WhatsApp / Cards</span>
           </div>
@@ -443,12 +443,12 @@ export const WaitlistDataTable: React.FC<WaitlistDataTableProps> = ({ onShowToas
           className={`p-4 rounded-2xl border transition-all cursor-pointer flex flex-col justify-between gap-3 ${
             interestFilter === 'business'
               ? 'bg-[#071739] border-[#0976da] shadow-lg shadow-[#043e97]/15'
-              : 'bg-[#071739]/60 border-[#162C5B] hover:border-[#53a8f5]/50'
+              : 'bg-[#071739]/60 border-[#1E3A70] hover:border-[#53a8f5]/50'
           }`}
         >
           <div className="flex items-center justify-between">
             <span className="text-xs uppercase font-bold text-[#53a8f5]">Business Accounts</span>
-            <div className="w-8 h-8 rounded-xl bg-[#043e97]/20 text-[#53a8f5] flex items-center justify-center border border-[#162C5B]">
+            <div className="w-8 h-8 rounded-xl bg-[#043e97]/20 text-[#53a8f5] flex items-center justify-center border border-[#1E3A70]">
               <Building2 className="w-4 h-4 text-[#53a8f5]" />
             </div>
           </div>
@@ -460,14 +460,14 @@ export const WaitlistDataTable: React.FC<WaitlistDataTableProps> = ({ onShowToas
             </div>
           </div>
 
-          <div className="w-full bg-[#020F2E] h-1.5 rounded-full overflow-hidden border border-[#162C5B]">
+          <div className="w-full bg-[#020F2E] h-1.5 rounded-full overflow-hidden border border-[#1E3A70]">
             <div
               className="bg-[#043e97] h-full rounded-full transition-all duration-500"
               style={{ width: `${stats.business.pct}%` }}
             />
           </div>
 
-          <div className="text-[10px] text-[#8492a6] flex items-center justify-between">
+          <div className="text-[10px] text-slate-300 flex items-center justify-between">
             <span>{interestFilter === 'business' ? '● Filtering active' : 'Filter by Business'}</span>
             <span>Dedicated NUBAN</span>
           </div>
@@ -482,7 +482,7 @@ export const WaitlistDataTable: React.FC<WaitlistDataTableProps> = ({ onShowToas
           className={`p-4 rounded-2xl border transition-all cursor-pointer flex flex-col justify-between gap-3 ${
             interestFilter === 'pos-agent'
               ? 'bg-[#071739] border-amber-400/80 shadow-lg shadow-amber-400/10'
-              : 'bg-[#071739]/60 border-[#162C5B] hover:border-amber-400/50'
+              : 'bg-[#071739]/60 border-[#1E3A70] hover:border-amber-400/50'
           }`}
         >
           <div className="flex items-center justify-between">
@@ -499,14 +499,14 @@ export const WaitlistDataTable: React.FC<WaitlistDataTableProps> = ({ onShowToas
             </div>
           </div>
 
-          <div className="w-full bg-[#020F2E] h-1.5 rounded-full overflow-hidden border border-[#162C5B]">
+          <div className="w-full bg-[#020F2E] h-1.5 rounded-full overflow-hidden border border-[#1E3A70]">
             <div
               className="bg-[#F2A93B] h-full rounded-full transition-all duration-500"
               style={{ width: `${stats.posAgent.pct}%` }}
             />
           </div>
 
-          <div className="text-[10px] text-[#8492a6] flex items-center justify-between">
+          <div className="text-[10px] text-slate-300 flex items-center justify-between">
             <span>{interestFilter === 'pos-agent' ? '● Filtering active' : 'Filter by POS Agent'}</span>
             <span>Apex Dual-SIM POS</span>
           </div>
@@ -514,11 +514,11 @@ export const WaitlistDataTable: React.FC<WaitlistDataTableProps> = ({ onShowToas
       </div>
 
       {/* Control Bar: Search Input, Dropdown Filters & Reset */}
-      <div className="p-4 rounded-2xl bg-[#071739] border border-[#162C5B] flex flex-col gap-3.5 shadow-lg">
+      <div className="p-4 rounded-2xl bg-[#071739] border border-[#1E3A70] flex flex-col gap-3.5 shadow-lg">
         {/* Search Bar + Active Filters */}
         <div className="flex flex-col md:flex-row items-stretch md:items-center justify-between gap-3">
           <div className="relative flex-1 max-w-md">
-            <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-[#8492a6]" />
+            <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-slate-300" />
             <input
               type="text"
               placeholder="Search by full name, phone number, email, or city..."
@@ -527,12 +527,12 @@ export const WaitlistDataTable: React.FC<WaitlistDataTableProps> = ({ onShowToas
                 setSearchTerm(e.target.value);
                 setCurrentPage(1);
               }}
-              className="w-full bg-[#020F2E] border border-[#162C5B] pl-9 pr-8 py-2 rounded-xl text-xs text-white placeholder:text-[#8492a6]/70 outline-none focus:border-[#0976da] transition-colors"
+              className="w-full bg-[#020F2E] border border-[#1E3A70] pl-9 pr-8 py-2 rounded-xl text-xs text-white placeholder:text-slate-300/70 outline-none focus:border-[#0976da] transition-colors"
             />
             {searchTerm && (
               <button
                 onClick={() => setSearchTerm('')}
-                className="absolute right-2.5 top-1/2 -translate-y-1/2 text-[#8492a6] hover:text-white text-xs cursor-pointer"
+                className="absolute right-2.5 top-1/2 -translate-y-1/2 text-slate-300 hover:text-white text-xs cursor-pointer"
               >
                 ✕
               </button>
@@ -559,7 +559,7 @@ export const WaitlistDataTable: React.FC<WaitlistDataTableProps> = ({ onShowToas
                   className={`px-3 py-1.5 rounded-xl text-xs font-semibold whitespace-nowrap cursor-pointer transition-all ${
                     isActive
                       ? 'bg-[#043e97] text-white font-bold shadow-md shadow-[#043e97]/25'
-                      : 'bg-[#020F2E] text-[#8492a6] hover:text-white border border-[#162C5B]'
+                      : 'bg-[#020F2E] text-slate-300 hover:text-white border border-[#1E3A70]'
                   }`}
                 >
                   {f.label}
@@ -570,18 +570,18 @@ export const WaitlistDataTable: React.FC<WaitlistDataTableProps> = ({ onShowToas
         </div>
 
         {/* Secondary Filters: Status & City Dropdowns */}
-        <div className="flex flex-wrap items-center justify-between gap-3 pt-2 border-t border-[#162C5B]/60 text-xs">
+        <div className="flex flex-wrap items-center justify-between gap-3 pt-2 border-t border-[#1E3A70]/60 text-xs">
           <div className="flex flex-wrap items-center gap-3">
             {/* Status Filter */}
             <div className="flex items-center gap-1.5">
-              <span className="text-[#8492a6] text-[11px] font-bold">STATUS:</span>
+              <span className="text-slate-300 text-[11px] font-bold">STATUS:</span>
               <select
                 value={statusFilter}
                 onChange={(e) => {
                   setStatusFilter(e.target.value as any);
                   setCurrentPage(1);
                 }}
-                className="bg-[#020F2E] border border-[#162C5B] rounded-lg px-2.5 py-1 text-white text-xs cursor-pointer outline-none focus:border-[#0976da]"
+                className="bg-[#020F2E] border border-[#1E3A70] rounded-lg px-2.5 py-1 text-white text-xs cursor-pointer outline-none focus:border-[#0976da]"
               >
                 <option value="all">All Statuses ({leads.length})</option>
                 <option value="new">New</option>
@@ -594,14 +594,14 @@ export const WaitlistDataTable: React.FC<WaitlistDataTableProps> = ({ onShowToas
             {/* City Filter */}
             {availableCities.length > 0 && (
               <div className="flex items-center gap-1.5">
-                <span className="text-[#8492a6] text-[11px] font-bold">LOCATION:</span>
+                <span className="text-slate-300 text-[11px] font-bold">LOCATION:</span>
                 <select
                   value={cityFilter}
                   onChange={(e) => {
                     setCityFilter(e.target.value);
                     setCurrentPage(1);
                   }}
-                  className="bg-[#020F2E] border border-[#162C5B] rounded-lg px-2.5 py-1 text-white text-xs cursor-pointer outline-none focus:border-[#0976da]"
+                  className="bg-[#020F2E] border border-[#1E3A70] rounded-lg px-2.5 py-1 text-white text-xs cursor-pointer outline-none focus:border-[#0976da]"
                 >
                   <option value="all">All Cities ({availableCities.length})</option>
                   {availableCities.map((city) => (
@@ -631,7 +631,7 @@ export const WaitlistDataTable: React.FC<WaitlistDataTableProps> = ({ onShowToas
             )}
           </div>
 
-          <div className="text-[11px] text-[#8492a6]">
+          <div className="text-[11px] text-slate-300">
             Showing <b>{processedLeads.length}</b> of <b>{leads.length}</b> records
           </div>
         </div>
@@ -684,7 +684,7 @@ export const WaitlistDataTable: React.FC<WaitlistDataTableProps> = ({ onShowToas
       <div className="bg-[#05112A] border border-[#14294F] rounded-2xl overflow-hidden shadow-2xl">
         <div className="overflow-x-auto">
           <table className="w-full text-left text-xs border-collapse">
-            <thead className="bg-[#020B1D] border-b border-[#14294F] text-[#7B9CD2] font-mono uppercase text-[10px] select-none">
+            <thead className="bg-[#020B1D] border-b border-[#14294F] text-slate-300 font-mono uppercase text-[10px] select-none">
               <tr>
                 <th className="py-3 px-3.5 w-10 text-center">
                   <input
@@ -790,7 +790,7 @@ export const WaitlistDataTable: React.FC<WaitlistDataTableProps> = ({ onShowToas
                     {/* Contact Person Name & Email */}
                     <td className="py-3 px-4">
                       <div className="font-bold text-white leading-snug">{lead.fullName}</div>
-                      <div className="text-[11px] text-[#7B9CD2] font-mono truncate max-w-[200px]">
+                      <div className="text-[11px] text-slate-300 font-mono truncate max-w-[200px]">
                         {lead.email}
                       </div>
                       {lead.notes && (
@@ -806,7 +806,7 @@ export const WaitlistDataTable: React.FC<WaitlistDataTableProps> = ({ onShowToas
                         <Phone className="w-3 h-3 text-emerald-400" />
                         <span>{lead.whatsappNumber}</span>
                       </div>
-                      <span className="text-[10px] text-[#8492a6]">Instant Direct WhatsApp</span>
+                      <span className="text-[10px] text-slate-300">Instant Direct WhatsApp</span>
                     </td>
 
                     {/* Location */}
@@ -824,7 +824,7 @@ export const WaitlistDataTable: React.FC<WaitlistDataTableProps> = ({ onShowToas
                           lead.interest === 'pos-agent'
                             ? 'bg-amber-400/10 text-amber-400 border border-amber-400/20'
                             : lead.interest === 'business'
-                            ? 'bg-[#043e97]/20 text-[#53a8f5] border border-[#162C5B]'
+                            ? 'bg-[#043e97]/20 text-[#53a8f5] border border-[#1E3A70]'
                             : lead.interest === 'aggregator'
                             ? 'bg-purple-400/10 text-purple-300 border border-purple-400/20'
                             : 'bg-emerald-400/10 text-emerald-400 border border-emerald-400/20'
@@ -849,7 +849,7 @@ export const WaitlistDataTable: React.FC<WaitlistDataTableProps> = ({ onShowToas
                             ? 'border-[#0976da] text-[#53a8f5]'
                             : lead.status === 'contacted'
                             ? 'border-amber-400/40 text-amber-400'
-                            : 'border-[#162C5B] text-[#8492a6]'
+                            : 'border-[#1E3A70] text-slate-300'
                         }`}
                       >
                         <option value="new">● New</option>
@@ -860,7 +860,7 @@ export const WaitlistDataTable: React.FC<WaitlistDataTableProps> = ({ onShowToas
                     </td>
 
                     {/* Date */}
-                    <td className="py-3 px-4 text-[11px] text-[#8492a6]">
+                    <td className="py-3 px-4 text-[11px] text-slate-300">
                       {lead.submittedAt
                         ? new Date(lead.submittedAt).toLocaleDateString('en-GB', {
                             day: 'numeric',
@@ -921,9 +921,9 @@ export const WaitlistDataTable: React.FC<WaitlistDataTableProps> = ({ onShowToas
         {/* Empty State */}
         {paginatedLeads.length === 0 && (
           <div className="py-12 px-4 text-center flex flex-col items-center justify-center gap-2">
-            <UserX className="w-10 h-10 text-[#8492a6]/50 mb-1" />
+            <UserX className="w-10 h-10 text-slate-300/50 mb-1" />
             <p className="text-sm font-bold text-white">No waitlist entries match your filters</p>
-            <p className="text-xs text-[#7B9CD2]">
+            <p className="text-xs text-slate-300">
               Try clearing search terms or changing the channel and location selectors.
             </p>
             <button
@@ -941,7 +941,7 @@ export const WaitlistDataTable: React.FC<WaitlistDataTableProps> = ({ onShowToas
         )}
 
         {/* Pagination Footer */}
-        <div className="p-4 bg-[#020B1D] border-t border-[#14294F] flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-[#7B9CD2]">
+        <div className="p-4 bg-[#020B1D] border-t border-[#14294F] flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-slate-300">
           <div>
             Showing <span className="font-bold text-white">{paginatedLeads.length}</span> of{' '}
             <span className="font-bold text-white">{processedLeads.length}</span> filtered leads
@@ -983,15 +983,15 @@ export const WaitlistDataTable: React.FC<WaitlistDataTableProps> = ({ onShowToas
       {/* Manual Entry Modal */}
       {isAddModalOpen && (
         <div className="fixed inset-0 z-50 bg-black/75 backdrop-blur-sm flex items-center justify-center p-4">
-          <div className="bg-[#071739] border border-[#162C5B] rounded-3xl p-6 max-w-lg w-full flex flex-col gap-4 shadow-2xl animate-scaleUp">
-            <div className="flex items-center justify-between border-b border-[#162C5B] pb-3">
+          <div className="bg-[#071739] border border-[#1E3A70] rounded-3xl p-6 max-w-lg w-full flex flex-col gap-4 shadow-2xl animate-scaleUp">
+            <div className="flex items-center justify-between border-b border-[#1E3A70] pb-3">
               <div>
                 <h3 className="font-bold text-white text-base">Add Lead to Waitlist</h3>
-                <p className="text-xs text-[#8492a6]">Manually insert merchant or customer registration</p>
+                <p className="text-xs text-slate-300">Manually insert merchant or customer registration</p>
               </div>
               <button
                 onClick={() => setIsAddModalOpen(false)}
-                className="text-[#8492a6] hover:text-white p-1 rounded-lg hover:bg-[#162C5B] transition-colors cursor-pointer"
+                className="text-slate-300 hover:text-white p-1 rounded-lg hover:bg-[#162C5B] transition-colors cursor-pointer"
               >
                 <X className="w-4 h-4" />
               </button>
@@ -1000,61 +1000,61 @@ export const WaitlistDataTable: React.FC<WaitlistDataTableProps> = ({ onShowToas
             <form onSubmit={handleCreateLead} className="flex flex-col gap-3.5">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div className="flex flex-col gap-1">
-                  <label className="text-xs text-[#8492a6]">Full Name *</label>
+                  <label className="text-xs text-slate-300">Full Name *</label>
                   <input
                     type="text"
                     required
                     placeholder="e.g. Sani Abubakar"
                     value={newLeadForm.fullName}
                     onChange={(e) => setNewLeadForm({ ...newLeadForm, fullName: e.target.value })}
-                    className="px-3 py-2 rounded-xl bg-[#020F2E] border border-[#162C5B] text-xs text-white outline-none focus:border-[#0976da]"
+                    className="px-3 py-2 rounded-xl bg-[#020F2E] border border-[#1E3A70] text-xs text-white outline-none focus:border-[#0976da]"
                   />
                 </div>
 
                 <div className="flex flex-col gap-1">
-                  <label className="text-xs text-[#8492a6]">WhatsApp Phone *</label>
+                  <label className="text-xs text-slate-300">WhatsApp Phone *</label>
                   <input
                     type="text"
                     required
                     placeholder="+234 803 123 4567"
                     value={newLeadForm.whatsappNumber}
                     onChange={(e) => setNewLeadForm({ ...newLeadForm, whatsappNumber: e.target.value })}
-                    className="px-3 py-2 rounded-xl bg-[#020F2E] border border-[#162C5B] text-xs text-white outline-none focus:border-[#0976da]"
+                    className="px-3 py-2 rounded-xl bg-[#020F2E] border border-[#1E3A70] text-xs text-white outline-none focus:border-[#0976da]"
                   />
                 </div>
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div className="flex flex-col gap-1">
-                  <label className="text-xs text-[#8492a6]">Email Address</label>
+                  <label className="text-xs text-slate-300">Email Address</label>
                   <input
                     type="email"
                     placeholder="merchant@example.ng"
                     value={newLeadForm.email}
                     onChange={(e) => setNewLeadForm({ ...newLeadForm, email: e.target.value })}
-                    className="px-3 py-2 rounded-xl bg-[#020F2E] border border-[#162C5B] text-xs text-white outline-none focus:border-[#0976da]"
+                    className="px-3 py-2 rounded-xl bg-[#020F2E] border border-[#1E3A70] text-xs text-white outline-none focus:border-[#0976da]"
                   />
                 </div>
 
                 <div className="flex flex-col gap-1">
-                  <label className="text-xs text-[#8492a6]">City / Location</label>
+                  <label className="text-xs text-slate-300">City / Location</label>
                   <input
                     type="text"
                     placeholder="e.g. Kano, Lagos, Abuja"
                     value={newLeadForm.city}
                     onChange={(e) => setNewLeadForm({ ...newLeadForm, city: e.target.value })}
-                    className="px-3 py-2 rounded-xl bg-[#020F2E] border border-[#162C5B] text-xs text-white outline-none focus:border-[#0976da]"
+                    className="px-3 py-2 rounded-xl bg-[#020F2E] border border-[#1E3A70] text-xs text-white outline-none focus:border-[#0976da]"
                   />
                 </div>
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div className="flex flex-col gap-1">
-                  <label className="text-xs text-[#8492a6]">Product Interest</label>
+                  <label className="text-xs text-slate-300">Product Interest</label>
                   <select
                     value={newLeadForm.interest}
                     onChange={(e) => setNewLeadForm({ ...newLeadForm, interest: e.target.value as any })}
-                    className="px-3 py-2 rounded-xl bg-[#020F2E] border border-[#162C5B] text-xs text-white outline-none cursor-pointer"
+                    className="px-3 py-2 rounded-xl bg-[#020F2E] border border-[#1E3A70] text-xs text-white outline-none cursor-pointer"
                   >
                     <option value="pos-agent">POS Terminal (Agent / Merchant)</option>
                     <option value="business">Dedicated Business NUBAN</option>
@@ -1064,11 +1064,11 @@ export const WaitlistDataTable: React.FC<WaitlistDataTableProps> = ({ onShowToas
                 </div>
 
                 <div className="flex flex-col gap-1">
-                  <label className="text-xs text-[#8492a6]">Initial Status</label>
+                  <label className="text-xs text-slate-300">Initial Status</label>
                   <select
                     value={newLeadForm.status}
                     onChange={(e) => setNewLeadForm({ ...newLeadForm, status: e.target.value as any })}
-                    className="px-3 py-2 rounded-xl bg-[#020F2E] border border-[#162C5B] text-xs text-white outline-none cursor-pointer"
+                    className="px-3 py-2 rounded-xl bg-[#020F2E] border border-[#1E3A70] text-xs text-white outline-none cursor-pointer"
                   >
                     <option value="new">New</option>
                     <option value="contacted">Contacted</option>
@@ -1079,21 +1079,21 @@ export const WaitlistDataTable: React.FC<WaitlistDataTableProps> = ({ onShowToas
               </div>
 
               <div className="flex flex-col gap-1">
-                <label className="text-xs text-[#8492a6]">Internal Notes</label>
+                <label className="text-xs text-slate-300">Internal Notes</label>
                 <textarea
                   rows={2}
                   placeholder="e.g. Needs 2 Apex terminals for Wuse Market shop..."
                   value={newLeadForm.notes}
                   onChange={(e) => setNewLeadForm({ ...newLeadForm, notes: e.target.value })}
-                  className="w-full px-3 py-2 rounded-xl bg-[#020F2E] border border-[#162C5B] text-xs text-white outline-none resize-none focus:border-[#0976da]"
+                  className="w-full px-3 py-2 rounded-xl bg-[#020F2E] border border-[#1E3A70] text-xs text-white outline-none resize-none focus:border-[#0976da]"
                 />
               </div>
 
-              <div className="flex justify-end gap-2 pt-3 border-t border-[#162C5B]">
+              <div className="flex justify-end gap-2 pt-3 border-t border-[#1E3A70]">
                 <button
                   type="button"
                   onClick={() => setIsAddModalOpen(false)}
-                  className="px-4 py-2 rounded-xl text-xs text-[#8492a6] hover:bg-[#162C5B] transition-colors cursor-pointer"
+                  className="px-4 py-2 rounded-xl text-xs text-slate-300 hover:bg-[#162C5B] transition-colors cursor-pointer"
                 >
                   Cancel
                 </button>
